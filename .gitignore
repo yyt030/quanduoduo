@@ -1,0 +1,7 @@
+.idea/*
+*.pyc
+log/*
+*.bat
+bak/*
+attachment/*
+*.ttc
