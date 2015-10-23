@@ -1,0 +1,61 @@
+{% extends "common.html" %}
+
+{% block page_title %}券多多{% endblock %}
+{% block content %}
+    <div class="wrapBox" id="wrapBox">
+        <div class="box custom" style="">
+            <div class="box_bg box5_bg"><img src="../../static/images/b5_bg.jpg" alt=""></div>
+            <div class="box_fixed b5_fixed">
+                <div class="b5_tl box_tl">
+                    <h2>登录管理</h2>
+                </div>
+                <p class="b5_txt"></p>
+
+                <div class="b5_01"><img src="../../static/images/b5_01.png" alt=""></div>
+                <div class="b5_ico">
+                    <form action="" method="post" onsubmit="return formcheck();">
+                        {{ form.csrf_token }}
+                        <table class="table">
+                            <tbody>
+                            <tr>
+                                <th style="width:90px;"><label for="">账号</label></th>
+                                <td>
+                                    <input name="username" class="span4" value="" type="text" style="height:26px;"
+                                           placeholder="账号/邮箱/手机号" autocomplete="off">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><label for="">密码</label></th>
+                                <td>
+                                    <input name="password" class="span4" value="" type="password" style="height:26px;"
+                                           placeholder="密码">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <label class="checkbox login-help-panel"
+                                           style="font-size:12px;color:#999;padding:0px 0;display:none;">咨询商业服务请拨打电话：0393-8612087。</label>
+                                    <label class="checkbox">
+                                        <input type="checkbox" id="remember" value="1" class="checkbox"
+                                               checked="checked"> 记住账号
+                                        <a href="javascript:void(0);" onclick="$('.login-help-panel').show();"
+                                           class="login-forget-pwd">遇到问题？</a>
+                                    </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <input type="submit" name="submit" class="btn span2" value="登录">
+                                    <input type="hidden" name="token" value="ebf0739e">
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

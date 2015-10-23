@@ -1,0 +1,32 @@
+{% from 'macro/form.html' import form_field %}
+<form id="chgform" method="post" class="form-horizontal form-group-sm">
+    <input type="hidden" name="action" value="updateShoper">
+
+    {{ form_field(form.name, length=5) }}
+    {{ form_field(form.qq, length=5) }}
+    {{ form_field(form.mobile, length=5) }}
+    {{ form_field(form.email, length=5) }}
+    {{ form_field(form.address, length=5) }}
+    {{ form_field(form.password, length=5) }}
+    {{ form_field(form.repassword, length=5) }}
+    <div class="form-group">
+        <div class="col-sm-offset-3 col-sm-5">
+            <input type="checkbox" name="share" id="share" checked="" style="vertical-align:middle;"
+                   value="1"><span style="vertical-align:middle;">&nbsp;加入<a
+                href="/info/shareplan" target="_info">素材共享计划</a></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-offset-3 col-sm-5">
+            <input type="submit" name="dosubmit" value=" 更 新 " class="btn btn-success">&nbsp;&nbsp;&nbsp;
+            <input type="button" value=" 邮箱验证 " class="btn btn-info" onclick="validateEmail(this);">
+        </div>
+    </div>
+
+</form>
+<script type="text/javascript">
+    (function () {
+        init_register($('#chgform'), false);
+    })();
+</script>
