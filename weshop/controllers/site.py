@@ -33,14 +33,38 @@ def index():
 def login():
     return render_template('account/login.html')
 
+
 @bp.route('/home', methods=['GET', 'POST'])
 @require_visitor
 def home():
     return render_template('account/home.html')
 
-@bp.route('/favicon.ico', methods=['GET'])
-def favicon():
-    return ""
+
+@bp.route('/user_data', methods=['GET', 'POST'])
+@require_visitor
+def user_data():
+    return render_template('account/user_data.html')
+
+
+@bp.route('/resource/<string:folder1>/<string:filename>', defaults={"folder2": ""}, methods=['GET'])
+@bp.route('/resource/<string:folder1>/<string:folder2>/<string:filename>', methods=['GET'])
+def get_templet_resourse(folder1, folder2, filename):
+    if folder2 != "":
+        BASE_URL = os.path.join(current_app.config.get('PROJECT_PATH'), 'resource/%s/%s') % (folder1, folder2)
+    else:
+        BASE_URL = os.path.join(current_app.config.get('PROJECT_PATH'), 'resource/%s') % folder1
+    ext = os.path.splitext(filename)[1][1:]
+    if ext == 'jpg':
+        mimetype = 'image/jpg'
+    elif ext == 'css':
+        mimetype = 'text/css'
+    elif ext == 'png':
+        mimetype = 'image/png'
+    elif ext == 'js':
+        mimetype = 'application/x-javascript'
+    else:
+        mimetype = "image/jpg"
+    return send_from_directory(BASE_URL, filename, mimetype=mimetype)
 
 
 @bp.route('/switch_city/<int:city_id>')

@@ -1,0 +1,137 @@
+/*
+	Panel Thumb Style for HEBIJI
+*/
+
+div.thumbwrap,div.topicwrap {
+	display:block;
+	overflow:auto;
+}
+div.thumbwrap dl {
+	width:102px;
+	height:120px;
+	float:left;
+	text-align:center;
+	margin:12px 35px 12px 0;
+    padding-left:0px;
+	overflow:hidden;
+}
+div.thumbwrap dl dt {
+	width:100px;
+	height:100px;
+	border:1px #ECE9D8 solid;
+	overflow:hidden;
+}
+div.thumbwrap dl dt span.remind {
+    height: 25px;
+    top: 80px;
+    right: 14px;
+	font-size: 11px;
+    position: relative;	
+}
+div.thumbwrap dl dt span.number {
+	color: #6666EF;
+	font-size: 12px;	
+    font-weight: bold;
+}
+div.thumbwrap dl dt a {
+	width:100px;
+	height:100px;
+	display:block;
+	text-decoration:none;
+	background:url("images/file.gif") no-repeat center;
+}
+div.thumbwrap dl dt a.dir {
+	background-image:url("images/dir.gif");
+}
+div.thumbwrap dl dt b {
+	width:100px;
+	height:100px;
+	display:block;
+	cursor:pointer;
+}
+div.thumbwrap dl dt b span {
+	width:0px;
+	height:100%;
+	vertical-align:middle;
+	display:inline-block;
+}
+div.thumbwrap dl dt img {
+	max-width:100px;
+	max-height:100px;
+	float:none;
+	vertical-align:middle;
+	border:0px;
+	background:white;
+}
+
+div.thumbwrap dl dd {
+	width:102px;
+	height:18px;
+	line-height:18px;
+	margin:0;
+	padding:0;
+	color: gray;
+	overflow:hidden;
+}
+
+
+div.topicwrap dl {width:162px;height:80px;float:left;margin:12px 35px 12px 0; padding-left:0px;overflow:hidden;}
+div.topicwrap dt {width:160px;height:60px;border:1px #ECE9D8 solid;position:relative;overflow:hidden;}
+div.topicwrap dt .dd{width:90px;position:absolute;left:10px;padding:10px 0;text-align:left;white-space:nowrap;}
+div.topicwrap dt .dt{width:60px;position:absolute;right:.0rem;}
+div.topicwrap dt .dd h4{font-size:16px;color:#5c5c5c;}
+div.topicwrap dt .dd h5{font-size:12px;color:#b6b6b6;}
+div.topicwrap dt .dt img{width:60px;}
+div.topicwrap dd {width:162px;text-align:center;}
+
+
+
+div.infolist {
+	height:420px;
+	padding-left:16px !important;
+	padding:12px 0 12px 10px;
+	display:block;
+	overflow:auto;
+}
+div.infolist dl {
+	width:200px;
+	height:50px;
+	text-align:left;
+	float:left;
+	padding:5px 0;
+	margin:0 16px 24px 0;
+	overflow:hidden;
+}
+div.infolist dl dt {
+	width:50px;
+	height:50px;
+	float:left;
+    position: relative;
+	background:url("images/file.gif") no-repeat center;
+}
+div.infolist dl dt a {
+	width:50px;
+	height:50px;
+	display:block;
+}
+div.infolist dl dt .box {
+    right:0px;
+    bottom:0px;
+    position:absolute;
+}
+div.infolist dl dd {
+	width:145px;
+	height:60px;
+	margin:0;
+	padding:0 0 0 5px;
+	overflow:hidden;
+}
+div.infolist dl dd span {
+	height:15px;
+	line-height:15px;
+	display:block;
+	color:#999;
+	font-size:12px;
+	overflow:hidden;
+	white-space: nowrap;
+}
