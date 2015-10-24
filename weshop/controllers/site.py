@@ -48,7 +48,7 @@ def user_data():
 
 @bp.route('/resource/<string:folder1>/<string:filename>', defaults={"folder2": ""}, methods=['GET'])
 @bp.route('/resource/<string:folder1>/<string:folder2>/<string:filename>', methods=['GET'])
-def get_templet_resourse(folder1, folder2, filename):
+def get_resourse(folder1, folder2, filename):
     if folder2 != "":
         BASE_URL = os.path.join(current_app.config.get('PROJECT_PATH'), 'resource/%s/%s') % (folder1, folder2)
     else:
@@ -91,10 +91,6 @@ def test():
     return str(zip(session.keys(), session.values()))
 
 
-@bp.route('/photos/<string:folder>/<string:filename>', methods=['GET'])
-def get_photo_resourse(folder, filename):
-    PHOTO_URL = os.path.join(current_app.config.get('UPLOADS_DEFAULT_DEST'), 'images/%s') % folder
-    return send_from_directory(PHOTO_URL, filename, mimetype='image/png')
 
 
 @bp.route('/upload_image', methods=['POST'])
