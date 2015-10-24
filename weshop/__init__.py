@@ -115,13 +115,14 @@ def register_jinja(app):
             "qq": "8888888",
             "qqgroup": "1234567",
             "tel": "8888888",
-            "email":"admin@admin.com",
+            "email": "admin@admin.com",
         }
 
         # uid = None if not g.user else g.user.id
         # g.user = User.query.filter(User.id == 1).first()
         return dict(
             website=g_site_info,
+
         )
 
     def url_for_other_page(page, key='page', params=None):
@@ -228,11 +229,12 @@ def register_db(app):
 
 def register_routes(app):
     """注册路由"""
-    from controllers import account, site,admin
+    from controllers import account, site, admin, shop
 
     app.register_blueprint(site.bp, url_prefix='')
     app.register_blueprint(account.bp, url_prefix='/account')
     app.register_blueprint(admin.bp, url_prefix='/admin')
+    app.register_blueprint(shop.bp, url_prefix='/shop')
 
 
 def register_error_handle(app):
@@ -256,4 +258,4 @@ def register_uploadsets(app):
     from weshop.utils.uploadsets import avatars, images, \
         id_images
 
-    configure_uploads(app, (avatars, images,id_images))
+    configure_uploads(app, (avatars, images, id_images))

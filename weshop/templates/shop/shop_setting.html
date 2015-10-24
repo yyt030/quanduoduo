@@ -1,0 +1,451 @@
+{#{% extends "common_home.html" %}#}
+{##}
+{#{% block content %}#}
+{# <iframe frameborder="0" id="main" name="main" src="/shop/setting"></iframe>#}
+{#{% endblock %}#}
+{% from 'macro/form.html' import form_field %}
+{% extends 'account_layout.html' %}
+{% block content %}
+    <body>
+    <div class="main">
+        <form action="" class="form-horizontal form" method="post" enctype="multipart/form-data">
+            {{ form.csrf_token }}
+            <h4>商户基本信息</h4>
+            <table class="tb">
+                <tbody>
+                <tr>
+                    <th><label for="">品牌名称</label></th>
+                    <td>
+                        <div class="input-append">
+{#                            <input type="text" name="brand" id="brand" value="洛阳科技职业学院游泳馆" data-value="洛阳科技职业学院游泳馆"#}
+{#                                   class="span6" disabled="disabled">#}
+                            {{ form_field(form.brand) }}
+                            <button type="button" class="btn" name="brandBtn" value="选择品牌"
+                                    onclick="$('#brand-append').toggle();">编辑品牌
+                            </button>
+                        </div>
+                        <div id="brand-append" style="margin-top:10px;display:none;">
+                            <div class="alert" style="width:294px; font-weight:500;">
+                                品牌编号：1001819
+                            </div>
+                            <span class="help-block"><b>选择此品牌的行业。</b></span>
+
+                            <div class="brand-append">
+                                 {{ form_field(brandForm.industry_1) }} //
+                                 {{ form_field(brandForm.industry_2) }}
+                            </div>
+                            <span class="help-block"><b>输入此品牌的简介。</b></span>
+
+                            <div class="brand-append">
+                            <textarea style="height:80px;" class="span6" name="intro" cols="70"
+                                      disabled="disabled"></textarea>
+                            </div>
+
+                            <span class="help-block">上传<b>宽度 640 高度 260</b> 的图片设为背景</span>
+
+                            <div class="fileupload fileupload-preview thumbnail"
+                                 style="width: 320px; height: 130px; overflow:hidden;" id="image_preview">
+                                <img src="http://mob.32184.com/resource/attachment/images/10014/2015/05/bzi9iZZMM7pwmoaayU3cd5ypi9AVoc.jpg">
+                            </div>
+                            <input class="span3" type="text" name="image" id="image"
+                                   value="images/10014/2015/05/bzi9iZZMM7pwmoaayU3cd5ypi9AVoc.jpg" disabled="disabled">
+
+                            <div class="ke-inline-block btn upload-btn" style="font-size:14px;width:80px;height:20px;">
+                                <iframe name="kindeditor_upload_iframe_1445676580543" style="display:none;"></iframe>
+                                <form class="ke-upload-area ke-form" method="post" enctype="multipart/form-data"
+                                      target="kindeditor_upload_iframe_1445676580543"
+                                      action="./index.php?act=attachment&amp;do=upload">
+                                    <span><i class="icon-upload-alt"></i> 上传</span>
+                                    <input type="file" style="cursor:pointer;" class="ke-upload-file" name="imgFile"
+                                           tabindex="-1">
+                                </form>
+                            </div>
+                            <input type="button" fieldname="image" class="btn upload-btn"
+                                   value="<i class='icon-upload-alt'></i> 上传"
+                                   style="font-size: 14px; width: 80px; height: 20px; display: none;"
+                                   disabled="disabled">
+
+                            <span class="help-block">上传<b>宽度 160 高度 160</b> 的图片设为图标</span>
+
+                            <div class="fileupload fileupload-preview thumbnail"
+                                 style="width: 80px; height: 80px; overflow:hidden;" id="thumb_preview">
+                                <img src="http://mob.32184.com/resource/attachment/images/10014/2015/05/qT42522XH9A7t9XT9R2th49hf79TD2.jpg">
+                            </div>
+                            <input class="span3" type="text" name="thumb" id="thumb"
+                                   value="images/10014/2015/05/qT42522XH9A7t9XT9R2th49hf79TD2.jpg" disabled="disabled">
+
+                            <div class="ke-inline-block btn upload-btn" style="font-size:14px;width:80px;height:20px;">
+                                <iframe name="kindeditor_upload_iframe_1445676580521" style="display:none;"></iframe>
+                                <form class="ke-upload-area ke-form" method="post" enctype="multipart/form-data"
+                                      target="kindeditor_upload_iframe_1445676580521"
+                                      action="./index.php?act=attachment&amp;do=upload"><span><i
+                                        class="icon-upload-alt"></i> 上传</span><input type="file" style="cursor:pointer;"
+                                                                                     class="ke-upload-file"
+                                                                                     name="imgFile"
+                                                                                     tabindex="-1"></form>
+                            </div>
+                            <input type="button" fieldname="thumb" class="btn upload-btn"
+                                   value="<i class='icon-upload-alt'></i> 上传"
+                                   style="font-size: 14px; width: 80px; height: 20px; display: none;"
+                                   disabled="disabled">
+
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th><label for="">门店</label></th>
+                    <td>
+                        <div class="input-append">
+                            <input type="text" name="store" id="store" value="" data-value="" class="span6"
+                                   placeholder="如：黄河路店">
+                            <button type="button" class="btn" name="storeBtn" value="设为单店" id="storeBtn">设为单店</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th><label for="">公告栏</label></th>
+                    <td><textarea style="height:50px;" class="span6" name="title"></textarea>
+                        <span class="help-block">展示在门店主页的一句话，可以放广告。</span></td>
+                </tr>
+                <tr>
+                    <th><label for="">电话</label></th>
+                    <td><input type="text" id="" name="phone" value="" class="span6"></td>
+                </tr>
+                <tr style="display:none;">
+                    <th><label for="">区域</label></th>
+                    <td>
+                        <select name="resideprovince" id="sel-provance" onchange="" style="display:none;"
+                                readonly="readonly">
+
+                        </select>
+                        <select name="residecity" id="sel-city" onchange="" style="display:none;" readonly="readonly">
+                        </select>
+                        <select name="residedist" id="sel-area" onchange="" style="display:none;" readonly="readonly">
+
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th><label for="">详细地址</label></th>
+                    <td>
+                        <div class="input-append">
+                            <input type="text" id="address" name="address" value="" class="span6">
+                            <button type="button" class="btn" name="submit" value="查找地址"
+                                    onclick="bmap.searchMapByAddress($('#address').val())">查找地址
+                            </button>
+                        </div>
+                        <span class="help-block">可以通过查询地址，快速定位地图位置。</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th><label for="">地图坐标：</label></th>
+                    <td><input type="text" name="lng" id="lng" value="112.4314" class="span3" readonly="readonly"> //
+                        <input
+                                type="text" id="lat" name="lat" value="34.67145" class="span3" readonly="readonly"></td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <td>
+                        <button type="submit" class="btn btn-primary span3" name="submit" value="提交">提交</button>
+                        <input type="hidden" name="token" value="f50075d3">
+                    </td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <td>
+                        <div class="fileupload">
+                            <div class="thumbnail" style="width: 530px; height: 450px;">
+                                <div id="baidumap"
+                                     style="width: 100%; height: 100%; overflow: hidden; position: relative; z-index: 0; color: rgb(0, 0, 0); text-align: left; background-color: rgb(243, 241, 236);">
+                                    <div style="overflow: visible; position: absolute; z-index: 0; left: 0px; top: 0px; cursor: url(http://api.map.baidu.com/images/openhand.cur) 8 8, default;">
+                                        <div class="BMap_mask"
+                                             style="position: absolute; left: 0px; top: 0px; z-index: 9; overflow: hidden; -webkit-user-select: none; width: 530px; height: 450px;"></div>
+                                        <div style="position: absolute; height: 0px; width: 0px; left: 0px; top: 0px; z-index: 200;">
+                                            <div style="position: absolute; height: 0px; width: 0px; left: 0px; top: 0px; z-index: 800;"></div>
+                                            <div style="position: absolute; height: 0px; width: 0px; left: 0px; top: 0px; z-index: 700;">
+                                                <span class="BMap_Marker BMap_noprint" unselectable="on" "=""
+                                                style="position: absolute; padding: 0px; margin: 0px; border: 0px;
+                                                cursor:
+                                                pointer; width: 19px; height: 25px; left: 255px; top: 200px; z-index:
+                                                -6934290; background: url(http://api.map.baidu.com/images/blank.gif);"
+                                                title=""></span></div>
+                                            <div style="position: absolute; height: 0px; width: 0px; left: 0px; top: 0px; z-index: 600;"></div>
+                                            <div style="position: absolute; height: 0px; width: 0px; left: 0px; top: 0px; z-index: 500;">
+                                                <label class="BMapLabel" unselectable="on"
+                                                       style="position: absolute; display: none; cursor: inherit; border: 1px solid rgb(190, 190, 190); padding: 1px; white-space: nowrap; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; line-height: normal; font-family: arial, sans-serif; z-index: -20000; color: rgb(190, 190, 190); background-color: rgb(190, 190, 190);">shadow</label>
+                                            </div>
+                                            <div style="position: absolute; height: 0px; width: 0px; left: 0px; top: 0px; z-index: 400;">
+                                            <span class="BMap_Marker" unselectable="on"
+                                                  style="position: absolute; padding: 0px; margin: 0px; border: 0px; width: 0px; height: 0px; left: 255px; top: 200px; z-index: -6934290;"><div
+                                                    style="position: absolute; margin: 0px; padding: 0px; width: 19px; height: 25px; overflow: hidden;">
+                                                <img src="http://api.map.baidu.com/images/marker_red_sprite.png"
+                                                     style="border:none;left:0px; top:0px; position:absolute;">
+                                            </div><label class="BMapLabel" unselectable="on"
+                                                         style="position: absolute; display: inline; cursor: inherit; border: 1px solid rgb(255, 0, 0); padding: 1px; white-space: nowrap; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; line-height: normal; font-family: arial, sans-serif; z-index: 80; -webkit-user-select: none; left: 10px; top: -20px; background-color: rgb(255, 255, 255);">请您移动此标记，选择您的坐标！</label></span>
+                                            </div>
+                                            <div style="position: absolute; height: 0px; width: 0px; left: 0px; top: 0px; z-index: 300;">
+                                            <span unselectable="on"
+                                                  style="position: absolute; padding: 0px; margin: 0px; border: 0px; width: 20px; height: 11px; left: 259px; top: 214px;"><div
+                                                    style="position: absolute; margin: 0px; padding: 0px; width: 20px; height: 11px; overflow: hidden;">
+                                                <img src="http://api.map.baidu.com/images/marker_red_sprite.png"
+                                                     style="border:none;left:-19px; top:-13px; position:absolute;">
+                                            </div></span></div>
+                                            <div style="position: absolute; height: 0px; width: 0px; left: 0px; top: 0px; z-index: 201;"></div>
+                                            <div style="position: absolute; height: 0px; width: 0px; left: 0px; top: 0px; z-index: 200;"></div>
+                                        </div>
+                                        <div style="position: absolute; overflow: visible; top: 0px; left: 0px; z-index: 1;">
+                                            <div style="position: absolute; overflow: visible; z-index: -100; left: 265px; top: 225px;">
+                                                <img src="http://online0.map.bdimg.com/tile/?qt=tile&amp;x=6111&amp;y=1999&amp;z=15&amp;styles=pl&amp;udt=20150518"
+                                                     style="position: absolute; border: none; width: 256px; height: 256px; left: -76px; top: -151px; max-width: none; opacity: 1;"><img
+                                                    src="http://online4.map.bdimg.com/tile/?qt=tile&amp;x=6110&amp;y=1999&amp;z=15&amp;styles=pl&amp;udt=20150518"
+                                                    style="position: absolute; border: none; width: 256px; height: 256px; left: -332px; top: -151px; max-width: none; opacity: 1;"><img
+                                                    src="http://online1.map.bdimg.com/tile/?qt=tile&amp;x=6112&amp;y=1999&amp;z=15&amp;styles=pl&amp;udt=20150518"
+                                                    style="position: absolute; border: none; width: 256px; height: 256px; left: 180px; top: -151px; max-width: none; opacity: 1;"><img
+                                                    src="http://online4.map.bdimg.com/tile/?qt=tile&amp;x=6111&amp;y=1998&amp;z=15&amp;styles=pl&amp;udt=20150518"
+                                                    style="position: absolute; border: none; width: 256px; height: 256px; left: -76px; top: 105px; max-width: none; opacity: 1;"><img
+                                                    src="http://online1.map.bdimg.com/tile/?qt=tile&amp;x=6111&amp;y=2000&amp;z=15&amp;styles=pl&amp;udt=20150518"
+                                                    style="position: absolute; border: none; width: 256px; height: 256px; left: -76px; top: -407px; max-width: none; opacity: 1;"><img
+                                                    src="http://online3.map.bdimg.com/tile/?qt=tile&amp;x=6110&amp;y=1998&amp;z=15&amp;styles=pl&amp;udt=20150518"
+                                                    style="position: absolute; border: none; width: 256px; height: 256px; left: -332px; top: 105px; max-width: none; opacity: 1;"><img
+                                                    src="http://online0.map.bdimg.com/tile/?qt=tile&amp;x=6110&amp;y=2000&amp;z=15&amp;styles=pl&amp;udt=20150518"
+                                                    style="position: absolute; border: none; width: 256px; height: 256px; left: -332px; top: -407px; max-width: none; opacity: 1;"><img
+                                                    src="http://online0.map.bdimg.com/tile/?qt=tile&amp;x=6112&amp;y=1998&amp;z=15&amp;styles=pl&amp;udt=20150518"
+                                                    style="position: absolute; border: none; width: 256px; height: 256px; left: 180px; top: 105px; max-width: none; opacity: 1;"><img
+                                                    src="http://online2.map.bdimg.com/tile/?qt=tile&amp;x=6112&amp;y=2000&amp;z=15&amp;styles=pl&amp;udt=20150518"
+                                                    style="position: absolute; border: none; width: 256px; height: 256px; left: 180px; top: -407px; max-width: none; opacity: 1;">
+                                            </div>
+                                        </div>
+                                        <div style="position: absolute; overflow: visible; top: 0px; left: 0px; z-index: 2;"></div>
+                                    </div>
+                                    <div class=" anchorBL"
+                                         style="height: 32px; position: absolute; z-index: 10; bottom: 0px; right: auto; top: auto; left: 1px;">
+                                        <a title="到百度地图查看此区域" target="_blank" href="http://map.baidu.com/?sr=1"
+                                           style="outline: none;"><img style="border:none;width:77px;height:32px"
+                                                                       src="http://api.map.baidu.com/images/copyright_logo.png"></a>
+                                    </div>
+                                    <div id="zoomer"
+                                         style="position:absolute;z-index:0;top:0px;left:0px;overflow:hidden;visibility:hidden;cursor:url(http://api.map.baidu.com/images/openhand.cur) 8 8,default">
+                                        <div class="BMap_zoomer" style="top:0;left:0;"></div>
+                                        <div class="BMap_zoomer" style="top:0;right:0;"></div>
+                                        <div class="BMap_zoomer" style="bottom:0;left:0;"></div>
+                                        <div class="BMap_zoomer" style="bottom:0;right:0;"></div>
+                                    </div>
+                                    <div unselectable="on" class=" BMap_stdMpCtrl BMap_stdMpType0 BMap_noprint anchorTL"
+                                         style="width: 62px; height: 192px; bottom: auto; right: auto; top: 10px; left: 10px; position: absolute; z-index: 1100;">
+                                        <div class="BMap_stdMpPan">
+                                            <div class="BMap_button BMap_panN" title="向上平移"></div>
+                                            <div class="BMap_button BMap_panW" title="向左平移"></div>
+                                            <div class="BMap_button BMap_panE" title="向右平移"></div>
+                                            <div class="BMap_button BMap_panS" title="向下平移"></div>
+                                            <div class="BMap_stdMpPanBg BMap_smcbg"></div>
+                                        </div>
+                                        <div class="BMap_stdMpZoom" style="height: 147px; width: 62px;">
+                                            <div class="BMap_button BMap_stdMpZoomIn" title="放大一级">
+                                                <div class="BMap_smcbg"></div>
+                                            </div>
+                                            <div class="BMap_button BMap_stdMpZoomOut" title="缩小一级" style="top: 126px;">
+                                                <div class="BMap_smcbg"></div>
+                                            </div>
+                                            <div class="BMap_stdMpSlider" style="height: 108px;">
+                                                <div class="BMap_stdMpSliderBgTop" style="height: 108px;">
+                                                    <div class="BMap_smcbg"></div>
+                                                </div>
+                                                <div class="BMap_stdMpSliderBgBot"
+                                                     style="top: 25px; height: 87px;"></div>
+                                                <div class="BMap_stdMpSliderMask" title="放置到此级别"></div>
+                                                <div class="BMap_stdMpSliderBar" title="拖动缩放"
+                                                     style="cursor: url(http://api.map.baidu.com/images/openhand.cur) 8 8, default; top: 25px;">
+                                                    <div class="BMap_smcbg"></div>
+                                                </div>
+                                            </div>
+                                            <div class="BMap_zlHolder">
+                                                <div class="BMap_zlSt">
+                                                    <div class="BMap_smcbg"></div>
+                                                </div>
+                                                <div class="BMap_zlCity">
+                                                    <div class="BMap_smcbg"></div>
+                                                </div>
+                                                <div class="BMap_zlProv">
+                                                    <div class="BMap_smcbg"></div>
+                                                </div>
+                                                <div class="BMap_zlCountry">
+                                                    <div class="BMap_smcbg"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div unselectable="on"
+                                         class=" BMap_omCtrl BMap_ieundefined BMap_noprint anchorBR quad4"
+                                         style="width: 13px; height: 13px; bottom: 0px; right: 0px; top: auto; left: auto; position: absolute; z-index: 10;">
+                                        <div class="BMap_omOutFrame" style="width: 149px; height: 149px;">
+                                            <div class="BMap_omInnFrame"
+                                                 style="bottom: auto; right: auto; top: 5px; left: 5px; width: 142px; height: 142px;">
+                                                <div class="BMap_omMapContainer"></div>
+                                                <div class="BMap_omViewMv"
+                                                     style="cursor: url(http://api.map.baidu.com/images/openhand.cur) 8 8, default;">
+                                                    <div class="BMap_omViewInnFrame">
+                                                        <div></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="BMap_omBtn BMap_omBtnClosed"
+                                             style="bottom: 0px; right: 0px; top: auto; left: auto;"></div>
+                                    </div>
+                                    <div unselectable="on" class=" BMap_cpyCtrl BMap_noprint anchorBL"
+                                         style="cursor: default; white-space: nowrap; color: black; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 11px; line-height: 15px; font-family: arial, sans-serif; bottom: 2px; right: auto; top: auto; left: 81px; position: absolute; z-index: 10; background: none;">
+                                    <span _cid="1"><span style="font-size:11px">© 2015 Baidu&nbsp;- Data © <a
+                                            target="_blank" href="http://www.navinfo.com/" style="display:inline;">NavInfo</a> &amp; <a
+                                            target="_blank" href="http://www.cennavi.com.cn/" style="display:inline;">CenNavi</a> &amp; <a
+                                            target="_blank" href="http://www.365ditu.com/"
+                                            style="display:inline;">道道通</a></span></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <script type="text/javascript">
+        <!--
+        $('.upload-btn').each(function () {
+            kindeditorUploadBtn($(this), uploadHander);
+        });
+
+        function uploadHander(obj, data) {
+            $("#" + obj.button.attr('fieldname')).val(data.filename);
+            $("#" + obj.button.attr('fieldname') + '_preview').html('<img src="' + data.url + '" />');
+        }
+        //-->
+    </script>
+    <script type="text/javascript" src="{{ static('js/cascade.js') }}?v=2015"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=1.4"></script>
+    <script type="text/javascript"
+            src="http://api.map.baidu.com/getscript?v=1.4&amp;ak=&amp;services=&amp;t=20150522093217"></script>
+    <script type="text/javascript" src="{{ static('js/industry.js') }}"></script>
+    <script type="text/javascript">
+        cascdeInit('河南省', '洛阳市', ''); //开启地区三级联动
+        var bmap = {
+            'option': {
+                'lock': false,
+                'container': 'baidumap',
+                'infoWindow': {'width': 250, 'height': 100, 'title': ''},
+                'point': {'lng': 116.403851, 'lat': 39.915177}
+            },
+            'init': function (option) {
+                var $this = this;
+                $this.option = $.extend({}, $this.option, option);
+
+                $this.option.defaultPoint = new BMap.Point($this.option.point.lng, $this.option.point.lat);
+                $this.bgeo = new BMap.Geocoder();
+                $this.bmap = new BMap.Map($this.option.container);
+                $this.bmap.centerAndZoom($this.option.defaultPoint, 15);
+                $this.bmap.enableScrollWheelZoom();
+                $this.bmap.enableDragging();
+                $this.bmap.enableContinuousZoom();
+                $this.bmap.addControl(new BMap.NavigationControl());
+                $this.bmap.addControl(new BMap.OverviewMapControl());
+                //添加标注
+                $this.marker = new BMap.Marker($this.option.defaultPoint);
+                $this.marker.setLabel(new BMap.Label('请您移动此标记，选择您的坐标！', {'offset': new BMap.Size(10, -20)}));
+                $this.marker.enableDragging();
+                $this.bmap.addOverlay($this.marker);
+                //$this.marker.setAnimation(BMAP_ANIMATION_BOUNCE);
+                $this.showPointValue($this.marker.getPosition());
+                //拖动地图事件
+                $this.bmap.addEventListener("dragging", function () {
+                    $this.setMarkerCenter();
+                    $this.option.lock = false;
+                });
+                //缩入地图事件
+                $this.bmap.addEventListener("zoomend", function () {
+                    $this.setMarkerCenter();
+                    $this.option.lock = false;
+                });
+                //拖动标记事件
+                $this.marker.addEventListener("dragend", function (e) {
+                    $this.showPointValue();
+                    $this.showAddress();
+                    $this.bmap.panTo(new BMap.Point(e.point.lng, e.point.lat));
+                    $this.option.lock = false;
+                    $this.marker.setAnimation(null);
+                });
+            },
+            'searchMapByAddress': function (address) {
+                var $this = this;
+                $this.bgeo.getPoint(address, function (point) {
+                    if (point) {
+                        $this.showPointValue();
+                        $this.showAddress();
+                        $this.bmap.panTo(point);
+                        $this.setMarkerCenter();
+                    }
+                });
+            },
+            'searchMapByPCD': function (address) {
+                var $this = this;
+                $this.option.lock = true;
+                $this.searchMapByAddress($('#sel-provance').val() + $('#sel-city').val() + $('#sel-area').val());
+            },
+            'setMarkerCenter': function () {
+                var $this = this;
+                var center = $this.bmap.getCenter();
+                $this.marker.setPosition(new BMap.Point(center.lng, center.lat));
+                $this.showPointValue();
+                $this.showAddress();
+            },
+            'showPointValue': function () {
+                var $this = this;
+                var point = $this.marker.getPosition();
+                $('#lng').val(point.lng);
+                $('#lat').val(point.lat);
+            },
+            'showAddress': function () {
+                var $this = this;
+                var point = $this.marker.getPosition();
+                $this.bgeo.getLocation(point, function (s) {
+                    if (s) {
+                        $('#address').val(s.address);
+                        if (!$this.option.lock) {
+                            cascdeInit(s.addressComponents.province, s.addressComponents.city, s.addressComponents.district);
+                        }
+                    }
+                });
+            }
+        };
+        $(function () {
+            //地图标记
+            var option = {};
+            option = {'point': {'lng': '112.4314', 'lat': '34.67145'}}
+            bmap.init(option);
+
+            //切换单店，多店
+            $('#storeBtn').click(function () {
+                if ($('#store').attr('disabled')) {
+                    $(this).text('设为单店');
+                    $('#store').removeAttr('disabled').val($('#store').attr('data-value'));
+                } else {
+                    $(this).text('设为分店');
+                    $('#store').attr('disabled', 'disabled').val('');
+                }
+            });
+            //禁止品牌编辑
+            $('#brand-append :input,#brand').attr('disabled', 'disabled');
+
+            //检查品牌数据
+            $('#brand').change(function () {
+                $('#brand-append').show();//展开品牌输入框
+            });
+        });
+    </script>
+    <div class="show_foot">
+        <div class="foot_wrap">
+            <p>© 2015 <b>券多多商务</b></p>
+        </div>
+    </div>
+
+
+    </body>
+{% endblock %}

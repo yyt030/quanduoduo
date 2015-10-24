@@ -22,14 +22,11 @@
 
 
 {# 显示字段 #}
-{% macro form_field(field, label_length=3, length=5, static=False) %}
-    <div class="form-group">
-        {{ field.label(class="col-sm-%d control-label" % label_length) }}
-        <div class="col-sm-{{ length }}">
-            {{ field(class="form-control", placeholder=field.description, **kwargs) }}
-            {#         {{ render_errors(field.errors) }}#}
-        </div>
-    </div>
+{% macro form_field(field,class='span6',static=False) %}
+
+    {{ field(class=class, placeholder=field.description, **kwargs) }}
+    {#         {{ render_errors(field.errors) }}#}
+
 {% endmacro %}
 
 {% macro validate_code(field, label_length=3, length=5, static=False) %}

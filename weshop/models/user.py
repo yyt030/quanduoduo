@@ -23,8 +23,6 @@ class User(db.Model):
     create_time = db.Column(db.DateTime, default=datetime.datetime.now)
     is_active = db.Column(db.Boolean, default=False)
     token = db.Column(db.String(20), default='')
-    # level_id = db.Column(db.Integer, db.ForeignKey('score_level.id'), default=1)
-    # level = db.relationship('ScoreLevel', backref=db.backref('users', lazy='dynamic'))
     money = db.Column(db.Integer, default=0)
 
     @property

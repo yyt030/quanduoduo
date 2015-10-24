@@ -9,10 +9,6 @@ from flask_wtf.csrf import generate_csrf
 from weshop import csrf
 from flask import render_template, Blueprint, request, url_for, redirect, flash, abort, jsonify, \
     session, g
-from ..forms import SigninForm, RegisterForm, RetrieveForm, NewPwdForm, \
-    SignupTeacherBasicForm, SignupTeacherExtraForm, SignupParentOrStudentBasicForm, \
-    SignupParentOrStudentExtraForm, \
-    SignupOpenidForm
 from ..models import db, User
 from ..utils.account import signin_user, signout_user
 from ..utils.permissions import require_visitor, require_teacher, require_parent_or_student

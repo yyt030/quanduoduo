@@ -62,6 +62,8 @@ def get_resourse(folder1, folder2, filename):
         mimetype = 'image/png'
     elif ext == 'js':
         mimetype = 'application/x-javascript'
+    elif ext=='xml':
+        mimetype= 'application/xHTML+XML'
     else:
         mimetype = "image/jpg"
     return send_from_directory(BASE_URL, filename, mimetype=mimetype)
