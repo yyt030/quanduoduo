@@ -1,20 +1,11 @@
 {% extends 'account_layout.html' %}
+{% from 'macro/form.html' import form_field %}
 {% block content %}
     <body>
-
-    <!-- div class="show_body">
-        <div class="head_wrap">
-            <div class="class modify">
-            <ul>
-                <li><a href="brand.php?act=display">管理品牌</a></li>
-                <li class="modify"><a href="">编辑品牌</a></li>
-            </ul>
-            </div>
-        </div>
-    </div -->
     <div class="main">
         <form action="" class="form-horizontal form" onsubmit="return checkProfile();" method="post"
               style="float:left;">
+            {{ form.csrf_token }}
             <h4>编辑品牌</h4>
             <table class="tb">
                 <tbody>
@@ -22,33 +13,20 @@
                     <th><label for="">品牌名称</label></th>
                     <td>
                         <div class="input-append">
-                            <input type="text" name="brand" id="brand" value="" data-value="" class="span6">
+                            {{ form_field(form.brand) }}
                             <button type="button" class="btn" name="brandBtn" value="查找品牌" onclick="">查找品牌</button>
                         </div>
                         <div id="brand-append" style="margin-top:10px;">
                             <span class="help-block"><b>选择此品牌的行业。</b></span>
 
                             <div class="brand-append">
-                                <select name="industry_1" id="industry_1" value="" class="span3">
-                                    <option value="">不限</option>
-                                    <option value="美食">美食</option>
-                                    <option value="休闲娱乐">休闲娱乐</option>
-                                    <option value="购物">购物</option>
-                                    <option value="丽人">丽人</option>
-                                    <option value="旅游">旅游</option>
-                                    <option value="运动健身">运动健身</option>
-                                    <option value="酒店">酒店</option>
-                                    <option value="生活服务">生活服务</option>
-                                </select> //
-                                <select name="industry_2" id="industry_2" value="" class="span3">
-                                    <option value="">不限</option>
-                                </select>
+                                {{ form_field(form.industry_1,class="span3") }} //
+                                {{ form_field(form.industry_2,class="span3") }}
                             </div>
                             <span class="help-block"><b>输入此品牌的简介。</b></span>
 
                             <div class="brand-append">
-                            <textarea style="height:80px;" class="span6" name="intro" cols="70"
-                                      placeholder="可留空不填"></textarea>
+                                {{ form_field(form.intro,cols="70",style="height:80px;") }}
                             </div>
 
                             <span class="help-block">上传<b>宽度 640 高度 260</b> 的图片设为背景</span>
@@ -56,17 +34,18 @@
                             <div class="fileupload fileupload-preview thumbnail"
                                  style="width: 320px; height: 130px; overflow:hidden;" id="image_preview">
                                 <img src="http://mob.32184.com/resource/attachment/back.jpg"></div>
-                            <input class="span3" type="text" name="image" id="image" value="back.jpg">
-
-                            <div class="ke-inline-block btn upload-btn" style="font-size:14px;width:80px;height:20px;">
-                                <iframe name="kindeditor_upload_iframe_1445682333571" style="display:none;"></iframe>
+                            {{ form_field(form.image,class='span3') }}
+                            <div class="ke-inline-block btn upload-btn" for="#image"
+                                 style="font-size:14px;width:80px;height:20px;">
+                                <iframe name="kindeditor_upload_iframe_1445750537114" style="display:none;"></iframe>
                                 <form class="ke-upload-area ke-form" method="post" enctype="multipart/form-data"
-                                      target="kindeditor_upload_iframe_1445682333571"
-                                      action="./index.php?act=attachment&amp;do=upload"><span><i
-                                        class="icon-upload-alt"></i> 上传</span><input type="file" style="cursor:pointer;"
-                                                                                     class="ke-upload-file"
-                                                                                     name="imgFile"
-                                                                                     tabindex="-1"></form>
+                                      target="kindeditor_upload_iframe_1445750537114"
+                                      action="./index.php?act=attachment&amp;do=upload"><span>
+                                    <i class="icon-upload-alt"></i> 上传</span>
+                                    <input type="file" style="cursor:pointer;"
+                                           class="ke-upload-file"
+                                           name="imgFile" tabindex="-1">
+                                </form>
                             </div>
                             <input type="button" fieldname="image" class="btn upload-btn"
                                    value="<i class='icon-upload-alt'></i> 上传"
@@ -77,17 +56,17 @@
                             <div class="fileupload fileupload-preview thumbnail"
                                  style="width: 80px; height: 80px; overflow:hidden;" id="thumb_preview">
                                 <img src="http://mob.32184.com/resource/attachment/icon.jpg"></div>
-                            <input class="span3" type="text" name="thumb" id="thumb" value="icon.jpg">
-
-                            <div class="ke-inline-block btn upload-btn" style="font-size:14px;width:80px;height:20px;">
-                                <iframe name="kindeditor_upload_iframe_1445682333595" style="display:none;"></iframe>
+                            {{ form_field(form.thumb,class='span3') }}
+                            <div class="ke-inline-block btn upload-btn" for="#thumb"
+                                 style="font-size:14px;width:80px;height:20px;">
+                                <iframe name="kindeditor_upload_iframe_1445750537142" style="display:none;"></iframe>
                                 <form class="ke-upload-area ke-form" method="post" enctype="multipart/form-data"
-                                      target="kindeditor_upload_iframe_1445682333595"
+                                      target="kindeditor_upload_iframe_1445750537142"
                                       action="./index.php?act=attachment&amp;do=upload"><span><i
-                                        class="icon-upload-alt"></i> 上传</span><input type="file" style="cursor:pointer;"
-                                                                                     class="ke-upload-file"
-                                                                                     name="imgFile"
-                                                                                     tabindex="-1"></form>
+                                        class="icon-upload-alt"></i> 上传</span>
+                                    <input type="file" style="cursor:pointer;" class="ke-upload-file"
+                                           name="imgFile" tabindex="-1">
+                                </form>
                             </div>
                             <input type="button" fieldname="thumb" class="btn upload-btn"
                                    value="<i class='icon-upload-alt'></i> 上传"
@@ -108,7 +87,6 @@
                 </tbody>
             </table>
         </form>
-
         <div id="demoSendBox" style="position:fixed;margin-left:700px;">
             <div class="form" style="width:300px;display:none;">
                 <h4>找到品牌</h4>
@@ -157,15 +135,15 @@
         function fillQuery() {
             if ($('#brand').val() == '') return false;
             var getJSONURL = "/brand/search";
-            $.getJSON(getJSONURL + '&brand=' + $('#brand').val() + '&class=' + $('#industry_1').val(),
+            $.getJSON(getJSONURL + '?brand=' + $('#brand').val() + '&class=' + $('#industry_1').val(),
                     function (data) {
                         if (data.type == 'ajax' && data.message) {
                             var html = $('<div class="side_wrap" style="display:none;"></div>');
                             for (property in data.message) {
                                 $('<div class="load_wrap activity">' +
-                                        '<a href="http://mob.32184.com/brand.php?act=modify&bid=' + data.message[property].bid + '">' +
+                                        '<a href="/brand/modify&bid=' + data.message[property].bid + '">' +
                                         '<div class="coupon-image">' +
-                                        '<img src="http://mob.32184.com/resource/attachment/' + data.message[property].thumb + '" />' +
+                                        '<img src="/resource/attachment/' + data.message[property].thumb + '" />' +
                                         '</div>' +
                                         '<div class="coupon-intro">' +
                                         '<p class="title">' + data.message[property].brand + '</p>' +

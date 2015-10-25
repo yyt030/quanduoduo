@@ -20,9 +20,9 @@ class ShopSetting(Form):
 
 class BrandSetting(Form):
     """品牌设置"""
-    name = TextField('品牌名', description='')
-    industry_1 = SelectField('', coerce=str, choices={})
-    industry_2 = SelectField('', coerce=str, choices={})
+    brand = TextField('品牌名', description='')
+    industry_1 = SelectField('行业', coerce=str, choices={})
+    industry_2 = SelectField('子类目', coerce=str, choices={})
     intro = TextAreaField("简介", description='可留空不填')
     image = TextField('背景', description='', default='back.jpg')
     thumb = TextField('logo', description='', default='icon.jpg')

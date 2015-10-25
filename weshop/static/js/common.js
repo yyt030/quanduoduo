@@ -320,10 +320,10 @@ function ignoreSpaces(string) {
 function kindeditor(selector) {
 	var selector = selector ? selector : 'textarea[class="richtext"]';
 	var option = {
-		basePath : './resource/script/kindeditor/',
+		basePath : '/resource/script/kindeditor/',
 		themeType : 'simple',
 		langType : 'zh_CN',
-		uploadJson : './index.php?act=attachment&do=upload',
+		uploadJson : '/upload_image',
 		resizeType : 1,
 		allowImageUpload : true,
 		minWidth : '500px',
@@ -335,7 +335,7 @@ function kindeditor(selector) {
 		]
 	}
 	if (typeof KindEditor == 'undefined') {
-		$.getScript('./resource/script/kindeditor/kindeditor-min.js', function(){initKindeditor(selector, option)});
+		$.getScript('/resource/script/kindeditor/kindeditor-min.js', function(){initKindeditor(selector, option)});
 	} else {
 		initKindeditor(selector, option);
 	}
@@ -346,7 +346,7 @@ function kindeditor(selector) {
 
 function kindeditorUploadBtn(obj, callback) {
 	if (typeof KindEditor == 'undefined') {
-		$.getScript('./resource/script/kindeditor/kindeditor-min.js', initUploader);
+		$.getScript('/resource/script/kindeditor/kindeditor-min.js', initUploader);
 	} else {
 		initUploader();
 	}
@@ -354,7 +354,7 @@ function kindeditorUploadBtn(obj, callback) {
 		var uploadbutton = KindEditor.uploadbutton({
 			button : obj,
 			fieldName : 'imgFile',
-			url : './index.php?act=attachment&do=upload',
+			url : '/upload_image',
 			width : 100,
 			afterUpload : function(data) {
 				if (data.error === 0) {

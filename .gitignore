@@ -3,5 +3,5 @@
 log/*
 *.bat
 bak/*
-attachment/*
+resource/attachment/*
 *.ttc

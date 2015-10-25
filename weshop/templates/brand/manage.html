@@ -1,0 +1,155 @@
+{% extends 'account_layout.html' %}
+{% from 'macro/form.html' import form_field %}
+{% block content %}
+    <html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=8">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>券多多</title>
+        <meta name="keywords" content="券多多,优惠券,手机优惠券,电子优惠券,微信优惠券">
+        <meta name="description" content="券多多是一个借助于微信APP免费发放电子优惠券的公众平台。">
+        <link type="text/css" rel="stylesheet" href="/resource/style/bootstrap.css">
+        <link type="text/css" rel="stylesheet" href="/resource/style/font-awesome.css">
+        <link type="text/css" rel="stylesheet" href="/resource/style/common.css?v=1445775363">
+        <link type="text/css" rel="stylesheet" href="/resource/style/search.css?v=1445775363">
+        <script src="//hm.baidu.com/hm.js?50b4952461c191a55d14ad9dbe6b22ae"></script>
+        <script type="text/javascript" src="/resource/script/jquery-1.7.2.min.js"></script>
+        <script type="text/javascript" src="/resource/script/bootstrap.js"></script>
+        <script type="text/javascript" src="/resource/script/common.js"></script>
+        <script type="text/javascript" src="/resource/script/avatar.js"></script>
+        <script type="text/javascript">
+            cookie.prefix = 'cb65_';
+        </script>
+        <!--[if IE 7]>
+<link rel="stylesheet" href="/resource/style/font-awesome-ie7.min.css">
+<![endif]-->
+        <!--[if lte IE 6]>
+<link rel="stylesheet" type="text/css" href="/resource/style/bootstrap-ie6.min.css">
+<link rel="stylesheet" type="text/css" href="/resource/style/ie.css">
+<![endif]-->
+    </head>
+    <body>
+
+    <style type="text/css">
+        .head_wrap .class.local li.local,
+        .head_wrap .class.chain li.chain {
+            border-bottom: #fe7a4f solid 2px;
+        }
+
+        .body_wrap .load_wrap.normal .coupon-class .class-opt a.closed {
+            display: none !important;
+        }
+
+        .body_wrap .load_wrap.closed .coupon-class .class-opt a.normal {
+            display: none !important;
+        }
+
+        .count {
+            color: #17B136;
+        }
+    </style>
+    <div class="show_body">
+        <div class="head_wrap">
+            <div class="order">
+                <a href="/brand/add"><i class="icon-plus"></i> 添加品牌</a>
+            </div>
+            <div class="class {{ do }}">
+                <ul>
+                    <li class="normal"><a href="/brand/manage?do=normal">启用中</a></li>
+                    <li class="closed"><a href="/brand/manage?do=closed">已禁用</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="body_wrap" id="body_wrap">
+            <div class="type_wrap">
+                管理品牌
+            </div>
+            <div class="load_wrap {{ do }}">
+                <div class="coupon-image">
+                    <img src="http://mob.32184.com/resource/attachment//icon.jpg">
+                </div>
+                <div class="coupon-intro">
+                    <h1>
+                        <a href="business.php?weid=10014&amp;bid=1002371&amp;do=brand" target="_blank">
+                            hahaha </a>
+                    </h1>
+
+                    <h2>
+                    </h2>
+                </div>
+                <div class="coupon-class">
+                    <div class="class-opt">
+                        <a href="brand.php?aid=12346908&amp;act=audits" title="禁用品牌" class="normal"
+                           onclick="return confirm('停用后可在尾页找到，确认禁用？');return false;"><i class="icon-eye-close"></i></a>
+                        <a href="brand.php?aid=12346908&amp;act=audits" title="启用品牌" class="closed"
+                           onclick="return confirm('启用后排序会升上去，确认启用？');return false;"><i class="icon-eye-open"></i></a>
+                        <a href="/brand1/modify?bid=100237" title="编辑品牌"><i class="icon-cog"></i></a>
+                    </div>
+                    <div class="class-inf">
+                        <i class="icon-home"></i>
+                        <a href="site.php?bid=1002371&amp;act=business&amp;do=display" title="本站门店数量">
+                            <span class="type">0</span>
+                        </a>
+                        <i class="icon-ticket"></i>
+                        <a href="site.php?bid=1002371&amp;act=discount&amp;do=display" title="本站优惠数量">
+                            <span class="type">0</span>
+                        </a>
+                        <i class="icon-tags"></i>
+                        <span class="ctime">休闲娱乐</span>
+                        <span class="code"> 密室</span>
+                        <span class="limit"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="load_wrap {{ do }}">
+                <div class="coupon-image">
+                    <img src="http://mob.32184.com/resource/attachment//images/10014/2014/11/P0gBW1y0VVaLBVw0MLMbObUHgw1BHg.jpg">
+                </div>
+                <div class="coupon-intro">
+                    <h1>
+                        <a href="business.php?weid=10014&amp;bid=1001238&amp;do=brand" target="_blank">
+                            雅婷绿色瘦身 </a>
+                    </h1>
+
+                    <h2>
+                    </h2>
+                </div>
+                <div class="coupon-class">
+                    <div class="class-opt">
+                        <a href="/brand/audits?bid=100237" title="禁用品牌" class="normal"
+                           onclick="return confirm('停用后可在尾页找到，确认禁用？');return false;"><i class="icon-eye-close"></i></a>
+                        <a href="/brand/audits?bid=100237" title="启用品牌" class="closed"
+                           onclick="return confirm('启用后排序会升上去，确认启用？');return false;"><i class="icon-eye-open"></i></a>
+                        <a href="/brand1/modify?bid=100237" title="编辑品牌"><i class="icon-cog"></i></a>
+                    </div>
+                    <div class="class-inf">
+                        <i class="icon-home"></i>
+                        <a href="site.php?bid=1001238&amp;act=business&amp;do=display" title="本站门店数量">
+                            <span class="type">1</span>
+                        </a>
+                        <i class="icon-ticket"></i>
+                        <a href="site.php?bid=1001238&amp;act=discount&amp;do=display" title="本站优惠数量">
+                            <span class="type">2</span>
+                        </a>
+                        <i class="icon-tags"></i>
+                        <span class="ctime">丽人</span>
+                        <span class="code"> 瘦身纤体</span>
+                        <span class="limit"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="body_wrap">
+            <div class="load_tips">加载中..</div>
+        </div>
+    </div>
+
+    <div class="show_foot">
+        <div class="foot_wrap">
+            <p>© 2015 <b>券多多商务</b></p>
+        </div>
+    </div>
+
+    </body>
+    </html>
+{% endblock %}

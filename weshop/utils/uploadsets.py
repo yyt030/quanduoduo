@@ -84,7 +84,7 @@ def save_image(image, upload_set, image_type, file_storage):
         return folder, filename
 
     else:
-        return filename
+        return folder+"/"+filename
 
 
 def process_avatar(file_storage, upload_set, max_border):

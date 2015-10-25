@@ -21,40 +21,37 @@ from ..utils.uploadsets import images, random_filename, process_question, avatar
 bp = Blueprint('shop', __name__)
 
 
-@bp.route('/publish', methods=['GET','POST'])
+@bp.route('/select', methods=['GET', 'POST'])
+def select():
+    """选择门店"""
+    shop = {}
+    form = ShopSetting()
+    brandForm = BrandSetting()
+    if form.validate_on_submit():
+        print request.form
+    return render_template('shop/select.html', shop=shop, form=form, brandForm=brandForm)
+
+
+@bp.route('/publish', methods=['GET', 'POST'])
 def publish():
+    """发布门店"""
     shop = {}
     form = ShopSetting()
-    brandForm=BrandSetting()
+    brandForm = BrandSetting()
     if form.validate_on_submit():
         print request.form
-    return render_template('shop/shop_setting.html', shop=shop, form=form,brandForm=brandForm)
+    return render_template('shop/setting.html', shop=shop, form=form, brandForm=brandForm)
 
 
-@bp.route('/brand/add', methods=['GET','POST'])
-def brand_add():
-    shop = {}
-    form = ShopSetting()
-    if form.validate_on_submit():
-        print request.form
-    return render_template('shop/brand_setting.html', shop=shop, form=form)
 
 @bp.route('/resource/<string:folder1>/<string:folder2>/<string:filename>', methods=['GET'])
 def get_resourse(folder1, folder2, filename):
     BASE_URL = os.path.join(current_app.config.get('PROJECT_PATH'), 'resource/%s/%s') % (folder1, folder2)
 
     ext = os.path.splitext(filename)[1][1:]
-    if ext == 'jpg':
-        mimetype = 'image/jpg'
-    elif ext == 'css':
-        mimetype = 'text/css'
-    elif ext == 'png':
-        mimetype = 'image/png'
-    elif ext == 'js':
-        mimetype = 'application/x-javascript'
-    else:
-        mimetype = "image/jpg"
-    return send_from_directory(BASE_URL, filename, mimetype=mimetype)
+    mimetypes = {"jpg": 'image/jpg', "css": 'text/css', "png": "image/png", "js": 'application/x-javascript',
+                 "xml": 'application/xHTML+XML'}
+    return send_from_directory(BASE_URL, filename, mimetype=mimetypes.get(ext))
 
 
 @bp.route('/<int:sid>', methods=['GET'])

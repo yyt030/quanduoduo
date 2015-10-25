@@ -3,8 +3,8 @@
 {#{% block content %}#}
 {# <iframe frameborder="0" id="main" name="main" src="/shop/setting"></iframe>#}
 {#{% endblock %}#}
-{% from 'macro/form.html' import form_field %}
 {% extends 'account_layout.html' %}
+{% from 'macro/form.html' import form_field %}
 {% block content %}
     <body>
     <div class="main">
@@ -39,6 +39,7 @@
                             <div class="brand-append">
                             <textarea style="height:80px;" class="span6" name="intro" cols="70"
                                       disabled="disabled"></textarea>
+
                             </div>
 
                             <span class="help-block">上传<b>宽度 640 高度 260</b> 的图片设为背景</span>

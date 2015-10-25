@@ -20,4 +20,4 @@ bp = Blueprint('', __name__)
 @bp.route('/addshop',methods=['GET', 'POST'])
 @require_visitor
 def index():
-    return render_template('shop/shop_setting.html')
+    return render_template('shop/setting.html')
