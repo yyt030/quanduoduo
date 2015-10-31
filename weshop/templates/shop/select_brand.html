@@ -20,7 +20,7 @@
     <div class="show_body">
         <div class="head_wrap">
             <div class="order">
-                <a href="brand.php?act=modify"><i class="icon-plus"></i> 添加品牌</a>
+                <a href="/brand/add"><i class="icon-plus"></i> 添加品牌</a>
             </div>
             <div class="class normal">
                 <ul>
@@ -33,18 +33,14 @@
             <div class="type_wrap">
                 第1步.<b style="color:#44b549;">选择品牌</b> &gt; 第2步.添加门店
             </div>
+            {% for b in brands %}
             <dl>
-                <dt><a href="/shop/modify?bid=1001819"><img
-                        src="http://mob.32184.com/resource/attachment//images/10014/2015/05/qT42522XH9A7t9XT9R2th49hf79TD2.jpg"></a>
+                <dt><a href="/shop/publish?bid={{ b.id }}"><img
+                        src="/resource/attachment/images/{{ b.thumb }}"></a>
                 </dt>
-                <dd>洛阳科技职业学院游泳馆</dd>
+                <dd>{{ b.name }}</dd>
             </dl>
-            <dl>
-                <dt><a href="shop/modify?bid=1001819"><img
-                        src="http://mob.32184.com/resource/attachment//images/10014/2014/12/pY2Nnf6Cj5jG2b0i2KK1Jc7uxJl1Jx.jpg"></a>
-                </dt>
-                <dd>和生记徐氏湘菜</dd>
-            </dl>
+            {% endfor %}
             <dl title="CTRL+F 可快速查找">
                 <dt><a href="/brand/add"><img src="/resource/attachment/icon.jpg"></a></dt>
                 <dd>未添加？</dd>

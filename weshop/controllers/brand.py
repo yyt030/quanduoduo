@@ -13,7 +13,7 @@ from weshop import csrf
 from weshop.forms.shop import ShopSetting, BrandSetting
 from weshop.utils import devices
 from weshop.utils.devices import checkMobile
-from ..models import db, User
+from ..models import db, User, Brand
 from ..forms import SigninForm
 from ..utils.permissions import require_user, require_visitor
 from ..utils.uploadsets import images, random_filename, process_question, avatars
@@ -27,7 +27,7 @@ def index():
     do = request.args.get("do")
     if do == 'businessdisplay':
         return render_template('shop/manage.html')
-    return render_template('shop/select.html')
+    return render_template('shop/select_brand.html')
 
 
 @bp.route('/add', methods=['GET', 'POST'])
@@ -37,11 +37,17 @@ def brand_add():
     form = BrandSetting()
     if form.is_submitted():
         print request.form
-        name = form.brand.data
-        if name == "test":
+        exist = Brand.query.filter(Brand.name == form.brand.data).first()
+        if exist:
             return render_template('account/error.html', error='您输入的品牌已存在！')
         else:
-            return render_template('account/ok.html', error='您输入的品牌已存在！')
+            brand = Brand(name=form.brand.data, industry_1=form.industry_1.data,
+                          industry_2=form.industry_2.data, intro=form.intro.data, image=form.image.data,
+                          thumb=form.thumb.data)
+            db.session.add(brand)
+            db.session.commit()
+            session['brand'] = brand.id
+            return render_template('account/ok.html', error='添加品牌成功，请添加一个门店！')
     return render_template('brand/setting.html', shop=shop, form=form)
 
 
@@ -49,10 +55,17 @@ def brand_add():
 def brand_modify():
     """修改品牌"""
     shop = {}
-    id = int(request.args.get("id", 0))
-    if not id:
+    brand_id = int(request.args.get("id", 0))
+    if not brand_id:
         return render_template('account/error.html', error='页面不存在！')
     form = BrandSetting()
+    brand = Brand.query.get_or_404(brand_id)
+    form.brand.data = brand.name
+    form.industry_1.data = brand.industry_1
+    form.industry_2.data = brand.industry_2
+    form.intro.data = brand.intro
+    form.image.data = brand.image
+    form.thumb.data = brand.thumb
     if form.is_submitted():
         print request.form
         name = form.brand.data
@@ -60,17 +73,15 @@ def brand_modify():
             return render_template('account/error.html', error='您输入的品牌已存在！')
         else:
             return render_template('account/ok.html', tip='添加品牌成功，请添加一个门店！')
-    return render_template('brand/setting.html', shop=shop, form=form)
+    return render_template('brand/setting.html', shop=shop,form=form)
 
 
 @bp.route('/manage', methods=['GET', 'POST'])
 def manage():
     """门店管理"""
     do = request.args.get("do", "normal")
-    if do:
-        query = {}
-
-    return render_template('brand/manage.html', do=do)
+    brands = Brand.query.all()
+    return render_template('brand/manage.html', brands=brands, do=do)
 
 
 @bp.route('/search', methods=['GET', 'POST'])

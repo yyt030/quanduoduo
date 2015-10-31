@@ -8,7 +8,7 @@
 {% block content %}
     <body>
     <div class="main">
-        <form action="" class="form-horizontal form" method="post" enctype="multipart/form-data">
+        <form action="/shop/publish" class="form-horizontal form" method="post" enctype="multipart/form-data">
             {{ form.csrf_token }}
             <h4>商户基本信息</h4>
             <table class="tb">
@@ -17,28 +17,28 @@
                     <th><label for="">品牌名称</label></th>
                     <td>
                         <div class="input-append">
-{#                            <input type="text" name="brand" id="brand" value="洛阳科技职业学院游泳馆" data-value="洛阳科技职业学院游泳馆"#}
-{#                                   class="span6" disabled="disabled">#}
-                            {{ form_field(form.brand) }}
+                            {#                            <input type="text" name="brand" id="brand" value="洛阳科技职业学院游泳馆" data-value="洛阳科技职业学院游泳馆"#}
+                            {#                                   class="span6" disabled="disabled">#}
+                            {{ form_field(brandForm.brand) }}
                             <button type="button" class="btn" name="brandBtn" value="选择品牌"
                                     onclick="$('#brand-append').toggle();">编辑品牌
                             </button>
                         </div>
                         <div id="brand-append" style="margin-top:10px;display:none;">
                             <div class="alert" style="width:294px; font-weight:500;">
-                                品牌编号：1001819
+                                品牌编号：{{ brandinfo.id }}
                             </div>
                             <span class="help-block"><b>选择此品牌的行业。</b></span>
 
                             <div class="brand-append">
-                                 {{ form_field(brandForm.industry_1) }} //
-                                 {{ form_field(brandForm.industry_2) }}
+                                {{ form_field(brandForm.industry_1,value=brandinfo.industry_1) }} //
+                                {{ form_field(brandForm.industry_2,value=brandinfo.industry_2) }}
                             </div>
                             <span class="help-block"><b>输入此品牌的简介。</b></span>
 
                             <div class="brand-append">
                             <textarea style="height:80px;" class="span6" name="intro" cols="70"
-                                      disabled="disabled"></textarea>
+                                      disabled="disabled">{{ brandForm.intro.data }}</textarea>
 
                             </div>
 
@@ -46,16 +46,17 @@
 
                             <div class="fileupload fileupload-preview thumbnail"
                                  style="width: 320px; height: 130px; overflow:hidden;" id="image_preview">
-                                <img src="http://mob.32184.com/resource/attachment/images/10014/2015/05/bzi9iZZMM7pwmoaayU3cd5ypi9AVoc.jpg">
+                                <img src="/resource/attachment/images/{{ brandinfo.image }}"
+                                     onerror="javascript:this.src='/resource/attachment/images/10014/2015/05/bzi9iZZMM7pwmoaayU3cd5ypi9AVoc.jpg'">
                             </div>
                             <input class="span3" type="text" name="image" id="image"
-                                   value="images/10014/2015/05/bzi9iZZMM7pwmoaayU3cd5ypi9AVoc.jpg" disabled="disabled">
+                                   value="{{ brandinfo.image }}" disabled="disabled">
 
                             <div class="ke-inline-block btn upload-btn" style="font-size:14px;width:80px;height:20px;">
                                 <iframe name="kindeditor_upload_iframe_1445676580543" style="display:none;"></iframe>
                                 <form class="ke-upload-area ke-form" method="post" enctype="multipart/form-data"
                                       target="kindeditor_upload_iframe_1445676580543"
-                                      action="./index.php?act=attachment&amp;do=upload">
+                                      action=".#">
                                     <span><i class="icon-upload-alt"></i> 上传</span>
                                     <input type="file" style="cursor:pointer;" class="ke-upload-file" name="imgFile"
                                            tabindex="-1">
@@ -70,20 +71,21 @@
 
                             <div class="fileupload fileupload-preview thumbnail"
                                  style="width: 80px; height: 80px; overflow:hidden;" id="thumb_preview">
-                                <img src="http://mob.32184.com/resource/attachment/images/10014/2015/05/qT42522XH9A7t9XT9R2th49hf79TD2.jpg">
+                                <img src="/resource/attachment/images/{{ brandinfo.thumb }}"
+                                     onerror="javascript:this.src='/resource/attachment/images/10014/2015/05/qT42522XH9A7t9XT9R2th49hf79TD2.jpg'">
                             </div>
                             <input class="span3" type="text" name="thumb" id="thumb"
-                                   value="images/10014/2015/05/qT42522XH9A7t9XT9R2th49hf79TD2.jpg" disabled="disabled">
+                                   value="{{ brandinfo.thumb }}" disabled="disabled">
 
                             <div class="ke-inline-block btn upload-btn" style="font-size:14px;width:80px;height:20px;">
                                 <iframe name="kindeditor_upload_iframe_1445676580521" style="display:none;"></iframe>
                                 <form class="ke-upload-area ke-form" method="post" enctype="multipart/form-data"
                                       target="kindeditor_upload_iframe_1445676580521"
-                                      action="./index.php?act=attachment&amp;do=upload"><span><i
-                                        class="icon-upload-alt"></i> 上传</span><input type="file" style="cursor:pointer;"
-                                                                                     class="ke-upload-file"
-                                                                                     name="imgFile"
-                                                                                     tabindex="-1"></form>
+                                      action="#"><span><i
+                                        class="icon-upload-alt"></i> 上传</span>
+                                    <input type="file" style="cursor:pointer;" class="ke-upload-file"
+                                           name="imgFile"
+                                           tabindex="-1"></form>
                             </div>
                             <input type="button" fieldname="thumb" class="btn upload-btn"
                                    value="<i class='icon-upload-alt'></i> 上传"
@@ -319,6 +321,7 @@
             $("#" + obj.button.attr('fieldname')).val(data.filename);
             $("#" + obj.button.attr('fieldname') + '_preview').html('<img src="' + data.url + '" />');
         }
+
         //-->
     </script>
     <script type="text/javascript" src="{{ static('js/cascade.js') }}?v=2015"></script>
@@ -439,6 +442,10 @@
             $('#brand').change(function () {
                 $('#brand-append').show();//展开品牌输入框
             });
+{#            var t1 = "{{  brandinfo.industry_1}}";#}
+{#            var t2 = "{{  brandinfo.industry_2}}";#}
+{#            $("#industry_1").val(t1);#}
+{#            $("#industry_2").append("<option value='" + t2 + "'>" + t2 + "</option>").val(t2);#}
         });
     </script>
     <div class="show_foot">

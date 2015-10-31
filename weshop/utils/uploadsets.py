@@ -7,6 +7,7 @@ from flask.ext.uploads import UploadSet, IMAGES, extension, ALL
 
 # 用户头像
 import time
+from weshop.utils.helper import random_str
 
 avatars = UploadSet('avatars', IMAGES)
 
@@ -47,7 +48,7 @@ def save_image(image, upload_set, image_type, file_storage):
     文件后缀使用file_storage中文件名的后缀
     """
     ext = extension(file_storage.filename)
-    filename = '%s.%s' % (random_filename(), ext)
+    filename = '%s.%s' % (random_str(), ext)
     dir_path = upload_set.config.destination
     folder = time.strftime("%Y%m%d", time.localtime())
     dir_path = os.path.join(dir_path, folder)

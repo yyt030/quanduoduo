@@ -90,16 +90,14 @@ def test():
 def upload_image():
     if request.method == 'GET':
         return json.dumps({"error": 1, "message": "请选择要上传的图片！"})
-
     try:
         # filename = images.save(request.files['file'],name='%s.' % random_filename())
         filename = process_question(request.files['imgFile'], images, "")
     except Exception, e:
         return json.dumps({'status': 'no', 'error': e.__repr__()})
     else:
-        file_path = ""
         data = {"error": 0, "message": "",
                 "url": images.url(filename),
                 "filename": filename}
-        print images.url(filename)
+        # print images.url(filename)
         return json.dumps(data)

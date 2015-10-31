@@ -20,8 +20,8 @@
                             <span class="help-block"><b>选择此品牌的行业。</b></span>
 
                             <div class="brand-append">
-                                {{ form_field(form.industry_1,class="span3") }} //
-                                {{ form_field(form.industry_2,class="span3") }}
+                                {{ form_field(form.industry_1,class="span3",value=form.industry_1.data) }} //
+                                {{ form_field(form.industry_2,class="span3",value=form.industry_2.data) }}
                             </div>
                             <span class="help-block"><b>输入此品牌的简介。</b></span>
 
@@ -33,14 +33,14 @@
 
                             <div class="fileupload fileupload-preview thumbnail"
                                  style="width: 320px; height: 130px; overflow:hidden;" id="image_preview">
-                                <img src="http://mob.32184.com/resource/attachment/back.jpg"></div>
+                                <img src="/resource/attachment/images/{{ form.image.data }}" onerror="/resource/attachment/back.jpg"></div>
                             {{ form_field(form.image,class='span3') }}
                             <div class="ke-inline-block btn upload-btn" for="#image"
                                  style="font-size:14px;width:80px;height:20px;">
                                 <iframe name="kindeditor_upload_iframe_1445750537114" style="display:none;"></iframe>
                                 <form class="ke-upload-area ke-form" method="post" enctype="multipart/form-data"
                                       target="kindeditor_upload_iframe_1445750537114"
-                                      action="./index.php?act=attachment&amp;do=upload"><span>
+                                      action="#"><span>
                                     <i class="icon-upload-alt"></i> 上传</span>
                                     <input type="file" style="cursor:pointer;"
                                            class="ke-upload-file"
@@ -55,14 +55,14 @@
 
                             <div class="fileupload fileupload-preview thumbnail"
                                  style="width: 80px; height: 80px; overflow:hidden;" id="thumb_preview">
-                                <img src="http://mob.32184.com/resource/attachment/icon.jpg"></div>
+                                <img src="/resource/attachment/images/{{ form.thumb.data }}" onerror="javascript:this.src='/resource/attachment/icon.jpg'" /></div>
                             {{ form_field(form.thumb,class='span3') }}
                             <div class="ke-inline-block btn upload-btn" for="#thumb"
                                  style="font-size:14px;width:80px;height:20px;">
                                 <iframe name="kindeditor_upload_iframe_1445750537142" style="display:none;"></iframe>
                                 <form class="ke-upload-area ke-form" method="post" enctype="multipart/form-data"
                                       target="kindeditor_upload_iframe_1445750537142"
-                                      action="./index.php?act=attachment&amp;do=upload"><span><i
+                                      action="#"><span><i
                                         class="icon-upload-alt"></i> 上传</span>
                                     <input type="file" style="cursor:pointer;" class="ke-upload-file"
                                            name="imgFile" tabindex="-1">
@@ -71,7 +71,6 @@
                             <input type="button" fieldname="thumb" class="btn upload-btn"
                                    value="<i class='icon-upload-alt'></i> 上传"
                                    style="font-size: 14px; width: 80px; height: 20px; display: none;">
-
                         </div>
                     </td>
                 </tr>

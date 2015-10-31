@@ -28,14 +28,11 @@
 <div class="message alert alert-success">
     <div class="icon pull-left"><i class="icon-ok"></i></div>
     <div class="content">
-        <h4>添加品牌成功，请添加一个门店！</h4>
+        <h4>商户信息更新成功！</h4>
 
-        <p><a href="/shop/publish">如果你的浏览器没有自动跳转，请点击此链接</a></p>
-        <script type="text/javascript">
-            setTimeout(function () {
-                location.href = "/shop/publish";
-            }, 1000);
-        </script>
+        <p>[<a href="/discount" style="color: red;">发布优惠</a>] &nbsp;[<a
+                href="/shop/publish?bid={{ bid }}" style="color: red;">继续添加</a>] &nbsp;[<a
+                href="/shop/bind_alipay" style="color: red;">绑收银台</a>] &nbsp;</p>
     </div>
 </div>
 <div class="show_foot">
@@ -43,16 +40,6 @@
         <p>© 2015 <b>券多多商务</b></p>
     </div>
 </div>
-
-<script>
-    var _hmt = _hmt || [];
-    (function () {
-        var hm = document.createElement("script");
-        hm.src = "//hm.baidu.com/hm.js?50b4952461c191a55d14ad9dbe6b22ae";
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(hm, s);
-    })();
-</script>
 
 </body>
 </html>

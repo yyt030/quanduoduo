@@ -64,80 +64,44 @@
             <div class="type_wrap">
                 管理品牌
             </div>
+            {% for b in  brands %}
             <div class="load_wrap {{ do }}">
                 <div class="coupon-image">
-                    <img src="http://mob.32184.com/resource/attachment//icon.jpg">
+                    <img src="/resource/attachment/images/{{ b.thumb }}" onerror="javascript:this.src='/resource/attachment/icon.jpg'" >
                 </div>
                 <div class="coupon-intro">
                     <h1>
-                        <a href="business.php?weid=10014&amp;bid=1002371&amp;do=brand" target="_blank">
-                            hahaha </a>
+                        <a href="/brand/show?id={{ b.id }}" target="_blank">
+                           {{ b.name }} </a>
                     </h1>
-
                     <h2>
                     </h2>
                 </div>
                 <div class="coupon-class">
                     <div class="class-opt">
-                        <a href="brand.php?aid=12346908&amp;act=audits" title="禁用品牌" class="normal"
+                        <a href="/brand/modify?id={{ b.id }}&act=audits" title="禁用品牌" class="normal"
                            onclick="return confirm('停用后可在尾页找到，确认禁用？');return false;"><i class="icon-eye-close"></i></a>
-                        <a href="brand.php?aid=12346908&amp;act=audits" title="启用品牌" class="closed"
+                        <a href="/brand/modify?id={{ b.id }}&act=audits" title="启用品牌" class="closed"
                            onclick="return confirm('启用后排序会升上去，确认启用？');return false;"><i class="icon-eye-open"></i></a>
-                        <a href="/brand1/modify?bid=100237" title="编辑品牌"><i class="icon-cog"></i></a>
+                        <a href="/brand/modify?id={{ b.id }}" title="编辑品牌"><i class="icon-cog"></i></a>
                     </div>
                     <div class="class-inf">
                         <i class="icon-home"></i>
-                        <a href="site.php?bid=1002371&amp;act=business&amp;do=display" title="本站门店数量">
-                            <span class="type">0</span>
+                        <a href="/brand/shop?id={{ b.id }}" title="本站门店数量">
+                            <span class="type">{{ b.shops.count() }}</span>
                         </a>
                         <i class="icon-ticket"></i>
-                        <a href="site.php?bid=1002371&amp;act=discount&amp;do=display" title="本站优惠数量">
-                            <span class="type">0</span>
+                        <a href="/brand/discount?id={{ b.id }}" title="本站优惠数量">
+                            <span class="type">{{ b.discount or 0 }}</span>
                         </a>
                         <i class="icon-tags"></i>
-                        <span class="ctime">休闲娱乐</span>
-                        <span class="code"> 密室</span>
+                        <span class="ctime">{{ b.industry_1 }}</span>
+                        <span class="code"> {{ b.industry_2 }}</span>
                         <span class="limit"></span>
                     </div>
                 </div>
             </div>
-            <div class="load_wrap {{ do }}">
-                <div class="coupon-image">
-                    <img src="http://mob.32184.com/resource/attachment//images/10014/2014/11/P0gBW1y0VVaLBVw0MLMbObUHgw1BHg.jpg">
-                </div>
-                <div class="coupon-intro">
-                    <h1>
-                        <a href="business.php?weid=10014&amp;bid=1001238&amp;do=brand" target="_blank">
-                            雅婷绿色瘦身 </a>
-                    </h1>
-
-                    <h2>
-                    </h2>
-                </div>
-                <div class="coupon-class">
-                    <div class="class-opt">
-                        <a href="/brand/audits?bid=100237" title="禁用品牌" class="normal"
-                           onclick="return confirm('停用后可在尾页找到，确认禁用？');return false;"><i class="icon-eye-close"></i></a>
-                        <a href="/brand/audits?bid=100237" title="启用品牌" class="closed"
-                           onclick="return confirm('启用后排序会升上去，确认启用？');return false;"><i class="icon-eye-open"></i></a>
-                        <a href="/brand1/modify?bid=100237" title="编辑品牌"><i class="icon-cog"></i></a>
-                    </div>
-                    <div class="class-inf">
-                        <i class="icon-home"></i>
-                        <a href="site.php?bid=1001238&amp;act=business&amp;do=display" title="本站门店数量">
-                            <span class="type">1</span>
-                        </a>
-                        <i class="icon-ticket"></i>
-                        <a href="site.php?bid=1001238&amp;act=discount&amp;do=display" title="本站优惠数量">
-                            <span class="type">2</span>
-                        </a>
-                        <i class="icon-tags"></i>
-                        <span class="ctime">丽人</span>
-                        <span class="code"> 瘦身纤体</span>
-                        <span class="limit"></span>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
         </div>
         <div class="body_wrap">
             <div class="load_tips">加载中..</div>
