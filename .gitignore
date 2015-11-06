@@ -5,3 +5,4 @@ log/*
 bak/*
 resource/attachment/*
 *.ttc
+migrations/*

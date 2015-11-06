@@ -11,7 +11,7 @@ def require_visitor(func):
     @wraps(func)
     def decorator(*args, **kwargs):
         if g.user:
-            return redirect(url_for('site.index'))
+            return redirect(url_for('site.home'))
         return func(*args, **kwargs)
 
     return decorator
@@ -24,7 +24,7 @@ def require_user(func):
     def decorator(*args, **kwargs):
         if not g.user:
             flash('此操作需要登录账户')
-            return redirect(url_for('account.signin'))
+            return redirect(url_for('site.signin'))
         return func(*args, **kwargs)
 
     return decorator

@@ -1,0 +1,30 @@
+{% extends 'mobile_layout.html' %}
+{% block content %}
+    <body>
+    <div class="show_body">
+        <div class="body_wrap">
+            <div class="load_wrap">
+                <div class="coupon-other">
+                    <p>门店列表<span>共{{ shops.count() }}家门店</span></p>
+                </div>
+                <div class="coupon-store">
+                    {% for s in shops %}
+                    <dl>
+                        <dt>
+                            <a href="/shop/{{ s.id }}">
+                                <h4> {{ s.store }}</h4>
+
+                                <p class="place">{{ s.address }}</p>
+                            </a>
+                        </dt>
+                        <dd>
+                            <a href="tel:{{ s.phone }}"><i class="iconfont icon-dianhua"></i></a>
+                        </dd>
+                    </dl>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    </body>
+{% endblock %}

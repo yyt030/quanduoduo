@@ -4,8 +4,9 @@ import os
 from flask.ext.script import Manager
 import random
 from weshop import create_app
-from weshop.models import db,  User
+from weshop.models import db, User
 from flask.ext.migrate import Migrate, MigrateCommand
+
 app = create_app()
 migrate = Migrate(app, db)
 manager = Manager(app)
@@ -40,6 +41,17 @@ def create_ucode():
         db.session.commit()
 
 
+@manager.command
+def create_admin():
+    """Create admin."""
+
+    user = User(role='admin', name="admin", email="admin@qq.com", mobile="18812345678")
+    user.password = "admin"
+    user.hash_password()
+    user.gene_token()
+    db.session.add(user)
+    db.session.commit()
+
 
 @manager.command
 def createdb():
@@ -62,8 +74,6 @@ def clean_exercises():
     with daemon.DaemonContext():
         with app.app_context():
             pass
-
-
 
 
 if __name__ == "__main__":

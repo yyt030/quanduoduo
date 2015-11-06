@@ -11,14 +11,13 @@ from ..utils.account import CheckName
 
 class SigninForm(Form):
     """登陆表单"""
-    admin_name = TextField('登录名:', validators=[DataRequired(u'邮箱不能为空')], description=u'用户名、QQ、邮件地址或手机号')
+    username = TextField('登录名:', validators=[DataRequired(u'邮箱不能为空')], description=u'用户名、QQ、邮件地址或手机号')
     password = PasswordField('密码:', validators=[DataRequired(u'密码不能为空')], description=u'密码')
-    admin_sec = TextField('验证码:', validators=[DataRequired(u'验证码不能为空')])
 
     # 验证密码
     def validate_password(self, field):
-        admin_name = self.admin_name.data.replace(' ', '')
-        user = User.query.filter(or_(User.name == admin_name, User.email == admin_name, User.mobile)).first()
+        name = self.username.data.replace(' ', '')
+        user = User.query.filter(or_(User.name == name, User.email == name, User.mobile==name)).first()
 
         if not user:
             raise ValueError(u'账户或密码错误')

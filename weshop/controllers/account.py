@@ -45,9 +45,6 @@ def signup(role):
             user.gene_token()
             db.session.add(user)
             db.session.commit()
-
-
-
             # 寻找邮箱登陆URL
             email_domains = {
                 'qq.com': 'mail.qq.com',

@@ -8,7 +8,7 @@
 {% block content %}
     <body>
     <div class="main">
-        <form action="/shop/publish" class="form-horizontal form" method="post" enctype="multipart/form-data">
+        <form action="/shop/setting?act={{ act }}{% if act=='modify' %}&id={{ shop_id }}{% endif %}" class="form-horizontal form" method="post" enctype="multipart/form-data">
             {{ form.csrf_token }}
             <h4>商户基本信息</h4>
             <table class="tb">
@@ -99,20 +99,23 @@
                     <th><label for="">门店</label></th>
                     <td>
                         <div class="input-append">
-                            <input type="text" name="store" id="store" value="" data-value="" class="span6"
-                                   placeholder="如：黄河路店">
+                             {{ form_field(form.store,value=form.store.data) }}
                             <button type="button" class="btn" name="storeBtn" value="设为单店" id="storeBtn">设为单店</button>
                         </div>
                     </td>
                 </tr>
                 <tr>
                     <th><label for="">公告栏</label></th>
-                    <td><textarea style="height:50px;" class="span6" name="title"></textarea>
+                    <td>
+                        <textarea  class="span6" name="title" >{{ form.title.data }}</textarea>
+
                         <span class="help-block">展示在门店主页的一句话，可以放广告。</span></td>
                 </tr>
                 <tr>
                     <th><label for="">电话</label></th>
-                    <td><input type="text" id="" name="phone" value="" class="span6"></td>
+                    <td>
+                       {{ form_field(form.phone) }}
+                    </td>
                 </tr>
                 <tr style="display:none;">
                     <th><label for="">区域</label></th>
@@ -132,7 +135,7 @@
                     <th><label for="">详细地址</label></th>
                     <td>
                         <div class="input-append">
-                            <input type="text" id="address" name="address" value="" class="span6">
+                            {{ form_field(form.address) }}
                             <button type="button" class="btn" name="submit" value="查找地址"
                                     onclick="bmap.searchMapByAddress($('#address').val())">查找地址
                             </button>
@@ -142,9 +145,12 @@
                 </tr>
                 <tr>
                     <th><label for="">地图坐标：</label></th>
-                    <td><input type="text" name="lng" id="lng" value="112.4314" class="span3" readonly="readonly"> //
-                        <input
-                                type="text" id="lat" name="lat" value="34.67145" class="span3" readonly="readonly"></td>
+
+                    <td>
+                        {{ form_field(form.lng,class="span3", readonly="readonly") }}
+                         //
+                        {{ form_field(form.lat,class="span3", readonly="readonly") }}
+                    </td>
                 </tr>
                 <tr>
                     <th></th>

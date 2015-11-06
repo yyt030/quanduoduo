@@ -11,6 +11,7 @@ from flask import render_template, Blueprint, redirect, url_for, g, session, req
     make_response, current_app, send_from_directory
 from weshop import csrf
 from weshop.utils import devices
+from weshop.utils.account import signin_user, signout_user
 from weshop.utils.devices import checkMobile
 from ..models import db, User
 from ..forms import SigninForm
@@ -22,36 +23,49 @@ bp = Blueprint('site', __name__)
 
 @bp.route('/', methods=['GET'])
 def index():
-    if checkMobile(request):
-        print "mobile"
-    goods = {}
-    return render_template('site/index.html', goods=goods)
+
+    return render_template('site/index.html')
 
 
 @bp.route('/login', methods=['GET', 'POST'])
 @require_visitor
 def login():
-    return render_template('account/login.html')
+    form = SigninForm()
+    name = form.username.data
+    if form.validate_on_submit():
+        user = User.query.filter(User.name == name).first()
+        if user:
+            signin_user(user)
+            return redirect(url_for('site.home'))
+    return render_template('account/login.html', form=form)
+
+
+@bp.route('/signout', methods=['GET', 'POST'])
+@require_visitor
+def signout():
+    signout_user()
+    return redirect(url_for('site.index'))
 
 
 @bp.route('/home', methods=['GET', 'POST'])
-@require_visitor
 def home():
     return render_template('account/home.html')
 
 
 @bp.route('/user_data', methods=['GET', 'POST'])
-@require_visitor
+@require_user
 def user_data():
     return render_template('account/user_data.html')
 
 
 @bp.route('/resource/<string:folder1>/<string:filename>', defaults={"folder2": "", "folder3": ""}, methods=['GET'])
-@bp.route('/resource/<string:folder1>/<string:folder2>/<string:filename>', defaults={"folder3":""},methods=['GET'])
+@bp.route('/resource/<string:folder1>/<string:folder2>/<string:filename>', defaults={"folder3": ""}, methods=['GET'])
 @bp.route('/resource/<string:folder1>/<string:folder2>/<string:folder3>/<string:filename>', methods=['GET'])
 def get_resourse(folder1, folder2, folder3, filename):
     if folder3 == "":
         BASE_URL = os.path.join(current_app.config.get('PROJECT_PATH'), 'resource/%s/%s') % (folder1, folder2)
+        print BASE_URL
+        print filename
     else:
         BASE_URL = os.path.join(current_app.config.get('PROJECT_PATH'), 'resource/%s/%s/%s') % (
             folder1, folder2, folder3)
@@ -83,6 +97,21 @@ def crossdomain_xml():
 @bp.route('/test')
 def test():
     return str(zip(session.keys(), session.values()))
+
+
+@bp.route('/about')
+def about():
+    return render_template('mobile/about.html')
+
+
+@bp.route('/agent')
+def agent():
+    return render_template('mobile/agent.html')
+
+
+@bp.route('/fabu')
+def fabu():
+    return render_template('mobile/fabu.html')
 
 
 @csrf.exempt

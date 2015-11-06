@@ -9,9 +9,9 @@ from wtforms.validators import DataRequired, Regexp, EqualTo, InputRequired
 
 
 class ShopSetting(Form):
-    brand = TextField('品牌名', description='')
-    store = TextField('门店', description='如：黄河路店')
-    title = TextField('公告栏', description='')
+    brand = TextField('品牌名', description='', default='')
+    store = TextField('门店', description='如：黄河路店', default='')
+    title = TextField('公告栏', description='', default='')
     phone = TextField('手机号', description='')
     address = TextField('详细地址', description='')
     lng = TextField('', description='')
@@ -26,3 +26,16 @@ class BrandSetting(Form):
     intro = TextAreaField("简介", description='可留空不填')
     image = TextField('背景', description='', default='back.jpg')
     thumb = TextField('logo', description='', default='icon.jpg')
+
+
+class DiscountSetting(Form):
+    """折扣设置"""
+    title = TextField('券面名称', description='')
+    intro = TextAreaField("温馨提示", default='')
+    image = TextField("封面图", default='00')
+    supply = TextField("每天开抢时间", default='')
+    number = TextField("每天数量限制", default=30)
+    usable = TextField("领券后有效期，含当天", default=7)
+    perple = TextField("每人可领次数", default=5)
+    limit = TextField("剩余发放天数", default=0)
+    shop_id = TextField("", default=0)

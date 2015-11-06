@@ -28,12 +28,12 @@
 <div class="message alert alert-success">
     <div class="icon pull-left"><i class="icon-ok"></i></div>
     <div class="content">
-        <h4>添加品牌成功，请添加一个门店！</h4>
+        <h4>{{ tip }}</h4>
 
-        <p><a href="/shop/publish">如果你的浏览器没有自动跳转，请点击此链接</a></p>
+        <p><a href="{{ url }}">如果你的浏览器没有自动跳转，请点击此链接</a></p>
         <script type="text/javascript">
             setTimeout(function () {
-                location.href = "/shop/publish";
+                location.href = "{{ url }}";
             }, 1000);
         </script>
     </div>
@@ -44,15 +44,6 @@
     </div>
 </div>
 
-<script>
-    var _hmt = _hmt || [];
-    (function () {
-        var hm = document.createElement("script");
-        hm.src = "//hm.baidu.com/hm.js?50b4952461c191a55d14ad9dbe6b22ae";
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(hm, s);
-    })();
-</script>
 
 </body>
 </html>

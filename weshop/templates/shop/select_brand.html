@@ -1,10 +1,5 @@
-{#{% extends "common_home.html" %}#}
-{##}
-{#{% block content %}#}
-{# <iframe frameborder="0" id="main" name="main" src="/shop/setting"></iframe>#}
-{#{% endblock %}#}
-{% from 'macro/form.html' import form_field %}
 {% extends 'account_layout.html' %}
+{% from 'macro/form.html' import form_field %}
 {% block content %}
     <body>
 
@@ -31,11 +26,11 @@
         </div>
         <div class="body_wrap thumbwrap" id="body_wrap">
             <div class="type_wrap">
-                第1步.<b style="color:#44b549;">选择品牌</b> &gt; 第2步.添加门店
+                第1步.<b style="color:#44b549;">选择品牌</b> &gt; 第2步.{{ handle }}
             </div>
             {% for b in brands %}
             <dl>
-                <dt><a href="/shop/publish?bid={{ b.id }}"><img
+                <dt><a href="/shop/setting?bid={{ b.id }}&act={{ act }}"><img
                         src="/resource/attachment/images/{{ b.thumb }}"></a>
                 </dt>
                 <dd>{{ b.name }}</dd>

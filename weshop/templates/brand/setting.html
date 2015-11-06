@@ -6,6 +6,7 @@
         <form action="" class="form-horizontal form" onsubmit="return checkProfile();" method="post"
               style="float:left;">
             {{ form.csrf_token }}
+            <input id="current_url" name="current_url" type="hidden" value="{{ request.url }}">
             <h4>编辑品牌</h4>
             <table class="tb">
                 <tbody>
@@ -35,20 +36,8 @@
                                  style="width: 320px; height: 130px; overflow:hidden;" id="image_preview">
                                 <img src="/resource/attachment/images/{{ form.image.data }}" onerror="/resource/attachment/back.jpg"></div>
                             {{ form_field(form.image,class='span3') }}
-                            <div class="ke-inline-block btn upload-btn" for="#image"
-                                 style="font-size:14px;width:80px;height:20px;">
-                                <iframe name="kindeditor_upload_iframe_1445750537114" style="display:none;"></iframe>
-                                <form class="ke-upload-area ke-form" method="post" enctype="multipart/form-data"
-                                      target="kindeditor_upload_iframe_1445750537114"
-                                      action="#"><span>
-                                    <i class="icon-upload-alt"></i> 上传</span>
-                                    <input type="file" style="cursor:pointer;"
-                                           class="ke-upload-file"
-                                           name="imgFile" tabindex="-1">
-                                </form>
-                            </div>
                             <input type="button" fieldname="image" class="btn upload-btn"
-                                   value="<i class='icon-upload-alt'></i> 上传"
+                                   value="上传"
                                    style="font-size: 14px; width: 80px; height: 20px; display: none;">
 
                             <span class="help-block">上传<b>宽度 160 高度 160</b> 的图片设为图标</span>
@@ -57,19 +46,9 @@
                                  style="width: 80px; height: 80px; overflow:hidden;" id="thumb_preview">
                                 <img src="/resource/attachment/images/{{ form.thumb.data }}" onerror="javascript:this.src='/resource/attachment/icon.jpg'" /></div>
                             {{ form_field(form.thumb,class='span3') }}
-                            <div class="ke-inline-block btn upload-btn" for="#thumb"
-                                 style="font-size:14px;width:80px;height:20px;">
-                                <iframe name="kindeditor_upload_iframe_1445750537142" style="display:none;"></iframe>
-                                <form class="ke-upload-area ke-form" method="post" enctype="multipart/form-data"
-                                      target="kindeditor_upload_iframe_1445750537142"
-                                      action="#"><span><i
-                                        class="icon-upload-alt"></i> 上传</span>
-                                    <input type="file" style="cursor:pointer;" class="ke-upload-file"
-                                           name="imgFile" tabindex="-1">
-                                </form>
-                            </div>
+
                             <input type="button" fieldname="thumb" class="btn upload-btn"
-                                   value="<i class='icon-upload-alt'></i> 上传"
+                                   value="上传"
                                    style="font-size: 14px; width: 80px; height: 20px; display: none;">
                         </div>
                     </td>

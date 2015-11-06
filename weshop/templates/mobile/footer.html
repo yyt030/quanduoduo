@@ -1,0 +1,60 @@
+<div class="show_link">
+    <a href="/about" rel="external">
+        关于券多多
+    </a> |
+    <a href="/fabu" rel="external">
+        我要发布
+    </a> |
+    <a href="/agent" rel="external">
+        代理加盟
+    </a>
+</div>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript">
+    function WeixinJSBridgeShare(_share_image, _share_title, _share_intro, _share_place, isallowfirend) {
+        wx.config({
+            debug: false,
+            appId: '',
+            timestamp: '1446276387', // 生成签名的时间戳
+            nonceStr: 'AYYzryf0Zx', // 生成签名的随机串
+            signature: 'cb02d07b459d378010e888e93c3f323c89f156eb',// 签名
+            jsApiList: [
+                'checkJsApi',
+                'onMenuShareTimeline',
+                'onMenuShareAppMessage',
+                'hideMenuItems',
+                'showMenuItems',
+                'getNetworkType',
+                'openLocation',
+                'getLocation',
+                'scanQRCode',
+            ]
+        });
+
+        // 用户来源
+        // 发送给好友
+        wx.onMenuShareAppMessage({
+            title: _share_title, // 分享标题
+            desc: _share_intro, // 分享描述
+            link: _share_place + '&come=transmit&wxref=mp.weixin.qq.com', // 分享链接
+            imgUrl: _share_image  // 分享图标
+        });
+        // 分享到朋友圈
+        wx.onMenuShareTimeline({
+            title: _share_title + _share_intro, // 分享标题
+            link: _share_place + '&come=timeline&wxref=mp.weixin.qq.com', // 分享链接
+            imgUrl: _share_image  // 分享图标
+        });
+
+        wx.hideMenuItems({
+            menuList: [
+                'menuItem:share:email',
+                'menuItem:share:qq',
+                'menuItem:copyUrl',		// 复制链接
+                'menuItem:readMode',	// 阅读模式
+                'menuItem:openWithSafari',
+                'menuItem:openWithQQBrowser'
+            ] // 要隐藏的菜单项，所有menu项见附录3
+        });
+    }
+</script>

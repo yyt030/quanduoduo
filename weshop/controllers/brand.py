@@ -13,7 +13,7 @@ from weshop import csrf
 from weshop.forms.shop import ShopSetting, BrandSetting
 from weshop.utils import devices
 from weshop.utils.devices import checkMobile
-from ..models import db, User, Brand
+from ..models import db, User, Brand, Shop
 from ..forms import SigninForm
 from ..utils.permissions import require_user, require_visitor
 from ..utils.uploadsets import images, random_filename, process_question, avatars
@@ -21,7 +21,7 @@ from ..utils.uploadsets import images, random_filename, process_question, avatar
 bp = Blueprint('brand', __name__)
 
 
-@bp.route('', methods=['GET', 'POST'])
+@bp.route('/', methods=['GET', 'POST'])
 def index():
     """"""
     do = request.args.get("do")
@@ -30,11 +30,23 @@ def index():
     return render_template('shop/select_brand.html')
 
 
+@bp.route('/show', methods=['GET', 'POST'])
+def show():
+    """"""
+    id = int(request.args.get("id", 0))
+    brand = Brand.query.get(id)
+    if brand:
+        return render_template('brand/show.html', brand=brand)
+    else:
+        return render_template('brand/error.html')
+
+
 @bp.route('/add', methods=['GET', 'POST'])
 def brand_add():
     """添加品牌"""
     shop = {}
     form = BrandSetting()
+    url = request.values.get('current_url')
     if form.is_submitted():
         print request.form
         exist = Brand.query.filter(Brand.name == form.brand.data).first()
@@ -47,7 +59,7 @@ def brand_add():
             db.session.add(brand)
             db.session.commit()
             session['brand'] = brand.id
-            return render_template('account/ok.html', error='添加品牌成功，请添加一个门店！')
+            return render_template('account/ok.html', tip='添加品牌成功，请添加一个门店！',url=url)
     return render_template('brand/setting.html', shop=shop, form=form)
 
 
@@ -55,6 +67,7 @@ def brand_add():
 def brand_modify():
     """修改品牌"""
     shop = {}
+    url = request.values.get('current_url')
     brand_id = int(request.args.get("id", 0))
     if not brand_id:
         return render_template('account/error.html', error='页面不存在！')
@@ -72,8 +85,8 @@ def brand_modify():
         if name == "test":
             return render_template('account/error.html', error='您输入的品牌已存在！')
         else:
-            return render_template('account/ok.html', tip='添加品牌成功，请添加一个门店！')
-    return render_template('brand/setting.html', shop=shop,form=form)
+            return render_template('account/ok.html', tip='添加品牌成功，请添加一个门店！', url=url)
+    return render_template('brand/setting.html', shop=shop, form=form)
 
 
 @bp.route('/manage', methods=['GET', 'POST'])
@@ -89,5 +102,13 @@ def brand_search():
     """搜索品牌"""
     message = "message"
     name = request.args.get("name", None)
-
     return json.dumps({"message": [], "redirect": "", "type": "tips"})
+
+
+@bp.route('/shop', methods=['GET', 'POST'])
+def shop_list():
+    """门店管理"""
+    bid = int(request.args.get("bid", 0))
+    brand = Brand.query.get(bid)
+    shops = Shop.query.filter(Shop.brand_id == bid)
+    return render_template('brand/shop_list.html', shops=shops, brand=brand, bid=bid)
