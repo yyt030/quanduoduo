@@ -137,8 +137,8 @@ def search_api():
                               "industry2": d.brand.industry_2, "rank": "0",
                               "business": "0", "discount": "0", "count": "1",
                               "state": "review", "ctime": "1448168448", "gtime": "0"}
-    if industry1 or search:
-        return json.dumps({"message": [items,brands],"redirect": "", "type": "ajax"})
+    return json.dumps({"message": [items,brands],"redirect": "", "type": "ajax"})
+
 
 
 @bp.route('/about')
