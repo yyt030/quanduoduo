@@ -1,0 +1,119 @@
+<!DOCTYPE>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+          name="viewport">
+    <meta name="format-detection" content="telephone=no">
+    <title>券多多汝阳站</title>
+    <link rel="stylesheet" type="text/css" href="/static/themes/mobile/style/search.css?1448121953" media="all"/>
+    <link rel="stylesheet" type="text/css" href="/static/themes/mobile/icons/iconfont.css"/>
+    <script type="text/javascript" src="/static/themes/mobile/style/jquery-2.1.4.min.js"></script>
+</head>
+<body>
+<div class="show_body">
+    <div class="head_wrap">
+        <div class="title"><i class="iconfont icon-location"></i>汝阳县</div>
+        <div class="order">
+            <form name="search" action="find.php?weid=10018&do=query" method="post">
+                <input name="query" id="" type="text" value="" placeholder="查找商家" style="border:1px solid #f0efed;"/>
+            </form>
+        </div>
+        <div class="query">
+            <a href="javascript:void(0);" onclick="$('form[name=search]').submit();"><i
+                    class="iconfont icon-search"></i></a>
+        </div>
+    </div>
+    <div class="photowrap">
+    </div>
+    <div class="classwrap">
+        <div class="load_wrap">
+            <a href="/find?do=search&industry1=美食">
+                <i class="iconfont icon-lingshi"></i>
+                <span style="color:;">美食</span>
+            </a>
+            <a href="/find?do=search&industry1=休闲娱乐">
+                <i class="iconfont icon-yule"></i>
+                <span style="color:;">休闲娱乐</span>
+            </a>
+            <a href="/find?do=search&industry1=购物">
+                <i class="iconfont icon-gouwu"></i>
+                <span style="color:;">购物</span>
+            </a>
+            <a href="find?do=search&industry1=%E4%B8%BD%E4%BA%BA">
+                <i class="iconfont icon-meirong"></i>
+                <span style="color:;">丽人</span>
+            </a>
+            <a href="find?do=search&industry1=%E6%97%85%E6%B8%B8">
+                <i class="iconfont icon-lvxing"></i>
+                <span style="color:;">旅游</span>
+            </a>
+            <a href="find?do=search&industry1=%E8%BF%90%E5%8A%A8%E5%81%A5%E8%BA%AB">
+                <i class="iconfont icon-yundong"></i>
+                <span style="color:;">运动健身</span>
+            </a>
+            <a href="find?do=search&industry1=%E9%85%92%E5%BA%97">
+                <i class="iconfont icon-zhufang"></i>
+                <span style="color:;">酒店</span>
+            </a>
+            <a href="find?do=search&industry1=%E7%94%9F%E6%B4%BB%E6%9C%8D%E5%8A%A1">
+                <i class="iconfont icon-jujia"></i>
+                <span style="color:;">生活服务</span>
+            </a>
+        </div>
+    </div>
+    <div class="body_wrap" id="body_wrap">
+        <div class="type_wrap">
+            猜你喜欢
+        </div>
+        {% for d in discounts %}
+        <div class="load_wrap activity">
+            <a href="http://hui.184buy.com/discount.php?weid=10018&do=receive&did=110013701">
+                <div class="coupon-image">
+                    <img src="http://hui.184buy.com/resource/attachment/images/10018/2015/07/G1MMzmj411M2cJk6KZ4jqE4K4cqcgc.jpg"/>
+                </div>
+                <div class="coupon-intro">
+                    <p class="title">{{ d.title }}</p>
+
+                    <p class="count">每天<b>{{ d.limits }}</b>份<span>{{ d.count }}人已领</span></p>
+
+                    <p class="brand">{{ d.brand.name }}</p>
+                </div>
+                <div class="coupon-class">
+                    <i class="state">领券</i>
+
+                    <p class="count">扣<b>5</b>分</p>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="more_wrap">
+        <div class="view_more" style="display:block;"><a href="find.php?weid=10018&do=search">查看全部</a></div>
+    </div>
+</div>
+<div class="show_foot">
+    <div class="foot_wrap">
+        <table cellspacing="0" class="find">
+            <tr>
+                <td width="25%" class=" customer"><a href="customer.php?weid=10018"><span></span><i
+                        class="iconfont icon-tag"></i>收藏</a></td>
+                <td width="25%" class=" checkout"><a href="checkout.php?weid=10018"><span></span><i
+                        class="iconfont icon-pay"></i>券包</a></td>
+                <td width="25%" class=" find"><a href="find.php?weid=10018"><span></span><i
+                        class="iconfont icon-attention"></i>发现</a></td>
+                <td width="25%" class=" fans"><a href="fans.php?weid=10018"><span></span><i
+                        class="iconfont icon-my"></i>我的</a></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<script type="text/javascript">
+    document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+        WeixinJSBridge.call('hideToolbar');
+        WeixinJSBridge.call('hideOptionMenu');
+    }, false);
+</script>
+
+</body>
+</html>

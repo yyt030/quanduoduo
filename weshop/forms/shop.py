@@ -30,12 +30,13 @@ class BrandSetting(Form):
 
 class DiscountSetting(Form):
     """折扣设置"""
-    title = TextField('券面名称', description='')
+    title = TextField('券面名称', description='',default='')
+    type =TextField('优惠形式', description='',default='')
     intro = TextAreaField("温馨提示", default='')
-    image = TextField("封面图", default='00')
-    supply = TextField("每天开抢时间", default='')
-    number = TextField("每天数量限制", default=30)
+    image = TextField("封面图", default='')
+    supply = TextField("每天开抢时间", default='00')
+    number = TextField("每天数量限制", default=20)
     usable = TextField("领券后有效期，含当天", default=7)
     perple = TextField("每人可领次数", default=5)
-    limit = TextField("剩余发放天数", default=0)
-    shop_id = TextField("", default=0)
+    limits = TextField("剩余发放天数", default=1)
+    store = RadioField("", default=0)

@@ -9,11 +9,11 @@
             <div class="load_wrap">
                 <div class="store-brand">
                 <span><img
-                        src="http://mob.32184.com/resource/attachment/images/10014/2015/05/qT42522XH9A7t9XT9R2th49hf79TD2.jpg"></span>
+                        src="/resource/attachment/images/{{ shop.brand.image }}"></span>
                 </div>
                 <div class="store-title">
-                    <h3>洛阳科技职业学院游泳馆</h3>
-                    <h4>新安县学院路</h4>
+                    <h3>{{ shop.brand.name }}</h3>
+                    <h4>{{ shop.address }}</h4>
                 </div>
             </div>
         </div>
@@ -25,38 +25,38 @@
                 <div class="coupon-table">
                     <table cellspacing="0">
                         <tr>
-                            <td><a href="tel:13608653337"><i class="iconfont icon-phone"></i>电话</a></td>
-                            <td><a href="business.php?sid=120010848&weid=10014&do=maps"><i
-                                    class="iconfont icon-location"></i>地图</a></td>
+                            <td><a href="tel:{{ shop.phone }}"><i class="iconfont icon-phone"></i>电话</a></td>
+{#                            <td><a href="business.php?sid=120010848&weid=10014&do=maps"><i#}
+{#                                    class="iconfont icon-location"></i>地图</a></td>#}
                         </tr>
                     </table>
                 </div>
             </div>
             <div class="load_wrap activity">
                 <div class="coupon-other">
-                    <p>抢优惠券<span>共0条优惠</span></p>
+                    <p>抢优惠券<span>共{{ shop.discount_shops.count() }}条优惠</span></p>
                 </div>
             </div>
-            <div class="load_wrap">
-                <div class="coupon-other scorewrap small">
-                    <p class="score4">
-                        <a href="fans.php?do=score&weid=10014&sid=120010848">
-                            <label class="title"></label>
-                            <label class="score"></label>
-                            <label class="score"></label>
-                            <label class="score"></label>
-                            <label class="score"></label>
-                            <label class="score"></label>
-                            <label class="grade">
-                                <i>4.8</i>
-                            </label>
-						<span class="count">
-							17人点评
-						</span>
-                        </a>
-                    </p>
-                </div>
-            </div>
+{#            <div class="load_wrap">#}
+{#                <div class="coupon-other scorewrap small">#}
+{#                    <p class="score4">#}
+{#                        <a href="fans.php?do=score&weid=10014&sid=120010848">#}
+{#                            <label class="title"></label>#}
+{#                            <label class="score"></label>#}
+{#                            <label class="score"></label>#}
+{#                            <label class="score"></label>#}
+{#                            <label class="score"></label>#}
+{#                            <label class="score"></label>#}
+{#                            <label class="grade">#}
+{#                                <i>4.8</i>#}
+{#                            </label>#}
+{#						<span class="count">#}
+{#							17人点评#}
+{#						</span>#}
+{#                        </a>#}
+{#                    </p>#}
+{#                </div>#}
+{#            </div>#}
             <div class="load_wrap">
                 <div class="coupon-other">
                     <p>
@@ -82,14 +82,14 @@
             </div>
             <div class="load_wrap">
                 <div class="coupon-other">
-                    <p><a href="http://mob.32184.com/find.php?weid=10014">查找更多商家</a></p>
+                    <p><a href="/center">查找更多商家</a></p>
                 </div>
             </div>
         </div>
     </div>
     <script type="text/javascript">
         var _share_image = "http://mob.32184.com/resource/attachment/images/10014/2015/05/qT42522XH9A7t9XT9R2th49hf79TD2.jpg";
-        var _share_title = "洛阳科技职业学院游泳馆";
+        var _share_title = "{{ shop.brand.name }}";
         var _share_intro = "快来领取手机优惠券吧";
         var _share_place = "http://mob.32184.com/business.php?do=store&sid=120010848&weid=10014&path=store&param=120010848";
         var isallowfirend = "true";

@@ -78,6 +78,7 @@
         <div class="body_wrap" id="body_wrap">
             <div class="type_wrap">
                 管理连锁店
+                <a href="/shop/setting?act=publish&bid={{ bid }}" class="modify" data-input="limit" title="添加连锁店"><i class="icon-plus"></i> 添加连锁店</a>
             </div>
             {% for s in shops %}
             <div class="load_wrap normal" title="">
@@ -102,7 +103,7 @@
                            class=""><i class="icon-qrcode"></i></a>
                         <a href="/shop/upload?id={{ s.id }}" title="相册"
                            class=""><i class="icon-picture"></i></a>
-                        <a href="/shop/delete?id={{ s.id }}&source={{ request.url }}" title="删除"
+                        <a href="/shop/delete?id={{ s.id }}" title="删除"
                            class="" onclick="return confirm('此操作不可恢复，确认删除？');return false;"><i class="icon-remove"></i></a>
                         <a href="/shop/setting?id={{ s.id }}&act=modify" title="编辑"
                            class=""><i class="icon-cog"></i></a>

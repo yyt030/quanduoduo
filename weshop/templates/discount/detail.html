@@ -1,0 +1,291 @@
+<!DOCTYPE>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+          name="viewport">
+    <meta name="format-detection" content="telephone=no">
+    <title>{{ discount.brand.name }}{{ discount.title }}</title>
+    <link rel="stylesheet" type="text/css" href="/static/themes/mobile/style/vlight.css?1448118622" media="all"/>
+    <link rel="stylesheet" type="text/css" href="/static/themes/mobile/icons/iconfont.css"/>
+    <script type="text/javascript" src="/static/themes/mobile/style/jquery-2.1.4.min.js"></script>
+</head>
+
+<body><!-- div class="show_draw draw receive consume">
+	<div class="draw_wrap">
+		<div class="load_wrap">
+			<div class="coupon-image">
+				<img src="resource/image/icon.png" />
+			</div>
+			<div class="coupon-intro">
+				<p class="title">券多多洛阳站</p>
+				<p class="intro">关注服务号有过期提醒哦！</p>
+			</div>
+			<div class="coupon-class">
+				<a href="fans.php?do=follow&weid=10014">关 注</a>
+			</div>
+		</div>
+	</div>
+</div -->
+<div class="show_body">
+    <div class="body_wrap">
+        <div class="load_tips"><span></span></div>
+        <div class="load_wrap " id="mycoupon">
+            <div class="coupon-header">
+                <h3>
+                    <a href="business.php?weid=10014&do=brand&bid=1001819">
+                        <img src="http://hui.184buy.com/resource/attachment/images/10014/2015/05/qT42522XH9A7t9XT9R2th49hf79TD2.jpg"/>
+                        {{ discount.brand.name }} </a>
+                </h3>
+				<span>
+					<a href="business.php?weid=10014&do=post&bid=1001819">
+                        收藏此商家
+                    </a>
+				</span>
+            </div>
+            <div class="coupon-image">
+                <a href="business.php?weid=10014&bid=1001819&do=album">
+                    <img src="http://hui.184buy.com/resource/attachment/images/10014/2015/11/Y9y2c2cYY3C2mjbw3qC92229bJqQq2.jpg"/>
+                </a>
+            </div>
+            <div class="coupon-intro">
+                <p>
+                    消费满100元减5元抵扣券 </p>
+                <span>满减</span>
+            </div>
+            <div class="coupon-tip"><span></span></div>
+            <div class="coupon-intro post">
+                <a href="javascript:void(0);" id="snatchCoupon">
+                    点击领取(还剩39份) </a>
+            </div>
+            <div class="coupon-ticket" style="display:none;">
+                <div class="code">
+                    <p class="normal">
+                        <img id="qrcode" class="load_image" width="129" height="129"/>
+                    </p>
+
+                    <p class="normal">
+                        <span id="permit" style="color:#54C61D;">长按识别二维码领券</span>
+                        <span id="follow" style="color:#54C61D;">微信扫此二维码领券</span>
+                    </p>
+                </div>
+            </div>
+            <div class="coupon-verify" style="display:none;">
+                <h1>配额已用完，我的配额：<span id="quota"></span>张/周</h1>
+
+                <h3>
+                    <a href="fans.php?weid=10000&do=mission">查看如何升级</a>
+                </h3>
+            </div>
+            <div class="coupon-verify info">
+                <h1>我已领取此券</h1>
+
+                <h3>
+                    <a href="checkout.php?do=voucher&weid=10014&aid=&tid=">点此即可打开</a>
+                </h3>
+            </div>
+            <div class="coupon-footer">
+                <h3>发放时间还剩：{{ left_day }}天</h3>
+
+                <p class="property">
+                    <span><i class="iconfont icon-remind"></i>每天限量<b>{{ discount.limits }}</b>张</span>
+                    <span><i class="iconfont icon-roundcheck"></i>已经发放<b>{{ discount.count }}</b>张</span>
+                    <span><i class="iconfont icon-like"></i>每人可领<b>{% if discount.perple !=10000 %}{{ discount.perple }}{% else %}n{% endif %}</b>次</span>
+                    <span><i class="iconfont icon-time"></i>券有效期<b>{{ discount.usable }}</b>天</span>
+                </p>
+            </div>
+            <div class="coupon-other tips">
+                <p><a href="fans.php?weid=10014&do=mission">
+                    本周我已领券 <b></b><span>0/张</span>
+                </a></p>
+            </div>
+        </div>
+        <div class="load_wrap">
+            <div class="coupon-other">
+                <p><a href="find.php?weid=10014&do=search">更多优惠<span>查看全城优惠</span></a></p>
+            </div>
+
+            <div class="coupon-other">
+                <p>
+                    <a href="discount.php?did=110013292&weid=10014&do=receive">
+                        <font><span>336人已领</span>洛阳科技职业学院游泳馆免费体验券</font>
+                    </a>
+                </p>
+            </div>
+            <div class="coupon-other">
+                <p>
+                    <a href="discount.php?did=110013293&weid=10014&do=receive">
+                        <font><span>0人已领</span>洛阳科技职业学院游泳馆免费体验券</font>
+                    </a>
+                </p>
+            </div>
+
+        </div>
+{#        <div class="load_wrap">#}
+{#            <div class="coupon-other">#}
+{#                <p>#}
+{#                    <span>4张</span>#}
+{#                    <a href="business.php?weid=10014&bid=1001819&do=album">门店相册</a>#}
+{#                </p>#}
+{#            </div>#}
+{#            <div class="coupon-photo">#}
+{#                <table cellspacing="0">#}
+{#                    <tr>#}
+{#                        <td><a href="business.php?weid=10014&aid=1234568921&do=photo"><img#}
+{#                                src="http://hui.184buy.com/resource/attachment/images/10014/2015/05/Ne3uUEO2ySVX6U6s46A7s2sT8627O6.jpg"/></a>#}
+{#                        </td>#}
+{#                        <td><a href="business.php?weid=10014&aid=1234568922&do=photo"><img#}
+{#                                src="http://hui.184buy.com/resource/attachment/images/10014/2015/05/rYhsGksA4HbYhzY6YRy0XB0Hy40h0b.jpg"/></a>#}
+{#                        </td>#}
+{#                        <td><a href="business.php?weid=10014&aid=1234568923&do=photo"><img#}
+{#                                src="http://hui.184buy.com/resource/attachment/images/10014/2015/05/zdO699ipdzQd7pjJoDw44G4l7467dU.jpg"/></a>#}
+{#                        </td>#}
+{#                    </tr>#}
+{#                </table>#}
+{#            </div>#}
+{#        </div>#}
+
+        <div class="load_wrap">
+            <div class="coupon-other last">
+                <p><a href="discount.php?did=110014705&weid=10014&do=more">此券适用门店<span>{{ discount_shop_count }}家</span></a></p>
+            </div>
+            <div class="coupon-store">
+                <dl>
+                    <dt>
+                        <a href="business.php?sid=120010848&weid=10014&do=maps">
+                            <h4>{{ discount.brand.name }}</h4>
+
+                            <p class="place">{{ discount.shops }}</p>
+                        </a>
+                    </dt>
+                    <dd>
+                        <a href="tel:{{ discount.shops }}"><i class="iconfont icon-dianhua"></i></a>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        //设置二维码
+        var getCODEURL = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQFD8DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL0UzWGRYTlBtd3ppNlNzQ1EzbHVkAAIEoUdQVgMEgDoJAA==";
+        var getJSONURL = "/discount?id=110014705&weid=10014&do=post";
+        $('#snatchCoupon').click(function () {
+            $('.coupon-tip span').text('抢票中..').parent().fadeIn();
+            $.getJSON(getJSONURL + '&pass=',
+                    function (data) {
+                        if (data.type == 'success') {
+                            var url = 'checkout.php?do=voucher&weid=10014&aid=' + data.message.aid + '&tid=' + data.message.ctime;
+                            $('.coupon-verify h3').html('<a href="' + url + '">点此即可打开</a>');
+                            $('#mycoupon').addClass('mycoupon');
+                            if (data.message.still > 0) {
+                                data.message = '本周还能领' + data.message.still + '张';
+                            } else {
+                                data.message = '本周' + data.message.allow + '张已领完';
+                            }
+                        }
+                        if (data.type != 'tips') {
+                            setTimeout(function () {
+                                $('.coupon-tip').fadeOut();
+                            }, 1500);
+                            $('.coupon-tip span').text(data.message);
+                            if (data.redirect) {
+                                setTimeout(function () {
+                                    location.href = data.redirect;
+                                }, 1000);
+                            }
+                        } else {
+                            $('.coupon-tip').fadeOut();
+                            $('#snatchCoupon').hide();
+                            //提示配额已用完
+                            if (data.redirect == 'quotas') {
+                                $('#quota').text(data.message.quota);
+                                $('.coupon-verify:not(.info)').show();
+                            } else {
+                                $('#qrcode').attr('src', getCODEURL);
+                                $('#' + data.redirect).remove();
+                                $('.coupon-ticket').show();
+                            }
+                        }
+                    }
+            );
+        });
+    });
+</script>
+<script type="text/javascript">
+    var _share_image = "{{ website.url }}/resource/attachment/images/{{ discount.image }}";
+    var _share_title = "快来领取电子优惠券吧";
+    var _share_intro = "{{ discount.title }}";
+    var _share_place = "{{ website.url }}/discount/detail?did={{ discount_id }}&weid=10014&path=index&param=110014705";
+    var isallowfirend = "true";
+
+    document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+        WeixinJSBridge.call('hideToolbar');
+        WeixinJSBridge.call('showOptionMenu');
+        WeixinJSBridgeShare(_share_image, _share_title, _share_intro, _share_place, isallowfirend);
+    }, false);
+</script>
+<div class="show_link">
+    <a href="fans.php?do=intro&weid=10014" rel="external">
+        关于券多多
+    </a> |
+    <a href="fans.php?do=store&weid=10014" rel="external">
+        我要发布
+    </a> |
+    <a href="fans.php?do=agent&weid=10014" rel="external">
+        代理加盟
+    </a>
+</div>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript">
+    function WeixinJSBridgeShare(_share_image, _share_title, _share_intro, _share_place, isallowfirend) {
+        wx.config({
+            debug: false,
+            appId: 'wx8f515e4a43bc2e8d',
+            timestamp: '1448118622', // 生成签名的时间戳
+            nonceStr: 'fB7xx5ols7', // 生成签名的随机串
+            signature: 'a8da059bd6b897238186a7f5cd68925048c3fc90',// 签名
+            jsApiList: [
+                'checkJsApi',
+                'onMenuShareTimeline',
+                'onMenuShareAppMessage',
+                'hideMenuItems',
+                'showMenuItems',
+                'getNetworkType',
+                'openLocation',
+                'getLocation',
+                'scanQRCode'
+            ]
+        });
+
+        // 用户来源
+        // 发送给好友
+        wx.onMenuShareAppMessage({
+            title: _share_title, // 分享标题
+            desc: _share_intro, // 分享描述
+            link: _share_place + '&come=transmit&wxref=mp.weixin.qq.com', // 分享链接
+            imgUrl: _share_image  // 分享图标
+        });
+        // 分享到朋友圈
+        wx.onMenuShareTimeline({
+            title: _share_title + _share_intro, // 分享标题
+            link: _share_place + '&come=timeline&wxref=mp.weixin.qq.com', // 分享链接
+            imgUrl: _share_image  // 分享图标
+        });
+
+        wx.hideMenuItems({
+            menuList: [
+                'menuItem:share:email',
+                'menuItem:share:qq',
+                'menuItem:copyUrl',		// 复制链接
+                'menuItem:readMode',	// 阅读模式
+                'menuItem:openWithSafari',
+                'menuItem:openWithQQBrowser'
+            ] // 要隐藏的菜单项，所有menu项见附录3
+        });
+    }
+</script>
+
+</body>
+</html>

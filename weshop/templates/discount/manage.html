@@ -57,56 +57,24 @@
                 <div class="class normal">
                     <ul>
                         <li class="normal"><a
-                                href="site.php?state=normal&amp;weid=10014&amp;act=discount&amp;do=display">{{ brand.name }}</a>
+                                href="#">{{ brand.name }}</a>
                         </li>
                     </ul>
                 </div>
             </form>
         </div>
         <style type="text/css">
-            .load_wrap.reviewstatus {
-                background: #EFFFFF;
-            }
+            .load_wrap.reviewstatus{background:#EFFFFF;}/*未开始*/
+            .load_wrap.momentstatus{background:#FFEFFF;}/*未到时*/
+            .load_wrap.nobodystatus{background:#FFFFEF;}/*已领完*/
+            .load_wrap.closedstatus{background:#EFEFEF;}/*已结束*/
 
-            /*未开始*/
-            .load_wrap.momentstatus {
-                background: #FFEFFF;
-            }
+            .load_wrap.reviewstate{border:1px dashed #D8D8DF;}/*已上架*/
+            .load_wrap.closedstate{border:1px dashed #999;}/*已删除*/
+            .load_wrap.lockedstate{border:1px dashed #e9acb7;}/*锁定中*/
+            .load_wrap a.count{color:#058dc7}
+            .load_wrap a.apply{color:#ed561b}
 
-            /*未到时*/
-            .load_wrap.nobodystatus {
-                background: #FFFFEF;
-            }
-
-            /*已领完*/
-            .load_wrap.closedstatus {
-                background: #EFEFEF;
-            }
-
-            /*已结束*/
-
-            .load_wrap.reviewstate {
-                border: 1px dashed #D8D8DF;
-            }
-
-            /*已上架*/
-            .load_wrap.closedstate {
-                border: 1px dashed #999;
-            }
-
-            /*已删除*/
-            .load_wrap.lockedstate {
-                border: 1px dashed #e9acb7;
-            }
-
-            /*锁定中*/
-            .load_wrap a.count {
-                color: #058dc7
-            }
-
-            .load_wrap a.apply {
-                color: #ed561b
-            }
         </style>
         <div class="body_wrap" id="body_wrap">
             <div class="type_wrap">
@@ -114,17 +82,17 @@
                 <a href="/discount/setting?act=publish&bid={{ bid }}" class="modify" data-input="limit" title="添加优惠"><i class="icon-plus"></i> 添加优惠券</a>
             </div>
             {% for d in discounts %}
-            <div class="load_wrap modelList normalstate closedstatus" data-did="{{ d.id }}" title="免费领(已结束)">
+            <div class="load_wrap modelList {{ d.check_status['status'] }} {{ d.check_state['state'] }}" data-did="{{ d.id }}" title="免费领({{ d.check_status['word'] }})">
                 <div class="coupon-image">
                     <img src="/resource/attachment/images/{{ d.image }}">
                 </div>
                 <div class="coupon-intro">
                     <h1>
-                        {{ d.shop.name }} </h1>
+                        {{ d.brand.name }} </h1>
 
                     <h2>
-                        <span class="class-免单"></span>
-                        <a href="discount.php?did=110013292&amp;weid=10014&amp;do=receive" target="_blank">{{ d.title }}</a>
+                        <span class="class-{{ d.type }}"></span>
+                        <a href="/discount/detail?id={{ d.id }}&brand_id={{ bid }}" target="_blank">{{ d.title }}</a>
                     </h2>
                 </div>
                 <div class="coupon-class">
@@ -132,27 +100,26 @@
                         <a href="javascript:void(0);" class="modify" data-input="limit" title="延长发放"><i
                                 class="icon-off"></i></a>
 
-                        <a href="site.php?did=110013292&amp;weid=10014&amp;act=discount&amp;do=ascend" title="提升排名"
-                           class="" onclick="return confirm('是否要在找优惠提升此券的排名？');return false;"><i
-                                class="icon-cloud-upload"></i></a>
-                        <a href="site.php?did=110013292&amp;weid=10014&amp;act=discount&amp;do=spread" title="首页下架"
+{#                        <a href="/discount/ascend?id={{ d.id }}" title="提升排名"#}
+{#                           class="" onclick="return confirm('是否要在找优惠提升此券的排名？');return false;"><i#}
+{#                                class="icon-cloud-upload"></i></a>#}
+                        <a href="/discount/spread?id={{ d.id }}" title="首页下架"
                            class="" onclick="return confirm('是否要在首页下架此券？');return false;"><i class="icon-stop"></i></a>
-                        <a href="site.php?did=110013292&amp;act=analysis&amp;do=coupon" title="分析" class=""><i
+                        <a href="/discount/coupon?id={{ d.id }}" title="分析" class=""><i
                                 class="icon-bar-chart"></i></a>
-                        <a href="site.php?did=110013292&amp;weid=10014&amp;act=discount&amp;do=qrcode" title="二维码"
+                        <a href="/discount/qrcode?id={{ d.id }}" title="二维码"
                            class=""><i class="icon-qrcode"></i></a>
-                        <a href="site.php?did=110013292&amp;weid=10014&amp;act=discount&amp;do=delete" title="删除"
+                        <a href="/discount/delete?id={{ d.id }}" title="删除"
                            class="remove" onclick="return confirm('此操作不可恢复，确认删除？');return false;"><i
                                 class="icon-remove"></i></a>
-                        <a href="site.php?did=110013292&amp;weid=10014&amp;act=discount&amp;do=modify" title="编辑"
+                        <a href="/discount/setting?id={{ d.id }}&act=modify" title="编辑"
                            class=""><i class="icon-cog"></i></a>
                     </div>
                     <div class="class-inf">
                         <i class="icon-time"></i>
-					<span class="knock" title="每日开抢时间">全天</span>
+					<span class="knock" title="每日开抢时间">{% if d.supply=='00' %}全天{% else %}{{ d.supply }}时{% endif %}</span>
                         <i class="icon-lock"></i>
-					<span class="allow" title="每人限领次数">
-					{{ d.perple }}次					</span>
+					<span class="allow" title="每人限领次数">{% if d.perple==10000 %}不限{% else %}{{ d.perple }}次{% endif %}</span>
                         <i class="icon-tags"></i>
                         <a class="count" href="site.php?did=110013292&amp;act=analysis&amp;do=display">
                             <span class="count" title="发放{{ d.count }}份">{{ d.count }}</span>
@@ -160,10 +127,10 @@
                         <a class="apply" href="site.php?did=110013292&amp;used=1&amp;act=analysis&amp;do=display">
                             <span class="count" title="回收{{ d.back }}份">{{ d.back }}</span>
                         </a>
-                        <span class="total">{{ d.limits }}/天</span>
+                        <span class="total">{{  d.number}}/天</span>
                         <i class="icon-calendar"></i>
-                        <span class="start" title="发布日期：2015/05/30">05/30</span> -
-                        <span class="limit" title="最后修改：2015/10/22">06/27</span>
+                        <span class="start" title="发布日期：{{ d.create_at }}">{{ d.create_at| get_date }}</span>-
+                        <span class="limit" title="最后修改：{{ d.latest_update }}">{{ d.latest_update| get_date }}</span>
                     </div>
                 </div>
             </div>

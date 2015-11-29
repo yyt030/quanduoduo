@@ -16,6 +16,7 @@ Celery
 requests
 blinker
 raven
+wechat_sdk
 
 # test
 nose

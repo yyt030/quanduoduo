@@ -9,11 +9,12 @@ from PIL import Image
 from coverage.html import STATIC_PATH
 from flask import render_template, Blueprint, redirect, url_for, g, session, request, \
     make_response, current_app, send_from_directory
+from wechat_sdk import WechatBasic
 from weshop import csrf
 from weshop.utils import devices
 from weshop.utils.account import signin_user, signout_user
 from weshop.utils.devices import checkMobile
-from ..models import db, User
+from ..models import db, User, Discount, Brand
 from ..forms import SigninForm
 from ..utils.permissions import require_user, require_visitor
 from ..utils.uploadsets import images, random_filename, process_question, avatars
@@ -23,7 +24,6 @@ bp = Blueprint('site', __name__)
 
 @bp.route('/', methods=['GET'])
 def index():
-
     return render_template('site/index.html')
 
 
@@ -64,8 +64,8 @@ def user_data():
 def get_resourse(folder1, folder2, folder3, filename):
     if folder3 == "":
         BASE_URL = os.path.join(current_app.config.get('PROJECT_PATH'), 'resource/%s/%s') % (folder1, folder2)
-        print BASE_URL
-        print filename
+        # print BASE_URL
+        # print filename
     else:
         BASE_URL = os.path.join(current_app.config.get('PROJECT_PATH'), 'resource/%s/%s/%s') % (
             folder1, folder2, folder3)
@@ -99,6 +99,48 @@ def test():
     return str(zip(session.keys(), session.values()))
 
 
+@bp.route('/find')
+def find():
+    industry1 = request.args.get("industry1", None)
+    search = request.args.get("search", "")
+    if industry1 or search:
+        discounts = Discount.query.filter(Discount.brand.has(Brand.industry_1 == industry1))
+        return render_template('mobile/search_result.html', discounts=discounts, search=search, industry1=industry1)
+    else:
+        discounts = Discount.query.limit(10)
+    return render_template('mobile/home.html', discounts=discounts, industry1=industry1)
+
+
+@bp.route('/searchapi')
+def search_api():
+    industry1 = request.args.get("industry1", None)
+    search = request.args.get("search", "")
+    if industry1 != "全部分类":
+        discounts = Discount.query.filter(Discount.brand.has(Brand.industry_1 == industry1))
+    else:
+         discounts = Discount.query.limit(20)
+    brands = {}
+    items = []
+    for d in discounts:
+        items.append({
+            "did": d.id,
+            "bid": d.brand_id,
+            "title": d.title,
+            "class": d.type,
+            "total": d.number,
+            "count": d.count,
+            "supply": d.supply,
+            "number": d.number
+        })
+        brands[d.brand_id] = {"bid": d.brand_id, "type": "local", "brand": d.brand.name, "thumb": "images/"+d.brand.image,
+                              "image": "back.jpg", "intro": d.brand.intro, "industry1": d.brand.industry_1,
+                              "industry2": d.brand.industry_2, "rank": "0",
+                              "business": "0", "discount": "0", "count": "1",
+                              "state": "review", "ctime": "1448168448", "gtime": "0"}
+    if industry1 or search:
+        return json.dumps({"message": [items,brands],"redirect": "", "type": "ajax"})
+
+
 @bp.route('/about')
 def about():
     return render_template('mobile/about.html')
@@ -112,6 +154,28 @@ def agent():
 @bp.route('/fabu')
 def fabu():
     return render_template('mobile/fabu.html')
+
+
+@bp.route('/center')
+def center():
+    """菜单栏-发现"""
+    return render_template('mobile/center.html')
+
+
+@bp.route('/my_favorite')
+def favorite_tickets():
+    """我收藏的券包"""
+    type = request.args.get("type")
+    discounts = Discount.query.all()
+    return render_template('mobile/my_favorite_tickets.html', type=type, discounts=discounts)
+
+
+@bp.route('/my_tickets')
+def tickets():
+    """券包"""
+    type = request.args.get("type")
+    discounts = Discount.query.all()
+    return render_template('mobile/my_tickets.html', type=type, discounts=discounts)
 
 
 @csrf.exempt
@@ -130,3 +194,65 @@ def upload_image():
                 "filename": filename}
         # print images.url(filename)
         return json.dumps(data)
+
+
+token = 'q8745ac18171be1af01f6ac4a9085wd2'
+EncodingAESKey = 'K1a1X0uIqopl6VH5MFK7AMC9skrL1UuEo1zSctgKeGU'
+appid = 'wxb4b617b7a40c8eff'
+appsecret = '5d684675679354b7c8544651fa909921'
+
+
+@csrf.exempt
+@bp.route('/interface', methods=['GET', 'POST'])
+def interface():
+    """初始化接入"""
+    signature = str(request.args.get("signature"))
+    timestamp = str(request.args.get('timestamp'))
+    nonce = str(request.args.get('nonce'))
+    echostr = request.args.get('echostr')
+
+    if 'access_token' not in session:
+        # 实例化 wechat
+        access_token = None
+        access_token_expires_at = None
+        wechat = WechatBasic(appid=appid, appsecret=appsecret)
+        token_dict = wechat.get_access_token()
+        access_token = token_dict.get('access_token')
+        print access_token
+        session['access_token'] = access_token
+        session['access_token_expires_at'] = token_dict.get('access_token_expires_at')
+
+    # else:
+    #     wechat = WechatBasic(appid=appid, access_token=session['access_token'], appsecret=appsecret,
+    #                          access_token_expires_at=session['access_token_expires_at'])
+
+    wechat = WechatBasic(token=token)
+    # 对签名进行校验
+    if wechat.check_signature(signature=signature, timestamp=timestamp, nonce=nonce):
+
+        # 获取请求类型
+        if request.method == 'POST':
+            # 读取用户发送消息
+            body_text = request.data
+            wechat.parse_data(body_text)
+            # 获得解析结果
+            message = wechat.get_message()
+            # print request.data
+            if message.type == 'text':
+                if message.content == 'test':
+                    response = wechat.response_text(u'^_^')
+                else:
+                    response = wechat.response_text(u'开发过程中，敬请期待！')
+            elif message.type == 'image':
+                response = wechat.response_text(u'图片')
+            else:
+                response = wechat.response_text(u'欢迎关注'
+                                                u'http://www.ruzhoubaishi.com')
+            return response
+
+        else:
+
+            return echostr
+    else:
+
+        return "error"

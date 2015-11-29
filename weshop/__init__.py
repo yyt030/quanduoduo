@@ -79,6 +79,7 @@ def register_jinja(app):
     """注册filter，模板全局变量和全局函数"""
     from .utils import filters
     app.jinja_env.filters['timesince'] = filters.timesince
+    app.jinja_env.filters['get_date'] = filters.get_date
     app.jinja_env.filters['get_page_name'] = filters.get_page_name
     app.jinja_env.filters['striptags'] = filters.striptags
     app.jinja_env.filters['get_num'] = filters.get_num

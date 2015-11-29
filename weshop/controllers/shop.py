@@ -79,7 +79,7 @@ def setting():
             if exist:
                 return render_template('shop/error.html', error='此店铺已存在！')
             else:
-                shop = Shop(store=form.brand.data, brand_id=bid, title=form.title.data, phone=form.phone.data,
+                shop = Shop(store=form.store.data, brand_id=bid, title=form.title.data, phone=form.phone.data,
                             address=form.address.data, lng=form.lng.data, lat=form.lat.data)
                 db.session.add(shop)
                 db.session.commit()
@@ -137,7 +137,8 @@ def delete():
     shop = Shop.query.get_or_404(shop_id)
     db.session.delete(shop)
     db.session.commit()
-    url = request.args.get("source")
+    # url = request.args.get("source")
+    url = request.referrer
     print request.url
     return render_template('account/ok.html', tip="删除成功！", url=url)
 

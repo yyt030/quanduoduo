@@ -22,6 +22,9 @@ def timesince(value):
         return '%d分钟前' % (delta.seconds / 60)
     return '刚刚'
 
+def get_date(value):
+    t = str(value).replace("-","/")
+    return t[5:10]
 
 def get_page_name(template_reference):
     """获取当前模板名，并转换成page-site-index的格式"""

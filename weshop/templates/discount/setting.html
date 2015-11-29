@@ -28,13 +28,13 @@
             <h4>券面信息</h4>
             <table class="tb">
                 <tbody>
-                <tr class="appendSelect title">
+                <tr class="appendSelect {% if form.title.data =="" %}title{% endif %}">
                     <th>券面名称</th>
                     <td>
                         <div class="input-append class1 class2 class3 class4 class5 classa classb"
                              style="display: inline-block;">
-                            <span class="uneditable-input span7" id="titleIpt" title="输入券面设置会自动生成券面名称"></span>
-                            <input type="hidden" name="title" class="titleIpt" value="">
+                            <span class="uneditable-input span7" id="titleIpt" title="输入券面设置会自动生成券面名称">{{ form.title.data }}</span>
+                            <input type="hidden" name="title" class="titleIpt" value="{{ form.title.data }}">
                             <input type="hidden" name="label" class="btn" id="labelIpt" value="优惠券">
                             <input type="button" name="label" class="btn" id="labelBtn" value="优惠券">
                         </div>
@@ -44,29 +44,30 @@
                     <th>优惠形式</th>
                     <td>
                         <div class="btn-group" data-toggle="buttons-radio">
-                            <span class="btn active" value="特价" data-class="class1" data-value="优惠券"
+                            <span class="btn {% if form.type.data=='特价' %}active{% endif%}" value="特价" data-class="class1" data-value="优惠券"
                                   data-title="设定一款产品或一个套餐的优惠价，不能限定购买的数量<br/>如：58元享火锅双人套餐优惠券/68元享8吋白巧梦乐园生日蛋糕优惠券" title=""
                                   style="width:35px;color:green;">特价</span>
-                            <span class="btn" value="满减" data-class="class2" data-value="抵扣券"
+                            <span class="btn {% if form.type.data=='满减' %}active{% endif%}" value="满减" data-class="class2" data-value="抵扣券"
                                   data-title="必须设定抵用金额和满足消费金额，须当前商品当次抵用<br/>如：消费满100减30元抵扣券" title=""
                                   style="width:35px;color:green;">满减</span>
-                            <span class="btn" value="折扣" data-class="class3" data-value="打折卡"
+                            <span class="btn {% if form.type.data=='折扣' %}active{% endif%}" value="折扣" data-class="class3" data-value="打折卡"
                                   data-title="支持多款商品或多项服务单独打折，不能打包商品或服务<br/>如：秋款板鞋8折优惠打折卡" title=""
                                   style="width:35px;color:green;">折扣</span>
-                            <span class="btn" value="抵现" data-class="classa" data-value="代金券"
+                            <span class="btn {% if form.type.data=='抵现' %}active{% endif%}" value="抵现" data-class="classa" data-value="代金券"
                                   data-title="必须设定代用金额可当做现金使用，不限消费金额和内容<br/>如：50元代金券/5元晚餐代金券" title=""
                                   style="width:35px;color:red;">抵现</span>
-                            <span class="btn" value="免单" data-class="classb" data-value="体验券"
+                            <span class="btn {% if form.type.data=='免单' %}active{% endif%}" value="免单" data-class="classb" data-value="体验券"
                                   data-title="凭体验券可以免费尝试一部分服务，可要求同时到场人数，同样用于新店开张或淡季促销<br/>如：价值70元的2小时免费欢唱券/健康理疗免费体验券/免费洗车卡"
                                   title="" style="width:35px;color:red;">免单</span>
                         </div>
-                        <input type="hidden" name="class" value="特价">
+                        <input type="hidden" name="class" value="{{ form.type.data }}">
 
-                        <div class="help-block alert" style="width:508px;color:#666;">设定一款产品或一个套餐的优惠价，不能限定购买的数量<br>如：58元享火锅双人套餐优惠券/68元享8吋白巧梦乐园生日蛋糕优惠券
+                        <div class="help-block alert" style="width:508px;color:#666;">
+                            请选择适合您的优惠活动
                         </div>
                     </td>
                 </tr>
-                <tr class="appendSelect title" style="display: table-row;">
+                <tr class="appendSelect title">
                     <th>券面设置</th>
                     <td>
                         <!-- 特价 -->
@@ -147,7 +148,7 @@
                     <th>温馨提示</th>
                     <td>
                         <textarea style="height:100px;" class="span7" name="intro" cols="70"
-                                  placeholder="请标明凭此券可以享受的服务内容（如：凭此券到店免任意时段3小时房间费 ）或使用要求（如：满足条件，时间要求，房间限制）"></textarea>
+                                  placeholder="请标明凭此券可以享受的服务内容（如：凭此券到店免任意时段3小时房间费 ）或使用要求（如：满足条件，时间要求，房间限制）">{{ form.intro.data}}</textarea>
                     </td>
                 </tr>
                 <tr>
@@ -155,8 +156,11 @@
                     <td>
                         <div class="fileupload fileupload-preview thumbnail"
                              style="width: 290px; height: 168px; overflow:hidden;" id="image_preview">
+                            {% if form.image.data !='' %}
+                                <img src="/resource/attachment/images/{{ form.image.data }}">
+                            {% endif%}
                         </div>
-                        <input class="span4" type="text" name="image" id="image" value="">
+                        <input class="span4" type="text" name="image" id="image" value="{{ form.image.data }}">
 
                         <input type="button" fieldname="image" class="btn upload-btn"
                                value="上传"
@@ -172,21 +176,19 @@
                 <tr class="singleSelect">
                     <th><label for="">每天限量</label></th>
                     <td>
+                        {% set supply_list=["00","08","10","12","15","18"] %}
                         <div class="btn-group" data-toggle="buttons-radio" data-spread="" title="每天开抢时间">
-                            <span class="btn active" value="00" style="width:48px;">00时</span>
-                            <span class="btn" value="08" style="width:48px;">08时</span>
-                            <span class="btn" value="10" style="width:48px;">10时</span>
-                            <span class="btn more" value="12" style="width:39px;">12时</span>
-                            <span class="btn more" value="15" style="width:39px;">15时</span>
-                            <span class="btn more" value="18" style="width:39px;">18时</span>
+                            {% for s in supply_list %}
+                            <span class="btn {% if loop.index>3 %}more{% endif %} {% if s==form.supply.data %} active{% endif %}" value="{{ s }}" style="width:48px;">{{ s }}时</span>
+                            {% endfor %}
                             <span class="btn look" value="0" style="width:39px;"
                                   onclick="$(this).parent().attr('data-spread','1').end().remove();">更多</span>
                         </div>
-                        <input type="hidden" name="supply" value="00">
+                        <input type="hidden" name="supply" value="{{ form.supply.data }}">
 
                         <div class="input-append" title="每天数量限制">
                             <input type="text" name="number" class="span1 number" style="width:46px;" maxlength="3"
-                                   placeholder="20" value="">
+                                   placeholder="20" value="{{ form.number.data }}">
                             <button class="btn" type="button">张</button>
                         </div>
                     </td>
@@ -203,7 +205,7 @@
                             <span class="btn look" value="0" style="width:39px;"
                                   onclick="$(this).parent().attr('data-spread','1').end().remove();">更多</span>
                         </div>
-                        <input type="hidden" name="usable" value="7">
+                        <input type="hidden" name="usable" value="{{ form.usable.data }}">
                         <span class="help-block">此券每人每次只能领一张，验证或过期后可再领取</span>
                     </td>
                 </tr>
@@ -226,7 +228,7 @@
                     <td>
                         <div class="input-append" title="剩余发放天数">
                             <input type="text" name="limits" class="span1 number" style="width:60px;" maxlength="3"
-                                   placeholder="90" value="0">
+                                   placeholder="90" value="{{ form.limits.data }}">
                             <button class="btn" type="button">天</button>
                         </div>
 				<span class="help-block">按设定的时间段限量供应
@@ -241,10 +243,11 @@
                     <th></th>
                     <td>
                         {% for s in shops %}
-                        <div class="store">
-                            <input id="store{{ s.id }}" type="checkbox" name="store[{{ s.id }}]" value="wqpv7ked">
-                            <label for="store{{ s.id }}">{{ s.store }} </label>
-                        </div>
+                            <div class="store">
+                                <input id="shop{{ s.id }}" type="checkbox" name="shop[{{ s.id }}]" value="{{ s.id }}"
+                                       {% if s.id in stores %}checked{% endif %}>
+                                <label for="shop{{ s.id }}">{{ s.store }} </label>
+                            </div>
                         {% endfor %}
                         <span class="help-block">允许使用此券的门店，请选择支持的门店</span>
                     </td>
