@@ -162,7 +162,7 @@ def center():
     return render_template('mobile/center.html')
 
 
-@bp.route('/my_favorite')
+@bp.route('/favorite')
 def favorite_tickets():
     """我收藏的券包"""
     type = request.args.get("type")

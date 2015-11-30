@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 import datetime
+import random
 from ._base import db
 import time
 
@@ -57,6 +58,7 @@ class Discount(db.Model):
     back = db.Column(db.Integer, default=0)
     create_at = db.Column(db.DateTime, default=datetime.datetime.now)
     latest_update = db.Column(db.DateTime, default=datetime.datetime.now)
+    code = db.Column(db.Integer, default=random.randint(10000000, 20000000))
 
     def is_end(self):
         end_date_time = self.create_at + datetime.timedelta(days=self.limits)

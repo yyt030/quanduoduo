@@ -13,7 +13,7 @@ from weshop import csrf
 from weshop.forms.shop import ShopSetting, BrandSetting
 from weshop.utils import devices
 from weshop.utils.devices import checkMobile
-from ..models import db, User, Brand, Shop
+from ..models import db, User, Brand, Shop, Discount
 from ..forms import SigninForm
 from ..utils.permissions import require_user, require_visitor
 from ..utils.uploadsets import images, random_filename, process_question, avatars
@@ -148,3 +148,11 @@ def list():
     bid = int(request.args.get("bid", 0))
     shops = Shop.query.filter(Shop.id == bid)
     return render_template('shop/list.html', shops=shops)
+
+
+@bp.route('/checkout', methods=['GET'])
+def checkout():
+    id = int(request.args.get("id", 0))
+    d = Discount.query.get(id)
+    bid=10000
+    return render_template('shop/checkout.html', d=d,bid=bid)

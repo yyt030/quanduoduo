@@ -5,7 +5,7 @@
     <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
           name="viewport">
     <meta name="format-detection" content="telephone=no">
-    <title>券多多汝阳站</title>
+    <title>汝州百事优惠圈</title>
     <link rel="stylesheet" type="text/css" href="/static/themes/mobile/style/search.css?1448121953" media="all"/>
     <link rel="stylesheet" type="text/css" href="/static/themes/mobile/icons/iconfont.css"/>
     <script type="text/javascript" src="/static/themes/mobile/style/jquery-2.1.4.min.js"></script>
@@ -40,23 +40,23 @@
                 <i class="iconfont icon-gouwu"></i>
                 <span style="color:;">购物</span>
             </a>
-            <a href="find?do=search&industry1=%E4%B8%BD%E4%BA%BA">
+            <a href="find?do=search&industry1=丽人">
                 <i class="iconfont icon-meirong"></i>
                 <span style="color:;">丽人</span>
             </a>
-            <a href="find?do=search&industry1=%E6%97%85%E6%B8%B8">
+            <a href="find?do=search&industry1=旅游">
                 <i class="iconfont icon-lvxing"></i>
                 <span style="color:;">旅游</span>
             </a>
-            <a href="find?do=search&industry1=%E8%BF%90%E5%8A%A8%E5%81%A5%E8%BA%AB">
+            <a href="find?do=search&industry1=运动健身">
                 <i class="iconfont icon-yundong"></i>
                 <span style="color:;">运动健身</span>
             </a>
-            <a href="find?do=search&industry1=%E9%85%92%E5%BA%97">
+            <a href="find?do=search&industry1=酒店">
                 <i class="iconfont icon-zhufang"></i>
                 <span style="color:;">酒店</span>
             </a>
-            <a href="find?do=search&industry1=%E7%94%9F%E6%B4%BB%E6%9C%8D%E5%8A%A1">
+            <a href="find?do=search&industry1=生活服务">
                 <i class="iconfont icon-jujia"></i>
                 <span style="color:;">生活服务</span>
             </a>
@@ -68,9 +68,9 @@
         </div>
         {% for d in discounts %}
         <div class="load_wrap activity">
-            <a href="http://hui.184buy.com/discount.php?weid=10018&do=receive&did=110013701">
+            <a href="/discount/detail?id={{ d.id }}">
                 <div class="coupon-image">
-                    <img src="http://hui.184buy.com/resource/attachment/images/10018/2015/07/G1MMzmj411M2cJk6KZ4jqE4K4cqcgc.jpg"/>
+                    <img src="/resource/attachment/images/{{ d.image }}"/>
                 </div>
                 <div class="coupon-intro">
                     <p class="title">{{ d.title }}</p>
@@ -89,20 +89,20 @@
         {% endfor %}
     </div>
     <div class="more_wrap">
-        <div class="view_more" style="display:block;"><a href="find.php?weid=10018&do=search">查看全部</a></div>
+        <div class="view_more" style="display:block;"><a href="/find?type=all">查看全部</a></div>
     </div>
 </div>
 <div class="show_foot">
     <div class="foot_wrap">
-        <table cellspacing="0" class="find">
+               <table cellspacing="0" class="find">
             <tr>
-                <td width="25%" class=" customer"><a href="customer.php?weid=10018"><span></span><i
+                <td width="25%" class=" customer"><a href="/favorite"><span></span><i
                         class="iconfont icon-tag"></i>收藏</a></td>
-                <td width="25%" class=" checkout"><a href="checkout.php?weid=10018"><span></span><i
+                <td width="25%" class=" checkout"><a href="/my_tickets"><span></span><i
                         class="iconfont icon-pay"></i>券包</a></td>
-                <td width="25%" class=" find"><a href="find.php?weid=10018"><span></span><i
+                <td width="25%" class=" find"><a href="/find"><span></span><i
                         class="iconfont icon-attention"></i>发现</a></td>
-                <td width="25%" class=" fans"><a href="fans.php?weid=10018"><span></span><i
+                <td width="25%" class=" fans"><a href="/user_home"><span></span><i
                         class="iconfont icon-my"></i>我的</a></td>
             </tr>
         </table>
