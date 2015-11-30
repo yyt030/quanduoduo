@@ -108,7 +108,7 @@ def setting():
                 return render_template('shop/error.html', error=error)
             if act == 'publish':
                 print request.form
-                discount = Discount(title=title, type=discount_type, intro=form.intro.data, image=form.image.data,
+                discount = Discount(title=title, type=discount_type.decode('utf-8'), intro=form.intro.data, image=form.image.data,
                                     supply=form.supply.data, number=number, usable=form.usable.data,
                                     perple=form.perple.data, limits=form.limits.data, user_id=g.user.id, brand_id=bid)
             else:

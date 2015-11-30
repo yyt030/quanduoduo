@@ -53,8 +53,8 @@ def brand_add():
         if exist:
             return render_template('account/error.html', error='您输入的品牌已存在！')
         else:
-            brand = Brand(name=form.brand.data, industry_1=form.industry_1.data,
-                          industry_2=form.industry_2.data, intro=form.intro.data, image=form.image.data,
+            brand = Brand(name=form.brand.data, industry_1=form.industry_1.data.decode('utf-8'),
+                          industry_2=form.industry_2.data.decode('utf-8'), intro=form.intro.data, image=form.image.data,
                           thumb=form.thumb.data)
             db.session.add(brand)
             db.session.commit()
