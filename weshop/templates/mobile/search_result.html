@@ -179,9 +179,9 @@
     <div class="body_wrap" id="body_wrap">
         {% for d in discounts %}
             <div class="load_wrap activity">
-                <a href="http://hui.184buy.com/discount.php?weid=10018&do=receive&did=110013701">
+                <a href="/discount/detail?id={{ d.id }}">
                     <div class="coupon-image">
-                        <img src="http://hui.184buy.com/resource/attachment/images/10018/2015/07/G1MMzmj411M2cJk6KZ4jqE4K4cqcgc.jpg"/>
+                        <img src="/resource/attachment/images/{{ d.image }}"/>
                     </div>
                     <div class="coupon-intro">
                         <p class="title">{{ d.title }}</p>
@@ -209,13 +209,13 @@
     <div class="foot_wrap">
         <table cellspacing="0" class="find">
             <tr>
-                <td width="25%" class=" customer"><a href="customer.php?weid=10018"><span></span><i
+                <td width="25%" class=" customer"><a href="/favorite"><span></span><i
                         class="iconfont icon-tag"></i>收藏</a></td>
-                <td width="25%" class=" checkout"><a href="checkout.php?weid=10018"><span></span><i
+                <td width="25%" class=" checkout"><a href="/my_tickets"><span></span><i
                         class="iconfont icon-pay"></i>券包</a></td>
-                <td width="25%" class=" find"><a href="find.php?weid=10018"><span></span><i
+                <td width="25%" class=" find"><a href="/find"><span></span><i
                         class="iconfont icon-attention"></i>发现</a></td>
-                <td width="25%" class=" fans"><a href="fans.php?weid=10018"><span></span><i
+                <td width="25%" class=" fans"><a href="/user_home"><span></span><i
                         class="iconfont icon-my"></i>我的</a></td>
             </tr>
         </table>
@@ -225,7 +225,7 @@
 <script type="text/javascript">
     var queryURL = "/searchapi?type=1";
     var imageURL = "/resource/attachment/";
-    var placeURL = "/discount?do=receive";
+    var placeURL = "/discount/detail";
 </script>
 <script type="text/javascript">
     //$(document).ready(function() {

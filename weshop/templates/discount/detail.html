@@ -33,25 +33,25 @@
         <div class="load_wrap " id="mycoupon">
             <div class="coupon-header">
                 <h3>
-                    <a href="business.php?weid=10014&do=brand&bid=1001819">
-                        <img src="http://hui.184buy.com/resource/attachment/images/10014/2015/05/qT42522XH9A7t9XT9R2th49hf79TD2.jpg"/>
+                    <a href="/shop/{{ discount.brand.id }}">
+                        <img src="/resource/attachment/images/{{ discount.brand.thumb }}"/>
                         {{ discount.brand.name }} </a>
                 </h3>
 				<span>
-					<a href="business.php?weid=10014&do=post&bid=1001819">
+					<a href="/favorite?type=shop&id={{ discount.brand.id }}">
                         收藏此商家
                     </a>
 				</span>
             </div>
             <div class="coupon-image">
-                <a href="business.php?weid=10014&bid=1001819&do=album">
-                    <img src="http://hui.184buy.com/resource/attachment/images/10014/2015/11/Y9y2c2cYY3C2mjbw3qC92229bJqQq2.jpg"/>
+                <a href="/shop/{{ discount.brand.id }}">
+                    <img src="/resource/attachment/images/{{ discount.brand.image }}"/>
                 </a>
             </div>
             <div class="coupon-intro">
                 <p>
-                    消费满100元减5元抵扣券 </p>
-                <span>满减</span>
+                    {{ discount.title }} </p>
+                <span>{{ discount.type }}</span>
             </div>
             <div class="coupon-tip"><span></span></div>
             <div class="coupon-intro post">
@@ -70,13 +70,13 @@
                     </p>
                 </div>
             </div>
-            <div class="coupon-verify" style="display:none;">
-                <h1>配额已用完，我的配额：<span id="quota"></span>张/周</h1>
-
-                <h3>
-                    <a href="fans.php?weid=10000&do=mission">查看如何升级</a>
-                </h3>
-            </div>
+{#            <div class="coupon-verify" style="display:none;">#}
+{#                <h1>配额已用完，我的配额：<span id="quota"></span>张/周</h1>#}
+{##}
+{#                <h3>#}
+{#                    <a href="fans.php?weid=10000&do=mission">查看如何升级</a>#}
+{#                </h3>#}
+{#            </div>#}
             <div class="coupon-verify info">
                 <h1>我已领取此券</h1>
 
@@ -95,7 +95,7 @@
                 </p>
             </div>
             <div class="coupon-other tips">
-                <p><a href="fans.php?weid=10014&do=mission">
+                <p><a href="javascript:;">
                     本周我已领券 <b></b><span>0/张</span>
                 </a></p>
             </div>
@@ -119,7 +119,6 @@
                     </a>
                 </p>
             </div>
-
         </div>
 {#        <div class="load_wrap">#}
 {#            <div class="coupon-other">#}
@@ -152,7 +151,7 @@
             <div class="coupon-store">
                 <dl>
                     <dt>
-                        <a href="business.php?sid=120010848&weid=10014&do=maps">
+                        <a href="/shop/{{ discount.brand.id }}">
                             <h4>{{ discount.brand.name }}</h4>
 
                             <p class="place">{{ discount.shops }}</p>
@@ -170,7 +169,7 @@
     $(function () {
         //设置二维码
         var getCODEURL = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQGq7zoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xLzZrekpvLURsWmtNZnBPdFYwMkEyAAIERWVcVgMEAAAAAA==";
-        var getJSONURL = "/discount?id=110014705&weid=10014&do=post";
+        var getJSONURL = "/discount?id={{ d.code }}&weid=10014&do=post";
         $('#snatchCoupon').click(function () {
             $('.coupon-tip span').text('抢票中..').parent().fadeIn();
             $.getJSON(getJSONURL + '&pass=',

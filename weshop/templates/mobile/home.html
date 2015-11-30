@@ -67,25 +67,25 @@
             猜你喜欢
         </div>
         {% for d in discounts %}
-        <div class="load_wrap activity">
-            <a href="/discount/detail?id={{ d.id }}">
-                <div class="coupon-image">
-                    <img src="/resource/attachment/images/{{ d.image }}"/>
-                </div>
-                <div class="coupon-intro">
-                    <p class="title">{{ d.title }}</p>
+            <div class="load_wrap activity">
+                <a href="/discount/detail?did={{ d.id }}">
+                    <div class="coupon-image">
+                        <img src="/resource/attachment/images/{{ d.image }}"/>
+                    </div>
+                    <div class="coupon-intro">
+                        <p class="title">{{ d.title }}</p>
 
-                    <p class="count">每天<b>{{ d.limits }}</b>份<span>{{ d.count }}人已领</span></p>
+                        <p class="count">每天<b>{{ d.limits }}</b>份<span>{{ d.count }}人已领</span></p>
 
-                    <p class="brand">{{ d.brand.name }}</p>
-                </div>
-                <div class="coupon-class">
-                    <i class="state">领券</i>
+                        <p class="brand">{{ d.brand.name }}</p>
+                    </div>
+                    <div class="coupon-class">
+                        <i class="state">领券</i>
 
-                    <p class="count">扣<b>5</b>分</p>
-                </div>
-            </a>
-        </div>
+                        <p class="count">扣<b>5</b>分</p>
+                    </div>
+                </a>
+            </div>
         {% endfor %}
     </div>
     <div class="more_wrap">
@@ -94,7 +94,7 @@
 </div>
 <div class="show_foot">
     <div class="foot_wrap">
-               <table cellspacing="0" class="find">
+        <table cellspacing="0" class="find">
             <tr>
                 <td width="25%" class=" customer"><a href="/favorite"><span></span><i
                         class="iconfont icon-tag"></i>收藏</a></td>

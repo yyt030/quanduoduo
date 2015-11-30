@@ -37,10 +37,7 @@ def create_app():
 
     if app.debug:
         DebugToolbarExtension(app)
-    else:
-        from .utils.sentry import sentry
 
-        sentry.init_app(app, dsn=app.config.get('SENTRY_DSN'))
 
     # from .mails import mail
     # mail.init_app(app)
