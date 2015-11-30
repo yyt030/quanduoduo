@@ -18,7 +18,7 @@
 				<img src="resource/image/icon.png" />
 			</div>
 			<div class="coupon-intro">
-				<p class="title">券多多洛阳站</p>
+				<p class="title">汝州百事优惠圈洛阳站</p>
 				<p class="intro">关注服务号有过期提醒哦！</p>
 			</div>
 			<div class="coupon-class">
@@ -169,14 +169,14 @@
 <script type="text/javascript">
     $(function () {
         //设置二维码
-        var getCODEURL = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQFD8DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL0UzWGRYTlBtd3ppNlNzQ1EzbHVkAAIEoUdQVgMEgDoJAA==";
+        var getCODEURL = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQGq7zoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xLzZrekpvLURsWmtNZnBPdFYwMkEyAAIERWVcVgMEAAAAAA==";
         var getJSONURL = "/discount?id=110014705&weid=10014&do=post";
         $('#snatchCoupon').click(function () {
             $('.coupon-tip span').text('抢票中..').parent().fadeIn();
             $.getJSON(getJSONURL + '&pass=',
                     function (data) {
                         if (data.type == 'success') {
-                            var url = 'checkout.php?do=voucher&weid=10014&aid=' + data.message.aid + '&tid=' + data.message.ctime;
+                            var url = '/checkout?do=voucher&weid=10014&aid=' + data.message.aid + '&tid=' + data.message.ctime;
                             $('.coupon-verify h3').html('<a href="' + url + '">点此即可打开</a>');
                             $('#mycoupon').addClass('mycoupon');
                             if (data.message.still > 0) {
@@ -215,8 +215,8 @@
 </script>
 <script type="text/javascript">
     var _share_image = "{{ website.url }}/resource/attachment/images/{{ discount.image }}";
-    var _share_title = "快来领取电子优惠券吧";
-    var _share_intro = "{{ discount.title }}";
+    var _share_title = "{{ discount.title }}";
+    var _share_intro = "{{ discount.intro }}";
     var _share_place = "{{ website.url }}/discount/detail?did={{ discount_id }}&weid=10014&path=index&param=110014705";
     var isallowfirend = "true";
 
@@ -228,7 +228,7 @@
 </script>
 <div class="show_link">
     <a href="fans.php?do=intro&weid=10014" rel="external">
-        关于券多多
+        关于汝州百事优惠圈
     </a> |
     <a href="fans.php?do=store&weid=10014" rel="external">
         我要发布

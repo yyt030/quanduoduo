@@ -9,20 +9,21 @@ class Config(object):
     DEBUG = True
     TESTING = False
     SECRET_KEY = "\xb5\xb3}#\xb7A\xcac\x9d0\xb6\x0f\x80z\x97\x00\x1e\xc0\xb8+\xe9)\xf0}"
-    PERMANENT_SESSION_LIFETIME = 3600 * 24 * 7
+    PERMANENT_SESSION_LIFETIME = 3600 * 1
     SESSION_COOKIE_NAME = 'jeepsk_session'
 
     # Root path of project
     PROJECT_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
     # Site domain
-    SITE_DOMAIN = "http://localhost:5000"
-    # SITE_DOMAIN = "http://www.ruzhoubaishi.com"
+    # SITE_DOMAIN = "http://localhost:5000"
+    SITE_DOMAIN = "http://www.ruzhoubaishi.com"
 
     # SQLAlchemy config
     # See:
     # https://pythonhosted.org/Flask-SQLAlchemy/config.html#connection-uri-format
     # http://docs.sqlalchemy.org/en/rel_0_9/core/engines.html#database-urls
     SQLALCHEMY_DATABASE_URI = "mysql://root:@localhost/weshop"
+    # SQLALCHEMY_DATABASE_URI = "mysql://root:ruzhoubaishi@localhost/weshop"
 
     # Redis
     REDIS = False  # 是否启用Redis
@@ -35,7 +36,7 @@ class Config(object):
     UPLOADS_DEFAULT_DEST = os.path.join(PROJECT_PATH, 'resource/attachment')  # 上传文件存储路径
     # UPLOADS_DEFAULT_URL = "http://localhost/jeepsk_uploads/"  # 上传文件访问URL
     UPLOADS_DEFAULT_URL = "/resource/attachment"  # 上传文件访问URL
-
+    WECHAT_TICKET="gQGq7zoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xLzZrekpvLURsWmtNZnBPdFYwMkEyAAIERWVcVgMEAAAAAA=="
     # Flask-DebugToolbar
     DEBUG_TB_INTERCEPT_REDIRECTS = False
 

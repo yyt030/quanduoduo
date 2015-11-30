@@ -1,0 +1,235 @@
+<!DOCTYPE>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+          name="viewport">
+    <meta name="format-detection" content="telephone=no">
+    <title>汝州百事优惠圈</title>
+    <link rel="stylesheet" type="text/css" href="/static/themes/mobile/style/vlight.css" media="all"/>
+    <link rel="stylesheet" type="text/css" href="/static/themes/mobile/icons/iconfont.css"/>
+    <script type="text/javascript" src="/static/themes/mobile/style/jquery-2.1.4.min.js"></script>
+</head>
+
+<body>
+<div class="show_body">
+    <div class="body_wrap">
+        <div class="load_wrap">
+            <div class="coupon-header">
+                <h3>
+                    <a href="/shop/{{ bid }}">
+                        <img src="/resource/attachment/images/{{ d.brand.image}}"/>
+                        {{ d.brand.name }} </a>
+                </h3>
+				<span>
+					<a href="/favoirite?id={{ bid }}">
+                        收藏此商家
+                    </a>
+				</span>
+            </div>
+            <div class="coupon-ticket">
+                <div class="face">
+                    <table class="name">
+                        <tr>
+                            <td valign="middle" style="height:3.6rem;">
+                                <h2>{{ d.title }}</h2>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h5>有效期至2015年12月02日</h5>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="code usedit0 expire0">
+                    <p class="normal">
+                        <img id="qrcode" class="load_image" width="129" height="129"/>
+                        <span>15472222</span>
+                    </p>
+
+                    <p class="normal">付款前请出示此券</p>
+
+                    <p class="verify">已验证成功</p>
+
+                    <p class="usedit">此券已使用</p>
+
+                    <p class="expire">此券已过期</p>
+                </div>
+            </div>
+            <div class="coupon-other link consume comment0 usedit0">
+                <p class="consume">
+                    <a href="fans.php?weid=10018&do=raiders">领了券不会用？</a>
+                </p>
+
+                <p class="comment">
+                    <a href="fans.php?weid=10018&do=grade&aid=1001129582">给点评一下吧<span>赚1个积分</span></a>
+                </p>
+            </div>
+        </div>
+
+        <div class="load_wrap">
+            <div class="coupon-other">
+                <p>
+                    <a href="discount.php?weid=10018&did=110012974&do=receive">
+                        查看优惠详情
+                    </a>
+                </p>
+            </div>
+            <div class="coupon-store">
+                <dl>
+                    <dt>
+                        <a href="business.php?weid=10018&sid=120010748&do=maps">
+                            <h4>凤山店</h4>
+
+                            <p class="place">汝阳县凤山南路检察院高层南100米西</p>
+                        </a>
+                    </dt>
+                    <dd>
+                        <a href="tel:68256199"><i class="iconfont icon-dianhua"></i></a>
+                    </dd>
+                </dl>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<style type="text/css">
+    .code > p {
+        display: none;
+    }
+
+    .usedit0.expire0 .normal {
+        display: block;
+    }
+
+    .usedit0.expire0.verify1 .normal {
+        display: none;
+    }
+
+    .usedit1 .usedit {
+        display: block;
+    }
+
+    .verify1 .verify {
+        display: block;
+    }
+
+    .expire1.usedit0 .expire {
+        display: block;
+    }
+
+    .link,
+    .link > p {
+        display: none;
+    }
+
+    .consume0, .comment0,
+    .comment0.usedit1 .comment,
+    .consume0.usedit0 .consume {
+        display: block;
+    }
+</style>
+<script type="text/javascript">
+    $(function () {
+        $('.usedit0.expire0').each(function () {
+            loadQrcode(0);
+        });
+    });
+    function loadQrcode(expire) {
+        //设置二维码
+        var getQrcodeUrl = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQGq7zoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xLzZrekpvLURsWmtNZnBPdFYwMkEyAAIERWVcVgMEAAAAAA==";
+        var getTicketUrl = "checkout?aid=1001129582&tid=1448891515&weid=10018&do=voucher";
+        $.getJSON(getTicketUrl + '&expire=' + expire, function (result) {
+            if (!result.message['verify']) {
+                if (result.message['ticket']) {
+                    $('#qrcode').attr('src', getQrcodeUrl + result.message['ticket']);
+                }
+                //下一次调用
+                setTimeout(function () {
+                    loadQrcode(result.message['expire']);
+                }, 3000);
+            } else {
+                $('.code').addClass('verify1');
+                $('.link').addClass('usedit1');
+            }
+        });
+    }
+</script>
+<script type="text/javascript">
+    var _share_image = "{{ website.url }}/resource/attachment/images/{{ d.image }}";
+    var _share_title = "{{ d.title }}";
+    var _share_intro = "快来领取手机优惠券吧";
+    var _share_place = "{{ website.url }}/checkout.php?do=voucher&aid=1001129582&tid=1448891515&weid=10018";
+    var isallowfirend = "false";
+
+    document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+        WeixinJSBridge.call('hideToolbar');
+        WeixinJSBridge.call('showOptionMenu');
+        WeixinJSBridgeShare(_share_image, _share_title, _share_intro, _share_place, isallowfirend);
+    }, false);
+</script>
+<div class="show_link">
+    <a href="/about" rel="external">
+        关于券多多
+    </a> |
+    <a href="/fabu" rel="external">
+        我要发布
+    </a> |
+    <a href="/agent" rel="external">
+        代理加盟
+    </a>
+</div>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript">
+    function WeixinJSBridgeShare(_share_image, _share_title, _share_intro, _share_place, isallowfirend) {
+        wx.config({
+            debug: false,
+            appId: 'wx4dfba68027dc4359',
+            timestamp: '1448892315', // 生成签名的时间戳
+            nonceStr: 'q7p6pOcMfk', // 生成签名的随机串
+            signature: 'c72105167ae65712c86d1029beeb7cb5bb0bfe17',// 签名
+            jsApiList: [
+                'checkJsApi',
+                'onMenuShareTimeline',
+                'onMenuShareAppMessage',
+                'hideMenuItems',
+                'showMenuItems',
+                'getNetworkType',
+                'openLocation',
+                'getLocation',
+                'scanQRCode',
+            ]
+        });
+
+        // 用户来源
+        // 发送给好友
+        wx.onMenuShareAppMessage({
+            title: _share_title, // 分享标题
+            desc: _share_intro, // 分享描述
+            link: _share_place + '&come=transmit&wxref=mp.weixin.qq.com', // 分享链接
+            imgUrl: _share_image  // 分享图标
+        });
+        // 分享到朋友圈
+        wx.onMenuShareTimeline({
+            title: _share_title + _share_intro, // 分享标题
+            link: _share_place + '&come=timeline&wxref=mp.weixin.qq.com', // 分享链接
+            imgUrl: _share_image  // 分享图标
+        });
+
+        wx.hideMenuItems({
+            menuList: [
+                'menuItem:share:email',
+                'menuItem:share:qq',
+                'menuItem:copyUrl',		// 复制链接
+                'menuItem:readMode',	// 阅读模式
+                'menuItem:openWithSafari',
+                'menuItem:openWithQQBrowser'
+            ] // 要隐藏的菜单项，所有menu项见附录3
+        });
+    }
+</script>
+
+</body>
+</html>
