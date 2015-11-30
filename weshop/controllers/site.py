@@ -39,6 +39,10 @@ def login():
             return redirect(url_for('site.home'))
     return render_template('account/login.html', form=form)
 
+@bp.route('/signin', methods=['GET', 'POST'])
+@require_visitor
+def signin():
+    return render_template('account/user_data.html')
 
 @bp.route('/signout', methods=['GET', 'POST'])
 @require_visitor
