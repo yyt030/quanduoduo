@@ -6,5 +6,4 @@ bak/*
 resource/attachment/*
 *.ttc
 migrations/*
-*.pyc
 *.sqlite
