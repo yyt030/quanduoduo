@@ -8,3 +8,4 @@ resource/attachment/*
 migrations/*
 *.pyc
 *.sqlite
+venv/
