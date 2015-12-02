@@ -50,9 +50,16 @@ def detail():
     wechat.send_text_message(session['openid'], "test")
     print "start send message to wechat"
 
+    # other discount in the discount
+    other_discounts = Discount.query.filter(Discount.id != discount_id,
+                                            Discount.brand_id == discount.brand_id)
+    shops = discount.shops.all()
     return render_template('discount/detail.html', discount=discount, left_day=left_day,
                            discount_shop_count=discount_shop_count,
-                           discount_id=discount_id)
+                           discount_id=discount_id,
+                           other_discounts=other_discounts,
+                           shops=shops)
+
 
 
 @bp.route('/manage', methods=['GET', 'POST'])
@@ -156,24 +163,3 @@ def delete():
     url = request.referrer
     print request.referrer
     return render_template('account/ok.html', tip="删除成功！", url=url)
-
-
-@bp.route('/detail', methods=['GET'])
-def detail():
-    discount_id = int(request.args.get("id", 0))
-    discount = Discount.query.get_or_404(discount_id)
-    now = datetime.datetime.now()
-    end_time = discount.create_at + datetime.timedelta(days=discount.limits)
-    delta = end_time - now
-    left_day = delta.days
-    discount_shop_count = discount.shops.count()
-
-    # other discount in the discount
-    other_discounts = Discount.query.filter(Discount.id != discount_id,
-                                            Discount.brand_id == discount.brand_id)
-    shops = discount.shops.all()
-    return render_template('discount/detail.html', discount=discount, left_day=left_day,
-                           discount_shop_count=discount_shop_count,
-                           discount_id=discount_id,
-                           other_discounts=other_discounts,
-                           shops=shops)
