@@ -15,6 +15,8 @@ class Brand(db.Model):
     intro = db.Column(db.Text)
     image = db.Column(db.String(200))
     thumb = db.Column(db.String(200))
+    status = db.Column(db.SMALLINT, default=1)
+
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     user = db.relationship('User')
     create_at = db.Column(db.DateTime, default=datetime.datetime.now)

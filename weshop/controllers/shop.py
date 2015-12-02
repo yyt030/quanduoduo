@@ -29,7 +29,7 @@ def select():
 
     act = request.args.get("act")
     if act == 'discount':
-        handle = "管理优惠"
+        handle = "发布优惠"
     elif act == 'ticket_record':
         handle = "领券记录"
     elif act == 'account':

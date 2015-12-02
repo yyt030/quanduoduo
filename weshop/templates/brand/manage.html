@@ -64,42 +64,45 @@
                 管理品牌
             </div>
             {% for b in  brands %}
-            <div class="load_wrap {{ do }}">
-                <div class="coupon-image">
-                    <img src="/resource/attachment/images/{{ b.thumb }}" onerror="javascript:this.src='/resource/attachment/icon.jpg'" >
-                </div>
-                <div class="coupon-intro">
-                    <h1>
-                        <a href="/brand/show?id={{ b.id }}" target="_blank">
-                           {{ b.name }} </a>
-                    </h1>
-                    <h2>
-                    </h2>
-                </div>
-                <div class="coupon-class">
-                    <div class="class-opt">
-                        <a href="/brand/modify?id={{ b.id }}&act=audits" title="禁用品牌" class="normal"
-                           onclick="return confirm('停用后可在尾页找到，确认禁用？');return false;"><i class="icon-eye-close"></i></a>
-                        <a href="/brand/modify?id={{ b.id }}&act=audits" title="启用品牌" class="closed"
-                           onclick="return confirm('启用后排序会升上去，确认启用？');return false;"><i class="icon-eye-open"></i></a>
-                        <a href="/brand/modify?id={{ b.id }}" title="编辑品牌"><i class="icon-cog"></i></a>
+                <div class="load_wrap {{ do }}">
+                    <div class="coupon-image">
+                        <img src="/resource/attachment/images/{{ b.thumb }}"
+                             onerror="javascript:this.src='/resource/attachment/icon.jpg'">
                     </div>
-                    <div class="class-inf">
-                        <i class="icon-home"></i>
-                        <a href="/brand/shop?id={{ b.id }}" title="本站门店数量">
-                            <span class="type">{{ b.shops.count() }}</span>
-                        </a>
-                        <i class="icon-ticket"></i>
-                        <a href="/brand/discount?id={{ b.id }}" title="本站优惠数量">
-                            <span class="type">{{ b.discount or 0 }}</span>
-                        </a>
-                        <i class="icon-tags"></i>
-                        <span class="ctime">{{ b.industry_1 }}</span>
-                        <span class="code"> {{ b.industry_2 }}</span>
-                        <span class="limit"></span>
+                    <div class="coupon-intro">
+                        <h1>
+                            <a href="/brand/show?id={{ b.id }}" target="_blank">
+                                {{ b.name }} </a>
+                        </h1>
+
+                        <h2>
+                        </h2>
+                    </div>
+                    <div class="coupon-class">
+                        <div class="class-opt">
+                            <a href="/brand/modify?id={{ b.id }}&act=audits&status=0" title="禁用品牌" class="normal"
+                               onclick="return confirm('停用后可在尾页找到，确认禁用？');return false;"><i class="icon-eye-close"></i></a>
+                            <a href="/brand/modify?id={{ b.id }}&act=audits&status=1" title="启用品牌" class="closed"
+                               onclick="return confirm('启用后排序会升上去，确认启用？');return false;"><i
+                                    class="icon-eye-open"></i></a>
+                            <a href="/brand/modify?id={{ b.id }}" title="编辑品牌"><i class="icon-cog"></i></a>
+                        </div>
+                        <div class="class-inf">
+                            <i class="icon-home"></i>
+                            <a href="/brand/shop?id={{ b.id }}" title="本站门店数量">
+                                <span class="type">{{ b.shops.count() }}</span>
+                            </a>
+                            <i class="icon-ticket"></i>
+                            <a href="/brand/discount?id={{ b.id }}" title="本站优惠数量">
+                                <span class="type">{{ b.discount or 0 }}</span>
+                            </a>
+                            <i class="icon-tags"></i>
+                            <span class="ctime">{{ b.industry_1 }}</span>
+                            <span class="code"> {{ b.industry_2 }}</span>
+                            <span class="limit"></span>
+                        </div>
                     </div>
                 </div>
-            </div>
             {% endfor %}
         </div>
         <div class="body_wrap">

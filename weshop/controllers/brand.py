@@ -59,7 +59,7 @@ def brand_add():
             db.session.add(brand)
             db.session.commit()
             session['brand'] = brand.id
-            return render_template('account/ok.html', tip='添加品牌成功，请添加一个门店！',url=url)
+            return render_template('account/ok.html', tip='添加品牌成功，请添加一个门店！', url=url)
     return render_template('brand/setting.html', shop=shop, form=form)
 
 
@@ -68,9 +68,21 @@ def brand_modify():
     """修改品牌"""
     shop = {}
     url = request.values.get('current_url')
+    print url
     brand_id = int(request.args.get("id", 0))
+    act = request.args.get('act', '')
     if not brand_id:
         return render_template('account/error.html', error='页面不存在！')
+    if act == 'audits':
+        brand = Brand.query.filter(Brand.id == brand_id).first()
+        brand.status = int(request.args.get('status', 1))
+        if brand.status == 0:
+            tip = '禁用成功'
+        else:
+            tip = '启用成功'
+        db.session.add(brand)
+        db.session.commit()
+        return render_template('account/ok.html', tip=tip, url='manage?do=normal')
     form = BrandSetting()
     brand = Brand.query.get_or_404(brand_id)
     form.brand.data = brand.name
@@ -91,9 +103,12 @@ def brand_modify():
 
 @bp.route('/manage', methods=['GET', 'POST'])
 def manage():
-    """门店管理"""
+    """管理品牌"""
     do = request.args.get("do", "normal")
-    brands = Brand.query.all()
+    if do == 'normal':
+        brands = Brand.query.filter(Brand.status == 1).all()
+    else:
+        brands = Brand.query.filter(Brand.status == 0).all()
     return render_template('brand/manage.html', brands=brands, do=do)
 
 
