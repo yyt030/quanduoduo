@@ -63,3 +63,20 @@ class User(db.Model):
 
     def __repr__(self):
         return '<User %s>' % self.name
+
+
+class GetTicketRecord(db.Model):
+    """发放的优惠券记录"""
+    id = db.Column(db.Integer, primary_key=True)
+
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship('User')
+
+    discount_id = db.Column(db.Integer, db.ForeignKey('discount.id'))
+    discount = db.relationship('Discount', backref=db.backref('get_discounts', lazy='dynamic'))
+
+    used = db.Column(db.Float, default=0)
+    create_at = db.Column(db.DateTime, default=datetime.datetime.now)
+
+    def __repr__(self):
+        return '<GetDiscountRecord %s>' % self.id

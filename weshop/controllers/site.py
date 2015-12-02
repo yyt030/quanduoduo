@@ -14,7 +14,7 @@ from weshop import csrf
 from weshop.utils import devices
 from weshop.utils.account import signin_user, signout_user
 from weshop.utils.devices import checkMobile
-from ..models import db, User, Discount, Brand
+from ..models import db, User, Discount, Brand, MyFavoriteShop, Shop
 from ..forms import SigninForm
 from ..utils.permissions import require_user, require_visitor
 from ..utils.uploadsets import images, random_filename, process_question, avatars
@@ -40,10 +40,12 @@ def login():
             return redirect(url_for('site.home'))
     return render_template('account/login.html', form=form)
 
+
 @bp.route('/signin', methods=['GET', 'POST'])
 @require_visitor
 def signin():
     return render_template('account/user_data.html')
+
 
 @bp.route('/signout', methods=['GET', 'POST'])
 @require_visitor
@@ -167,22 +169,36 @@ def center():
     return render_template('mobile/center.html')
 
 
-@bp.route('/favorite')
-def favorite_tickets():
-    """我收藏的券包"""
+@bp.route('/my_favorite_shop')
+def favorite_shops():
+    type = request.args.get("type")
+    shops = MyFavoriteShop.query.all()
+    shops = Shop.query.all()
+    nav = 1
+    return render_template('mobile/my_favorite_shops.html', type=type, nav=nav, shops=shops)
+
+
+@bp.route('/user_home')
+def user_home():
+    """我的个人中心"""
     type = request.args.get("type")
     discounts = Discount.query.all()
-    return render_template('mobile/my_favorite_tickets.html', type=type, discounts=discounts)
+    nav = 4
+    return render_template('mobile/user_home.html', type=type, nav=nav, discounts=discounts)
 
 
 @bp.route('/my_tickets')
 def tickets():
     """券包"""
-    type = request.args.get("type")
+    type = request.args.get("type", "not_use")
+    nav = 2
     discounts = Discount.query.all()
-    return render_template('mobile/my_tickets.html', type=type, discounts=discounts)
+    return render_template('mobile/my_tickets.html', type=type, nav=2, discounts=discounts)
 
-
+@bp.route('/gonglue')
+def gonglue():
+    """使用攻略"""
+    return render_template('mobile/gonglue.html' )
 @csrf.exempt
 @bp.route('/upload_image', methods=['GET', 'POST'])
 def upload_image():
@@ -256,6 +272,3 @@ def interface():
     else:
 
         return "error"
-
-
-

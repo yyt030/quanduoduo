@@ -1,0 +1,98 @@
+<html><head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+	<meta name="format-detection" content="telephone=no">
+	<title>使用攻略</title>
+	<link rel="stylesheet" type="text/css" href="/static/themes/mobile/style/vlight.css?1449081738" media="all">
+	<link rel="stylesheet" type="text/css" href="/static/themes/mobile/icons/iconfont.css">
+	<script src="//hm.baidu.com/hm.js?50b4952461c191a55d14ad9dbe6b22ae"></script><script type="text/javascript" src="./themes/mobile/style/jquery-2.1.4.min.js"></script>
+</head><iframe id="__WeixinJSBridgeIframe_SetResult" style="display: none;"></iframe><iframe id="__WeixinJSBridgeIframe" style="display: none;"></iframe>
+
+<body>
+<div class="show_body">
+	<div class="body_wrap">
+		<div class="load_wrap">
+			<div class="coupon-header">
+				<h3><img src="/static/themes/mobile/default/images/icon1.png"> 使用步骤</h3>
+				<span>手机优惠券</span>
+			</div>
+			<div class="coupon-footer">
+				<h3>①领一张券</h3>
+				<p>
+					&nbsp;&nbsp;&nbsp;&nbsp;券是免费领的，但每人每周是有配额的，只领不用会降级哦，所以亲要领自己喜欢的券哦！
+				</p>
+			</div>
+			<div class="coupon-footer">
+				<h3>②到店消费</h3>
+				<p>
+					&nbsp;&nbsp;&nbsp;&nbsp;领到一张券，喜大普奔，带着小伙伴们杀向店家，一顿胡吃海喝后，掏出手机去结账，记住给店员扫一扫券上的二维码就能享优惠哦！
+				</p>
+			</div>
+
+		</div>
+	</div>
+</div>
+<div class="show_link">
+    <a href="/about" rel="external">
+        关于汝州百事优惠圈
+    </a> |
+    <a href="/fabu" rel="external">
+        我要发布
+    </a> |
+    <a href="/agent" rel="external">
+        代理加盟
+    </a>
+</div>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript">
+function WeixinJSBridgeShare(_share_image,_share_title,_share_intro,_share_place,isallowfirend){
+	wx.config({
+	    debug: false,
+	    appId: 'wx4dfba68027dc4359',
+	    timestamp:	'1449081738', // 生成签名的时间戳
+	    nonceStr:	'jjCXSj9scr', // 生成签名的随机串
+	    signature:	'48ca18069144dd9bf68440cd4446cb9d744004f5',// 签名
+	    jsApiList:	[
+	        'checkJsApi',
+	        'onMenuShareTimeline',
+	        'onMenuShareAppMessage',
+	        'hideMenuItems',
+	        'showMenuItems',
+	        'getNetworkType',
+	        'openLocation',
+	        'getLocation',
+	        'scanQRCode',
+        ]
+	});
+
+	// 用户来源
+		_share_place += '&fromuser=o0924t9116VPHIDYJiV94jGXD4qk';
+		// 发送给好友
+	wx.onMenuShareAppMessage({
+	    title:	_share_title, // 分享标题
+	    desc:	_share_intro, // 分享描述
+	    link:	_share_place+'&come=transmit&wxref=mp.weixin.qq.com', // 分享链接
+	    imgUrl:	_share_image  // 分享图标
+	});
+	// 分享到朋友圈
+	wx.onMenuShareTimeline({
+	    title:	_share_title+_share_intro, // 分享标题
+	    link:	_share_place+'&come=timeline&wxref=mp.weixin.qq.com', // 分享链接
+	    imgUrl:	_share_image  // 分享图标
+	});
+
+	wx.hideMenuItems({
+		menuList: [
+			'menuItem:share:email',
+			'menuItem:share:qq',
+			'menuItem:copyUrl',		// 复制链接
+			'menuItem:readMode',	// 阅读模式
+			'menuItem:openWithSafari',
+			'menuItem:openWithQQBrowser'
+		] // 要隐藏的菜单项，所有menu项见附录3
+	});
+}
+</script>
+
+
+</body></html>
