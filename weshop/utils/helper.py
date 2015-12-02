@@ -1,6 +1,8 @@
 # -*- coding: UTF-8 -*-
+import json
 from random import Random
 import re
+import urllib2
 from flask import request
 
 
@@ -99,3 +101,12 @@ def _validate_no_qq(text):
         else:
             print "QQ Number Not Found"
             return True
+
+headers = {'User-Agent': 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.6) Gecko/20091201 Firefox/3.5.6'}
+
+def get_url_data(url):
+    req = urllib2.Request(url=url, headers=headers)
+    return_data = urllib2.urlopen(req).read()
+    return return_data
+
+

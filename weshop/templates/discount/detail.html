@@ -58,7 +58,7 @@
             <div class="coupon-intro post">
                 {% if left_day >= 0 %}
                     <a href="javascript:void(0);" id="snatchCoupon">
-                        点击领取(还剩39份) </a>
+                        点击领取(还剩{{ left_count }}份) </a>
                 {% endif %}
             </div>
             <div class="coupon-ticket" style="display:none;">
@@ -180,13 +180,13 @@
     $(function () {
         //设置二维码
         var getCODEURL = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQGq7zoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xLzZrekpvLURsWmtNZnBPdFYwMkEyAAIERWVcVgMEAAAAAA==";
-        var getJSONURL = "/discount?id=1104705&weid=10014&do=post";
+        var getJSONURL = "/discount?id={{ discount.id }}&do=post";
         $('#snatchCoupon').click(function () {
             $('.coupon-tip span').text('抢票中..').parent().fadeIn();
             $.getJSON(getJSONURL + '&pass=',
                     function (data) {
                         if (data.type == 'success') {
-                            var url = '/checkout?do=voucher&weid=10014&aid=' + data.message.aid + '&tid=' + data.message.ctime;
+                            var url = '/checkout?do=voucher&aid=' + data.message.aid + '&tid=' + data.message.ctime;
                             $('.coupon-verify h3').html('<a href="' + url + '">点此即可打开</a>');
                             $('#mycoupon').addClass('mycoupon');
                             if (data.message.still > 0) {

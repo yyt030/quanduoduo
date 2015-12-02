@@ -23,6 +23,9 @@ nose
 coverage
 pylint
 
+
 python-daemon
 gevent
 qrcode
+
+flask-cache
