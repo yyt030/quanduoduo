@@ -18,6 +18,7 @@ from ..models import db, User, Discount, Brand
 from ..forms import SigninForm
 from ..utils.permissions import require_user, require_visitor
 from ..utils.uploadsets import images, random_filename, process_question, avatars
+from weshop.wechat import WeixinHelper
 
 bp = Blueprint('site', __name__)
 
@@ -122,7 +123,7 @@ def search_api():
     if industry1 != "全部分类":
         discounts = Discount.query.filter(Discount.brand.has(Brand.industry_1 == industry1))
     else:
-         discounts = Discount.query.limit(20)
+        discounts = Discount.query.limit(20)
     brands = {}
     items = []
     for d in discounts:
@@ -136,13 +137,13 @@ def search_api():
             "supply": d.supply,
             "number": d.number
         })
-        brands[d.brand_id] = {"bid": d.brand_id, "type": "local", "brand": d.brand.name, "thumb": "images/"+d.brand.image,
+        brands[d.brand_id] = {"bid": d.brand_id, "type": "local", "brand": d.brand.name,
+                              "thumb": "images/" + d.brand.image,
                               "image": "back.jpg", "intro": d.brand.intro, "industry1": d.brand.industry_1,
                               "industry2": d.brand.industry_2, "rank": "0",
                               "business": "0", "discount": "0", "count": "1",
                               "state": "review", "ctime": "1448168448", "gtime": "0"}
-    return json.dumps({"message": [items,brands],"redirect": "", "type": "ajax"})
-
+    return json.dumps({"message": [items, brands], "redirect": "", "type": "ajax"})
 
 
 @bp.route('/about')
@@ -226,10 +227,6 @@ def interface():
         session['access_token'] = access_token
         session['access_token_expires_at'] = token_dict.get('access_token_expires_at')
 
-    # else:
-    #     wechat = WechatBasic(appid=appid, access_token=session['access_token'], appsecret=appsecret,
-    #                          access_token_expires_at=session['access_token_expires_at'])
-
     wechat = WechatBasic(token=token)
     # 对签名进行校验
     if wechat.check_signature(signature=signature, timestamp=timestamp, nonce=nonce):
@@ -246,12 +243,11 @@ def interface():
                 if message.content == 'test':
                     response = wechat.response_text(u'^_^')
                 else:
-                    response = wechat.response_text(u'开发过程中，敬请期待！')
+                    response = wechat.response_text(u'您好！')
             elif message.type == 'image':
                 response = wechat.response_text(u'图片')
             else:
-                response = wechat.response_text(u'欢迎关注'
-                                                u'http://www.ruzhoubaishi.com')
+                response = wechat.response_text(u'欢迎关注汝州百事优惠圈')
             return response
 
         else:
@@ -260,3 +256,6 @@ def interface():
     else:
 
         return "error"
+
+
+
