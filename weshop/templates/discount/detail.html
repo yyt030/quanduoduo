@@ -180,7 +180,7 @@
     $(function () {
         //设置二维码
         var getCODEURL = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQGq7zoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xLzZrekpvLURsWmtNZnBPdFYwMkEyAAIERWVcVgMEAAAAAA==";
-        var getJSONURL = "/discount?id={{ d.code }}&weid=10014&do=post";
+        var getJSONURL = "/discount?id=1104705&weid=10014&do=post";
         $('#snatchCoupon').click(function () {
             $('.coupon-tip span').text('抢票中..').parent().fadeIn();
             $.getJSON(getJSONURL + '&pass=',

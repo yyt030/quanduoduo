@@ -47,7 +47,7 @@ def detail():
         if 'MQQBrowser' not in user_agent:
             return json.dumps({"message": "请在微信里操作", "redirect": "permit", "type": "tips"})
     wechat = WechatBasic(appid=appid, appsecret=appsecret)
-    wechat.send_text_message(session['openid'], "test")
+    #wechat.send_text_message(session['openid'], "test")
     print "start send message to wechat"
 
     # other discount in the discount
