@@ -75,7 +75,8 @@ def setting():
                 return render_template('shop/error.html', error=error)
             if act == 'publish':
                 print request.form
-                discount = Discount(title=title, type=discount_type.decode('utf-8'), intro=form.intro.data, image=form.image.data,
+                discount = Discount(title=title, type=discount_type.decode('utf-8'), intro=form.intro.data,
+                                    image=form.image.data,
                                     supply=form.supply.data, number=number, usable=form.usable.data,
                                     perple=form.perple.data, limits=form.limits.data, user_id=g.user.id, brand_id=bid)
             else:
@@ -133,7 +134,13 @@ def detail():
     delta = end_time - now
     left_day = delta.days
     discount_shop_count = discount.shops.count()
-    print discount_shop_count
+
+    # other discount in the discount
+    other_discounts = Discount.query.filter(Discount.id != discount_id,
+                                            Discount.brand_id == discount.brand_id)
+    shops = discount.shops.all()
     return render_template('discount/detail.html', discount=discount, left_day=left_day,
                            discount_shop_count=discount_shop_count,
-                           discount_id=discount_id)
+                           discount_id=discount_id,
+                           other_discounts=other_discounts,
+                           shops=shops)

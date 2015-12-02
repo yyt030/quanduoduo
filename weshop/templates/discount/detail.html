@@ -50,13 +50,15 @@
             </div>
             <div class="coupon-intro">
                 <p>
-                    消费满100元减5元抵扣券 </p>
+                    {{ discount.title }} </p>
                 <span>满减</span>
             </div>
             <div class="coupon-tip"><span></span></div>
             <div class="coupon-intro post">
-                <a href="javascript:void(0);" id="snatchCoupon">
-                    点击领取(还剩39份) </a>
+                {% if left_day >= 0 %}
+                    <a href="javascript:void(0);" id="snatchCoupon">
+                        点击领取(还剩39份) </a>
+                {% endif %}
             </div>
             <div class="coupon-ticket" style="display:none;">
                 <div class="code">
@@ -85,12 +87,18 @@
                 </h3>
             </div>
             <div class="coupon-footer">
-                <h3>发放时间还剩：{{ left_day }}天</h3>
+                {% if left_day >= 0 %}
+                    <h3>发放时间还剩：{{ left_day }}天</h3>
+                {% else %}
+                    <h3>发放时间已过期,请选择其他优惠吧</h3>
+                {% endif %}
+
 
                 <p class="property">
                     <span><i class="iconfont icon-remind"></i>每天限量<b>{{ discount.limits }}</b>张</span>
                     <span><i class="iconfont icon-roundcheck"></i>已经发放<b>{{ discount.count }}</b>张</span>
-                    <span><i class="iconfont icon-like"></i>每人可领<b>{% if discount.perple !=10000 %}{{ discount.perple }}{% else %}n{% endif %}</b>次</span>
+                    <span><i class="iconfont icon-like"></i>每人可领<b>
+                        {% if discount.perple !=10000 %}{{ discount.perple }}{% else %}n{% endif %}</b>次</span>
                     <span><i class="iconfont icon-time"></i>券有效期<b>{{ discount.usable }}</b>天</span>
                 </p>
             </div>
@@ -101,68 +109,70 @@
             </div>
         </div>
         <div class="load_wrap">
+            <div><a><span>温馨提醒:</span></a></div>
+            <div>
+                <a><span>{{ discount.intro }}</span> </a>
+            </div>
+        </div>
+        <div class="load_wrap">
             <div class="coupon-other">
                 <p><a href="find.php?weid=10014&do=search">更多优惠<span>查看全城优惠</span></a></p>
             </div>
-
-            <div class="coupon-other">
-                <p>
-                    <a href="discount.php?did=110013292&weid=10014&do=receive">
-                        <font><span>336人已领</span>洛阳科技职业学院游泳馆免费体验券</font>
-                    </a>
-                </p>
-            </div>
-            <div class="coupon-other">
-                <p>
-                    <a href="discount.php?did=110013293&weid=10014&do=receive">
-                        <font><span>0人已领</span>洛阳科技职业学院游泳馆免费体验券</font>
-                    </a>
-                </p>
-            </div>
-
+            {% for other_discount in other_discounts %}
+                <div class="coupon-other">
+                    <p>
+                        <a href="detail?id={{ other_discount.id }}">
+                            <font><span>{{ other_discount.count }}人已领</span>{{ other_discount.title }}</font>
+                        </a>
+                    </p>
+                </div>
+            {% endfor %}
         </div>
-{#        <div class="load_wrap">#}
-{#            <div class="coupon-other">#}
-{#                <p>#}
-{#                    <span>4张</span>#}
-{#                    <a href="business.php?weid=10014&bid=1001819&do=album">门店相册</a>#}
-{#                </p>#}
-{#            </div>#}
-{#            <div class="coupon-photo">#}
-{#                <table cellspacing="0">#}
-{#                    <tr>#}
-{#                        <td><a href="business.php?weid=10014&aid=1234568921&do=photo"><img#}
-{#                                src="http://hui.184buy.com/resource/attachment/images/10014/2015/05/Ne3uUEO2ySVX6U6s46A7s2sT8627O6.jpg"/></a>#}
-{#                        </td>#}
-{#                        <td><a href="business.php?weid=10014&aid=1234568922&do=photo"><img#}
-{#                                src="http://hui.184buy.com/resource/attachment/images/10014/2015/05/rYhsGksA4HbYhzY6YRy0XB0Hy40h0b.jpg"/></a>#}
-{#                        </td>#}
-{#                        <td><a href="business.php?weid=10014&aid=1234568923&do=photo"><img#}
-{#                                src="http://hui.184buy.com/resource/attachment/images/10014/2015/05/zdO699ipdzQd7pjJoDw44G4l7467dU.jpg"/></a>#}
-{#                        </td>#}
-{#                    </tr>#}
-{#                </table>#}
-{#            </div>#}
-{#        </div>#}
+        {#        <div class="load_wrap">#}
+        {#            <div class="coupon-other">#}
+        {#                <p>#}
+        {#                    <span>4张</span>#}
+        {#                    <a href="business.php?weid=10014&bid=1001819&do=album">门店相册</a>#}
+        {#                </p>#}
+        {#            </div>#}
+        {#            <div class="coupon-photo">#}
+        {#                <table cellspacing="0">#}
+        {#                    <tr>#}
+        {#                        <td><a href="business.php?weid=10014&aid=1234568921&do=photo"><img#}
+        {#                                src="http://hui.184buy.com/resource/attachment/images/10014/2015/05/Ne3uUEO2ySVX6U6s46A7s2sT8627O6.jpg"/></a>#}
+        {#                        </td>#}
+        {#                        <td><a href="business.php?weid=10014&aid=1234568922&do=photo"><img#}
+        {#                                src="http://hui.184buy.com/resource/attachment/images/10014/2015/05/rYhsGksA4HbYhzY6YRy0XB0Hy40h0b.jpg"/></a>#}
+        {#                        </td>#}
+        {#                        <td><a href="business.php?weid=10014&aid=1234568923&do=photo"><img#}
+        {#                                src="http://hui.184buy.com/resource/attachment/images/10014/2015/05/zdO699ipdzQd7pjJoDw44G4l7467dU.jpg"/></a>#}
+        {#                        </td>#}
+        {#                    </tr>#}
+        {#                </table>#}
+        {#            </div>#}
+        {#        </div>#}
 
         <div class="load_wrap">
             <div class="coupon-other last">
-                <p><a href="discount.php?did=110014705&weid=10014&do=more">此券适用门店<span>{{ discount_shop_count }}家</span></a></p>
+                <p><a href="/find?did=110014705&weid=10014&do=more">此券适用门店<span>{{ discount_shop_count }}家</span></a>
+                </p>
             </div>
-            <div class="coupon-store">
-                <dl>
-                    <dt>
-                        <a href="business.php?sid=120010848&weid=10014&do=maps">
-                            <h4>{{ discount.brand.name }}</h4>
+            {% for shop in shops %}
+                <div class="coupon-store">
+                    <dl>
+                        <dt>
+                            <a href="business.php?sid=120010848&weid=10014&do=maps">
+                                <h4>{{ shop.store }}</h4>
 
-                            <p class="place">{{ discount.shops }}</p>
-                        </a>
-                    </dt>
-                    <dd>
-                        <a href="tel:{{ discount.shops }}"><i class="iconfont icon-dianhua"></i></a>
-                    </dd>
-                </dl>
-            </div>
+                                <p class="place">{{ shop.address }}</p>
+                            </a>
+                        </dt>
+                        <dd>
+                            <a href="tel:{{ shop.phone }}"><i class="iconfont icon-dianhua"></i></a>
+                        </dd>
+                    </dl>
+                </div>
+            {% endfor %}
         </div>
     </div>
 </div>

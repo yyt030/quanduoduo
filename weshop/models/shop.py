@@ -33,7 +33,22 @@ shop_discount = db.Table('shop_discount',
 
 
 class Discount(db.Model):
-    """优惠券"""
+    """优惠券
+    title 标题
+    type 优惠形式
+    intro 描述
+    image 封面图
+    supply 每天开抢时间
+    number 每天提供份数
+    usable 有效期 默认7天
+    perple 每人可领个数
+    limits 发放时间
+    count 认领次数
+    back 回收份数
+    create_at 创建时间
+    lateset_update 最后更新
+    code 优惠券编码  8位唯一
+    """
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), default='')
     type = db.Column(db.String(50), default='')
