@@ -1,0 +1,87 @@
+<!DOCTYPE>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+          name="viewport">
+    <meta name="format-detection" content="telephone=no">
+    <title>汝州百事优惠圈</title>
+    <link rel="stylesheet" type="text/css" href="/static/themes/mobile/style/vlight.css?1448817283" media="all"/>
+    <link rel="stylesheet" type="text/css" href="/static/themes/mobile/icons/iconfont.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/themes/mobile/style/search.css?1448121953" media="all"/>
+    <script type="text/javascript" src="/static/themes/mobile/style/jquery-2.1.4.min.js"></script>
+</head>
+
+<body>
+<style type="text/css">
+    .tab1 a {
+        color: #ffffff !important;
+    }
+
+</style>
+<div class="show_body wide" style="">
+
+    <div class="show_body">
+        <div class="head_wrap">
+            <div class="table table1">
+                <h3 class="{% if type=='not_use' %}tab1{% else %}tab2{% endif %}"><a
+                        href="/my_tickets?type=not_use">待使用</a></h3>
+
+                <h3 class="{% if type=='expired' %}tab1{% else %}tab2{% endif %}"><a
+                        href="/my_tickets?type=expired">已过期</a></h3>
+            </div>
+        </div>
+
+        <div class="body_wrap" id="body_wrap">
+            {% for d in discounts %}
+                <div class="load_wrap activity">
+                    <a href="/discount/detail?did={{ d.id }}">
+                        <div class="coupon-image">
+                            <img src="/resource/attachment/images/{{ d.image }}"/>
+                        </div>
+                        <div class="coupon-intro">
+                            <p class="title">{{ d.title }}</p>
+
+                            <p class="count">每天<b>{{ d.limits }}</b>份</p>
+
+                            <p class="brand">{{ d.brand.name }}</p>
+                        </div>
+                        <div class="coupon-class">
+                            <i class="state">领券</i>
+
+
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+
+
+        </div>
+    </div>
+</div>
+    <div class="show_foot">
+        <div class="foot_wrap">
+            <table cellspacing="0" class="find">
+                <tr>
+                    <td width="25%" class="{% if nav ==1 %}find{% endif %}  customer"><a
+                            href="/my_favorite_shop"><span></span><i
+                            class="iconfont icon-tag"></i>收藏</a></td>
+                    <td width="25%" class="{% if nav ==2 %}find{% endif %} checkout"><a href="/my_tickets"><span></span><i
+                            class="iconfont icon-pay"></i>券包</a></td>
+                    <td width="25%" class="{% if nav ==3 %}find{% endif %} "><a href="/find"><span></span><i
+                            class="iconfont icon-attention"></i>发现</a></td>
+                    <td width="25%" class="{% if nav ==4 %}find{% endif %}  fans"><a href="/user_home"><span></span><i
+                            class="iconfont icon-my"></i>我的</a></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <script type="text/javascript">
+        document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+            WeixinJSBridge.call('hideToolbar');
+            WeixinJSBridge.call('showOptionMenu');
+        }, false);
+    </script>
+
+</body>
+</html>

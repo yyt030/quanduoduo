@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=8">
+
+    <meta name="keywords" content="汝州百事优惠圈,优惠券,手机优惠券,电子优惠券,微信优惠券">
+    <meta name="description" content="汝州百事优惠圈是一个借助于微信APP免费发放电子优惠券的公众平台。">
+    {% block page_vars %}{% endblock %}
+    {% block meta %}{% endblock %}
+    <link type="text/css" rel="stylesheet" href="../static/css/bootstrap.css">
+    <link type="text/css" rel="stylesheet" href="../static/css/font-awesome.css">
+    <link type="text/css" rel="stylesheet" href="../static/css/common.css">
+    <link type="text/css" rel="stylesheet" href="../static/css/search.css">
+    <link href="../static/css/style.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="../static/js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="../static/js/bootstrap.js"></script>
+    <script type="text/javascript" src="../static/js/common.js"></script>
+    <script type="text/javascript" src="../static/js/avatar.js"></script>
+    {% block page_css %}{% endblock %}
+    <script type="text/javascript">
+        cookie.prefix = 'cb65_';
+    </script>
+    <!--[if IE 7]>
+<link rel="stylesheet" href="./resource/style/font-awesome-ie7.min.css">
+<![endif]-->
+    <!--[if lte IE 6]>
+<link rel="stylesheet" type="text/css" href="./resource/style/bootstrap-ie6.min.css">
+<link rel="stylesheet" type="text/css" href="./resource/style/ie.css">
+<![endif]-->
+    <title>{% block page_title %}{% endblock %}</title>
+</head>
+<body>
+
+{# header #}
+{% block header %}
+<div class="wrapHeader">
+    <div class="header">
+        <h1 class="logo_m"><img src="../static/images/quanduoduo.png" alt="汝州百事优惠圈商标"></h1>
+        <ul class="nav">
+            <li><a href="http://mob.32184.com/index.php">首页</a></li>
+            <li><a href="http://mob.32184.com/index.php">六大优势</a></li>
+            <li><a href="http://mob.32184.com/index.php">营销手段</a></li>
+            <li><a href="http://mob.32184.com/index.php">特色功能</a></li>
+            <li><a href="http://mob.32184.com/index.php">技术特点</a></li>
+            <li><a href="http://mob.32184.com/index.php">联系我们</a></li>
+            <li><a href="/login" class="apply">免费注册</a></li>
+        </ul>
+    </div>
+</div>
+{% endblock %}
+{# body #}
+{% block content %}
+    <div class="wrapBox" id="wrapBox">
+        <div class="box custom" style="">
+            <div class="box_bg box5_bg"><img src="../static/images/b5_bg.jpg" alt=""></div>
+            <div class="box_fixed b5_fixed">
+                <div class="b5_tl box_tl">
+                    <h2>登录管理</h2>
+                </div>
+                <p class="b5_txt"></p>
+
+                <div class="b5_01"><img src="../static/images/b5_01.png" alt=""></div>
+                <div class="b5_ico">
+                    <form action="" method="post" onsubmit="return formcheck();">
+                        <table class="table">
+                            <tbody>
+                            <tr>
+                                <th style="width:90px;"><label for="">账号</label></th>
+                                <td>
+                                    <input name="username" class="span4" value="" type="text" style="height:26px;"
+                                           placeholder="账号/邮箱/手机号" autocomplete="off">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><label for="">密码</label></th>
+                                <td>
+                                    <input name="password" class="span4" value="" type="password" style="height:26px;"
+                                           placeholder="密码">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <label class="checkbox login-help-panel"
+                                           style="font-size:12px;color:#999;padding:0px 0;display:none;">咨询商业服务请拨打电话：0393-8612087。</label>
+                                    <label class="checkbox">
+                                        <input type="checkbox" id="remember" value="1" class="checkbox"
+                                               checked="checked">
+                                        记住账号
+                                        <a href="javascript:void(0);" onclick="$(&#39;.login-help-panel&#39;).show();"
+                                           class="login-forget-pwd">遇到问题？</a>
+                                    </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <input type="submit" name="submit" class="btn span2" value="登录">
+                                    <input type="hidden" name="token" value="ebf0739e">
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{# 全局JS代码 #}
+<script type="text/javascript">
+    var gLocals = {
+        'gUser': "{{ g.user }}",
+        'csrf': "{{ csrf_token() }}",
+        'role': "{{ g.user.role if g.user else "" }}"
+    };
+</script>
+
+{# 单页JS代码 #}
+{% block page_js %}{% endblock %}
+
+
+<script>
+    $(function () {
+        var u = cookie.get('remember-username');
+        if ($.trim(u)) {
+            $('#remember')[0].checked = true;
+            $(':text[name="username"]').val($.trim(u));
+        }
+    });
+    function formcheck() {
+        if ($('#remember:checked').length == 1) {
+            cookie.set('remember-username', $(':text[name="username"]').val());
+        } else {
+            cookie.del('remember-username');
+        }
+        return true;
+    }
+</script>
+{% block footer %}
+{% endblock %}
+

@@ -1,0 +1,1049 @@
+{% from 'macro/form.html' import render_field, render_checkbox_field %}
+
+{# 翻页组件 #}
+{% macro pagination(paginator, key='page', params=None) %}
+   {% if paginator.pages > 1 %}
+      <ul class='pagination pagination-sm'>
+         {% if paginator.has_prev %}
+            <li><a href="{{ url_for_other_page(paginator.prev_num, key, params) }}">上一页</a></li>
+         {% endif %}
+
+         {% for page in paginator.iter_pages() %}
+            {% if page %}
+               {% if page != paginator.page %}
+                  <li><a href="{{ url_for_other_page(page, key, params) }}">{{ page }}</a></li>
+               {% else %}
+                  <li class="active"><span>{{ page }}</span></li>
+               {% endif %}
+            {% else %}
+               <li class="ellipsis"><span>...</span></li>
+            {% endif %}
+         {% endfor %}
+
+         {% if paginator.has_next %}
+            <li><a href="{{ url_for_other_page(paginator.next_num, key, params) }}">下一页</a></li>
+         {% endif %}
+      </ul>
+   {% endif %}
+{% endmacro %}
+
+
+{# 用户可用时间段 #}
+{% macro user_periods_table(periods, editable=False) %}
+   {% set days = [1, 2, 3, 4, 5, 6, 7] %}
+   {% set times = [1, 2, 3] %}
+
+   <table class="table-user-periods {% if editable %}editable{% endif %}">
+      <thead>
+      <tr>
+         <th></th>
+         <th>周一</th>
+         <th>周二</th>
+         <th>周三</th>
+         <th>周四</th>
+         <th>周五</th>
+         <th>周六</th>
+         <th>周日</th>
+      </tr>
+      </thead>
+
+      {% set days = [1, 2, 3, 4, 5, 6, 7] %}
+      {% set times = [1, 2, 3] %}
+
+      <tbody>
+      {% for t in times %}
+         <tr>
+            <td>
+               {% if t == 1 %}
+                  上午
+               {% elif t == 2 %}
+                  下午
+               {% else %}
+                  晚上
+               {% endif %}
+            </td>
+
+            {% for d in days %}
+               <td class="user-period" data-day="{{ d }}" data-time="{{ t }}"
+                   {% if editable %}title="点击切换状态"{% endif %}>
+                  {% for p in periods %}
+                     {% if p.day == d and p.time == t %}
+                        <span class="glyphicon glyphicon-ok"></span>
+                     {% endif %}
+                  {% endfor %}
+               </td>
+            {% endfor %}
+         </tr>
+      {% endfor %}
+      </tbody>
+   </table>
+
+   <!--点击单元格，切换状态-->
+   {% if editable %}
+      <script type="text/javascript">
+         $(function () {
+            $('.user-period').click(function () {
+               var that = this;
+               var day = parseInt($(this).data('day'));
+               var time = parseInt($(this).data('time'));
+
+               $.ajax({
+                  url: "{{ url_for('user.toggle_period') }}",
+                  method: 'POST',
+                  dataType: 'json',
+                  data: {
+                     csrf_token: '{{ csrf_token() }}',
+                     day: day,
+                     time: time
+                  },
+                  success: function (result) {
+                     if (result.status === 'ok') {
+                        if (result.period === 'on') {
+                           $(that).html('<span class="glyphicon glyphicon-ok"></span>');
+                        } else {
+                           $(that).empty();
+                        }
+                     }
+                  }
+               });
+            });
+         });
+      </script>
+   {% endif %}
+{% endmacro %}
+
+
+{# 管理课程 #}
+{% macro user_courses_admin(course_types) %}
+   {# 课程列表 #}
+   <div class="courses-wap" id="maincoursewap">
+      {% for c in g.user.courses %}
+         <div class="course">
+            {{ c.full_name }}
+            <span class="fa fa-times btn-delete-course" title="删除课程"
+                  data-course-id="{{ c.id }}"></span>
+         </div>
+      {% endfor %}
+   </div>
+
+   <button href="#course-modal" type="button" class="btn btn-sm btn-primary btn-add-course"
+           data-toggle="modal">
+      <span class="fa fa-plus"></span> 管理课程
+   </button>
+
+   <!-- Modal -->
+   <div id="course-modal" class="modal fade" tabindex="-1">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal">&times;</button>
+               <h4 id="myModalLabel">
+                  管理课程
+                  <small class="tips">点击下面的课程方框以添加/删除课程</small>
+               </h4>
+            </div>
+            <div class="modal-body">
+
+{#               {% for t in course_types %}#}
+{#                  <div class="course-type">{{ t.name }}</div>#}
+{##}
+{#                  <div class="courses clearfix" id="modalcoursewap">#}
+{#                     {% for c in t.courses %}#}
+{#                        <div class="course {% if has_course(c.id) %}yes{% else %}no{% endif %}"#}
+{#                             data-course-id="{{ c.id }}">#}
+{#                           {{ c.name }}#}
+{#                        </div>#}
+{#                     {% endfor %}#}
+{#                  </div>#}
+{#               {% endfor %}#}
+                <ul>
+                  {% for t in course_types %}
+                     {% if loop.index !=2 and loop.index !=3 %}
+                        <li class="course-type">
+                            <a href="javascript:void(0);">{{ t.name }}</a>
+                        </li>
+                     {% endif %}
+                  {% endfor %}
+               </ul>
+               <br>
+
+               <div class="courses clearfix" id="modalcoursewap">
+                  {% for t in course_types %}
+                     {% if loop.index !=2 and loop.index !=3 %}
+                        <div class="item">
+                           {% for c in t.courses %}
+                              <div class="course {% if has_course(c.id) %}yes{% else %}no{% endif %}"#}
+                             data-course-id="{{ c.id }}">
+                                 {{ c.name }}
+                              </div>
+                           {% endfor %}
+                        </div>
+                     {% endif %}
+                  {% endfor %}
+
+               </div>
+            </div>
+
+            <div class="modal-footer">
+               <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+               <button type="button" class="btn btn-primary btn-sumbit-courses"
+                       data-dismiss="modal">保存
+               </button>
+            </div>
+         </div>
+      </div>
+   </div>
+
+   <script type="text/javascript">
+
+            // 课程选择
+      $(".modal-body .course-type").click(function () {
+         $(".course-fullname").text($(this).children("a").text());
+         $(this).siblings("li").children("a").removeClass("selected");
+         $(this).children("a").addClass("selected");
+
+         var index = $(this).index();
+         $(".courses .item").eq(index).show();
+         $(".courses .item").eq(index).siblings().hide();
+      })
+      $('.course').click(function () {
+         var course_type = $(".course-type .selected").text();
+         var course_name = $(this).text();
+{#         $('.course').removeClass('yes');#}
+{#         $(this).addClass('yes');#}
+      });
+
+      // 在主界面中删除课程
+      $(document).on('click', '.btn-delete-course', function () {
+         var that = this;
+         var course_id = $(this).data("course-id");
+
+         $.ajax({
+            url: "{{ url_for('user.delete_course') }}",
+            method: "POST",
+            dataType: 'json',
+            data: {
+               csrf_token: '{{ csrf_token() }}',
+               course_id: course_id
+            },
+            success: function (result) {
+               if (result.status === 'ok') {
+                  $(that).parent().detach();
+                  // 同步更新弹出框中的课程选择状态
+                  $("#course-modal .course[data-course-id=" + course_id + "]")
+                        .removeClass('yes').addClass('no');
+               }
+            }
+         });
+      });
+
+      // 在弹出框中删除课程
+      $(document).on('click', '.course.yes', function () {
+         var that = $(this);
+         var course_id = $(this).data('course-id');
+
+         $.ajax({
+            url: "{{ url_for('user.delete_course') }}",
+            method: "POST",
+            dataType: 'json',
+            data: {
+               csrf_token: '{{ csrf_token() }}',
+               course_id: course_id
+            },
+            success: function (result) {
+               if (result.status === 'ok') {
+                  $(that).removeClass('yes').addClass('no');
+               }
+            }
+         });
+      });
+
+      // 在弹出框中添加课程
+      $(document).on('click', '.course.no', function () {
+         var that = $(this);
+         var course_id = $(this).data('course-id');
+
+         $.ajax({
+            url: "{{ url_for('user.add_course') }}",
+            method: "POST",
+            dataType: 'json',
+            data: {
+               csrf_token: '{{ csrf_token() }}',
+               course_id: course_id
+            },
+            success: function (result) {
+               if (result.status === 'ok') {
+                  $(that).removeClass('no').addClass('yes');
+               }
+            }
+         });
+      });
+
+      $('#course-modal').on('hidden.bs.modal', function () {
+         $('.courses-wap').empty();
+         $.each($('.course.yes'), function (index, course) {
+            index = $(this).parent().index();
+{#          var courseType = $.trim($(course).parent().prev().text());#}
+            var courseType=$(".modal-body ul .course-type").eq(index).children("a").text();
+            var courseName = $.trim($(course).text());
+            var courseId = $(course).data('course-id');
+
+            $('.courses-wap').append("<div class='course'>"
+                  + courseType + courseName
+                  + "<span class='fa fa-times btn-delete-course' title='删除课程' data-course-id="
+                  + courseId
+                  + "></span></div>");
+         });
+      });
+   </script>
+{% endmacro %}
+
+
+{# 更新个人头像 #}
+{% macro update_avatar(user) %}
+   <p class="form-control-static avatar-wap">
+      <img src="{{ user.avatar_url }}" class="avatar-up" alt=""/>
+   </p>
+   <div class="upload-error-info text-error"></div>
+   <button class="btn btn-xs btn-primary" id="btn-upload">更新头像</button>
+
+   {{ script('bower_components/plupload/js/plupload.full.min.js') }}
+   <script>
+      $(function () {
+         var uploader = new plupload.Uploader({
+            browse_button: 'btn-upload',
+            url: "{{ url_for('user.update_avatar') }}",
+            multipart_params: {
+               'csrf_token': '{{ csrf_token() }}'
+            }
+         });
+
+         uploader.init();
+
+         // 文件添加后立即上传
+         uploader.bind('FilesAdded', function (up, files) {
+            plupload.each(files, function (file) {
+               uploader.start();
+            });
+         });
+
+         // 上传头像
+         uploader.bind('FileUploaded', function (up, file, info) {
+            var response = $.parseJSON(info.response);
+            if (response.status === 'yes') {
+               $('.avatar-wap img').attr('src', response.avatar_url);
+            } else {
+               $('.upload-error-info').text(response.error.message);
+            }
+         });
+      });
+   </script>
+{% endmacro %}
+
+
+{# 上传证件 #}
+{% macro upload_card(user) %}
+   <input id="student_image" name="student_image" multiple type="file"/>
+   <p class="form-control-static cards-wap">
+      <img src="{{ user.teacher.student_image }}" class="avatar-up" alt=""/>
+   </p>
+   <div class="upload-error-info text-error"></div>
+
+   {{ script('bower_components/plupload/js/plupload.full.min.js') }}
+   <script>
+      $(function () {
+         var uploader = new plupload.Uploader({
+            browse_button: 'ideal-file-upload',
+            url: "{{ url_for('user.upload_card') }}",
+            multipart_params: {
+               'csrf_token': '{{ csrf_token() }}'
+            }
+         });
+
+         uploader.init();
+
+         // 文件添加后立即上传
+         uploader.bind('FilesAdded', function (up, files) {
+            plupload.each(files, function (file) {
+               uploader.start();
+            });
+         });
+
+         // 上传头像
+         uploader.bind('FileUploaded', function (up, file, info) {
+            var response = $.parseJSON(info.response);
+            if (response.status === 'yes') {
+               $('.cards-wap img').attr('src', response.card_url);
+            } else {
+               $('.upload-error-info').text(response.error.message);
+            }
+         });
+      });
+   </script>
+{% endmacro %}
+
+
+{# 上传荣誉 #}
+{% macro upload_honor(user) %}
+   <input id="student_image" name="student_image" multiple type="file"/>
+   <p class="form-control-static cards-wap">
+      <img src="{{ user.teacher.teacher_honor.image }}" class="avatar-up" alt=""/>
+   </p>
+   <div class="upload-error-info text-error"></div>
+
+   {{ script('bower_components/plupload/js/plupload.full.min.js') }}
+   <script>
+      $(function () {
+         var uploader = new plupload.Uploader({
+            browse_button: 'ideal-file-upload',
+            url: "{{ url_for('user.upload_honor') }}",
+            multipart_params: {
+               'csrf_token': '{{ csrf_token() }}'
+            }
+         });
+
+         uploader.init();
+
+         // 文件添加后立即上传
+         uploader.bind('FilesAdded', function (up, files) {
+            plupload.each(files, function (file) {
+               uploader.start();
+            });
+         });
+
+         // 上传头像
+         uploader.bind('FileUploaded', function (up, file, info) {
+            var response = $.parseJSON(info.response);
+            if (response.status === 'yes') {
+               $('.cards-wap img').attr('src', response.honor_url);
+            } else {
+               $('.upload-error-info').text(response.error.message);
+            }
+         });
+      });
+   </script>
+{% endmacro %}
+
+{# 个人页面的左侧面板 #}
+{% macro leftnav() %}
+   <div class="leftnav">
+      <div id="sidebar-follow" class="sidebar">
+         <img src="{{ g.user.avatar_url }}" class="avatar-lg" alt=""/>
+
+         <div class="username">{{ g.user.name }}</div>
+
+         <div class="user-nav-setting">
+            <a href="{{ url_for('user.settings') }}"><i class="fa fa-cog"></i>个人设置</a>
+         </div>
+
+         <dl id="user-nav-index">
+            <dt>
+               <a href="{{ url_for('user.user_index') }}"><i
+                     class="fa fa-user"></i><span>我的首页</span></a>
+            </dt>
+         </dl>
+
+         {% if g.user.is_student %}
+            <dl>
+               <dt>
+                  <i class="fa fa-pencil"></i> 我的学习
+               </dt>
+               <dd id="user-nav-study">
+                  <a href="{{ url_for('user.watched_videos') }}">
+                     <span>学习轨迹</span>
+                  </a>
+               </dd>
+               <dd>
+                  <a href="{{ url_for('user.my_favorite_videos') }}">
+                     <span>我的收藏</span>
+                  </a>
+               </dd>
+               <dd>
+                  <a href="javascript:void(0)">
+                     <span>学习笔记</span>
+                  </a>
+               </dd>
+               <dd id="user-nav-questions">
+                  <a href="{{ url_for('user.student_questions') }}">
+                     <span>我的问题</span>
+                  </a>
+               </dd>
+            </dl>
+         {% elif g.user.is_teacher %}
+            <dl id="user-nav-teach">
+               <dt>
+                  <i class="fa fa-video-camera"></i> 我的教学
+               </dt>
+               <dd>
+                  <a href="{{ url_for('user.videos') }}"><span>我的视频</span></a>
+               </dd>
+               <dd>
+                  <a href="{{ url_for('user.teacher_questions') }}">
+                     <span>我的问题</span>
+                  </a>
+               </dd>
+               <dd>
+                  <a href="{{ url_for('user.my_favorite_videos') }}">
+                     <span>我的收藏</span>
+                  </a>
+               </dd>
+            </dl>
+         {% endif %}
+
+         <dl id="user-nav-group">
+            <dt>
+               <i class="fa fa-users"></i> 我的圈子
+            </dt>
+
+            <dd id="user-nav-dialogs">
+               <a href="{{ url_for('user.dialogs') }}" target="_blank">
+                  <span>我的私信</span>
+                  {% if g_new_messages_count > 0 %}
+                     <span class="label label-info">{{ g_new_messages_count }}</span>
+                  {% endif %}
+               </a>
+            </dd>
+
+            <dd>
+               <a href="{{ url_for('user.notifications') }}" target="_blank">
+                  <span>我的通知</span>
+               </a>
+            </dd>
+            <dd id="user-nav-followers">
+               <a href="{{ url_for('user.followers') }}">
+                  <span>我的粉丝</span>
+               </a>
+            </dd>
+            <dd id="user-nav-followees">
+               <a href="{{ url_for('user.followees') }}">
+                  <span>我的关注</span>
+               </a>
+            </dd>
+         </dl>
+
+         {% if g.user.role == 'teacher' %}
+            <dl id="user-nav-account">
+               <dt>
+                  <i class="fa fa-shopping-cart"></i> 我的账户
+               </dt>
+               <dd id="user-nav-pay">
+                  <a href="{{ url_for('user.pay') }}"><span>充值</span></a>
+               </dd>
+               <dd id="user-nav-change-pwd">
+                  <a href="{{ url_for('user.change_pwd') }}"><span>修改密码</span></a>
+               </dd>
+            </dl>
+         {% else %}
+            <dl id="user-nav-change-pwd">
+               <dt>
+                  <a href="{{ url_for('user.change_pwd') }}"><i class="fa fa-key"></i>
+                     <span>修改密码</span></a>
+               </dt>
+            </dl>
+         {% endif %}
+
+         <dl id="user-nav-invite-friend">
+            <dt>
+               <a href="{{ url_for('user.share_award') }}"><i
+                     class="fa fa-share"></i><span>邀请好友</span></a>
+            </dt>
+         </dl>
+      </div>
+   </div>
+{% endmacro %}
+
+{% macro login_modal() %}
+   <script type="text/javascript">
+      $("#close-btn").click(function () {
+         $(".ggg").addClass("hide");
+         $(".screen_bg").hide();
+         $(".modal_content").hide();
+      })
+   </script>
+   <div class="form-header">
+      <h1>登录</h1>
+      <span><i class="fa fa-times" id="close-btn"></i></span>
+   </div>
+   <form class="form-horizontal"
+         action="{{ url_for('account.signin') }}"
+         method="post" id="signin-form">
+      <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">
+      <input id="current_url" name="current_url" type="hidden" value="{{ request.url }}">
+
+      <div class='form-group'>
+         <label class='col-xs-2 control-label' for='email'></label>
+
+         <div class='col-xs-8'>
+            <input class='form-control' id='email' name='email' placeholder='邮箱' type='text'
+                   value=''>
+         </div>
+      </div>
+      <div class="form-group">
+         <label class="col-xs-2 control-label" for="password"></label>
+
+         <div class='col-xs-8'>
+            <input class="form-control" id='password' name='password' placeholder='密码'
+                   type='password'
+                   value=''>
+            <ul class='list-form-errors list-unstyled text-error clearfix'>
+            </ul>
+         </div>
+      </div>
+      <p class='clearfix'>
+         <a class="btn-retrieve-pwd pull-right" href="/account/retrieve_pwd">忘记密码？</a>
+      </p>
+
+      <div class='form-group'>
+
+         <label class='col-xs-2 control-label'></label>
+
+         <div class='col-xs-8'>
+            <button type="submit" class="btn btn-primary btn-signin col-xs-12">登录</button>
+            <p class="other_method">使用其它方式登录：<span><a class="pull-right"
+                                                      href="{{ url_for('account.signup_select_role') }}">立即注册</a></span>
+            </p>
+            {{ script('js/site/popup.js') }}
+            <script>
+               function y(e) {
+                  window.open(e, "", "width=400,height=300,left=200,top=100,scrollbars=1,resizable=yes,location=yes");
+               }
+               ;
+            </script>
+            <li class="connect_button clearfix">
+               <a class="qq" title="qq登录"
+                  href="https://graph.qq.com/oauth2.0/authorize?scope=get_user_info&redirect_uri=http://www.tuomeng.com.cn/account/qq_login&response_type=code&client_id=101136286">
+                  <em class="icons qq_16_gray"></em></a>
+               <a class="weibo" title="微博登录"
+                  href="https://api.weibo.com/oauth2/authorize?redirect_uri=http://www.tuomeng.com.cn/account/sina_login&response_type=code&client_id=3425063612">
+                  <em class="icons weibo_16_gray"></em></a>
+               <a class="douban" title="豆瓣登录"
+                  href="https://www.douban.com/service/auth2/auth?client_id=07732d5b34782490165988119d686db0&redirect_uri=http://www.tuomeng.com.cn/account/douban_login&response_type=code">
+                  <em class="icons douban_16_gray"></em></a>
+               <a class="renren" title="人人登录"
+                  href="https://graph.renren.com/oauth/authorize?redirect_uri=http://www.tuomeng.com.cn/account/renren_login&response_type=code&client_id=bf3e1f976dc74ec0be98037b0f769b6e">
+                  <em class="icons renren_16_gray"></em></a>
+            </li>
+         </div>
+      </div>
+   </form>
+
+
+{% endmacro %}
+
+
+{% macro fast_login() %}
+
+   <div class="form-header">
+      <span class="fa fa-times" id="close-login"></span>
+
+      <script type="text/javascript">
+         $(".fast_login #close-login").bind('click', function () {
+            $(".fast_login").hide();
+         })
+      </script>
+   </div>
+   <form class="form-horizontal"
+         action="{{ url_for('account.signin') }}"
+         method="post" id="signin-form">
+      <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">
+      <input id="current_url" name="current_url" type="hidden" value="{{ request.url }}">
+
+      <div class='form-group'>
+         <div class='col-xs-11'>
+            <input class='form-control' id='email' name='email' placeholder='邮箱' type='text'
+                   value=''>
+         </div>
+      </div>
+      <div class="form-group">
+         <div class='col-xs-11'>
+            <input class="form-control" id='password' name='password' placeholder='密码'
+                   type='password'
+                   value=''>
+            <ul class='list-form-errors list-unstyled text-error clearfix'>
+            </ul>
+         </div>
+      </div>
+      <p class='clearfix forget'>
+         <a class="btn-retrieve-pwd pull-right" href="/account/retrieve_pwd">忘记密码？</a>
+      </p>
+
+      <div class='form-group'>
+
+         <div class='col-xs-11'>
+            <button type="submit" class="btn btn-primary btn-signin col-xs-12">登录</button>
+            <li class="connect clearfix">
+               <a class="" title="qq登录"
+                  href="https://graph.qq.com/oauth2.0/authorize?scope=get_user_info&redirect_uri=http://www.tuomeng.com.cn/account/qq_login&response_type=code&client_id=101136286">
+                  <img alt="Connect_logo_3.png"
+                       src="http://qzonestyle.gtimg.cn/qzone/vas/opensns/res/img/Connect_logo_3.png">
+               </a>
+               <a class="renren" title="人人登录"
+                  href="https://graph.renren.com/oauth/authorize?redirect_uri=http://www.tuomeng.com.cn/account/renren_login&response_type=code&client_id=bf3e1f976dc74ec0be98037b0f769b6e">
+                  <img alt="Connect_logo_3.png" width="120"
+                       src="http://wiki.dev.renren.com/mediawiki/images/a/a7/%E8%BF%9E%E6%8E%A5%E6%8C%89%E9%92%AE2_%E8%93%9D%E8%89%B2133x28.png">
+               </a>
+            </li>
+         </div>
+      </div>
+   </form>
+{% endmacro %}
+
+{% macro change_region() %}
+   {{ form.province_id }}{{ form.city_id }}{{ form.region }}{{ form.region_id }}
+{% endmacro %}
+
+
+{% macro admin_nav() %}
+   <div class="col_side">
+      <div class="menu_box" id="menuBar">
+         <dl id="menu_statistics" class="menu selected  ">
+            <dt class="menu_title"><i class="icon_menu statistics"></i><i
+                  class="icon_menu_switch"></i>数据统计
+            </dt>
+            <dd id="menu_user" class="menu_item {% if page_type == 1 %}selected{% endif %}"><a
+                  href="{{ url_for('admin.user_sta') }}">用户分析</a>
+            </dd>
+            <dd id="menu_message" class="menu_item {% if page_type == 2 %}selected{% endif %}"><a
+                  href="{{ url_for('admin.message_sta') }}">消息分析</a>
+            </dd>
+            <dd id="menu_appmsg" class="menu_item {% if page_type == 3 %}selected{% endif %}"><a
+                  href="{{ url_for('admin.mail_sta') }}">用户激活</a>
+            </dd>
+         </dl>
+         <dl id="menu_manage" class="menu  closed">
+            <dt class="menu_title"><i class="icon_menu manage"></i><i class="icon_menu_switch"></i>用户管理
+            </dt>
+            <dd id="menu_message" class="menu_item {% if page_type == 4 %}selected{% endif %}">
+               <a href="{{ url_for("admin.user_manage") }}">信息管理</a>
+            </dd>
+            <dd id="menu_contact" class="menu_item {% if page_type == 5 %}selected{% endif %}">
+               <a href="{{ url_for("admin.stu_manage") }}">用户激活管理</a>
+            </dd>
+            <dd id="menu_contact" class="menu_item  {% if page_type == 6 %}selected{% endif %}">
+               <a href="{{ url_for("admin.info_manage") }}">用户资料管理</a>
+            </dd>
+            <dd id="menu_contact" class="menu_item  {% if page_type == 7 %}selected{% endif %}">
+               <a href="{{ url_for("admin.video_manage") }}">视频管理</a>
+            </dd>
+            <dd id="menu_contact" class="menu_item  {% if page_type == 8 %}selected{% endif %}">
+               <a href="{{ url_for("admin.question_manage") }}">问题管理</a>
+            </dd>
+            <dd id="menu_contact" class="menu_item  {% if page_type == 9 %}selected{% endif %}">
+               <a href="{{ url_for("admin.send_msg") }}">消息群发</a>
+            </dd>
+            <dd id="menu_contact" class="menu_item  {% if page_type == 10 %}selected{% endif %}">
+               <a href="{{ url_for("admin.identity_auth_manage") }}">认证管理</a>
+            </dd>
+            <dd id="menu_contact" class="menu_item  {% if page_type == 10 %}selected{% endif %}">
+               <a href="{{ url_for("admin.crash_order_manage") }}">提现管理</a>
+            </dd>
+         </dl>
+
+         <dl id="menu_setting" class="menu closed">
+            <dt class="menu_title"><i class="icon_menu setting"></i><i class="icon_menu_switch"></i>设置
+            </dt>
+            <dd id="menu_account" class="menu_item "><a>帐号信息</a>
+            </dd>
+            <dd id="menu_assistant" class="menu_item "><a
+                  >修改密码</a>
+            </dd>
+            <dd id="menu_safe" class="menu_item "><a>安全中心</a>
+            </dd>
+         </dl>
+      </div>
+   </div>
+   <script type="text/javascript">
+      $(".menu_title").click(function () {
+         $(this).siblings(".menu_item").slideToggle(200);
+      });
+   </script>
+{% endmacro %}
+
+
+{% macro trend(data) %}
+   <div class="title">
+      <h2>近期数据</h2>
+   </div>
+   <div class="content">
+      <script>
+         $(function () {
+            $.getJSON('{{ url_for("admin.trend")}}', {}, function (data) {
+               $("h1#new_users").text(data["user_num"]);
+               $("h1#new_teachers").text(data["th_num"]);
+               $("h1#new_students").text(data["stu_num"]);
+               $("h1#total_users").text(data["total_num"]);
+            })
+         });
+      </script>
+      <!-- 趋势格控件 开始 -->
+      <table class="ui_trendgrid ui_trendgrid_4" id="key_index">
+         <tbody>
+         <tr>
+            <td class="first">
+               <div class="ui_trendgrid_item">
+                  <div class="ui_trendgrid_chart" id="key_index_chart_NewUser"></div>
+                  <dl>
+                     <dt><b class="top_title">新注册人数</b></dt>
+                     <h1 class="big_num" id="new_users">
+                        8
+                     </h1>
+                  </dl>
+               </div>
+            </td>
+            <td>
+               <div class="ui_trendgrid_item">
+                  <div class="ui_trendgrid_chart" id="key_index_chart_CancelUser"></div>
+                  <dl>
+                     <dt><b>新注册老师人数</b></dt>
+                     <h1 class="big_num" id="new_teachers">
+                        8
+                     </h1>
+                  </dl>
+               </div>
+            </td>
+            <td>
+               <div class="ui_trendgrid_item">
+                  <div class="ui_trendgrid_chart" id="key_index_chart_NetUser"></div>
+                  <dl>
+                     <dt><b>新注册学生人数</b></dt>
+                     <h1 class="big_num" id="new_students">
+                        8
+                     </h1>
+                  </dl>
+               </div>
+            </td>
+            <td class="last">
+               <div class="ui_trendgrid_item">
+                  <div class="ui_trendgrid_chart" id="key_index_chart_CumulateUser"></div>
+                  <dl>
+                     <dt><b>累积注册人数</b></dt>
+                     <h1 class="big_num" id="total_users">
+                        8
+                     </h1>
+                  </dl>
+               </div>
+            </td>
+         </tr>
+         </tbody>
+      </table>
+      <!-- 趋势格控件 结束 -->
+   </div>
+{% endmacro %}
+
+
+{% macro select_university() %}
+   <div id="choose-box-wrapper">
+      <div id="choose-box">
+         <div id="choose-box-title">
+            <span>选择学校</span>
+         </div>
+         <div id="choose-a-province" class="clearfix"></div>
+         <div id="choose-a-school"></div>
+         <div id="choose-box-bottom">
+            <input type="button" class="btn btn-primary btn-xs btn-submit-school" value="确定"/>
+         </div>
+      </div>
+   </div>
+
+   {{ script('vender/school.js') }}
+   <script type="text/javascript">
+      var click_callback = null;
+
+      function selectSchool(selector, event, callback) {
+         $(selector).on(event, function () {
+            popSchollSelector();
+         });
+
+         click_callback = callback;
+      }
+
+      $('.btn-submit-school').click(function () {
+         hideSchollSelector();
+      });
+
+      /**
+       * 弹出窗口
+       */
+      function popSchollSelector() {
+         //将窗口居中
+         makeCenter();
+
+         //初始化省份列表
+         initProvince();
+
+         //默认情况下, 给第一个省份添加choosen样式
+         $('[province-id="11"]').addClass('choosen');
+
+         //初始化大学列表
+         initSchool(11);
+      }
+
+      /**
+       * 隐藏学校选择框
+       */
+      function hideSchollSelector() {
+         $('#choose-box-wrapper').css("display", "none");
+      }
+
+      /**
+       * 初始化省份
+       */
+      function initProvince() {
+         //原先的省份列表清空
+         $('#choose-a-province').empty();
+         for (var i = 0; i < schoolList.length; i++) {
+            $('#choose-a-province').append('<a class="province-item" province-id="' + schoolList[i].id + '">' + schoolList[i].name + '</a>');
+         }
+         //添加省份列表项的click事件
+         $('.province-item').bind('click', function () {
+            var item = $(this);
+            var province = item.attr('province-id');
+            var choosenItem = item.parent().find('.choosen');
+
+            if (choosenItem) {
+               $(choosenItem).removeClass('choosen');
+            }
+            item.addClass('choosen');
+
+            //更新大学列表
+            initSchool(province);
+         });
+      }
+
+      /**
+       * 初始化学校
+       */
+      function initSchool(provinceId) {
+         var schools = schoolList[provinceId - 1].school;
+
+         //原先的学校列表清空
+         $('#choose-a-school').empty();
+         for (var i = 0; i < schools.length; i++) {
+            $('#choose-a-school').append('<a class="school-item" school-id="' + schools[i].id + '">' + schools[i].name + '</a>');
+         }
+
+         //添加大学列表项的click事件
+         $('.school-item').bind('click', function () {
+            var schoolName = $(this).text()
+            var schoolId = $(this).attr('school-id');
+
+            //关闭弹窗
+            hideSchollSelector();
+
+            click_callback(schoolId, schoolName);
+         });
+      }
+
+      /**
+       * 使大学选择框居中
+       */
+      function makeCenter() {
+         var box_wrapper = $('#choose-box-wrapper');
+         box_wrapper.css({
+            "display": "block", "position": "absolute",
+            "top": Math.max(0, (($(window).height() - box_wrapper.outerHeight()) / 2) +
+                  $(window).scrollTop()) + "px",
+            "left": Math.max(0, (($(window).width() - box_wrapper.outerWidth()) / 2) +
+                  $(window).scrollLeft()) + "px"
+         });
+      }
+   </script>
+{% endmacro %}
+
+
+{% macro teacher_type_and_university(teacher) %}
+   {% if teacher.type %}
+      <span>{{ teacher.type.name }}</span>
+   {% endif %}
+
+   {% if teacher.university %}
+{#      <span>,{{ teacher.university_perfix }}于</span>#}
+      <span><strong>{{ teacher.university.name }}</strong></span>
+   {% endif %}
+{% endmacro %}
+
+{# 图片显示 #}
+{% macro photo_player() %}
+   <div class="photo_layer">
+      <div class="img_view_player">
+
+      </div>
+   </div>
+{% endmacro %}
+
+{# 左滑动导航 #}
+{% macro menu_toggle() %}
+   <div class="question-bg">
+   </div>
+   <div class="widget-list">
+      <ul class="am-list m-widget-list">
+         <li>
+            <img class="logo" alt="拓梦教育,武汉家教,大学生家教" src="{{ static('image/logo.png') }}"/>
+         </li>
+         <li>
+            <a href="/">首页</a>
+         </li>
+         <li id="nav-courses" class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+               <i class="fa fa-th-list"></i>
+               课程
+               <i class="fa fa-chevron-down pull-right"></i>
+            </a>
+            <ul class="dropdown-menu course-types-menu">
+               {% for ct in g_course_types %}
+                  <li class="course-type">
+                     <a href="#">
+                        <i class="fa fa-book"></i> {{ ct.name }}
+                     </a>
+                     <ul class=" list-unstyled">
+                        {% for c in ct.courses %}
+                           <li class="course">
+                              <a href="{{ url_for('eb.course_tree', course_id=c.id) }}">
+                                 {{ c.name }}
+                              </a>
+                           </li>
+                        {% endfor %}
+                     </ul>
+                  </li>
+               {% endfor %}
+            </ul>
+         </li>
+         <li>
+            <a href="{{ url_for('search.teachers') }}">
+               找老师
+               <i class="fa fa-chevron-right pull-right"></i>
+            </a>
+         </li>
+         <li>
+            <a href="{{ url_for('search.students') }}">找学生
+               <i class="fa fa-chevron-right pull-right"></i></a>
+         </li>
+         <li>
+            <a href="{{ url_for('discuss.index') }}">答疑
+               <i class="fa fa-chevron-right pull-right"></i>
+            </a>
+         </li>
+         {% if not g.user %}
+            <li>
+               <a href="{{ url_for('account.signup') }}">注册
+                  <i class="fa fa-chevron-right pull-right"></i>
+               </a>
+            </li>
+         {% else %}
+            <li>
+               <a href="{{ url_for('user.user_index') }}">
+                  <i class="fa fa-user"></i>个人中心
+                  <i class="fa fa-chevron-right pull-right"></i>
+               </a>
+            </li>
+            <li>
+               <a href="{{ url_for('account.signout') }}">
+                  <i class="fa fa-sign-out"></i>
+                  退出
+                  <i class="fa fa-chevron-right pull-right"></i>
+               </a>
+            </li>
+         {% endif %}
+      </ul>
+   </div>
+{% endmacro %}

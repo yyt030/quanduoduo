@@ -1,0 +1,151 @@
+{% extends 'account_layout.html' %}
+{% from 'macro/form.html' import form_field %}
+{% block content %}
+    <body>
+    <div class="main">
+        <form action="" class="form-horizontal form" onsubmit="return checkProfile();" method="post"
+              style="float:left;">
+            {{ form.csrf_token }}
+            <input id="current_url" name="current_url" type="hidden" value="{{ request.url }}">
+            <h4>编辑品牌</h4>
+            <table class="tb">
+                <tbody>
+                <tr>
+                    <th><label for="">品牌名称</label></th>
+                    <td>
+                        <div class="input-append">
+                            {{ form_field(form.brand) }}
+                            <button type="button" class="btn" name="brandBtn" value="查找品牌" onclick="">查找品牌</button>
+                        </div>
+                        <div id="brand-append" style="margin-top:10px;">
+                            <span class="help-block"><b>选择此品牌的行业。</b></span>
+
+                            <div class="brand-append">
+                                {{ form_field(form.industry_1,class="span3",value=form.industry_1.data) }} //
+                                {{ form_field(form.industry_2,class="span3",value=form.industry_2.data) }}
+                            </div>
+                            <span class="help-block"><b>输入此品牌的简介。</b></span>
+
+                            <div class="brand-append">
+                                {{ form_field(form.intro,cols="70",style="height:80px;") }}
+                            </div>
+
+                            <span class="help-block">上传<b>宽度 640 高度 260</b> 的图片设为背景</span>
+
+                            <div class="fileupload fileupload-preview thumbnail"
+                                 style="width: 320px; height: 130px; overflow:hidden;" id="image_preview">
+                                <img src="/resource/attachment/images/{{ form.image.data }}" onerror="/resource/attachment/back.jpg"></div>
+                            {{ form_field(form.image,class='span3') }}
+                            <input type="button" fieldname="image" class="btn upload-btn"
+                                   value="上传"
+                                   style="font-size: 14px; width: 80px; height: 20px; display: none;">
+
+                            <span class="help-block">上传<b>宽度 160 高度 160</b> 的图片设为图标</span>
+
+                            <div class="fileupload fileupload-preview thumbnail"
+                                 style="width: 80px; height: 80px; overflow:hidden;" id="thumb_preview">
+                                <img src="/resource/attachment/images/{{ form.thumb.data }}" onerror="javascript:this.src='/resource/attachment/icon.jpg'" /></div>
+                            {{ form_field(form.thumb,class='span3') }}
+
+                            <input type="button" fieldname="thumb" class="btn upload-btn"
+                                   value="上传"
+                                   style="font-size: 14px; width: 80px; height: 20px; display: none;">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <td>
+                        <button type="submit" class="btn btn-primary span3" name="submit" value="提交">
+                            提交
+                        </button>
+                        <input type="hidden" name="token" value="f50075d3">
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+        <div id="demoSendBox" style="position:fixed;margin-left:700px;">
+            <div class="form" style="width:300px;display:none;">
+                <h4>找到品牌</h4>
+
+                <div class="side_wrap" style="display:none;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="{{ static('js/industry.js') }}"></script>
+    <script type="text/javascript">
+        <!--
+        $('.upload-btn').each(function () {
+            kindeditorUploadBtn($(this), uploadHander);
+        });
+
+        function uploadHander(obj, data) {
+            $("#" + obj.button.attr('fieldname')).val(data.filename);
+            $("#" + obj.button.attr('fieldname') + '_preview').html('<img src="' + data.url + '" />');
+        }
+        //-->
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            //查找品牌数据
+            var value = '';
+            $('#brand').keyup(function () {
+                if (this.value != value && this.value.length > 1) {
+                    value = this.value;
+                    fillQuery();
+                }
+            });
+            $('#industry_1').change(function () {
+                fillQuery();
+            });
+            //当前选择类别
+            $('.singleSelect').each(function () {
+                $('.btn[value="' + $('input', this).val() + '"]', this).addClass('active').siblings().removeClass('active');
+                $('.btn', this).click(function () {
+                    $(this).parent().next('input').val($(this).attr('value'))
+                            .next().text($(this).attr('title'));
+                });
+            });
+        });
+
+        function fillQuery() {
+            if ($('#brand').val() == '') return false;
+            var getJSONURL = "/brand/search";
+            $.getJSON(getJSONURL + '?brand=' + $('#brand').val() + '&class=' + $('#industry_1').val(),
+                    function (data) {
+                        if (data.type == 'ajax' && data.message) {
+                            var html = $('<div class="side_wrap" style="display:none;"></div>');
+                            for (property in data.message) {
+                                $('<div class="load_wrap activity">' +
+                                        '<a href="/brand/modify&bid=' + data.message[property].bid + '">' +
+                                        '<div class="coupon-image">' +
+                                        '<img src="/resource/attachment/' + data.message[property].thumb + '" />' +
+                                        '</div>' +
+                                        '<div class="coupon-intro">' +
+                                        '<p class="title">' + data.message[property].brand + '</p>' +
+                                        '<p class="count"><b>' + data.message[property].count + '</b>个<span>地区启用，点击添加</span></p>' +
+                                        '<p class="other">' + data.message[property].industry1 + ' ' + data.message[property].industry2 + '</p>' +
+                                        '</div>' +
+                                        '</a>' +
+                                        '</div>').appendTo(html);
+                            }
+
+                            $('#demoSendBox .form').fadeIn().find('.side_wrap').replaceWith(html);
+                            $('.side_wrap').fadeIn();
+                        }
+                    }
+            );
+        }
+        ;
+    </script>
+    <div class="show_foot">
+        <div class="foot_wrap">
+            <p>© 2015 <b>汝州百事优惠圈商务</b></p>
+        </div>
+    </div>
+
+
+    </body>
+{% endblock %}

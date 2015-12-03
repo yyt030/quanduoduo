@@ -1,0 +1,145 @@
+{% extends 'account_layout.html' %}
+{% from 'macro/form.html' import form_field %}
+{% block content %}
+    <body>
+
+
+    <div class="show_body">
+        <div class="head_wrap">
+            <div class="class normal">
+                <ul>
+                    <li class="normal"><a href="">门店入口</a></li>
+                </ul>
+            </div>
+        </div>
+        <style type="text/css">
+            .cost {
+                color: #EC6363;
+            }
+
+            .plus {
+                color: #34D634;
+            }
+        </style>
+        <div class="body_wrap" id="body_wrap">
+            <div class="type_wrap">
+                管理二维码
+            </div>
+            <div class="load_wrap">
+                <div class="coupon-image">
+                    <img src="http://mob.32184.com/resource/attachment/images/10014/2015/05/qT42522XH9A7t9XT9R2th49hf79TD2.jpg">
+                </div>
+                <div class="coupon-intro">
+                    <h1>
+                        洛阳科技职业学院游泳馆 </h1>
+
+                    <h2>
+                        品牌二维码：
+                    </h2>
+
+                    <h2>
+                        <img width="165"
+                             src="http://barcode.tec-it.com/barcode.ashx?code=MobileQRUrl&amp;modulewidth=10&amp;unit=px&amp;data=http%3A%2F%2Fmob.32184.com%2Fbusiness.php%3Fbid%3D1001819%26weid%3D10014%26do%3Dbrand&amp;dpi=96&amp;imagetype=jpg&amp;rotation=0&amp;color=&amp;bgcolor=&amp;fontcolor=&amp;quiet=0&amp;qunit=mm&amp;eclevel=">
+                    </h2>
+
+                    <h2>
+                        门店二维码：
+                    </h2>
+
+                    <h2>
+                        <img width="165"
+                             src="http://barcode.tec-it.com/barcode.ashx?code=MobileQRUrl&amp;modulewidth=10&amp;unit=px&amp;data=http%3A%2F%2Fmob.32184.com%2Fbusiness.php%3Fsid%3D120010848%26weid%3D10014%26do%3Dstore&amp;dpi=96&amp;imagetype=jpg&amp;rotation=0&amp;color=&amp;bgcolor=&amp;fontcolor=&amp;quiet=0&amp;qunit=mm&amp;eclevel=">
+                    </h2>
+                </div>
+                <div class="coupon-class">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="textWindow" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true" style=" width:600px;">
+        <div class="modal-header">
+            <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+            <h3>创建二维码</h3></div>
+        <div class="modal-body">
+            <div id="module-menus">
+                <table class="table-hover">
+                    <tbody>
+                    <tr class="modifyText">
+                        <td style="width:80px;">场景名称</td>
+                        <td>
+                            <input type="text" name="title" class="span3 modifyText" maxlength="16" value="">
+                        </td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td style="width:30px;"></td>
+                        <td>
+                            <a href="javascript:void(0);" class="btn">确认提交</a>
+                            <span></span>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer"></div>
+    </div>
+    <script type="text/javascript">
+        $(function () {
+            var getQRCodeUrl = "site.php?sid=120010848&weid=10014&act=business&do=qrcode";
+            //新建二维码
+            $('a.create', this).click(function () {
+                location.href = getQRCodeUrl + '&isajax=1';
+            });
+
+            //循环处理
+            $('.modelList').each(function () {
+                var model = this;
+                var modelId = $(this).attr('data-tid');
+
+                //编辑二维码
+                $('a.modify', this).live('click', function () {
+                    var modifyName = $(this).attr('data-input');//修改的字段名
+                    var modifyText = $('.' + modifyName, model).text();
+                    $('#textWindow tbody .' + modifyName + 'Text').show().siblings().hide();
+                    $('#textWindow tfoot span').hide();
+                    $('#textWindow tbody .modifyText[name="' + modifyName + '"]').val(modifyText);
+                    $('#textWindow tfoot .btn').attr('data-tid', modelId).attr('data-input', modifyName);
+                    $('#textWindow').modal();
+                });
+                //下载二维码
+                $('a.qrcode', this).live('click', function () {
+                    location.href = getQRCodeUrl + '&tid=' + modelId + '&isajax=1';
+                });
+            });
+
+            //修改数据
+            $('#textWindow tfoot .btn').live('click', function () {
+                var modifyId = $(this).attr('data-tid');
+                var modifyName = $(this).attr('data-input');
+                var modifyText = $('#textWindow tbody .modifyText[name="' + modifyName + '"]');
+
+                $('#textWindow tfoot span').text('提交中..').show();
+                $.getJSON(getQRCodeUrl + '&tid=' + modifyId + '&isajax=1', modifyText.serialize(), function (result) {
+                    if (result.type == 'success') {
+                        $('#textWindow').modal('hide');
+                        $('.modelList[data-tid="' + modifyId + '"]').find('span.' + modifyName).text(result.message[modifyName]);
+                    } else {
+                        $('#textWindow tfoot span').text(result.message);
+                    }
+                });
+            });
+        });
+    </script>
+    <div class="show_foot">
+        <div class="foot_wrap">
+            <p>© 2015 <b>汝州百事优惠圈商务</b></p>
+        </div>
+    </div>
+
+
+    </body>
+{% endblock %}

@@ -1,0 +1,764 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>汝州百事优惠圈</title>
+    <meta name="keywords" content="汝州百事优惠圈,优惠券,手机优惠券,电子优惠券,微信优惠券">
+    <meta name="description" content="汝州百事优惠圈是一个借助于微信APP免费发放电子优惠券的公众平台。">
+    <link type="text/css" rel="stylesheet" href="./resource/style/bootstrap.css">
+    <link type="text/css" rel="stylesheet" href="./resource/style/font-awesome.css">
+    <link type="text/css" rel="stylesheet" href="./resource/style/common.css?v=1445670678">
+    <link type="text/css" rel="stylesheet" href="./resource/style/search.css?v=1445670678">
+    <script type="text/javascript" src="./resource/script/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="./resource/script/bootstrap.js"></script>
+    <script type="text/javascript" src="./resource/script/common.js"></script>
+    <script type="text/javascript" src="./resource/script/avatar.js"></script>
+    <script type="text/javascript">
+        cookie.prefix = 'cb65_';
+    </script>
+    <!--[if IE 7]>
+<link rel="stylesheet" href="./resource/style/font-awesome-ie7.min.css">
+<![endif]-->
+    <!--[if lte IE 6]>
+<link rel="stylesheet" type="text/css" href="./resource/style/bootstrap-ie6.min.css">
+<link rel="stylesheet" type="text/css" href="./resource/style/ie.css">
+<![endif]-->
+</head>
+<body>
+<script type="text/javascript" src="resource/script/highcharts.js"></script>
+<style>
+    <!--
+    body {
+        background: #efeff4;
+    }
+
+    .dashboard .chart-outer {
+        width: 960px;
+        margin: 30px 25px 25px 25px;
+    }
+
+    .dashboard .chart-outer .gap {
+        display: inline-block;
+        float: left;
+        width: 2%;
+        height: 1px;
+    }
+
+    .dashboard .analysis-chart {
+        display: inline-block;
+        float: left;
+    }
+
+    .dashboard .analysis-chart.chart-1 {
+        width: 46%;
+    }
+
+    .dashboard .analysis-chart.chart-2 {
+        width: 25%;
+    }
+
+    .dashboard .analysis-chart.chart-3 {
+        width: 25%;
+    }
+
+    .dashboard .analysis-chart .chart-area {
+        border-radius: 4px;
+        background: #fff;
+    }
+
+    .dashboard .analysis-chart .chart-area .js-chart {
+        position: relative;
+        overflow: hidden;
+        height: 268px;
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+    }
+
+    .dashboard .analysis-chart .chart-area .js-chart svg > text:last-child {
+        display: none;
+    }
+
+    .dashboard .info {
+        height: 98px;
+        padding: 10px;
+        text-align: center;
+        border-bottom-right-radius: 4px;
+        border-bottom-left-radius: 4px;
+        position: relative;
+    }
+
+    .dashboard .info.level-default {
+        background: #757e8a;
+    }
+
+    .dashboard .info.level-3 {
+        background: #06c290;
+    }
+
+    .dashboard .info.level-2 {
+        background: #ffb800;
+        height: 98px;
+    }
+
+    .dashboard .chart-area .main-text {
+        position: absolute;
+        right: 26px;
+        top: 22px;
+    }
+
+    .dashboard .chart-area .main-info {
+        font-size: 18px;
+        height: 72px;
+        position: absolute;
+        right: 26px;
+        top: 20px;
+    }
+
+    .dashboard .chart-area .main-type {
+
+        display: block;
+        height: 49px;
+        line-height: 43px;
+        text-align: left;
+    }
+
+    .dashboard .chart-area .main-link {
+        width: 50%;
+        float: left;
+        height: 49px;
+    }
+
+    .dashboard .chart-area .main-link a {
+        display: block;
+        font-size: 15px;
+        height: 47px;
+        line-height: 43px;
+        margin: 1px;
+    }
+
+    .dashboard .chart-area .large-text {
+        font-size: 60px;
+    }
+
+    -->
+</style>
+<style>
+    a {
+        text-decoration: none;
+        color: #0071ce;
+    }
+
+    .dashboard .info a {
+        color: #fff;
+    }
+
+    .netflow-legend {
+        position: absolute;
+        font-size: 12px;
+        color: #454a51;
+        right: 0;
+        top: 35px;
+    }
+
+    .legend-item {
+        float: left;
+        margin-right: 10px;
+    }
+
+    .legend-item div {
+        width: 20px;
+        height: 2px;
+        float: left;
+        margin-right: 4px;
+        margin-top: 7px;
+    }
+
+    table {
+        border-collapse: separate;
+        border-spacing: 2px;
+        border-color: gray;
+    }
+
+    tbody {
+        display: table-row-group;
+        vertical-align: middle;
+        border-color: inherit;
+    }
+
+    tr {
+        display: table-row;
+        vertical-align: inherit;
+        border-color: inherit;
+    }
+
+    .notice-box {
+        background-color: #ffffd9;
+    }
+
+    .notice-box table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    .notice-title {
+        color: #deb161;
+        font-size: 20px;
+        width: 65px;
+        padding: 14px 0 14px 27px;
+    }
+
+    .notice-content {
+        font-size: 12px;
+        vertical-align: middle;
+    }
+
+    .notice-content .notice-content-p {
+        width: 80%;
+        padding: 8px 0 0;
+        line-height: 18px;
+        height: 36px;
+        overflow: hidden;
+    }
+
+    .notice-page {
+        width: 45px;
+        vertical-align: bottom;
+        color: #999;
+        padding-bottom: 12px;
+        font-size: 12px;
+    }
+
+    .title-select-panel {
+        padding: 20px 20px 14px;
+        height: 35px;
+        position: relative;
+        z-index: 3;
+    }
+
+    .dashboard .title-select-panel {
+        position: relative;
+        padding: 25px 25px 14px 25px;
+    }
+
+    .dashboard .mobile-manager {
+        position: absolute;
+        top: 32px;
+        right: 30px;
+    }
+
+    .dashboard .mobile-manager {
+        font-size: 14px;
+    }
+
+</style>
+<script type="text/javascript">
+    $(function () {
+        $('#dashboardChartBox1').highcharts({
+            colors: ['#CFDFCF', '#058DC7', '#ED561B'],
+            chart: {
+                type: 'spline'
+            },
+            title: {
+                text: '领用券量监控',
+                y: 15,
+                style: {
+                    font: 'bold 13px/1.5 "Microsoft Yahei","微软雅黑",Tahoma,Arial,Helvetica,STHeiti'
+                }
+            },
+            subtitle: {
+                text: ''
+            },
+            xAxis: {
+                categories: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+                gridLineWidth: 0,
+                lineWidth: 1,
+                tickWidth: 1,
+            },
+            yAxis: {
+                title: {
+                    text: ''
+                },
+                min: 0,
+                allowDecimals: false,
+                gridLineWidth: 1,
+                lineWidth: 1,
+                tickWidth: 1,
+            },
+            tooltip: {//提示框
+                enabled: true,
+                formatter: function () {
+                    return '<b>' + this.series.name + '</b><br/>' + this.x + ': ' + this.y + ' 张';
+                }
+            },
+            legend: {
+                align: 'right',
+                verticalAlign: 'top',
+                x: 10,
+                y: 10,
+                floating: true,
+                itemStyle: {
+                    font: '9pt Trebuchet MS, Verdana, sans-serif',
+                    color: 'black'
+
+                },
+                itemHoverStyle: {
+                    color: '#039'
+                },
+                itemHiddenStyle: {
+                    color: 'gray'
+                }
+            },
+            plotOptions: {
+                line: {
+                    dataLabels: {
+                        enabled: false
+                    },
+                    enableMouseTracking: true
+                }
+            },
+            series: [{
+                name: '过期',
+                data: [2, 2, 0, 3, 1, 0, 0]
+            }, {
+                name: '领券',
+                data: [0, 0, 0, 0, 0, 0, 0]
+            }, {
+                name: '回收',
+                data: [0, 0, 0, 0, 0, 0, 0]
+            }]
+        });
+    });
+</script>
+<div class="dashboard">
+{#    <div class="notice-box" id="noticeBox" style="">#}
+{#        <table>#}
+{#            <tbody>#}
+{#            <tr>#}
+{#                <td class="notice-title">公告</td>#}
+{#                <td class="notice-content">#}
+{#                    <p class="notice-content-p" style="">#}
+{#                        9月19日微信端更新：经过三周逐步过渡，4个频道现已调整为“收藏、券包、发现、我的”，发现频道包含找优惠、周边等6个入口，收藏为商家和用户建立连接。<br>#}
+{#                        8月26日微信端更新：未关注服务号的用户领券时会通过识别二维码领券的方式引导关注。<br>#}
+{#                        8月15日系统功能更新：为提高回收率，解决资源浪费问题，调整了每周领券限额机制，<a#}
+{#                            href="fans.php?weid=10000&amp;do=mission">点此查看用户等级制度</a>。<br>#}
+{#                        8月12日系统功能更新：去除了每周、每月限量的玩法，调整了发布优惠页的发行控制部分，新上的活动增加了半小时的保护期。<br>#}
+{#                        7月29日系统功能更新：开放了一个好汉三个帮的公测，有兴趣的伙伴可与总部联系。<br>#}
+{#                        7月17日微信端更新：服务号菜单“我的”统一更改为“券包”（“找优惠、周边、券包”），另“一个好汉三个帮”的活动正在测试。<br>#}
+{#                        7月2日后台系统更新：通过长期的数据分析，领券后的有效期现预设为8种选项：7天、5天、3天、2天、1天、10天、20天、30天。<br>#}
+{#                        6月25日系统优化更新：调整了整点开抢游戏规则，结束时间由原来的两小时延长到每天的24点。<br>#}
+{#                        6月15日后台优化更新：调整了品牌库的管理机制，优化了连锁品牌的添加流程。<br>#}
+{#                        6月13日后台优化更新：添加门店时的地图默认不在县区中心的问题已修正。<br>#}
+{#                        6月12日系统优化更新：调整了消息队列的发送机制，提升了用户领券和回收的速度，过期提醒也更加及时了。<br>#}
+{#                        6月5日收银台更新：绑定收银台新增第二套流程，签定合作协议时就能让每个店员扫码预申请，待录入门店后，后台人工确认。<br>#}
+{#                        6月4日微信端更新：店员回收券成功的同时，用户手机上的券会自动隐藏二维码，文字更新为“已验证成功”并提醒用户点评。<br>#}
+{#                        5月28日后台系统更新：1，门店&amp;优惠管理操作流程调整；2，查看用户移到右上角管理菜单；3，总览数据优化调整；<br>#}
+{#                        5月25日后台系统更新：1，完善了总览页面的信息发布流程，优化了选择商家界面；2，找优惠上架规则调整，每个商家只能上1款券，上架操作的同时会自动下架其他的券；3，扫码领券增加了网页二维码。#}
+{#                    </p>#}
+{#                </td>#}
+{#                <td class="notice-page"><span data-field="cur_page"></span></td>#}
+{#            </tr>#}
+{#            </tbody>#}
+{#        </table>#}
+{#    </div>#}
+
+    <div class="title-select-panel">
+        <div class="mobile-manager">
+            <a href="javascript:;"></a>
+        </div>
+        <h2>总览</h2>
+
+        <div id="projectSelectorWrapper" class="select-project"></div>
+    </div>
+    <div class="chart-outer clearfix">
+        <div class="analysis-chart chart-1">
+            <div class="chart-area">
+                <div class="js-chart" id="dashboardChartBox1" style="position:relative;margin:0 10px 10px;height:258px"
+                     data-highcharts-chart="0">
+                    <div class="highcharts-container" id="highcharts-0"
+                         style="position: relative; overflow: hidden; width: 422px; height: 258px; text-align: left; line-height: normal; z-index: 0; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
+                        <svg version="1.1"
+                             style="font-family:&quot;Lucida Grande&quot;, &quot;Lucida Sans Unicode&quot;, Arial, Helvetica, sans-serif;font-size:12px;"
+                             xmlns="http://www.w3.org/2000/svg" width="422" height="258">
+                            <desc>Created with Highcharts 4.1.5</desc>
+                            <defs>
+                                <clipPath id="highcharts-1">
+                                    <rect x="0" y="0" width="379" height="175"></rect>
+                                </clipPath>
+                            </defs>
+                            <rect x="0" y="0" width="422" height="258" strokeWidth="0" fill="#FFFFFF"
+                                  class=" highcharts-background"></rect>
+                            <g class="highcharts-grid" zIndex="1"></g>
+                            <g class="highcharts-grid" zIndex="1">
+                                <path fill="none" d="M 33 217.5 L 412 217.5" stroke="#D8D8D8" stroke-width="1"
+                                      zIndex="1" opacity="1"></path>
+                                <path fill="none" d="M 33 173.5 L 412 173.5" stroke="#D8D8D8" stroke-width="1"
+                                      zIndex="1" opacity="1"></path>
+                                <path fill="none" d="M 33 130.5 L 412 130.5" stroke="#D8D8D8" stroke-width="1"
+                                      zIndex="1" opacity="1"></path>
+                                <path fill="none" d="M 33 86.5 L 412 86.5" stroke="#D8D8D8" stroke-width="1" zIndex="1"
+                                      opacity="1"></path>
+                                <path fill="none" d="M 33 41.5 L 412 41.5" stroke="#D8D8D8" stroke-width="1" zIndex="1"
+                                      opacity="1"></path>
+                            </g>
+                            <g class="highcharts-axis" zIndex="2">
+                                <path fill="none" d="M 86.5 217 L 86.5 227" stroke="#C0D0E0" stroke-width="1"
+                                      opacity="1"></path>
+                                <path fill="none" d="M 140.5 217 L 140.5 227" stroke="#C0D0E0" stroke-width="1"
+                                      opacity="1"></path>
+                                <path fill="none" d="M 194.5 217 L 194.5 227" stroke="#C0D0E0" stroke-width="1"
+                                      opacity="1"></path>
+                                <path fill="none" d="M 249.5 217 L 249.5 227" stroke="#C0D0E0" stroke-width="1"
+                                      opacity="1"></path>
+                                <path fill="none" d="M 303.5 217 L 303.5 227" stroke="#C0D0E0" stroke-width="1"
+                                      opacity="1"></path>
+                                <path fill="none" d="M 357.5 217 L 357.5 227" stroke="#C0D0E0" stroke-width="1"
+                                      opacity="1"></path>
+                                <path fill="none" d="M 412.5 217 L 412.5 227" stroke="#C0D0E0" stroke-width="1"
+                                      opacity="1"></path>
+                                <path fill="none" d="M 32.5 217 L 32.5 227" stroke="#C0D0E0" stroke-width="1"
+                                      opacity="1"></path>
+                                <path fill="none" d="M 33 217.5 L 412 217.5" stroke="#C0D0E0" stroke-width="1"
+                                      zIndex="7" visibility="visible"></path>
+                            </g>
+                            <g class="highcharts-axis" zIndex="2">
+                                <path fill="none" d="M 33 217.5 L 23 217.5" stroke="#C0D0E0" stroke-width="1"
+                                      opacity="1"></path>
+                                <path fill="none" d="M 33 173.5 L 23 173.5" stroke="#C0D0E0" stroke-width="1"
+                                      opacity="1"></path>
+                                <path fill="none" d="M 33 130.5 L 23 130.5" stroke="#C0D0E0" stroke-width="1"
+                                      opacity="1"></path>
+                                <path fill="none" d="M 33 86.5 L 23 86.5" stroke="#C0D0E0" stroke-width="1"
+                                      opacity="1"></path>
+                                <path fill="none" d="M 33 41.5 L 23 41.5" stroke="#C0D0E0" stroke-width="1"
+                                      opacity="1"></path>
+                                <path fill="none" d="M 32.5 42 L 32.5 217" stroke="#C0D0E0" stroke-width="1" zIndex="7"
+                                      visibility="visible"></path>
+                            </g>
+                            <g class="highcharts-series-group" zIndex="3">
+                                <path fill="rgba(207,223,207,0.25)" d="M 0 0"></path>
+                                <g class="highcharts-series" visibility="visible" zIndex="0.1"
+                                   transform="translate(33,42) scale(1 1)" clip-path="url(#highcharts-1)">
+                                    <path fill="none"
+                                          d="M 27.071428571428573 87.5 C 27.071428571428573 87.5 59.557142857142864 87.5 81.21428571428572 87.5 C 102.87142857142858 87.5 113.7 175 135.35714285714286 175 C 157.01428571428573 175 167.84285714285716 43.75 189.50000000000003 43.75 C 211.1571428571429 43.75 221.98571428571432 105 243.64285714285717 131.25 C 265.3 157.5 276.1285714285715 175 297.7857142857143 175 C 319.4428571428572 175 351.92857142857144 175 351.92857142857144 175"
+                                          stroke="#CFDFCF" stroke-width="2" zIndex="1" stroke-linejoin="round"
+                                          stroke-linecap="round"></path>
+                                    <path fill="none"
+                                          d="M 17.071428571428573 87.5 L 27.071428571428573 87.5 C 27.071428571428573 87.5 59.557142857142864 87.5 81.21428571428572 87.5 C 102.87142857142858 87.5 113.7 175 135.35714285714286 175 C 157.01428571428573 175 167.84285714285716 43.75 189.50000000000003 43.75 C 211.1571428571429 43.75 221.98571428571432 105 243.64285714285717 131.25 C 265.3 157.5 276.1285714285715 175 297.7857142857143 175 C 319.4428571428572 175 351.92857142857144 175 351.92857142857144 175 L 361.92857142857144 175"
+                                          stroke-linejoin="round" visibility="visible" stroke="rgba(192,192,192,0.0001)"
+                                          stroke-width="22" zIndex="2" class=" highcharts-tracker" style=""></path>
+                                </g>
+                                <g class="highcharts-markers highcharts-tracker" visibility="visible" zIndex="0.1"
+                                   transform="translate(33,42) scale(1 1)" clip-path="url(#highcharts-2)" style="">
+                                    <path fill="#CFDFCF"
+                                          d="M 351.92857142857144 171 C 357.2565714285714 171 357.2565714285714 179 351.92857142857144 179 C 346.60057142857147 179 346.60057142857147 171 351.92857142857144 171 Z"
+                                          stroke-width="1"></path>
+                                    <path fill="#CFDFCF"
+                                          d="M 297.7857142857143 171 C 303.11371428571425 171 303.11371428571425 179 297.7857142857143 179 C 292.4577142857143 179 292.4577142857143 171 297.7857142857143 171 Z"
+                                          stroke-width="1"></path>
+                                    <path fill="#CFDFCF"
+                                          d="M 243.64285714285717 127.25 C 248.97085714285717 127.25 248.97085714285717 135.25 243.64285714285717 135.25 C 238.31485714285716 135.25 238.31485714285716 127.25 243.64285714285717 127.25 Z"
+                                          stroke-width="1"></path>
+                                    <path fill="#CFDFCF"
+                                          d="M 189 39.75 C 194.328 39.75 194.328 47.75 189 47.75 C 183.672 47.75 183.672 39.75 189 39.75 Z"></path>
+                                    <path fill="#CFDFCF"
+                                          d="M 135 171 C 140.328 171 140.328 179 135 179 C 129.672 179 129.672 171 135 171 Z"></path>
+                                    <path fill="#CFDFCF"
+                                          d="M 81 83.5 C 86.328 83.5 86.328 91.5 81 91.5 C 75.672 91.5 75.672 83.5 81 83.5 Z"></path>
+                                    <path fill="#CFDFCF"
+                                          d="M 27 83.5 C 32.328 83.5 32.328 91.5 27 91.5 C 21.672 91.5 21.672 83.5 27 83.5 Z"></path>
+                                </g>
+                                <g class="highcharts-series" visibility="visible" zIndex="0.1"
+                                   transform="translate(33,42) scale(1 1)" clip-path="url(#highcharts-1)">
+                                    <path fill="none"
+                                          d="M 27.071428571428573 175 C 27.071428571428573 175 59.557142857142864 175 81.21428571428572 175 C 102.87142857142858 175 113.7 175 135.35714285714286 175 C 157.01428571428573 175 167.84285714285716 175 189.50000000000003 175 C 211.1571428571429 175 221.98571428571432 175 243.64285714285717 175 C 265.3 175 276.1285714285715 175 297.7857142857143 175 C 319.4428571428572 175 351.92857142857144 175 351.92857142857144 175"
+                                          stroke="#058DC7" stroke-width="2" zIndex="1" stroke-linejoin="round"
+                                          stroke-linecap="round"></path>
+                                    <path fill="none"
+                                          d="M 17.071428571428573 175 L 27.071428571428573 175 C 27.071428571428573 175 59.557142857142864 175 81.21428571428572 175 C 102.87142857142858 175 113.7 175 135.35714285714286 175 C 157.01428571428573 175 167.84285714285716 175 189.50000000000003 175 C 211.1571428571429 175 221.98571428571432 175 243.64285714285717 175 C 265.3 175 276.1285714285715 175 297.7857142857143 175 C 319.4428571428572 175 351.92857142857144 175 351.92857142857144 175 L 361.92857142857144 175"
+                                          stroke-linejoin="round" visibility="visible" stroke="rgba(192,192,192,0.0001)"
+                                          stroke-width="22" zIndex="2" class=" highcharts-tracker" style=""></path>
+                                </g>
+                                <g class="highcharts-markers highcharts-tracker" visibility="visible" zIndex="0.1"
+                                   transform="translate(33,42) scale(1 1)" clip-path="url(#highcharts-2)" style="">
+                                    <path fill="#058DC7" d="M 351 171 L 355 175 351 179 347 175 Z"></path>
+                                    <path fill="#058DC7" d="M 297 171 L 301 175 297 179 293 175 Z"></path>
+                                    <path fill="#058DC7" d="M 243 171 L 247 175 243 179 239 175 Z"></path>
+                                    <path fill="#058DC7" d="M 189 171 L 193 175 189 179 185 175 Z"></path>
+                                    <path fill="#058DC7" d="M 135 171 L 139 175 135 179 131 175 Z"></path>
+                                    <path fill="#058DC7" d="M 81 171 L 85 175 81 179 77 175 Z"></path>
+                                    <path fill="#058DC7" d="M 27 171 L 31 175 27 179 23 175 Z"></path>
+                                </g>
+                                <g class="highcharts-series" visibility="visible" zIndex="0.1"
+                                   transform="translate(33,42) scale(1 1)" clip-path="url(#highcharts-1)">
+                                    <path fill="none"
+                                          d="M 27.071428571428573 175 C 27.071428571428573 175 59.557142857142864 175 81.21428571428572 175 C 102.87142857142858 175 113.7 175 135.35714285714286 175 C 157.01428571428573 175 167.84285714285716 175 189.50000000000003 175 C 211.1571428571429 175 221.98571428571432 175 243.64285714285717 175 C 265.3 175 276.1285714285715 175 297.7857142857143 175 C 319.4428571428572 175 351.92857142857144 175 351.92857142857144 175"
+                                          stroke="#ED561B" stroke-width="2" zIndex="1" stroke-linejoin="round"
+                                          stroke-linecap="round"></path>
+                                    <path fill="none"
+                                          d="M 17.071428571428573 175 L 27.071428571428573 175 C 27.071428571428573 175 59.557142857142864 175 81.21428571428572 175 C 102.87142857142858 175 113.7 175 135.35714285714286 175 C 157.01428571428573 175 167.84285714285716 175 189.50000000000003 175 C 211.1571428571429 175 221.98571428571432 175 243.64285714285717 175 C 265.3 175 276.1285714285715 175 297.7857142857143 175 C 319.4428571428572 175 351.92857142857144 175 351.92857142857144 175 L 361.92857142857144 175"
+                                          stroke-linejoin="round" visibility="visible" stroke="rgba(192,192,192,0.0001)"
+                                          stroke-width="22" zIndex="2" class=" highcharts-tracker" style=""></path>
+                                </g>
+                                <g class="highcharts-markers highcharts-tracker" visibility="visible" zIndex="0.1"
+                                   transform="translate(33,42) scale(1 1)" clip-path="url(#highcharts-2)" style="">
+                                    <path fill="#ED561B" d="M 347 171 L 355 171 355 179 347 179 Z"></path>
+                                    <path fill="#ED561B" d="M 293 171 L 301 171 301 179 293 179 Z"></path>
+                                    <path fill="#ED561B" d="M 239 171 L 247 171 247 179 239 179 Z"></path>
+                                    <path fill="#ED561B" d="M 185 171 L 193 171 193 179 185 179 Z"></path>
+                                    <path fill="#ED561B" d="M 131 171 L 139 171 139 179 131 179 Z"></path>
+                                    <path fill="#ED561B" d="M 77 171 L 85 171 85 179 77 179 Z"></path>
+                                    <path fill="#ED561B" d="M 23 171 L 31 171 31 179 23 179 Z"></path>
+                                </g>
+                            </g>
+                            <text x="211" text-anchor="middle" class="highcharts-title" zIndex="4"
+                                  style="color:#333333;font-size:18px;font:bold 13px/1.5 &quot;Microsoft Yahei&quot;,&quot;微软雅黑&quot;,Tahoma,Arial,Helvetica,STHeiti;fill:#333333;width:358px;"
+                                  y="25">领用券量监控
+                            </text>
+                            <g class="highcharts-legend" zIndex="7" transform="translate(231,20)">
+                                <g zIndex="1">
+                                    <g>
+                                        <g class="highcharts-legend-item" zIndex="1" transform="translate(8,3)">
+                                            <path fill="none" d="M 0 11 L 16 11" stroke="#CFDFCF"
+                                                  stroke-width="2"></path>
+                                            <path fill="#CFDFCF"
+                                                  d="M 8 7 C 13.328 7 13.328 15 8 15 C 2.6719999999999997 15 2.6719999999999997 7 8 7 Z"></path>
+                                            <text x="21"
+                                                  style="color:black;font-size:12px;font-weight:bold;cursor:pointer;font:9pt Trebuchet MS, Verdana, sans-serif;fill:black;"
+                                                  text-anchor="start" zIndex="2" y="15">过期
+                                            </text>
+                                        </g>
+                                        <g class="highcharts-legend-item" zIndex="1" transform="translate(73,3)">
+                                            <path fill="none" d="M 0 11 L 16 11" stroke="#058DC7"
+                                                  stroke-width="2"></path>
+                                            <path fill="#058DC7" d="M 8 7 L 12 11 8 15 4 11 Z"></path>
+                                            <text x="21" y="15"
+                                                  style="color:black;font-size:12px;font-weight:bold;cursor:pointer;font:9pt Trebuchet MS, Verdana, sans-serif;fill:black;"
+                                                  text-anchor="start" zIndex="2">领券
+                                            </text>
+                                        </g>
+                                        <g class="highcharts-legend-item" zIndex="1" transform="translate(138,3)">
+                                            <path fill="none" d="M 0 11 L 16 11" stroke="#ED561B"
+                                                  stroke-width="2"></path>
+                                            <path fill="#ED561B" d="M 4 7 L 12 7 12 15 4 15 Z"></path>
+                                            <text x="21" y="15"
+                                                  style="color:black;font-size:12px;font-weight:bold;cursor:pointer;font:9pt Trebuchet MS, Verdana, sans-serif;fill:black;"
+                                                  text-anchor="start" zIndex="2">回收
+                                            </text>
+                                        </g>
+                                    </g>
+                                </g>
+                            </g>
+                            <g class="highcharts-axis-labels highcharts-xaxis-labels" zIndex="7">
+                                <text x="60.07142857142857"
+                                      style="color:#606060;cursor:default;font-size:11px;fill:#606060;"
+                                      text-anchor="middle" transform="translate(0,0)" y="237" opacity="1">周一
+                                </text>
+                                <text x="114.21428571428571"
+                                      style="color:#606060;cursor:default;font-size:11px;fill:#606060;"
+                                      text-anchor="middle" transform="translate(0,0)" y="237" opacity="1">周二
+                                </text>
+                                <text x="168.35714285714286"
+                                      style="color:#606060;cursor:default;font-size:11px;fill:#606060;"
+                                      text-anchor="middle" transform="translate(0,0)" y="237" opacity="1">周三
+                                </text>
+                                <text x="222.5" style="color:#606060;cursor:default;font-size:11px;fill:#606060;"
+                                      text-anchor="middle" transform="translate(0,0)" y="237" opacity="1">周四
+                                </text>
+                                <text x="276.64285714285717"
+                                      style="color:#606060;cursor:default;font-size:11px;fill:#606060;"
+                                      text-anchor="middle" transform="translate(0,0)" y="237" opacity="1">周五
+                                </text>
+                                <text x="330.7857142857143"
+                                      style="color:#606060;cursor:default;font-size:11px;fill:#606060;"
+                                      text-anchor="middle" transform="translate(0,0)" y="237" opacity="1">周六
+                                </text>
+                                <text x="384.92857142857144"
+                                      style="color:#606060;cursor:default;font-size:11px;fill:#606060;"
+                                      text-anchor="middle" transform="translate(0,0)" y="237" opacity="1">周日
+                                </text>
+                            </g>
+                            <g class="highcharts-axis-labels highcharts-yaxis-labels" zIndex="7">
+                                <text x="18"
+                                      style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:129px;text-overflow:clip;"
+                                      text-anchor="end" transform="translate(0,0)" y="220" opacity="1">0
+                                </text>
+                                <text x="18"
+                                      style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:129px;text-overflow:clip;"
+                                      text-anchor="end" transform="translate(0,0)" y="176" opacity="1">1
+                                </text>
+                                <text x="18"
+                                      style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:129px;text-overflow:clip;"
+                                      text-anchor="end" transform="translate(0,0)" y="133" opacity="1">2
+                                </text>
+                                <text x="18"
+                                      style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:129px;text-overflow:clip;"
+                                      text-anchor="end" transform="translate(0,0)" y="89" opacity="1">3
+                                </text>
+                                <text x="18"
+                                      style="color:#606060;cursor:default;font-size:11px;fill:#606060;width:129px;text-overflow:clip;"
+                                      text-anchor="end" transform="translate(0,0)" y="45" opacity="1">4
+                                </text>
+                            </g>
+                            <g class="highcharts-tooltip" zIndex="8"
+                               style="cursor:default;padding:0;white-space:nowrap;" transform="translate(350,-9999)"
+                               opacity="0" visibility="visible">
+                                <path fill="none"
+                                      d="M 3.5 0.5 L 68.5 0.5 C 71.5 0.5 71.5 0.5 71.5 3.5 L 71.5 46.5 C 71.5 49.5 71.5 49.5 68.5 49.5 L 41.5 49.5 35.5 55.5 29.5 49.5 3.5 49.5 C 0.5 49.5 0.5 49.5 0.5 46.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5"
+                                      isShadow="true" stroke="black" stroke-opacity="0.049999999999999996"
+                                      stroke-width="5" transform="translate(1, 1)" width="71" height="49"></path>
+                                <path fill="none"
+                                      d="M 3.5 0.5 L 68.5 0.5 C 71.5 0.5 71.5 0.5 71.5 3.5 L 71.5 46.5 C 71.5 49.5 71.5 49.5 68.5 49.5 L 41.5 49.5 35.5 55.5 29.5 49.5 3.5 49.5 C 0.5 49.5 0.5 49.5 0.5 46.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5"
+                                      isShadow="true" stroke="black" stroke-opacity="0.09999999999999999"
+                                      stroke-width="3" transform="translate(1, 1)" width="71" height="49"></path>
+                                <path fill="none"
+                                      d="M 3.5 0.5 L 68.5 0.5 C 71.5 0.5 71.5 0.5 71.5 3.5 L 71.5 46.5 C 71.5 49.5 71.5 49.5 68.5 49.5 L 41.5 49.5 35.5 55.5 29.5 49.5 3.5 49.5 C 0.5 49.5 0.5 49.5 0.5 46.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5"
+                                      isShadow="true" stroke="black" stroke-opacity="0.15" stroke-width="1"
+                                      transform="translate(1, 1)" width="71" height="49"></path>
+                                <path fill="rgba(249, 249, 249, .85)"
+                                      d="M 3.5 0.5 L 68.5 0.5 C 71.5 0.5 71.5 0.5 71.5 3.5 L 71.5 46.5 C 71.5 49.5 71.5 49.5 68.5 49.5 L 41.5 49.5 35.5 55.5 29.5 49.5 3.5 49.5 C 0.5 49.5 0.5 49.5 0.5 46.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5"
+                                      stroke="#CFDFCF" stroke-width="1"></path>
+                                <text x="8" zIndex="1" style="font-size:12px;color:#333333;fill:#333333;"
+                                      transform="translate(0,20)">
+                                    <tspan style="font-weight:bold">过期</tspan>
+                                    <tspan x="8" dy="15">周日: 0 张</tspan>
+                                </text>
+                            </g>
+                            <text x="412" text-anchor="end" zIndex="8"
+                                  style="cursor:pointer;color:#909090;font-size:9px;fill:#909090;" y="253">
+                                Highcharts.com
+                            </text>
+                        </svg>
+                    </div>
+                </div>
+                <div class="info level-default">
+                    <div class="main-type">
+                        <a href="site.php?act=analysis&amp;do=display">领用总量：6103 / 563张</a>
+                    </div>
+                    <div class="main-type">
+                        <a href="site.php?act=discount&amp;do=display">上周最受欢迎的商家是：</a>
+                    </div>
+
+                    <p class="main-info">
+                        <a href="javascript:void(0)">
+                            <span class="large-text" title="除去暂未使用的9张的回收比例">9</span>
+                            <span style="">%</span>
+                        </a>
+                    </p>
+
+                    <p class="main-text">
+                        回收比例
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="gap">
+        </div>
+        <div class="analysis-chart chart-2">
+            <div class="chart-area">
+                <div class="js-chart" id="dashboardChartBox2">
+                    <div class="" style="line-height:40px;text-align:center;font-weight:bold;">月活跃用户数</div>
+                    <div class=""
+                         style="width:170px;height:170px;line-height:170px;margin:14px auto 25px;font-size:32px;text-align:center;border:6px solid #06c290;border-radius:50px;"
+                         title="一个月内领过券的用户">
+                        20人
+                    </div>
+                </div>
+                <div class="info level-3">
+
+                    <div class="main-type">
+                        <a href="site.php?act=fans&amp;do=display" title="已关注1912">用户数：2695人</a>
+                    </div>
+                    <div class="main-type">
+                        <a href="site.php?act=fans&amp;do=display" title="准用户2410">转化数：285人</a>
+                    </div>
+                    <p class="main-info">
+                        <a href="javascript:void(0)">
+                            <span class="large-text" title="使用过券的用户（285人）占总用户（2695人）的比例">11</span>
+                            <span style="">%</span>
+                        </a>
+                    </p>
+
+                    <p class="main-text">
+                        <span class="text-detail">转化比例</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="gap">
+        </div>
+        <style>
+            #dashboardChartBox3 dl {
+                width: 50px;
+                float: left;
+                text-align: center;
+                margin: 0 21px 20px 0;
+            }
+
+            #dashboardChartBox3 dl dt img {
+                width: 100%;
+                border-radius: 14px;
+            }
+
+            #dashboardChartBox3 dl dd {
+                font-size: 12px;
+            }
+        </style>
+        <div class="analysis-chart chart-3">
+            <div class="chart-area">
+                <div class="js-chart" id="dashboardChartBox3">
+                    <div class="" style="line-height:40px;text-align:center;font-weight:bold;">&nbsp;</div>
+                    <div class=""
+                         style="width:232px;height:160px;line-height:160px;margin:21px 0 25px 25px;font-size:32px;">
+                        <dl title="">
+                            <dt><a href="/shop/select?act=discount"><img
+                                    src="resource/image/icon/discountpublish.png"></a></dt>
+                            <dd style="color:red;">发布优惠</dd>
+                        </dl>
+                        <dl title="">
+                            <dt><a href="/shop/select?act=publish"><img
+                                    src="resource/image/icon/businesspublish.png"></a></dt>
+                            <dd>添加门店</dd>
+                        </dl>
+                        <dl title="">
+                            <dt><a href="/shop/upload"><img
+                                    src="resource/image/icon/businessupload.png"></a></dt>
+                            <dd>上传相册</dd>
+                        </dl>
+                        <dl title="">
+                            <dt><a href="/shop/select?act=account"><img
+                                    src="resource/image/icon/businesscustom.png"></a></dt>
+                            <dd>商家账户</dd>
+                        </dl>
+                        <dl title="店员通过微信绑定后，使用扫一扫即可回收用户的券">
+                            <dt><a href="/shop/select?act=checkout"><img
+                                    src="resource/image/icon/checkoutbinding.png"></a></dt>
+                            <dd>绑收银台</dd>
+                        </dl>
+                    </div>
+                </div>
+                <div class="info level-2">
+                    <div class="main-type">
+                        <a href="site.php?status=active&amp;act=discount&amp;do=display" title="">优惠数：0款 »</a>
+                    </div>
+                    <div class="main-type">
+                        <a href="site.php?status=expire&amp;act=discount&amp;do=display" title="">已结束：38款 »</a>
+                    </div>
+                    <p class="main-info" style="top: 25px;">
+                        <a href="javascript:void(0)">
+                            <span class="large-text" style="font-size:60px;" title="优惠太少（致命）">太低</span>
+                            <span style=""></span>
+                        </a>
+                    </p>
+
+                    <p class="main-text">
+                        <span class="text-detail">平衡指数</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

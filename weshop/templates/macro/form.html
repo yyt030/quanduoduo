@@ -1,0 +1,78 @@
+{# 显示字段errors #}
+{% macro render_errors(errors) %}
+    <ul class="list-form-errors list-unstyled text-error clearfix">
+        {% for error in errors %}
+            <li>{{ error }}</li>
+        {% endfor %}
+    </ul>
+{% endmacro %}
+
+
+{# 显示字段 #}
+{% macro render_field(field, label_length=2, length=6, static=False) %}
+    <div class="form-group clearfix">
+        {{ field.label(class="col-xs-%d control-label" % label_length) }}
+
+        <div class="col-xs-{{ length }} {% if static %}form-control-static{% endif %}">
+            {{ field(class="form-control select", placeholder=field.description, **kwargs) }}
+            {{ render_errors(field.errors) }}
+        </div>
+    </div>
+{% endmacro %}
+
+
+{# 显示字段 #}
+{% macro form_field(field,class='span6',static=False) %}
+
+    {{ field(class=class, placeholder=field.description, **kwargs) }}
+    {#         {{ render_errors(field.errors) }}#}
+
+{% endmacro %}
+
+{% macro validate_code(field, label_length=3, length=5, static=False) %}
+    <div class="form-group">
+         {{ field.label(class="col-sm-%d control-label" % label_length) }}
+
+        <div class="col-sm-{{ length }}">
+            {{ field(class="form-control", placeholder=field.description, **kwargs) }}
+        </div>
+        <div class="col-sm-2">
+            <div class="sec_code"><img src="/appadmin/secode" width="90" height="30" id="secimg"
+                                       title="点击更换验证码"></div>
+        </div>
+    </div>
+{% endmacro %}
+{# 显示checkbox字段 #}
+{% macro render_checkbox_field(field) %}
+    <div class="form-group">
+        <label class="col-xs-2 control-label"></label>
+
+        <div class="col-xs-6">
+            <div class="checkbox">
+                {{ field() }}
+                {{ field.label() }}
+            </div>
+        </div>
+    </div>
+{% endmacro %}
+
+
+{# 显示radio字段 #}
+{% macro render_radio_field(field, label_length=2, length=6, static=False) %}
+    <div class="form-group">
+        {{ field.label(class="col-xs-%d control-label" % label_length) }}
+
+        <div class="col-xs-{{ length }} {% if static %}form-control-static{% endif %}">
+            {% for subfield in field %}
+                <label class="radio-inline">
+                    {{ subfield() }}
+                    {{ subfield.label() }}
+                </label>
+            {% endfor %}
+
+            {{ render_errors(field.errors) }}
+        </div>
+    </div>
+{% endmacro %}
+
+{# 登录#}

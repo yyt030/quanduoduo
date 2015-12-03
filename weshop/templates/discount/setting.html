@@ -1,0 +1,344 @@
+{% extends 'account_layout.html' %}
+{% from 'macro/form.html' import form_field %}
+{% block content %}
+    <body>
+    <link type="text/css" rel="stylesheet" href="/resource/script/kindeditor/themes/default/default.css">
+    <style type="text/css">
+        .appendSelect.title,
+        .appendSelect.title .input-append {
+            display: none;
+        }
+
+        .appendSelect.title .input-append {
+            margin-right: 4px;
+        }
+
+        .form .btn-group .more,
+        .form .btn-group[data-spread='1'] .look {
+            display: none;
+        }
+
+        .form .btn-group[data-spread='1'] .more {
+            display: inline-block;
+        }
+    </style>
+    <div class="main">
+        <form action="" class="form-horizontal form" method="post" enctype="multipart/form-data">
+            {{ form.csrf_token }}
+            <h4>券面信息</h4>
+            <table class="tb">
+                <tbody>
+                <tr class="appendSelect {% if form.title.data =="" %}title{% endif %}">
+                    <th>券面名称</th>
+                    <td>
+                        <div class="input-append class1 class2 class3 class4 class5 classa classb"
+                             style="display: inline-block;">
+                            <span class="uneditable-input span7" id="titleIpt" title="输入券面设置会自动生成券面名称">{{ form.title.data }}</span>
+                            <input type="hidden" name="title" class="titleIpt" value="{{ form.title.data }}">
+                            <input type="hidden" name="label" class="btn" id="labelIpt" value="优惠券">
+                            <input type="button" name="label" class="btn" id="labelBtn" value="优惠券">
+                        </div>
+                    </td>
+                </tr>
+                <tr class="singleSelect class">
+                    <th>优惠形式</th>
+                    <td>
+                        <div class="btn-group" data-toggle="buttons-radio">
+                            <span class="btn {% if form.type.data=='特价' %}active{% endif%}" value="特价" data-class="class1" data-value="优惠券"
+                                  data-title="设定一款产品或一个套餐的优惠价，不能限定购买的数量<br/>如：58元享火锅双人套餐优惠券/68元享8吋白巧梦乐园生日蛋糕优惠券" title=""
+                                  style="width:35px;color:green;">特价</span>
+                            <span class="btn {% if form.type.data=='满减' %}active{% endif%}" value="满减" data-class="class2" data-value="抵扣券"
+                                  data-title="必须设定抵用金额和满足消费金额，须当前商品当次抵用<br/>如：消费满100减30元抵扣券" title=""
+                                  style="width:35px;color:green;">满减</span>
+                            <span class="btn {% if form.type.data=='折扣' %}active{% endif%}" value="折扣" data-class="class3" data-value="打折卡"
+                                  data-title="支持多款商品或多项服务单独打折，不能打包商品或服务<br/>如：秋款板鞋8折优惠打折卡" title=""
+                                  style="width:35px;color:green;">折扣</span>
+                            <span class="btn {% if form.type.data=='抵现' %}active{% endif%}" value="抵现" data-class="classa" data-value="代金券"
+                                  data-title="必须设定代用金额可当做现金使用，不限消费金额和内容<br/>如：50元代金券/5元晚餐代金券" title=""
+                                  style="width:35px;color:red;">抵现</span>
+                            <span class="btn {% if form.type.data=='免单' %}active{% endif%}" value="免单" data-class="classb" data-value="体验券"
+                                  data-title="凭体验券可以免费尝试一部分服务，可要求同时到场人数，同样用于新店开张或淡季促销<br/>如：价值70元的2小时免费欢唱券/健康理疗免费体验券/免费洗车卡"
+                                  title="" style="width:35px;color:red;">免单</span>
+                        </div>
+                        <input type="hidden" name="class" value="{{ form.type.data }}">
+
+                        <div class="help-block alert" style="width:508px;color:#666;">
+                            请选择适合您的优惠活动
+                        </div>
+                    </td>
+                </tr>
+                <tr class="appendSelect title">
+                    <th>券面设置</th>
+                    <td>
+                        <!-- 特价 -->
+                        <div tabindex="3" class="input-append class1" style="display: inline-block;">
+                            <input type="text" class="span4 entry" style="border-radius:4px;" maxlength="12" value=""
+                                   placeholder="产品、套餐或服务名称">
+                        </div>
+                        <div tabindex="2" class="input-append class1" style="display: inline-block;">
+                            <input type="hidden" class="entry" value="原价">
+                            <input type="text" class="span1 entry number" style="width:54px;" maxlength="5" value=""
+                                   placeholder="原价">
+                            <input type="hidden" class="entry" value="元的">
+                            <input type="button" class="btn" value="元">
+                        </div>
+                        <div tabindex="1" class="input-append class1" style="display: inline-block;">
+                            <input type="text" class="span1 entry number" style="width:54px;" maxlength="5" value=""
+                                   placeholder="现价">
+                            <input type="hidden" class="entry" value="元享">
+                            <input type="button" class="btn" value="元">
+                        </div>
+
+                        <!-- 满减 -->
+                        <div tabindex="1" class="input-append class2" style="display: none;">
+                            <input type="hidden" class="entry" value="消费满">
+                            <input type="text" class="span1 entry number" style="width:64px;" maxlength="4" value=""
+                                   placeholder="消费满">
+                            <input type="hidden" class="entry" value="元减">
+                            <input type="button" class="btn" value="元">
+                        </div>
+                        <div tabindex="2" class="input-append class2" style="display: none;">
+                            <input type="text" class="span1 entry number" style="width:46px;" maxlength="4" value=""
+                                   placeholder="减">
+                            <input type="button" class="entry btn" value="元">
+                        </div>
+
+                        <!-- 折扣 -->
+                        <div tabindex="1" class="input-append class3" style="display: none;">
+                            <input type="text" class="span4 entry backup" style="border-radius:4px;" maxlength="12"
+                                   value="" placeholder="产品系列或服务范围，可留空">
+                        </div>
+                        <div tabindex="2" class="input-append class3" style="display: none;">
+                            <input type="text" class="span1 entry number" style="width:54px;" maxlength="2" value=""
+                                   placeholder="折扣数">
+                            <input type="hidden" class="entry" value="折优惠">
+                            <input type="button" class="btn" value="折">
+                        </div>
+
+                        <!-- 抵现 -->
+                        <div tabindex="2" class="input-append classa" style="display: none;">
+                            <input type="text" class="span4 entry backup" style="border-radius:4px;" maxlength="12"
+                                   value="" placeholder="场景名称或服务范围，可留空">
+                        </div>
+                        <div tabindex="1" class="input-append classa" style="display: none;">
+                            <input type="text" class="span1 entry number" style="width:54px;" maxlength="3" value=""
+                                   placeholder="抵金额">
+                            <input type="button" class="entry btn" value="元">
+                        </div>
+                        <!-- 免单 -->
+                        <div tabindex="1" class="input-append classb" style="display: none;">
+                            <input type="text" class="span4 entry" style="border-radius:4px;" maxlength="12" value=""
+                                   placeholder="项目名称">
+                        </div>
+                        <div tabindex="2" class="input-append classb" style="display: none;">
+                            <select class="span2 entry" style="border-radius:4px;">
+                                <option value="免费体验券" title="请输入服务项目">体验券</option>
+                                <option value="免费兑换券" title="请输入礼品名称">兑换券</option>
+                                <option value="免费用餐券" title="请输入价值金额或菜品描述">用餐券</option>
+                                <option value="免费品尝券" title="请输入价值金额或菜品描述">品尝券</option>
+                                <option value="免费欢唱券" title="请输入价值金额和免费时间">欢唱券</option>
+                                <option value="免费浴资券" title="请输入价值金额">浴资券</option>
+                                <option value="免费护理券" title="请输入价值金额或项目描述">护理券</option>
+                                <option value="免费洗车卡" title="请输入价值金额或活动名称">洗车卡</option>
+                            </select>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>温馨提示</th>
+                    <td>
+                        <textarea style="height:100px;" class="span7" name="intro" cols="70"
+                                  placeholder="请标明凭此券可以享受的服务内容（如：凭此券到店免任意时段3小时房间费 ）或使用要求（如：满足条件，时间要求，房间限制）">{{ form.intro.data}}</textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <th><label for="">封面图</label></th>
+                    <td>
+                        <div class="fileupload fileupload-preview thumbnail"
+                             style="width: 290px; height: 168px; overflow:hidden;" id="image_preview">
+                            {% if form.image.data !='' %}
+                                <img src="/resource/attachment/images/{{ form.image.data }}">
+                            {% endif%}
+                        </div>
+                        <input class="span4" type="text" name="image" id="image" value="{{ form.image.data }}">
+
+                        <input type="button" fieldname="image" class="btn upload-btn"
+                               value="上传"
+                               style="font-size: 14px; width: 80px; display: none;">
+                        <span class="help-block">上传<b>宽度 580 高度 336</b> 的图片更能吸引眼球</span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <h4>发行控制</h4>
+            <table class="tb">
+                <tbody>
+                <tr class="singleSelect">
+                    <th><label for="">每天限量</label></th>
+                    <td>
+                        {% set supply_list=["00","08","10","12","15","18"] %}
+                        <div class="btn-group" data-toggle="buttons-radio" data-spread="" title="每天开抢时间">
+                            {% for s in supply_list %}
+                            <span class="btn {% if loop.index>3 %}more{% endif %} {% if s==form.supply.data %} active{% endif %}" value="{{ s }}" style="width:48px;">{{ s }}时</span>
+                            {% endfor %}
+                            <span class="btn look" value="0" style="width:39px;"
+                                  onclick="$(this).parent().attr('data-spread','1').end().remove();">更多</span>
+                        </div>
+                        <input type="hidden" name="supply" value="{{ form.supply.data }}">
+
+                        <div class="input-append" title="每天数量限制">
+                            <input type="text" name="number" class="span1 number" style="width:46px;" maxlength="3"
+                                   placeholder="20" value="{{ form.number.data }}">
+                            <button class="btn" type="button">张</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="singleSelect">
+                    <th><label for="">券有效期</label></th>
+                    <td>
+                        <div class="btn-group" data-toggle="buttons-radio" data-spread="" title="领券后有效期，含当天">
+                            <span class="btn active" value="7" style="width:48px;">7天</span>
+                            <span class="btn" value="5" style="width:48px;">5天</span>
+                            <span class="btn" value="3" style="width:48px;">3天</span>
+                            <span class="btn more" value="2" style="width:39px;">2天</span>
+                            <span class="btn more" value="1" style="width:39px;">1天</span>
+                            <span class="btn look" value="0" style="width:39px;"
+                                  onclick="$(this).parent().attr('data-spread','1').end().remove();">更多</span>
+                        </div>
+                        <input type="hidden" name="usable" value="{{ form.usable.data }}">
+                        <span class="help-block">此券每人每次只能领一张，验证或过期后可再领取</span>
+                    </td>
+                </tr>
+                <tr class="singleSelect">
+                    <th><label for="">每人可领</label></th>
+                    <td>
+                        <div class="btn-group" data-toggle="buttons-radio" data-spread="1" title="每人可领次数">
+                            <span class="btn active" value="n" style="width:48px;">不限</span>
+                            <span class="btn" value="5" style="width:48px;">5次</span>
+                            <span class="btn" value="3" style="width:48px;">3次</span>
+                            <span class="btn more" value="2" style="width:39px;">2次</span>
+                            <span class="btn more" value="1" style="width:39px;">1次</span>
+
+                        </div>
+                        <input type="hidden" name="perple" value="n">
+                    </td>
+                </tr>
+                <tr class="singleSelect">
+                    <th><label for="">发放时间</label></th>
+                    <td>
+                        <div class="input-append" title="剩余发放天数">
+                            <input type="text" name="limits" class="span1 number" style="width:60px;" maxlength="3"
+                                   placeholder="90" value="{{ form.limits.data }}">
+                            <button class="btn" type="button">天</button>
+                        </div>
+				<span class="help-block">按设定的时间段限量供应
+			</span></td>
+                </tr>
+                </tbody>
+            </table>
+            <h4>支持门店</h4>
+            <table class="tb">
+                <tbody>
+                <tr class="Multiple">
+                    <th></th>
+                    <td>
+                        {% for s in shops %}
+                            <div class="store">
+                                <input id="shop{{ s.id }}" type="checkbox" name="shop[{{ s.id }}]" value="{{ s.id }}"
+                                       {% if s.id in stores %}checked{% endif %}>
+                                <label for="shop{{ s.id }}">{{ s.store }} </label>
+                            </div>
+                        {% endfor %}
+                        <span class="help-block">允许使用此券的门店，请选择支持的门店</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <td>
+                        <button type="submit" class="btn btn-primary span3" name="submit" value="提交">提交</button>
+                        <input type="hidden" name="token" value="09f82fa5">
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+
+    <script type="text/javascript">
+        <!--
+        $('.upload-btn').each(function () {
+            kindeditorUploadBtn($(this), uploadHander);
+        });
+
+        function uploadHander(obj, data) {
+            $("#" + obj.button.attr('fieldname')).val(data.filename);
+            $("#" + obj.button.attr('fieldname') + '_preview').html('<img src="' + data.url + '" />');
+        }
+        //-->
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            //锁定名称修改
+
+            //当前选择的玩法
+            $('.singleSelect').each(function () {
+                $('.btn[value="' + $('input', this).val() + '"]', this).addClass('active').siblings().removeClass('active');
+            });
+            //为单选绑定事件
+            $('.singleSelect .btn', this).click(function () {
+                $(this).parent().next('input').val($(this).attr('value'))
+                        .next().html($(this).attr('data-title'));
+            });
+
+            //选择优惠的类型
+            $('.singleSelect.class .btn').click(function () {
+                var value = $(this).data('value');
+                var label = $(this).data('class');
+                $('#labelBtn').val(value);//券类型名称按钮
+                $('#labelIpt').val(value);//券类型名称提交
+                $('.appendSelect').show().find('.input-append').hide();
+                //体验券切换输入框提示
+                $('.appendSelect .input-append.classb select').change(function () {
+                    $('#labelBtn').val($('option[value="' + this.value + '"]').text());//券类型名称按钮
+                    $('#labelIpt').val($('option[value="' + this.value + '"]').text());//券类型名称提交
+                    $('.appendSelect .input-append.classb input').attr('placeholder', $('option[value="' + this.value + '"]').attr('title'));
+                });
+                //点击后显示对应的属性
+                $('.appendSelect .input-append.' + label).css('display', 'inline-block')
+                        .find('input,select').live('change', function () {
+                            var input = true;
+                            var title = new Array();
+                            title[1] = '';
+                            title[2] = '';
+                            title[3] = '';
+                            $('.appendSelect .input-append.' + label + ' .entry').each(function () {
+                                title[$(this).parent().attr('tabindex')] += this.value;
+                                if (this.value == '' && !$(this).is('.backup')) input = false;
+                            });
+                            if (input == true) {
+                                if (label == 'classb') value = '';
+                                $('#titleIpt').text(title[1] + title[2] + title[3] + value);//优惠券名称
+                                $('.titleIpt').val(title[1] + title[2] + title[3] + value);//优惠券名称
+                            }
+                        }).change();
+            });
+            //过滤非数字
+            $('.appendSelect .input-append .number').change(function () {
+                this.value = this.value.replace(/[^\d\.]/g, "").replace(/\.(0|\d{2})?$/, "").replace(/^[0]*/, "");
+            });
+            $('.singleSelect .input-append .number').change(function () {
+                this.value = this.value.replace(/[^\d]/g, "");
+            });
+            //显示更多时间
+            $('.singleSelect .btn-group[data-spread=1] .btn.look').remove();
+        });
+    </script>
+    <div class="show_foot">
+        <div class="foot_wrap">
+            <p>© 2015 <b>汝州百事优惠圈商务</b></p>
+        </div>
+    </div>
+
+
+    </body>
+{% endblock %}

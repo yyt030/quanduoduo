@@ -1,0 +1,245 @@
+{% macro follow() %}
+   <script type="text/javascript">
+   $(function () {
+      $(document).on('click', '.unfollowed', function () {
+         var uid = $(this).parent().data("user-id");
+         var that = $(this);
+         $.ajax({
+            url: "{{ url_for('user.add_follow') }}",
+            method: "POST",
+            dataType: 'json',
+            data: {
+               followee: parseInt(uid)
+            },
+            success: function (result) {
+               if (result.status === 'ok') {
+                  that.removeClass('unfollowed').addClass("followed");
+                  that.html("<span class='fa fa-star'></span> 已关注");
+               }
+            }
+         });
+      });
+      $(".ggg #close-btn,.select_video_modal #close-btn").click(function () {
+         $(".ggg").addClass("hide");
+         $(".screen_bg").hide();
+         $(".modal_content").hide();
+      })
+      $(document).on('click', '.followed', function () {
+         var uid = $(this).parent().data("user-id");
+         var that = $(this);
+         $.ajax({
+            url: "{{ url_for('user.delete_follow') }}",
+            method: "POST",
+            dataType: 'json',
+            data: {
+               followee: parseInt(uid)
+            },
+            success: function (result) {
+               if (result.status === 'ok') {
+                  that.removeClass('followed').addClass("unfollowed");
+                  that.html("<span class='fa fa-star-o'></span> 关注");
+               }
+            }
+         });
+      });
+
+
+      $(document).on('click', '.bookstore', function () {
+         tid = $(this).data("tid");
+         mid = $(this).data("mid");
+         var that = $(this);
+         tips = "";
+         switch (tid) {
+            case 0:
+               tips = "视频";
+               break;
+            case 1:
+               tips = "题目";
+               break;
+            case 2:
+               tips = "问题";
+               break
+         }
+         $.ajax({
+            url: "{{ url_for('user.add_favorite') }}",
+            method: "POST",
+            dataType: 'json',
+            data: {
+               tid: parseInt(tid),
+               mid: parseInt(mid)
+            },
+            success: function (result) {
+               if (result.status === 'ok') {
+                  that.removeClass('bookstore').addClass("stored");
+                  that.html("<i class='fa fa-star'></i> 已收藏");
+
+               }
+            }
+         });
+      });
+
+      $(document).on('click', '.stored', function () {
+         var tid = $(this).data("tid");
+         var mid = $(this).data("mid");
+         var that = $(this);
+         $.ajax({
+            url: "{{ url_for('user.remove_favorite') }}",
+            method: "POST",
+            dataType: 'json',
+            data: {
+               tid: parseInt(tid),
+               mid: parseInt(mid)
+            },
+            success: function (result) {
+               if (result.status === 'ok') {
+                  that.removeClass('stored').addClass("bookstore");
+                  that.html("<i class='fa fa-star'></i>收藏");
+               }
+            }
+         });
+      });
+
+      $(document).on('click', '.del_record', function () {
+         var tid = $(this).data("tid");
+         var mid = $(this).data("mid");
+         var that = $(this);
+
+         $.ajax({
+            url: "{{ url_for('user.remove_favorite') }}",
+            method: "POST",
+            dataType: 'json',
+            data: {
+               tid: parseInt(tid),
+               mid: parseInt(mid)
+            },
+            success: function (result) {
+               if (result.status === 'ok') {
+                  that.parents(".item").remove();
+               }
+            }
+         });
+      });
+
+      $(document).on('click', '.del_video', function () {
+         var vid = $(this).data("vid");
+         var that = $(this);
+         $.ajax({
+            url: "{{ url_for('user.clear_track') }}",
+            method: "POST",
+            dataType: 'json',
+            data: {
+               vid: parseInt(vid)
+            },
+            success: function (result) {
+               if (result.status === 'ok') {
+                  that.parent(".video").remove();
+               }
+            }
+         });
+      });
+   });
+
+
+   var st_list_num = $(".students-wap .pull-right").length;
+   var tc_list_num = $(".teachers-wap .teacher-item").length;
+   if (!(st_list_num > 0)) {
+
+      $(".students-wap").append(
+            '<div class="share_tip">'
+                  +
+                  '<p style="text-align: center;">您所在的地区还没有人找家教噢~~'
+                  +
+                  '<a href="http://www.tuomeng.com.cn/user/share_award">赶紧邀请小伙伴注册吧！</a></p>'
+                  +
+                  '<p style="text-align: center;">ps:每一个学生每一次机会都是要靠自己去发掘的，'
+                  +
+                  '<a href="http://www.tuomeng.com.cn/user/share_award">马上去圈子分享吧~~</a>'
+                  +
+                  '</div>'
+      )
+   }
+   if (!(tc_list_num > 0)) {
+
+      $(".teachers-wap").append(
+            '<div class="share_tip">'
+                  + '<p style="text-align: center;">您所在的地区还没有老师噢~~'
+                  + '<a href="http://www.tuomeng.com.cn/user/share_award">赶紧邀请他们注册吧！</a></p>'
+                  + '<p style="text-align: center;">ps:每一个圈子里都很可能有一个很棒的老师噢~~'
+                  + '</div>'
+      )
+   }
+   $(".table-user-info .star").each(function () {
+      var star_com_num = parseInt(($(this).text()) / 20 + 1);
+      var star_half_num = ($(this).text()) % (20) / 10;
+      $(this).text("");
+      for (var i = 1; i < star_com_num; i++) {
+         $(this).append(
+               '<span class="star-fill fa fa-star"></span>'
+         )
+      }
+      if (star_half_num > 0) {
+         for (var b = 0; b < star_half_num; b++) {
+            $(this).append(
+                  '<span class="star-fill fa fa-star-half-o"></span>'
+            )
+         }
+      }
+   });
+
+   var cid = $("#page-eb-exercise .legend").data("course-id");
+   var did = $("#page-eb-exercise .legend ").data('id');
+   var dhref = '/user/ask_question?exercise_id=' + did + "&course_id=" + cid;
+
+   if (gLocals.role == "student") {
+      if ($("#page-eb-exercise #videos div").length == 0) {
+         $("#page-eb-exercise #videos").append("<a href='#' onclick='require_video()' class='require_video'>" +
+               "还没有视频，现在征集视频！</a>")
+      }
+      if ($("#page-eb-exercise #discuss div").length == 0) {
+         $("#page-eb-exercise #discuss").append("<a href=" + dhref + " target='_blank'>" +
+               "还没有人提问，有问题就去提问吧！</a>")
+      }
+   }
+   else if (gLocals.gUser == "None") {
+      if ($("#page-eb-exercise #videos div").length == 0) {
+         $("#page-eb-exercise #videos").append("<a href='javascript:;' onclick='opeonLoginBox()' class='require_video'>" +
+               "还没有视频，现在征集视频！</a>")
+      }
+      if ($("#page-eb-exercise #discuss div").length == 0) {
+         $("#page-eb-exercise #discuss").append("<a href='javascript:;' onclick='opeonLoginBox()' class='require_video'>" +
+               "还没有人提问，有问题就去提问吧！</a>")
+      }
+   }
+   function require_video() {
+      $.ajax({
+         url: '/eb/exercise/require_video',
+         dataType: 'json',
+         method: 'post',
+         data: {
+            exercise_id: did
+         },
+         success: function (res) {
+            if (res.result) {
+               $('.require_video').text('征集成功');
+            }
+         }
+      });
+   }
+   ;
+
+   /*打开登录弹框*/
+   function opeonLoginBox() {
+      $(".ggg").removeClass("hide");
+      $(".screen_bg").show();
+      $(".modal_content").show();
+   }
+   /*关闭登录弹框*/
+
+   function closeLoginBox() {
+      $(".ggg").addClass("hide");
+      $(".screen_bg").hide();
+      $(".modal_content").hide();
+
+   }
+   </script>
+{% endmacro %}

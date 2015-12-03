@@ -1,0 +1,10 @@
+.idea/*
+*.pyc
+log/*
+*.bat
+bak/*
+resource/attachment/*
+*.ttc
+migrations/*
+*.sqlite
+venv/

@@ -1,0 +1,30 @@
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="fa fa-bars fa-inverse"></span>
+            </button>
+            <a class="navbar-brand" href="/appadmin">快转印</a>
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="{% if page_name=='index' %}active{% endif %}">
+                    <a href="/info">首页</a>
+                </li>
+                <li class="{% if page_name=='about' %}active{% endif %}">
+                    <a href="/info/about">关于快转印</a>
+                </li>
+                <li class="{% if page_name=='solution' %}active{% endif %}">
+                    <a href="/info/solution">解决方案</a>
+                </li>
+                <li class="{% if page_name=='shareplan' %}active{% endif %}">
+                    <a href="/info/shareplan">素材共享计划</a>
+                </li>
+                <li class="{% if page_name=='contact' %}active{% endif %}">
+                    <a href="/info/contact">联系我们</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

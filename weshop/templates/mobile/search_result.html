@@ -1,0 +1,248 @@
+<!DOCTYPE>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+          name="viewport">
+    <meta name="format-detection" content="telephone=no">
+    <title>汝州百事优惠圈</title>
+    <link rel="stylesheet" type="text/css" href="/static/themes/mobile/style/search.css?1448121953" media="all"/>
+    <link rel="stylesheet" type="text/css" href="/static/themes/mobile/icons/iconfont.css"/>
+    <script type="text/javascript" src="/static/themes/mobile/style/jquery-2.1.4.min.js"></script>
+</head>
+<body>
+<div class="show_body">
+    <div class="filt_wrap">
+        <div class="load_wrap">
+            <table cellspacing="0">
+                <tbody>
+                <tr>
+                    <td width="33%"><span class="select industry" data-type="industry"><i
+                            class="iconfont icon-moreunfold"></i><i class="iconfont icon-similar"></i><a>休闲娱乐</a></span>
+                    </td>
+                    <td width="34%"><span class="select district" data-type="district"><i
+                            class="iconfont icon-moreunfold"></i><i class="iconfont icon-filter"></i><a>范围</a></span>
+                    </td>
+                    <td width="33%"><span class="select sortrank" data-type="sortrank"><i
+                            class="iconfont icon-moreunfold"></i><i class="iconfont icon-order"></i><a>排序</a></span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="menu_wrap industry" style="display: none;">
+        <div data-type="industry" style="height:auto;">
+            <dl>
+                <dt>
+                <h4>全部分类</h4>
+                </dt>
+            </dl>
+            <dl>
+                <dt>
+                <h5><i class="iconfont icon-unfold"></i></h5>
+                <h4>丽人</h4>
+                </dt>
+                <dd>
+                    <ul>
+                        <li>美甲</li>
+                        <li>美发</li>
+                        <li>化妆品</li>
+                        <li>美容/SPA</li>
+                    </ul>
+                </dd>
+            </dl>
+            <dl class="active">
+                <dt>
+                <h5><i class="iconfont icon-unfold"></i></h5>
+                <h4>休闲娱乐</h4>
+                </dt>
+                <dd>
+                    <ul>
+                        <li>酒吧</li>
+                        <li>足疗按摩</li>
+                        <li>KTV</li>
+                        <li>茶馆</li>
+                    </ul>
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                <h5><i class="iconfont icon-unfold"></i></h5>
+                <h4>生活服务</h4>
+                </dt>
+                <dd>
+                    <ul>
+                        <li>快照/冲印</li>
+                    </ul>
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                <h5><i class="iconfont icon-unfold"></i></h5>
+                <h4>美食</h4>
+                </dt>
+                <dd>
+                    <ul>
+                        <li>其他</li>
+                        <li>面包甜点</li>
+                        <li>火锅</li>
+                        <li>西北菜</li>
+                        <li>自助餐</li>
+                        <li>韩国料理</li>
+                        <li>湘菜</li>
+                        <li>小吃快餐</li>
+                    </ul>
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                <h5><i class="iconfont icon-unfold"></i></h5>
+                <h4>购物</h4>
+                </dt>
+                <dd>
+                    <ul>
+                        <li>服饰鞋包</li>
+                        <li>珠宝饰品</li>
+                        <li>数码家电</li>
+                        <li>家居建材</li>
+                        <li>食品茶酒</li>
+                    </ul>
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                <h5><i class="iconfont icon-unfold"></i></h5>
+                <h4>酒店</h4>
+                </dt>
+                <dd>
+                    <ul>
+                        <li>公寓式酒店</li>
+                        <li>经济型酒店</li>
+                        <li>精品酒店</li>
+                    </ul>
+                </dd>
+            </dl>
+        </div>
+    </div>
+    <div class="menu_wrap district" style="display: none;">
+        <div data-type="district" style="height:auto;">
+            <dl class="active">
+                <dt>
+                <h4>全城范围</h4>
+                </dt>
+            </dl>
+            <dl>
+                <dt>
+                <h4>200米内</h4>
+                </dt>
+            </dl>
+            <dl>
+                <dt>
+                <h4>1千米内</h4>
+                </dt>
+            </dl>
+            <dl>
+                <dt>
+                <h4>5千米内</h4>
+                </dt>
+            </dl>
+        </div>
+    </div>
+    <div class="menu_wrap sortrank" style="display: none;">
+        <div data-type="sortrank" style="height:auto;">
+            <dl>
+                <dt>
+                <h4>默认排序</h4>
+                </dt>
+            </dl>
+            <dl>
+                <dt>
+                <h4>领取量</h4>
+                </dt>
+            </dl>
+            <dl>
+                <dt>
+                <h4>使用量</h4>
+                </dt>
+            </dl>
+        </div>
+    </div>
+    <div class="body_wrap" id="position" style="display:none;">
+        <div class="load_wrap" style="padding:3.2rem 0;text-align:center;">
+            <i class="iconfont icon-location" style="font-size:2.4rem;color:#ccc;"></i>
+
+            <h3 style="margin-top:0.5rem;color:#999;" id="placewhere">定位中</h3>
+        </div>
+    </div>
+    <div class="body_wrap" id="body_wrap">
+        {% for d in discounts %}
+            <div class="load_wrap activity">
+                <a href="/discount/detail?id={{ d.id }}">
+                    <div class="coupon-image">
+                        <img src="/resource/attachment/images/{{ d.image }}"/>
+                    </div>
+                    <div class="coupon-intro">
+                        <p class="title">{{ d.title }}</p>
+
+                        <p class="count">每天<b>{{ d.limits }}</b>份<span>{{ d.count }}人已领</span></p>
+
+                        <p class="brand">{{ d.brand.name }}</p>
+                    </div>
+                    <div class="coupon-class">
+                        <i class="state">领券</i>
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+        <div class="more_wrap">
+            <div class="load_tips" style="display: none;">加载中..</div>
+            <div class="load_more" style="display: block;">加载更多</div>
+            <div class="load_none" style="display: none;">没有了</div>
+        </div>
+    </div>
+</div>
+<div class="show_foot">
+    <div class="foot_wrap">
+        <table cellspacing="0" class="find">
+            <tr>
+                <td width="25%" class=" customer"><a href="/favorite"><span></span><i
+                        class="iconfont icon-tag"></i>收藏</a></td>
+                <td width="25%" class=" checkout"><a href="/my_tickets"><span></span><i
+                        class="iconfont icon-pay"></i>券包</a></td>
+                <td width="25%" class=" find"><a href="/find"><span></span><i
+                        class="iconfont icon-attention"></i>发现</a></td>
+                <td width="25%" class=" fans"><a href="/user_home"><span></span><i
+                        class="iconfont icon-my"></i>我的</a></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<script type="text/javascript" src="/static/themes/mobile/script/loadmore.js"></script>
+<script type="text/javascript">
+    var queryURL = "/searchapi?type=1";
+    var imageURL = "/resource/attachment/";
+    var placeURL = "/discount/detail";
+</script>
+<script type="text/javascript">
+    //$(document).ready(function() {
+    setRecord('industry1', '');
+    setRecord('industry2', '');
+    save_urlparam('industry1', '休闲娱乐');
+    $(".menu_wrap dl:contains('休闲娱乐')").addClass("active");
+    setRecord('district1', '');
+    save_urlparam('district1', '范围');
+    $(".menu_wrap dl:contains('范围')").addClass("active");
+    //});
+</script>
+<script type="text/javascript">
+    document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+        WeixinJSBridge.call('hideToolbar');
+        WeixinJSBridge.call('hideOptionMenu');
+    }, false);
+</script>
+
+
+</body>
+</html>

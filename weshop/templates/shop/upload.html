@@ -1,0 +1,95 @@
+{% extends 'account_layout.html' %}
+{% from 'macro/form.html' import form_field %}
+{% block content %}
+    <body>
+
+    <style>
+        .photo_list {
+            padding: 15px 0;
+        }
+
+        .photo_list .alert {
+            width: auto;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .photo_list .photo_preview {
+            width: 130px;
+        }
+
+        .photo_list .photo_preview img {
+            width: 130px;
+            margin-bottom: 5px;
+        }
+
+        .photo_list table {
+            margin-left: 40px;
+        }
+
+        .photo_list table th, .photo_list table td {
+            padding-bottom: 5px;
+        }
+
+        .photo_list table th {
+            width: 60px;
+            font-size: 14px;
+        }
+
+        .photo_list table input, .photo_list table select {
+            margin-bottom: 0;
+        }
+    </style>
+    <div class="main">
+        <form action="" class="form" method="post" name="myform">
+            <h4>商户相册</h4>
+
+
+            <input type="button" fieldname="image" class="btn btn-primary upload-btn"
+                   value="上传照片" style="display: none;">
+            <input type="submit" name="submit" id="submit" class="btn" value="保存">
+            <input type="hidden" name="token" value="ccad9e6f">
+
+            <div class="photo_list" id="listimage">
+            </div>
+        </form>
+    </div>
+    <link type="text/css" rel="stylesheet" href="/resource/script/kindeditor/themes/default/default.css">
+    <script type="text/javascript">
+        <!--
+        $('#listimage .alert').each(function () {
+            var item = this;
+            $('.delete', item).live('click', function () {
+                if (confirm('删除操作不可恢复，确定码？')) {
+                    $('input.d', item).val('true');
+                    $('#submit').click();
+                }
+                ;
+            });
+        });
+
+        $('.upload-btn').each(function () {
+            kindeditorUploadBtn($(this), uploadHander);
+        });
+
+        function uploadHander(obj, data) {
+            html = '<div class="alert alert-block alert-new">' +
+                    '<input type="hidden" name="image-new[]" value="' + data.filename + '" />' +
+                    '<input type="hidden" name="image-old[]" value="" />' +
+                    '<span class="pull-right"><a href="javascript:void(0);" onclick="$(this).parent().parent().remove();">删除</a></span>' +
+                    '<div class="pull-left photo_preview"><label class="radio inline"><img src="' + data.url + '"></label></div>' +
+                    '<table class="pull-left">' +
+                    '<tr><th>类型</th><td><select class="span2" name="class-new[]"><option value="0">消费环境</option><option value="1">菜品介绍</option><option value="2">服务项目</option><option value="3">套餐说明</option><option value="4">营销广告</option></select></td></tr>' +
+                    '<tr><th>说明</th><td><textarea name="title-new[]" class="span5"></textarea></td></tr>' +
+                    '</table></div>';
+            $('#listimage').append(html);
+        }
+        //-->
+    </script>
+    <div class="show_foot">
+        <div class="foot_wrap">
+            <p>© 2015 <b>汝州百事优惠圈商务</b></p>
+        </div>
+    </div>
+
+{% endblock %}

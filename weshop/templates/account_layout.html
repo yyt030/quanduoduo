@@ -1,0 +1,59 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>汝州百事优惠圈</title>
+    <meta name="keywords" content="汝州百事优惠圈,优惠券,手机优惠券,电子优惠券,微信优惠券">
+    <meta name="description" content="汝州百事优惠圈是一个借助于微信APP免费发放电子优惠券的公众平台。">
+    <link type="text/css" rel="stylesheet" href="/resource/style/bootstrap.css">
+    <link type="text/css" rel="stylesheet" href="/resource/style/font-awesome.css">
+    <link type="text/css" rel="stylesheet" href="/resource/style/common.css?v=1445682356">
+    <link type="text/css" rel="stylesheet" href="/resource/style/search.css?v=1445682356">
+    <link type="text/css" rel="stylesheet" href="{{ static('css/kindeditor_default.css') }}">
+    <script src="//hm.baidu.com/hm.js?50b4952461c191a55d14ad9dbe6b22ae"></script>
+    <script type="text/javascript" src="/resource/script/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="/resource/script/bootstrap.js"></script>
+    <script type="text/javascript" src="/resource/script/common.js"></script>
+    <script type="text/javascript" src="/resource/script/avatar.js"></script>
+    <script type="text/javascript">
+        cookie.prefix = 'cb65_';
+    </script>
+    <style type="text/css">
+        input {
+            height: 30px !important;
+        }
+    </style>
+    <!--[if IE 7]>
+<link rel="stylesheet" href="/resource/style/font-awesome-ie7.min.css">
+<![endif]-->
+    <!--[if lte IE 6]>
+<link rel="stylesheet" type="text/css" href="/resource/style/bootstrap-ie6.min.css">
+<link rel="stylesheet" type="text/css" href="/resource/style/ie.css">
+<![endif]-->
+</head>
+
+{# Flash message #}
+{% with message = get_flashed_messages()[0] %}
+    {% if message %}
+        <div class="alert alert-info flash-message">{{ message }}</div>
+    {% endif %}
+{% endwith %}
+
+{# body #}
+{% block content %}{% endblock %}
+
+{# 全局JS代码 #}
+<script type="text/javascript">
+    var gLocals = {
+        'gUser': "{{ g.user }}",
+        'csrf': "{{ csrf_token() }}",
+        'role': "{{ g.user.role if g.user else "" }}"
+    };
+</script>
+
+{# 单页JS代码 #}
+{% block page_js %}{% endblock %}
+
+{% block footer %}
+
+{% endblock %}

@@ -1,0 +1,65 @@
+{#{% extends "common_home.html" %}#}
+{##}
+{#{% block content %}#}
+{# <iframe frameborder="0" id="main" name="main" src="/shop/setting"></iframe>#}
+{#{% endblock %}#}
+{% from 'macro/form.html' import form_field %}
+{% extends 'account_layout.html' %}
+{% block content %}
+    <body>
+
+    <link type="text/css" rel="stylesheet" href="/resource/style/thumb.css?v=">
+    <style type="text/css">
+        div.thumbwrap dl dt img {
+            width: 80px;
+            height: 80px;
+            margin: 10px auto;
+        }
+    </style>
+
+    <div class="show_body">
+        <div class="head_wrap">
+            <div class="order">
+                <a href="brand.php?act=modify"><i class="icon-plus"></i> 添加品牌</a>
+            </div>
+            <div class="class normal">
+                <ul>
+                    <li class="normal"><a href="">选择品牌</a></li>
+                    <li class=""><a href="/brand/manage">管理品牌</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="body_wrap thumbwrap" id="body_wrap">
+            <div class="type_wrap">
+                第1步.<b style="color:#44b549;">选择品牌</b> &gt; 第2步.管理门店
+            </div>
+
+            <dl>
+                <dt><a href="/shop/manage?bid=1001819"><img
+                        src="http://mob.32184.com/resource/attachment//images/10014/2015/05/qT42522XH9A7t9XT9R2th49hf79TD2.jpg"></a>
+                </dt>
+                <dd>洛阳科技职业学院游泳馆</dd>
+            </dl>
+
+            <dl>
+                <dt><a href="/shop/manage?bid=1001819"><img
+                        src="http://mob.32184.com/resource/attachment//images/10014/2014/12/pY2Nnf6Cj5jG2b0i2KK1Jc7uxJl1Jx.jpg"></a>
+                </dt>
+                <dd>和生记徐氏湘菜</dd>
+            </dl>
+            <dl title="CTRL+F 可快速查找">
+                <dt><a href="/brand/add"><img src="/resource/attachment/icon.jpg"></a></dt>
+                <dd>未添加？</dd>
+            </dl>
+        </div>
+        <div class="body_wrap">
+            <div class="load_tips">加载中..</div>
+        </div>
+    </div>
+    <div class="show_foot">
+        <div class="foot_wrap">
+            <p>© 2015 <b>汝州百事优惠圈商务</b></p>
+        </div>
+    </div>
+    </body>
+{% endblock %}

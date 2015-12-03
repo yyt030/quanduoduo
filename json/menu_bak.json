@@ -1,0 +1,97 @@
+{
+  "button": [
+    {
+      "name": "汝州百事",
+      "sub_button": [
+        {
+          "type": "view",
+          "name": "汝州影讯",
+          "url": "http://mp.weixin.qq.com/s?__biz=MzA4MjM1MDYwNQ==mid=200469633idx=1sn=430d8e304ad1147506f0b6606d78439cscene=18#rd",
+          "sub_button": []
+        },
+        {
+          "type": "view",
+          "name": "免费电话",
+          "url": "http://3g.51wdh.net/interface/signin/signin.jsp?agentid=47082",
+          "sub_button": []
+        },
+        {
+          "type": "view",
+          "name": "百事社区",
+          "url": "http://wsq.qq.com/reflow/237731527",
+          "sub_button": []
+        }
+      ]
+    },
+    {
+      "name": "百事社区",
+      "sub_button": [
+        {
+          "type": "view",
+          "name": "找活动",
+          "url": "http://www.ruzhoubaishi.com/wap.php?g=Wapc=Activitya=index",
+          "sub_button": []
+        },
+        {
+          "type": "view",
+          "name": "找餐厅",
+          "url": "http://www.ruzhoubaishi.com/wap.php?g=Wapc=Meal_lista=index",
+          "sub_button": []
+        },
+        {
+          "type": "view",
+          "name": "商家中心",
+          "url": "http://www.ruzhoubaishi.com/index.php?g=WapMerchantc=Indexa=index",
+          "sub_button": []
+        },
+        {
+          "type": "view",
+          "name": "附近优惠",
+          "url": "http://www.ruzhoubaishi.com/wap.php?g=Wapc=Groupa=around",
+          "sub_button": []
+        },
+        {
+          "type": "view",
+          "name": "优惠导航",
+          "url": "http://www.ruzhoubaishi.com/wap.php?g=Wapc=Groupa=navigation",
+          "sub_button": []
+        }
+      ]
+    },
+    {
+      "name": "百事商城",
+      "sub_button": [
+        {
+          "type": "view",
+          "name": "汝州团购",
+          "url": "http://www.ruzhoubaishi.com/wap.php?g=Wapc=Groupa=index",
+          "sub_button": []
+        },
+        {
+          "type": "view",
+          "name": "商家中心",
+          "url": "http://www.ruzhoubaishi.com/wap.php?g=Wapc=Commercea=login",
+          "sub_button": []
+        },
+        {
+          "type": "view",
+          "name": "店员中心",
+          "url": "http://www.ruzhoubaishi.com/wap.php?g=Wapc=Storestaffa=index",
+          "sub_button": []
+        },
+        {
+          "type": "view",
+          "name": "商家入驻",
+          "url": "http://www.ruzhoubaishi.com/index.php?g=WapMerchantc=Indexa=merreg",
+          "sub_button": []
+        },
+        {
+          "type": "view",
+          "name": "我的优惠券",
+          "url": "http://www.ruzhoubaishi.com/wap.php?g=Wapc=Mya=card_list",
+          "sub_button": []
+        }
+      ]
+    }
+  ]
+}

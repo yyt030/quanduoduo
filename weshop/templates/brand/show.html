@@ -1,0 +1,100 @@
+{% extends 'mobile_layout.html' %}
+{% block content %}
+    <body>
+    <div class="show_head brand">
+        <div class="head_back">
+            <img src="/resource/attachment/back.jpg">
+        </div>
+        <div class="head_wrap">
+            <div class="load_wrap">
+                <div class="store-brand">
+                    <span><img src="/resource/attachment/images/{{ brand.thumb }}"
+                               onerror="javascript:this.src='/resource/attachment/icon.jpg'"></span>
+                </div>
+                <div class="store-title">
+                    <h3>{{ brand.name }}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="show_body">
+        <div class="body_wrap">
+            <div class="load_wrap">
+                <div class="coupon-tip"><span>已成功加入我的收藏</span></div>
+                <div class="coupon-table">
+                    <table cellspacing="0">
+                        <tr>
+                            <td>
+                                <a href="javascript:void(0);" id="enjoy" class="closed">
+                                    <i class="closed iconfont icon-like"></i>
+                                    <i class="normal iconfont icon-likefill" style="color:#007AFF"></i>
+                                    收藏
+                                </a>
+                            </td>
+                            <td><a href="/shop/list?bid={{ brand.id }}"><i
+                                    class="iconfont icon-shop"></i>门店</a></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="load_wrap activity">
+                <div class="coupon-other">
+                    <p>抢优惠券<span>共{{ brand.shops.count() }}条优惠</span></p>
+                </div>
+            </div>
+            <div class="load_wrap">
+                <div class="coupon-other">
+                    <p>品牌介绍</p>
+                </div>
+                <div class="coupon-intro">
+                    <h4>{{ brand.intro }}</h4>
+                </div>
+            </div>
+            <div class="load_wrap">
+                <div class="coupon-other">
+                    <p><a href="http://mob.32184.com/find.php?weid=10012">查找更多商家</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style type="text/css">
+        .normal i.closed,
+        .closed i.normal {
+            display: none;
+        }
+    </style>
+    <script type="text/javascript">
+        $(function () {
+            $('#enjoy').click(function () {
+                var getJSONURL = "http://mob.32184.com/business.php?bid=1002377&weid=10012&do=post";
+                $.getJSON(getJSONURL,
+                        function (data) {
+                            if (data.type == 'success') {
+                                $('#enjoy').attr('class', data.redirect);
+                            } else {
+                                $('.coupon-tip span').text(data.message).parent().fadeIn();
+                                setTimeout(function () {
+                                    $('.coupon-tip').fadeOut();
+                                }, 3000);
+                            }
+                        }
+                );
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        var _share_image = "http://mob.32184.com/resource/attachment/icon.jpg";
+        var _share_title = "shs";
+        var _share_intro = "快来领取手机优惠券吧";
+        var _share_place = "http://mob.32184.com/business.php?do=brand&bid=1002377&weid=10012&path=brand&param=1002377";
+        var isallowfirend = "true";
+
+        document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+            WeixinJSBridge.call('hideToolbar');
+            WeixinJSBridge.call('showOptionMenu');
+            WeixinJSBridgeShare(_share_image, _share_title, _share_intro, _share_place, isallowfirend);
+        }, false);
+    </script>
+    </body>
+{% endblock %}

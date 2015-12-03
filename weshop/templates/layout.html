@@ -1,0 +1,68 @@
+{% from 'macro/ui.html' import login_modal with context %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+{#    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, minimal-ui">#}
+{#    <meta name="apple-mobile-web-app-capable" content="yes">#}
+{#    <meta http-equiv="Pragma" content="no-cache">#}
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <meta name="keywords" content="定制,自主设计,在线定制,私人,专属,个性化">
+    <meta name="description" content="快转印在线设计，diy快客屋 在线定制平台让客户自主设计个人专属的特性图案,并让这些个性图案展示在购买的商品上">
+    {% block page_vars %}{% endblock %}
+    {% block meta %}{% endblock %}
+    <link rel="Shortcut Icon" href="{{ static('images/favicon.ico') }}">
+    <link href="{{ static('themes/default/style/font-awesome.min.css') }}" rel="stylesheet"
+          media="screen" type="text/css">
+    <link href="{{ static('themes/default/style/bootstrap.min.css')}}" rel="stylesheet" media="screen"
+          type="text/css">
+    <link rel="stylesheet" type="text/css"
+          href="{{ static('themes/default/style/mobile-diy-main.css')}}">
+    <link href="{{ static('themes/default/style/bootstrap-patch.css')}}" rel="stylesheet"
+          media="screen" type="text/css">
+    <link href="{{ static('themes/default/style/main.css')}}" rel="stylesheet" media="screen"
+          type="text/css">
+    {% block page_css %}{% endblock %}
+    {# js代码 #}
+    <script type="text/javascript" src="{{ static('javascript/jquery.min.js')}}"></script>
+    <title>{% block page_title %}{% endblock %}</title>
+</head>
+
+{# Flash message #}
+{% with message = get_flashed_messages()[0] %}
+    {% if message %}
+        <div class="alert alert-info flash-message">{{ message }}</div>
+    {% endif %}
+{% endwith %}
+
+{# body #}
+{% block content %}{% endblock %}
+
+{# 全局JS代码 #}
+<script type="text/javascript">
+    var gLocals = {
+        'gUser': "{{ g.user }}",
+        'csrf': "{{ csrf_token() }}",
+        'role': "{{ g.user.role if g.user else "" }}"
+    };
+</script>
+
+{# 单页JS代码 #}
+{% block page_js %}{% endblock %}
+
+<script type="text/javascript" src="{{ static('javascript/checkbrowser.js')}}"></script>
+<script type="text/javascript" src="{{ static('javascript/bootstrap.min.js')}}"></script>
+<script type="text/javascript" src="{{ static('javascript/main.js')}}"></script>
+{% block footer %}
+    <footer class="footer text-center container " style="padding:18px 0;border-top:1px solid #ccc">
+        Copyright © {{ website.year }} <a href="/appadmin" target="_blank">{{ website.company }}</a>&nbsp;&nbsp;&nbsp;&nbsp;备案号:
+        <a href="http://www.miibeian.gov.cn/" target="_blank">{{ website.icp }}</a></footer>
+
+    {#  百度统计 #}
+    <div style="visibility:hidden;position:absolute;top:0px;left:0px;">
+        <script type="text/javascript">
+
+        </script>
+    </div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'mobile_layout.html' %}
+{% block page_title %}出错{% endblock %}
+{% block content %}
+<body>
+<div class="show_body wide">
+	<div class="body_wrap">
+		<div class="load_wrap">
+			<div class="coupon-other">
+				<p>
+					消息提示
+				</p>
+			</div>
+			<div class="coupon-intro coupon-verify need">
+								<h4 style="font-size:18px;padding:20px 0px;color:#EB6BA4">
+					抱歉，该商家不存在或是已经被删除！				</h4>
+							</div>
+			<div class="coupon-other">
+				<p><a href="javascript:history.go(-1);">返回首页</a></p>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+</body>
+{% endblock %}

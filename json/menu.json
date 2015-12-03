@@ -1,0 +1,22 @@
+{
+  "button": [
+    {
+      "type": "view",
+      "name": "找优惠",
+      "url": "http://www.ruzhoubaishi.com/find",
+      "sub_button": []
+    },
+    {
+      "type": "view",
+      "name": "券包",
+      "url": "http://www.ruzhoubaishi.com/my_tickets",
+      "sub_button": []
+    },
+    {
+      "type": "view",
+      "name": "发现",
+      "url": "http://www.ruzhoubaishi.com/center",
+      "sub_button": []
+    }
+  ]
+}
