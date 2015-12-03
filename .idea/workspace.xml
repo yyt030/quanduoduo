@@ -1,0 +1,601 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="524ff068-4e38-4621-8bc9-8ee56541d090" name="Default" comment="">
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\.gitignore" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\README.md" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\config\__init__.py" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\config\default.py" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\config\development_sample.py" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\config\production.py" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\config\testing.py" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\json\menu.json" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\json\menu_bak.json" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\manage.py" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\migrations\README" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\migrations\alembic.ini" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\migrations\env.py" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\migrations\script.py.mako" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\migrations\versions\2494650267fc_.py" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\migrations\versions\3db1cf477796_.py" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\migrations\versions\41aa03671575_.py" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\migrations\versions\44ed8bab7ea2_.py" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\requirements.txt" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\attachment\icon.jpg" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\font\fontawesome-webfont-1.eot" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\font\fontawesome-webfont.eot" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\font\fontawesome-webfont.svg" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\font\fontawesome-webfont.ttf" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\font\fontawesome-webfont.woff" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\image\bg_repno.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\image\icon\businesscustom.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\image\icon\businesspublish.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\image\icon\businessupload.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\image\icon\checkoutbinding.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\image\icon\discountpublish.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\image\logo_48.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\image\qrcode_129.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\image\quanduoduo.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\image\uploadButton.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\image\we7_tips_bg.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\image\we7_tips_title.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\Area.xml" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\avatar.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\bootstrap.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\common.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\highcharts.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\jquery-1.7.2.min.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\jquery.zclip.min.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\kindeditor-all-min.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\kindeditor-all.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\kindeditor-min.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\kindeditor.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\lang\ar.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\lang\en.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\lang\ko.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\lang\zh_CN.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\lang\zh_TW.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\anchor\anchor.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\autoheight\autoheight.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\baidumap\baidumap.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\baidumap\index.html" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\baidumap\map.html" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\clearhtml\clearhtml.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\code\code.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\code\prettify.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\code\prettify.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\emoticons.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\0.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\1.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\10.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\100.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\101.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\102.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\103.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\104.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\105.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\106.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\107.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\108.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\109.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\11.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\110.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\111.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\112.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\113.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\114.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\115.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\116.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\117.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\118.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\119.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\12.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\120.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\121.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\122.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\123.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\124.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\125.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\126.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\127.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\128.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\129.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\13.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\130.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\131.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\132.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\133.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\134.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\14.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\15.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\16.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\17.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\18.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\19.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\2.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\20.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\21.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\22.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\23.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\24.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\25.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\26.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\27.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\28.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\29.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\3.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\30.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\31.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\32.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\33.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\34.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\35.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\36.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\37.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\38.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\39.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\4.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\40.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\41.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\42.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\43.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\44.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\45.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\46.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\47.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\48.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\49.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\5.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\50.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\51.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\52.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\53.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\54.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\55.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\56.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\57.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\58.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\59.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\6.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\60.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\61.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\62.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\63.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\64.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\65.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\66.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\67.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\68.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\69.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\7.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\70.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\71.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\72.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\73.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\74.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\75.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\76.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\77.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\78.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\79.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\8.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\80.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\81.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\82.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\83.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\84.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\85.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\86.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\87.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\88.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\89.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\9.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\90.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\91.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\92.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\93.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\94.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\95.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\96.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\97.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\98.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\99.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\emoticons\images\static.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\filemanager\filemanager.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\filemanager\images\file-16.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\filemanager\images\file-64.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\filemanager\images\folder-16.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\filemanager\images\folder-64.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\filemanager\images\go-up.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\flash\flash.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\image\image.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\image\images\align_left.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\image\images\align_right.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\image\images\align_top.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\image\images\refresh.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\insertfile\insertfile.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\lineheight\lineheight.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\link\link.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\map\map.html" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\map\map.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\media\media.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\multiimage\images\image.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\multiimage\images\select-files-en.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\multiimage\images\select-files-zh_CN.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\multiimage\images\swfupload.swf" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\multiimage\multiimage.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\pagebreak\pagebreak.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\plainpaste\plainpaste.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\preview\preview.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\quickformat\quickformat.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\table\table.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\template\html\1.html" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\template\html\2.html" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\template\html\3.html" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\template\template.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\plugins\wordpaste\wordpaste.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\themes\common\anchor.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\themes\common\blank.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\themes\common\flash.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\themes\common\loading.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\themes\common\media.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\themes\common\rm.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\themes\default\background.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\themes\default\default.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\themes\default\default.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\themes\qq\editor.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\themes\qq\qq.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\script\kindeditor\themes\simple\simple.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\skin\css\style.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\skin\images\b5_01.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\skin\images\b5_bg.jpg" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\skin\images\b7_sprite.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\skin\images\ie-css3.htc" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\skin\images\qrcode_129.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\skin\images\quanduoduo.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\style\bootstrap.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\style\common.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\style\font-awesome.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\style\search.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\resource\style\thumb.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop.py" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\__init__.py" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\forms\__init__.py" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\forms\account.py" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\forms\shop.py" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\forms\user.py" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\models\__init__.py" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\models\_base.py" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\models\user.py" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\css\bootstrap.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\css\common.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\css\font-awesome.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\css\kindeditor_default.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\css\search.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\css\style.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\font\fontawesome-webfont-1.eot" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\font\fontawesome-webfont.eot" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\font\fontawesome-webfont.svg" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\font\fontawesome-webfont.ttf" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\font\fontawesome-webfont.woff" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\image\logo_48.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\images\b1_01.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\images\b1_02.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\images\b1_03.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\images\b1_03_btn.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\images\b1_04.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\images\b1_bg.jpg" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\images\b2_01.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\images\b2_03.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\images\b2_04.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\images\b2_05.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\images\b2_06.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\images\b2_bg.jpg" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\images\b3_01.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\images\b3_bg.jpg" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\images\b4_01.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\images\b4_02.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\images\b4_bg.jpg" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\images\b5_01.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\images\b5_bg.jpg" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\images\b5_ico.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\images\b6_01.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\images\b6_arrow.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\images\b6_bg.jpg" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\images\b6_ico.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\images\b6_img.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\images\b7_bg.jpg" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\images\businesscustom.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\images\businesspublish.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\images\businessupload.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\images\checkoutbinding.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\images\discountpublish.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\images\logo_48.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\images\qrcode_129.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\images\quanduoduo.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\images\sprite.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\js\avatar.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\js\bootstrap.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\js\cascade.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\js\common.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\js\industry.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\js\jquery-1.7.2.min.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\themes\mobile\bakimg\card_bk_8.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\themes\mobile\default\images\icon1.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\themes\mobile\icons\iconfont.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\themes\mobile\icons\iconfont.eot" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\themes\mobile\icons\iconfont.svg" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\themes\mobile\icons\iconfont.ttf" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\themes\mobile\icons\iconfont.woff" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\themes\mobile\images\TB1cCa3GVXXXXXaXpXXVukiUFXX-280-260.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\themes\mobile\images\arrow.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\themes\mobile\images\arrow3.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\themes\mobile\images\bk_repeat1_1.jpg" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\themes\mobile\images\bk_top1_1.jpg" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\themes\mobile\images\button.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\themes\mobile\images\load.gif" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\themes\mobile\images\msk1.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\themes\mobile\images\msk2.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\themes\mobile\images\power7.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\themes\mobile\images\qrcode.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\themes\mobile\images\star-empty.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\themes\mobile\images\star.png" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\themes\mobile\script\loadmore.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\themes\mobile\style\jquery-2.1.4.min.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\themes\mobile\style\search.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\themes\mobile\style\vlight-1.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\themes\mobile\style\vlight-2.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\themes\mobile\style\vlight-3.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\themes\mobile\style\vlight-4.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\static\themes\mobile\style\vlight.css" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\utils\__init__.py" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\utils\_redis.py" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\utils\account.py" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\utils\alipay.py" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\utils\arial.ttf" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\utils\checkSignature.py" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\utils\code.py" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\utils\code2.py" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\utils\devices.py" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\utils\filters.py" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\utils\hashcompat.py" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\utils\helper.py" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\utils\permissions.py" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\utils\sentry.py" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\weshop\utils\uploadsets.py" afterPath="" />
+      <change type="DELETED" beforePath="F:\FlaskProject\quanduoduo\wsgi.py" afterPath="" />
+      <change type="MODIFICATION" beforePath="F:\FlaskProject\quanduoduo\weshop\controllers\brand.py" afterPath="F:\FlaskProject\quanduoduo\weshop\controllers\brand.py" />
+      <change type="MODIFICATION" beforePath="F:\FlaskProject\quanduoduo\weshop\templates\common_home.html" afterPath="F:\FlaskProject\quanduoduo\weshop\templates\common_home.html" />
+      <change type="MODIFICATION" beforePath="F:\FlaskProject\quanduoduo\weshop\templates\discount\detail.html" afterPath="F:\FlaskProject\quanduoduo\weshop\templates\discount\detail.html" />
+      <change type="MODIFICATION" beforePath="F:\FlaskProject\quanduoduo\weshop\controllers\discount.py" afterPath="F:\FlaskProject\quanduoduo\weshop\controllers\discount.py" />
+      <change type="MODIFICATION" beforePath="F:\FlaskProject\quanduoduo\weshop\templates\mobile\fabu.html" afterPath="F:\FlaskProject\quanduoduo\weshop\templates\mobile\fabu.html" />
+      <change type="MODIFICATION" beforePath="F:\FlaskProject\quanduoduo\weshop\templates\account\header.html" afterPath="F:\FlaskProject\quanduoduo\weshop\templates\account\header.html" />
+      <change type="MODIFICATION" beforePath="F:\FlaskProject\quanduoduo\weshop\templates\mobile\home.html" afterPath="F:\FlaskProject\quanduoduo\weshop\templates\mobile\home.html" />
+      <change type="MODIFICATION" beforePath="F:\FlaskProject\quanduoduo\weshop\templates\site\index.html" afterPath="F:\FlaskProject\quanduoduo\weshop\templates\site\index.html" />
+      <change type="MODIFICATION" beforePath="F:\FlaskProject\quanduoduo\weshop\templates\brand\manage.html" afterPath="F:\FlaskProject\quanduoduo\weshop\templates\brand\manage.html" />
+      <change type="MODIFICATION" beforePath="F:\FlaskProject\quanduoduo\weshop\templates\mobile\my_tickets.html" afterPath="F:\FlaskProject\quanduoduo\weshop\templates\mobile\my_tickets.html" />
+      <change type="MODIFICATION" beforePath="F:\FlaskProject\quanduoduo\weshop\templates\mobile\search_result.html" afterPath="F:\FlaskProject\quanduoduo\weshop\templates\mobile\search_result.html" />
+      <change type="MODIFICATION" beforePath="F:\FlaskProject\quanduoduo\weshop\controllers\shop.py" afterPath="F:\FlaskProject\quanduoduo\weshop\controllers\shop.py" />
+      <change type="MODIFICATION" beforePath="F:\FlaskProject\quanduoduo\weshop\models\shop.py" afterPath="F:\FlaskProject\quanduoduo\weshop\models\shop.py" />
+      <change type="MODIFICATION" beforePath="F:\FlaskProject\quanduoduo\weshop\controllers\site.py" afterPath="F:\FlaskProject\quanduoduo\weshop\controllers\site.py" />
+      <change type="MODIFICATION" beforePath="F:\FlaskProject\quanduoduo\weshop\controllers\user.py" afterPath="F:\FlaskProject\quanduoduo\weshop\controllers\user.py" />
+      <change type="MODIFICATION" beforePath="F:\FlaskProject\quanduoduo\weshop\templates\account\user_data.html" afterPath="F:\FlaskProject\quanduoduo\weshop\templates\account\user_data.html" />
+    </list>
+    <ignored path="quanduoduo.iws" />
+    <ignored path=".idea/workspace.xml" />
+    <ignored path=".idea/dataSources.local.xml" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FavoritesManager">
+    <favorites_list name="quanduoduo" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/push.bat" />
+        <option value="$PROJECT_DIR$/weshop/templates/discount/detail.html" />
+        <option value="$PROJECT_DIR$/weshop/wechat/backends/flask_interface.py" />
+        <option value="$PROJECT_DIR$/weshop/models/shop.py" />
+        <option value="$PROJECT_DIR$/weshop/controllers/discount.py" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+  </component>
+  <component name="NamedScopeManager">
+    <order />
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1456" />
+    <option name="height" value="876" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+    <OptionsSetting value="true" id="Add" />
+    <OptionsSetting value="true" id="Remove" />
+    <OptionsSetting value="true" id="Checkout" />
+    <OptionsSetting value="true" id="Update" />
+    <OptionsSetting value="true" id="Status" />
+    <OptionsSetting value="true" id="Edit" />
+    <ConfirmationsSetting value="0" id="Add" />
+    <ConfirmationsSetting value="0" id="Remove" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="quanduoduo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scratches" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="recentsLimit" value="5" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\FlaskProject\quanduoduo" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.quanduoduo">
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="quanduoduo" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="quanduoduo" type="PythonConfigurationType" factoryName="Python" singleton="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="quanduoduo" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/weshop.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <list size="1">
+      <item index="0" class="java.lang.String" itemvalue="Python.quanduoduo" />
+    </list>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="524ff068-4e38-4621-8bc9-8ee56541d090" name="Default" comment="" />
+      <created>1448935154780</created>
+      <option name="number" value="Default" />
+      <updated>1448935154780</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1456" height="876" extended-state="6" />
+    <editor active="false" />
+    <layout>
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25358167" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33008358" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32962447" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager />
+    <watches-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/weshop/models/shop.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="123" column="0" selection-start-line="123" selection-start-column="0" selection-end-line="123" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/push.bat">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.13245033">
+          <caret line="3" column="12" selection-start-line="3" selection-start-column="12" selection-end-line="3" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/weshop/utils/code2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.682353">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/Python27/Lib/site-packages/werkzeug/wrappers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334">
+          <caret line="519" column="8" selection-start-line="519" selection-start-column="8" selection-end-line="519" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/weshop/models/shop.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.4128035">
+          <caret line="155" column="0" selection-start-line="155" selection-start-column="0" selection-end-line="155" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
