@@ -3,3 +3,4 @@
 from ._base import db
 from .user import *
 from .shop import *
+from .site import *

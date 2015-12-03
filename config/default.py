@@ -6,7 +6,7 @@ class Config(object):
     """配置基类"""
     # Flask app config
 
-    DEBUG = True
+    DEBUG = False
     TESTING = False
     SECRET_KEY = "\xb5\xb3}#\xb7A\xcac\x9d0\xb6\x0f\x80z\x97\x00\x1e\xc0\xb8+\xe9)\xf0}"
     PERMANENT_SESSION_LIFETIME = 3600 * 1
@@ -22,7 +22,7 @@ class Config(object):
     # See:
     # https://pythonhosted.org/Flask-SQLAlchemy/config.html#connection-uri-format
     # http://docs.sqlalchemy.org/en/rel_0_9/core/engines.html#database-urls
-    SQLALCHEMY_DATABASE_URI = "mysql://root:root@localhost/weshop"
+    SQLALCHEMY_DATABASE_URI = "mysql://root:@localhost/weshop"
     # SQLALCHEMY_DATABASE_URI = "mysql://root:ruzhoubaishi@localhost/weshop"
 
     # Redis
@@ -39,7 +39,10 @@ class Config(object):
     WECHAT_TICKET="gQGq7zoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xLzZrekpvLURsWmtNZnBPdFYwMkEyAAIERWVcVgMEAAAAAA=="
     # Flask-DebugToolbar
     DEBUG_TB_INTERCEPT_REDIRECTS = False
-
+    WECHAT_TOKEN = 'q8745ac18171be1af01f6ac4a9085wd2'
+    EncodingAESKey = 'K1a1X0uIqopl6VH5MFK7AMC9skrL1UuEo1zSctgKeGU'
+    WECHAT_APPID = 'wxb4b617b7a40c8eff'
+    WECHAT_APPSECRET = '5d684675679354b7c8544651fa909921'
     # Sentry config
     SENTRY_DSN = ''
 

@@ -63,3 +63,35 @@ class User(db.Model):
 
     def __repr__(self):
         return '<User %s>' % self.name
+
+
+class Profile(db.Model):
+    """用户详细信息"""
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship('User', backref=db.backref('profile', lazy='dynamic'))
+    openid = db.Column(db.String(50), default='')
+    city = db.Column(db.String(50), default='')
+    country = db.Column(db.String(50), default='cn')
+    headimgurl = db.Column(db.String(200), default='')
+    language = db.Column(db.String(20))
+    nickname = db.Column(db.String(50))
+    province = db.Column(db.String(50))
+    subscribe_time = db.Column(db.DateTime, default=datetime.datetime.now)
+
+
+class GetTicketRecord(db.Model):
+    """发放的优惠券记录"""
+    id = db.Column(db.Integer, primary_key=True)
+
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship('User')
+
+    discount_id = db.Column(db.Integer, db.ForeignKey('discount.id'))
+    discount = db.relationship('Discount', backref=db.backref('get_discounts', lazy='dynamic'))
+
+    used = db.Column(db.Float, default=0)
+    create_at = db.Column(db.DateTime, default=datetime.datetime.now)
+
+    def __repr__(self):
+        return '<GetDiscountRecord %s>' % self.id

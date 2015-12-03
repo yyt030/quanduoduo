@@ -4,6 +4,8 @@ import os
 import sys
 
 # 将project目录加入sys.path
+from flask.ext.cache import Cache
+
 project_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 if project_path not in sys.path:
     sys.path.insert(0, project_path)
@@ -23,11 +25,13 @@ sys.setdefaultencoding('utf8')
 
 csrf = CsrfProtect()
 
+cache = Cache()
 
 def create_app():
     """创建Flask app"""
     app = Flask(__name__)
-
+    cache = Cache(app,config={'CACHE_TYPE': 'simple'})
+    cache.init_app(app)
     # Load config
     config = load_config()
     app.config.from_object(config)

@@ -1,0 +1,165 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+          name="viewport">
+    <meta name="format-detection" content="telephone=no">
+    <title>个人中心</title>
+    <link rel="stylesheet" type="text/css" href="/static/themes/mobile/style/vlight.css?1449079679" media="all">
+    <link rel="stylesheet" type="text/css" href="/static/themes/mobile/icons/iconfont.css">
+    <script src="//hm.baidu.com/hm.js?50b4952461c191a55d14ad9dbe6b22ae"></script>
+    <script type="text/javascript" src="/static//themes/mobile/style/jquery-2.1.4.min.js"></script>
+</head>
+<iframe id="__WeixinJSBridgeIframe_SetResult" style="display: none;"></iframe>
+<iframe id="__WeixinJSBridgeIframe" style="display: none;"></iframe>
+
+<body>
+<div class="show_face animation">
+    <div class="face_wrap">
+        <div class="avator"
+             style="background-image: url('http://wx.qlogo.cn/mmopen/Fh53nfUjsSyNGTeCsROmWiaalH8w8OocY4S79lZ03MHj3RVh2naluOmkj0ibqjnQRicyMKzYZFVB7vxHkoTX7VyiaXNAhPu84tXT/132');"></div>
+        <p class="nickname">猿来是你</p>
+
+        <p class="fullcoin"><span class="animation"><b>76</b><b>77</b><b>78</b></span></p>
+
+        <p class="takecoin">获得了<span>1</span>个积分</p>
+    </div>
+</div>
+<div class="show_head other">
+    <div class="head_back">
+    </div>
+    <div class="head_wrap">
+        <div class="load_tips"><span></span></div>
+        <div class="load_wrap">
+            <a href="#" style="background: none">
+                <div class="store-brand">
+                    <span><img
+                            src="http://wx.qlogo.cn/mmopen/Fh53nfUjsSyNGTeCsROmWiaalH8w8OocY4S79lZ03MHj3RVh2naluOmkj0ibqjnQRicyMKzYZFVB7vxHkoTX7VyiaXNAhPu84tXT/132"></span>
+                </div>
+                <div class="store-title" style="background: none">
+                    <h3>猿来是你</h3>
+{#                    <h4>#}
+{#                        初级用户#}
+{#                    </h4>#}
+                </div>
+            </a>
+        </div>
+        <div class="load_link">
+            <div class="coupon-table" style="height:2.1rem;">
+                <table cellspacing="0">
+                    <tbody>
+                    <tr>
+                        <td style="width:50%;height:2.1rem;" class="">
+                            <a href="/my_tickets">优惠券<span><b></b>2 张</span></a>
+                        </td>
+                        <td style="width:50%;height:2.1rem;" class=""><a href="/my_favorite_shop">收藏夹<span><b></b>0 家</span></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="show_body wide">
+    <div class="body_wrap">
+
+        <div class="load_wrap">
+            <div class="coupon-other" style="">
+                <p><a href="/gonglue">
+                    使用攻略
+                </a></p>
+            </div>
+            <div class="coupon-other" style="">
+                <p><a href="#" style="background: none">
+                    本周领券<span>3/3张</span>
+                </a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="show_foot">
+    <div class="foot_wrap">
+        <table cellspacing="0" class="find">
+            <tr>
+                <td width="25%" class="{% if nav ==1 %}find{% endif %}  customer"><a
+                        href="/my_favorite_shop"><span></span><i
+                        class="iconfont icon-tag"></i>收藏</a></td>
+                <td width="25%" class="{% if nav ==2 %}find{% endif %} checkout"><a href="/my_tickets"><span></span><i
+                        class="iconfont icon-pay"></i>券包</a></td>
+                <td width="25%" class="{% if nav ==3 %}find{% endif %} "><a href="/find"><span></span><i
+                        class="iconfont icon-attention"></i>发现</a></td>
+                <td width="25%" class="{% if nav ==4 %}find{% endif %}  fans"><a href="/user_home"><span></span><i
+                        class="iconfont icon-my"></i>我的</a></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<script type="text/javascript" src="/static/themes/mobile/default/script/loadmore-150713.js?t=16771"></script>
+<script type="text/javascript">
+    var loadtype = "fans";
+</script>
+
+<script type="text/javascript">
+    document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+        WeixinJSBridge.call('hideToolbar');
+        WeixinJSBridge.call('showOptionMenu');
+    }, false);
+</script>
+
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript">
+    function WeixinJSBridgeShare(_share_image, _share_title, _share_intro, _share_place, isallowfirend) {
+        wx.config({
+            debug: false,
+            appId: 'wx4dfba68027dc4359',
+            timestamp: '1449079679', // 生成签名的时间戳
+            nonceStr: 'HZXT0l4P2o', // 生成签名的随机串
+            signature: 'c72c6a971de77d8e707b7477ef6815c8a99f847c',// 签名
+            jsApiList: [
+                'checkJsApi',
+                'onMenuShareTimeline',
+                'onMenuShareAppMessage',
+                'hideMenuItems',
+                'showMenuItems',
+                'getNetworkType',
+                'openLocation',
+                'getLocation',
+                'scanQRCode',
+            ]
+        });
+
+        // 用户来源
+        _share_place += '&fromuser=o0924t9116VPHIDYJiV94jGXD4qk';
+        // 发送给好友
+        wx.onMenuShareAppMessage({
+            title: _share_title, // 分享标题
+            desc: _share_intro, // 分享描述
+            link: _share_place + '&come=transmit&wxref=mp.weixin.qq.com', // 分享链接
+            imgUrl: _share_image  // 分享图标
+        });
+        // 分享到朋友圈
+        wx.onMenuShareTimeline({
+            title: _share_title + _share_intro, // 分享标题
+            link: _share_place + '&come=timeline&wxref=mp.weixin.qq.com', // 分享链接
+            imgUrl: _share_image  // 分享图标
+        });
+
+        wx.hideMenuItems({
+            menuList: [
+                'menuItem:share:email',
+                'menuItem:share:qq',
+                'menuItem:copyUrl',		// 复制链接
+                'menuItem:readMode',	// 阅读模式
+                'menuItem:openWithSafari',
+                'menuItem:openWithQQBrowser'
+            ] // 要隐藏的菜单项，所有menu项见附录3
+        });
+    }
+</script>
+
+
+</body>
+</html>

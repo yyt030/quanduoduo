@@ -69,7 +69,7 @@ class Discount(db.Model):
     brand = db.relationship('Brand', backref=db.backref('discounts_brands', lazy='dynamic'))
 
     shops = db.relationship('Shop', secondary=shop_discount,
-                            backref=db.backref('discount_shops', lazy='dynamic'), lazy='dynamic')
+                            backref=db.backref('discounts', lazy='dynamic'), lazy='dynamic')
 
     count = db.Column(db.Integer, default=0)
     back = db.Column(db.Integer, default=0)
@@ -139,6 +139,22 @@ class MyFavoriteDiscount(db.Model):
 
     def __repr__(self):
         return '<MyFavoriteDiscount %s>' % self.id
+
+
+class MyFavoriteShop(db.Model):
+    """收藏的商家"""
+    id = db.Column(db.Integer, primary_key=True)
+
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship('User')
+
+    shop_id = db.Column(db.Integer, db.ForeignKey('shop.id'))
+    shop = db.relationship('Shop', backref=db.backref('favorite_shops', lazy='dynamic'))
+
+    create_at = db.Column(db.DateTime, default=datetime.datetime.now)
+
+    def __repr__(self):
+        return '<MyFavoriteShop %s>' % self.id
 
 
 class Shop(db.Model):

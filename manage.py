@@ -58,6 +58,12 @@ def createdb():
     """Create database."""
     db.create_all()
 
+@manager.command
+def delete_version():
+    """Create database."""
+    version=AlembicVersion.query.first()
+    db.session.delete(version)
+    db.session.commit()
 
 @manager.command
 def reset_users_token():

@@ -21,3 +21,5 @@ bp = Blueprint('', __name__)
 @require_visitor
 def index():
     return render_template('shop/setting.html')
+
+

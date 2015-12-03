@@ -10,15 +10,17 @@ from coverage.html import STATIC_PATH
 from flask import render_template, Blueprint, redirect, url_for, g, session, request, \
     make_response, current_app, send_from_directory
 from wechat_sdk import WechatBasic
-from weshop import csrf
+from weshop import csrf,cache
 from weshop.utils import devices
 from weshop.utils.account import signin_user, signout_user
 from weshop.utils.devices import checkMobile
-from ..models import db, User, Discount, Brand
+from ..models import db, User, Discount, Brand, MyFavoriteShop, Shop, Profile
 from ..forms import SigninForm
 from ..utils.permissions import require_user, require_visitor
 from ..utils.uploadsets import images, random_filename, process_question, avatars
+from weshop.utils.helper import  get_url_data
 from weshop.wechat import WeixinHelper
+from datetime import datetime, date, timedelta
 
 bp = Blueprint('site', __name__)
 
@@ -40,10 +42,12 @@ def login():
             return redirect(url_for('site.home'))
     return render_template('account/login.html', form=form)
 
+
 @bp.route('/signin', methods=['GET', 'POST'])
 @require_visitor
 def signin():
     return render_template('account/user_data.html')
+
 
 @bp.route('/signout', methods=['GET', 'POST'])
 @require_visitor
@@ -167,20 +171,37 @@ def center():
     return render_template('mobile/center.html')
 
 
-@bp.route('/favorite')
-def favorite_tickets():
-    """我收藏的券包"""
+@bp.route('/my_favorite_shop')
+def favorite_shops():
+    type = request.args.get("type")
+    shops = MyFavoriteShop.query.all()
+    shops = Shop.query.all()
+    nav = 1
+    return render_template('mobile/my_favorite_shops.html', type=type, nav=nav, shops=shops)
+
+
+@bp.route('/user_home')
+def user_home():
+    """我的个人中心"""
     type = request.args.get("type")
     discounts = Discount.query.all()
-    return render_template('mobile/my_favorite_tickets.html', type=type, discounts=discounts)
+    nav = 4
+    return render_template('mobile/user_home.html', type=type, nav=nav, discounts=discounts)
 
 
 @bp.route('/my_tickets')
 def tickets():
     """券包"""
-    type = request.args.get("type")
+    type = request.args.get("type", "not_use")
+    nav = 2
     discounts = Discount.query.all()
-    return render_template('mobile/my_tickets.html', type=type, discounts=discounts)
+    return render_template('mobile/my_tickets.html', type=type, nav=2, discounts=discounts)
+
+
+@bp.route('/gonglue')
+def gonglue():
+    """使用攻略"""
+    return render_template('mobile/gonglue.html')
 
 
 @csrf.exempt
@@ -258,4 +279,51 @@ def interface():
         return "error"
 
 
+def get_user_info(token, openid):
+    url = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token=%s&openid=%s&lang=zh_CN' % (token, openid)
+    user_json_str = get_url_data(url)
+    user_json = json.loads(user_json_str)
 
+    return user_json
+
+
+# @cache.memoize(timeout=7200)
+def get_access_token(update=False):
+    if session.get('access_token', None) and update is False:
+        return session.get('access_token')
+    else:
+        url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s' \
+              % (current_app.config.get('WECHAT_APPID'), current_app.config.get('WECHAT_APPSECRET'))
+        access_token = get_url_data(url)
+        dict_access_token = json.loads(access_token)
+        str_access_token = dict_access_token['access_token']
+        session['access_token'] = str_access_token
+
+    return str_access_token
+
+
+def add_wechat_user_to_db(from_user):
+    """
+    添加微信用户到数据库，在数据库创建一个对应的user关联在一起
+    """
+    users = User.query.filter(User.profile.any(Profile.openid==str(from_user))).first()
+    if  not users:
+        print u'creating a new user ...'
+        print 'waiting...'
+        user_json = get_user_info(get_access_token(), from_user)
+        if 'errcode' in user_json:
+            user_json = get_user_info(get_access_token(True), from_user)
+        email = str(from_user) + '@qq.com'
+        user = User(name=user_json['nickname'],email=email,password=from_user)
+        user_profile = Profile()
+        user_profile.openid = from_user
+        user_profile.city = user_json['city']
+        user_profile.country = user_json['country']
+        user_profile.headimgurl = user_json['headimgurl']
+        user_profile.language = user_json['language']
+        user_profile.nickname = user_json['nickname']
+        user_profile.province = user_json['province']
+        user_profile.subscribe_time = datetime.fromtimestamp(user_json['subscribe_time'])
+        user.profile.append(user_profile)
+        db.session.add(user)
+        db.session.commit()
