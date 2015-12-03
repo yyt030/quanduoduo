@@ -164,10 +164,8 @@ def setting():
     else:
         if form.is_submitted():
             title = form.title.data
-            print title
             number = form.number.data
             discount_type = str(values.get("class"))
-            print discount_type
             if title == '':
                 error = '您还没输入优惠内容呢！'
                 return render_template('shop/error.html', error=error)
@@ -181,7 +179,6 @@ def setting():
                 error = '请设置发行数量！'
                 return render_template('shop/error.html', error=error)
             if act == 'publish':
-                print request.form
                 discount = Discount(title=title, type=discount_type.decode('utf-8'), intro=form.intro.data,
                                     image=form.image.data,
                                     supply=form.supply.data, number=number, usable=form.usable.data,
@@ -211,15 +208,21 @@ def setting():
                     shop_id = int(v)
                     shop = Shop.query.get(shop_id)
 
-                    records = shop.discount_shops.all()
-                    for record in records:
-                        print '--------', record.id, bid
-                        # 避免插入shop_discount 重复
-                        if record.id != id:
-                            discount.shops.append(shop)
-                            db.session.add(discount)
-                            db.session.add(g.user)
-                            db.session.commit()
+                    records = shop.discounts.all()
+                    if not records:
+                        discount.shops.append(shop)
+                        db.session.add(discount)
+                        db.session.add(g.user)
+                        db.session.commit()
+                    else:
+                        for record in records:
+                            print '--------', record.id, bid
+                            # 避免插入shop_discount 重复
+                            if record.id != id:
+                                discount.shops.append(shop)
+                                db.session.add(discount)
+                                db.session.add(g.user)
+                                db.session.commit()
             return redirect(url_for('discount.manage', bid=bid))
 
     return render_template('discount/setting.html', form=form, shops=shops, stores=stores)
