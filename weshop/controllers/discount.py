@@ -52,12 +52,6 @@ def detail():
     if do == 'post':
         if 'MicroMessenger' not in user_agent:
             return json.dumps({"message": "请在微信里操作", "redirect": "permit", "type": "tips"})
-<<<<<<< HEAD
-    wechat = WechatBasic(appid=appid, appsecret=appsecret)
-    # wechat.send_text_message(session['openid'], "test")
-    print "start send message to wechat"
-=======
-
         openid = session.get('openid')
         if not openid:
             code = request.args.get("code")
@@ -124,7 +118,6 @@ def detail():
             return json.dumps(
                 {"message": {"still": 10, "allow": 0, "aid": discount.id, "ctime": "156151515"}, "redirect": "",
                  "type": "success"})
->>>>>>> refs/remotes/origin/master
 
     # other discount in the discount
     other_discounts = Discount.query.filter(Discount.id != discount_id,
@@ -217,7 +210,6 @@ def setting():
                 if 'shop' in k:
                     shop_id = int(v)
                     shop = Shop.query.get(shop_id)
-<<<<<<< HEAD
 
                     records = shop.discount_shops.all()
                     for record in records:
@@ -228,15 +220,6 @@ def setting():
                             db.session.add(discount)
                             db.session.add(g.user)
                             db.session.commit()
-=======
-                    # record = db.session.query(shop_discount).filter(shop_discount.discount_id == discount.id,
-                    #                              shop_discount.shop_id == shop_id)
-                    record = shop.discounts
-                    if record:
-                        discount.shops.append(shop)
-                        db.session.add(g.user)
-                        db.session.commit()
->>>>>>> refs/remotes/origin/master
             return redirect(url_for('discount.manage', bid=bid))
 
     return render_template('discount/setting.html', form=form, shops=shops, stores=stores)
