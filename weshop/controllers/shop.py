@@ -59,7 +59,10 @@ def upload():
 
 @bp.route('/setting', methods=['GET', 'POST'])
 def setting():
-    """门店发布、编辑"""
+    """
+    门店发布、编辑
+    管理连锁店
+    """
     act = request.args.get("act")
     bid = int(request.args.get("bid", 0))
     if act == "publish":
@@ -70,6 +73,7 @@ def setting():
         else:
             bid = session['brand']
         brandinfo = Brand.query.get(bid)
+        print '-------------', brandinfo
         brandForm = BrandSetting(brand=brandinfo.name, intro=brandinfo.intro, image=brandinfo.image,
                                  thumb=brandinfo.thumb, industry_1=brandinfo.industry_1,
                                  industry_2=brandinfo.industry_2)
@@ -154,5 +158,5 @@ def list():
 def checkout():
     id = int(request.args.get("id", 0))
     d = Discount.query.get(id)
-    bid=10000
-    return render_template('shop/checkout.html', d=d,bid=bid)
+    bid = 10000
+    return render_template('shop/checkout.html', d=d, bid=bid)

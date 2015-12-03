@@ -47,7 +47,7 @@ def detail():
         if 'MQQBrowser' not in user_agent:
             return json.dumps({"message": "请在微信里操作", "redirect": "permit", "type": "tips"})
     wechat = WechatBasic(appid=appid, appsecret=appsecret)
-    #wechat.send_text_message(session['openid'], "test")
+    # wechat.send_text_message(session['openid'], "test")
     print "start send message to wechat"
 
     # other discount in the discount
@@ -59,7 +59,6 @@ def detail():
                            discount_id=discount_id,
                            other_discounts=other_discounts,
                            shops=shops)
-
 
 
 @bp.route('/manage', methods=['GET', 'POST'])
@@ -84,7 +83,6 @@ def setting():
     if request.method == 'GET':
         if act == 'modify':
             discount = Discount.query.get_or_404(id)
-
             shops = discount.shops
             form.title.data = discount.title
             form.type.data = discount.type
@@ -143,12 +141,16 @@ def setting():
                 if 'shop' in k:
                     shop_id = int(v)
                     shop = Shop.query.get(shop_id)
-                    record = shop_discount.query(shop_discount.discount_id == discount.id,
-                                                 shop_discount.shop_id == shop_id)
-                    if not record:
-                        discount.shops.append(shop)
-                        db.session.add(g.user)
-                        db.session.commit()
+
+                    records = shop.discount_shops.all()
+                    for record in records:
+                        print '--------', record.id, bid
+                        # 避免插入shop_discount 重复
+                        if record.id != id:
+                            discount.shops.append(shop)
+                            db.session.add(discount)
+                            db.session.add(g.user)
+                            db.session.commit()
             return redirect(url_for('discount.manage', bid=bid))
 
     return render_template('discount/setting.html', form=form, shops=shops, stores=stores)

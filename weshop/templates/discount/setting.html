@@ -33,7 +33,8 @@
                     <td>
                         <div class="input-append class1 class2 class3 class4 class5 classa classb"
                              style="display: inline-block;">
-                            <span class="uneditable-input span7" id="titleIpt" title="输入券面设置会自动生成券面名称">{{ form.title.data }}</span>
+                            <span class="uneditable-input span7" id="titleIpt"
+                                  title="输入券面设置会自动生成券面名称">{{ form.title.data }}</span>
                             <input type="hidden" name="title" class="titleIpt" value="{{ form.title.data }}">
                             <input type="hidden" name="label" class="btn" id="labelIpt" value="优惠券">
                             <input type="button" name="label" class="btn" id="labelBtn" value="优惠券">
@@ -44,19 +45,24 @@
                     <th>优惠形式</th>
                     <td>
                         <div class="btn-group" data-toggle="buttons-radio">
-                            <span class="btn {% if form.type.data=='特价' %}active{% endif%}" value="特价" data-class="class1" data-value="优惠券"
+                            <span class="btn {% if form.type.data=='特价' %}active{% endif %}" value="特价"
+                                  data-class="class1" data-value="优惠券"
                                   data-title="设定一款产品或一个套餐的优惠价，不能限定购买的数量<br/>如：58元享火锅双人套餐优惠券/68元享8吋白巧梦乐园生日蛋糕优惠券" title=""
                                   style="width:35px;color:green;">特价</span>
-                            <span class="btn {% if form.type.data=='满减' %}active{% endif%}" value="满减" data-class="class2" data-value="抵扣券"
+                            <span class="btn {% if form.type.data=='满减' %}active{% endif %}" value="满减"
+                                  data-class="class2" data-value="抵扣券"
                                   data-title="必须设定抵用金额和满足消费金额，须当前商品当次抵用<br/>如：消费满100减30元抵扣券" title=""
                                   style="width:35px;color:green;">满减</span>
-                            <span class="btn {% if form.type.data=='折扣' %}active{% endif%}" value="折扣" data-class="class3" data-value="打折卡"
+                            <span class="btn {% if form.type.data=='折扣' %}active{% endif %}" value="折扣"
+                                  data-class="class3" data-value="打折卡"
                                   data-title="支持多款商品或多项服务单独打折，不能打包商品或服务<br/>如：秋款板鞋8折优惠打折卡" title=""
                                   style="width:35px;color:green;">折扣</span>
-                            <span class="btn {% if form.type.data=='抵现' %}active{% endif%}" value="抵现" data-class="classa" data-value="代金券"
+                            <span class="btn {% if form.type.data=='抵现' %}active{% endif %}" value="抵现"
+                                  data-class="classa" data-value="代金券"
                                   data-title="必须设定代用金额可当做现金使用，不限消费金额和内容<br/>如：50元代金券/5元晚餐代金券" title=""
                                   style="width:35px;color:red;">抵现</span>
-                            <span class="btn {% if form.type.data=='免单' %}active{% endif%}" value="免单" data-class="classb" data-value="体验券"
+                            <span class="btn {% if form.type.data=='免单' %}active{% endif %}" value="免单"
+                                  data-class="classb" data-value="体验券"
                                   data-title="凭体验券可以免费尝试一部分服务，可要求同时到场人数，同样用于新店开张或淡季促销<br/>如：价值70元的2小时免费欢唱券/健康理疗免费体验券/免费洗车卡"
                                   title="" style="width:35px;color:red;">免单</span>
                         </div>
@@ -148,7 +154,7 @@
                     <th>温馨提示</th>
                     <td>
                         <textarea style="height:100px;" class="span7" name="intro" cols="70"
-                                  placeholder="请标明凭此券可以享受的服务内容（如：凭此券到店免任意时段3小时房间费 ）或使用要求（如：满足条件，时间要求，房间限制）">{{ form.intro.data}}</textarea>
+                                  placeholder="请标明凭此券可以享受的服务内容（如：凭此券到店免任意时段3小时房间费 ）或使用要求（如：满足条件，时间要求，房间限制）">{{ form.intro.data }}</textarea>
                     </td>
                 </tr>
                 <tr>
@@ -158,7 +164,7 @@
                              style="width: 290px; height: 168px; overflow:hidden;" id="image_preview">
                             {% if form.image.data !='' %}
                                 <img src="/resource/attachment/images/{{ form.image.data }}">
-                            {% endif%}
+                            {% endif %}
                         </div>
                         <input class="span4" type="text" name="image" id="image" value="{{ form.image.data }}">
 
@@ -179,7 +185,8 @@
                         {% set supply_list=["00","08","10","12","15","18"] %}
                         <div class="btn-group" data-toggle="buttons-radio" data-spread="" title="每天开抢时间">
                             {% for s in supply_list %}
-                            <span class="btn {% if loop.index>3 %}more{% endif %} {% if s==form.supply.data %} active{% endif %}" value="{{ s }}" style="width:48px;">{{ s }}时</span>
+                                <span class="btn {% if loop.index>3 %}more{% endif %} {% if s==form.supply.data %} active{% endif %}"
+                                      value="{{ s }}" style="width:48px;">{{ s }}时</span>
                             {% endfor %}
                             <span class="btn look" value="0" style="width:39px;"
                                   onclick="$(this).parent().attr('data-spread','1').end().remove();">更多</span>
@@ -306,21 +313,21 @@
                 //点击后显示对应的属性
                 $('.appendSelect .input-append.' + label).css('display', 'inline-block')
                         .find('input,select').live('change', function () {
-                            var input = true;
-                            var title = new Array();
-                            title[1] = '';
-                            title[2] = '';
-                            title[3] = '';
-                            $('.appendSelect .input-append.' + label + ' .entry').each(function () {
-                                title[$(this).parent().attr('tabindex')] += this.value;
-                                if (this.value == '' && !$(this).is('.backup')) input = false;
-                            });
-                            if (input == true) {
-                                if (label == 'classb') value = '';
-                                $('#titleIpt').text(title[1] + title[2] + title[3] + value);//优惠券名称
-                                $('.titleIpt').val(title[1] + title[2] + title[3] + value);//优惠券名称
-                            }
-                        }).change();
+                    var input = true;
+                    var title = new Array();
+                    title[1] = '';
+                    title[2] = '';
+                    title[3] = '';
+                    $('.appendSelect .input-append.' + label + ' .entry').each(function () {
+                        title[$(this).parent().attr('tabindex')] += this.value;
+                        if (this.value == '' && !$(this).is('.backup')) input = false;
+                    });
+                    if (input == true) {
+                        if (label == 'classb') value = '';
+                        $('#titleIpt').text(title[1] + title[2] + title[3] + value);//优惠券名称
+                        $('.titleIpt').val(title[1] + title[2] + title[3] + value);//优惠券名称
+                    }
+                }).change();
             });
             //过滤非数字
             $('.appendSelect .input-append .number').change(function () {
