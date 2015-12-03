@@ -28,4 +28,4 @@ python-daemon
 gevent
 qrcode
 
-flask-cache
+flask-cacheFlask-Cache==0.13.1
