@@ -23,9 +23,9 @@ bp = Blueprint('shop', __name__)
 
 @bp.route('/select', methods=['GET', 'POST'])
 def select():
-    """选择门店"""
+    """选择品牌"""
     # TODO user_id
-    brands = Brand.query.all()
+    brands = Brand.query.filter(Brand.status == 1).all()
 
     act = request.args.get("act")
     if act == 'discount':
