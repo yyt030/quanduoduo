@@ -143,8 +143,8 @@ def manage():
 def setting():
     """优惠券设置"""
     act = request.args.get("act")
-    bid = int(request.args.get("bid", 0))
-    id = int(request.args.get("id", 0))
+    bid = int(request.args.get("bid", 0))  # brand id
+    id = int(request.args.get("id", 0))  # discount id
     form = DiscountSetting()
     values = request.form
     stores = []
@@ -152,7 +152,7 @@ def setting():
     if request.method == 'GET':
         if act == 'modify':
             discount = Discount.query.get_or_404(id)
-            shops = discount.shops
+            shops = Shop.query.filter(Shop.brand_id == discount.brand_id).all()
             form.title.data = discount.title
             form.type.data = discount.type
             form.intro.data = discount.intro
