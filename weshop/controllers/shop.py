@@ -115,6 +115,8 @@ def setting():
         return redirect(url_for('discount.manage', bid=bid))
     elif act == 'ticket_record':
         return redirect(url_for('ticket_record.manage'))
+    elif act == 'account':
+        return redirect(url_for('brand.account_list', bid=bid))
     else:
         return redirect(url_for('brand.shop_list', bid=bid))
 

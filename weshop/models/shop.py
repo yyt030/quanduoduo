@@ -5,6 +5,11 @@ import random
 from ._base import db
 import time
 
+# brand品牌 和 商品账户的 many to many 关系
+brand_account = db.Table('brand_account',
+                         db.Column('brand_id', db.Integer, db.ForeignKey('brand.id')),
+                         db.Column('user_id', db.Integer, db.ForeignKey('user.id')))
+
 
 class Brand(db.Model):
     """品牌"""
@@ -17,8 +22,11 @@ class Brand(db.Model):
     thumb = db.Column(db.String(200))
     status = db.Column(db.SMALLINT, default=1)
 
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    user = db.relationship('User')
+    create_user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    create_user = db.relationship('User')
+    brandaccounts = db.relationship('User', secondary=brand_account,
+                                    backref=db.backref('brandaccounts', lazy='dynamic'), lazy='dynamic')
+
     create_at = db.Column(db.DateTime, default=datetime.datetime.now)
 
     def __repr__(self):

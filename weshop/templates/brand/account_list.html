@@ -1,0 +1,129 @@
+{% extends 'account_layout.html' %}
+{% from 'macro/form.html' import form_field %}
+{% block content %}
+    <html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=8">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>汝州百事优惠圈</title>
+        <meta name="keywords" content="汝州百事优惠圈,优惠券,手机优惠券,电子优惠券,微信优惠券">
+        <meta name="description" content="汝州百事优惠圈是一个借助于微信APP免费发放电子优惠券的公众平台。">
+        <link type="text/css" rel="stylesheet" href="/resource/style/bootstrap.css">
+        <link type="text/css" rel="stylesheet" href="/resource/style/font-awesome.css">
+        <link type="text/css" rel="stylesheet" href="/resource/style/common.css?v=1445775363">
+        <link type="text/css" rel="stylesheet" href="/resource/style/search.css?v=1445775363">
+        <script type="text/javascript" src="/resource/script/jquery-1.7.2.min.js"></script>
+        <script type="text/javascript" src="/resource/script/bootstrap.js"></script>
+        <script type="text/javascript" src="/resource/script/common.js"></script>
+        <script type="text/javascript" src="/resource/script/avatar.js"></script>
+        <script type="text/javascript">
+            cookie.prefix = 'cb65_';
+        </script>
+        <!--[if IE 7]>
+<link rel="stylesheet" href="/resource/style/font-awesome-ie7.min.css">
+<![endif]-->
+        <!--[if lte IE 6]>
+<link rel="stylesheet" type="text/css" href="/resource/style/bootstrap-ie6.min.css">
+<link rel="stylesheet" type="text/css" href="/resource/style/ie.css">
+<![endif]-->
+    </head>
+    <body>
+
+    <style type="text/css">
+        .head_wrap .class.local li.local,
+        .head_wrap .class.chain li.chain {
+            border-bottom: #fe7a4f solid 2px;
+        }
+
+        .body_wrap .load_wrap.normal .coupon-class .class-opt a.closed {
+            display: none !important;
+        }
+
+        .body_wrap .load_wrap.closed .coupon-class .class-opt a.normal {
+            display: none !important;
+        }
+
+        .count {
+            color: #17B136;
+        }
+    </style>
+    <div class="show_body">
+        <div class="head_wrap">
+            <form name="search" action="" method="post">
+                <div class="query">
+                    <input name="keyword" id="" type="text" value="">
+                    <a href="javascript:void(0);" onclick="$('form[name=search]').submit();"><i class="icon-search"></i></a>
+                </div>
+                <div class="class normal">
+                    <ul>
+                        <li class="normal"><a
+                                href="/shop/all"> {{ brand.name }}</a>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+        <style type="text/css">
+            .load_wrap.nobody {
+                background: #FFFFEF;
+            }
+
+            /*已使用*/
+            .load_wrap.closed {
+                background: #EFEFEF;
+            }
+
+            /*已过期*/
+        </style>
+        <div class="body_wrap" id="body_wrap">
+            <div class="type_wrap">
+                管理商户账户
+                <a href="/shop/setting?act=publish&bid={{ bid }}" class="modify" data-input="limit" title="管理商户账户"><i class="icon-plus"></i> 添加商户账户</a>
+            </div>
+            {% for user in brandaccounts %}
+            <div class="load_wrap normal" title="">
+                <div class="coupon-image">
+                    <img src="/resource/attachment/images/icon.jpg" onerror="javascript:this.src='/resource/attachment/icon.jpg'" >
+                </div>
+                <div class="coupon-intro">
+                    <h1>
+                        <a href="/shop/checkout" title="微信收银台"><i class="icon-desktop"></i></a>
+                        <a href="/shop/{{ user.id }}" target="_blank">
+                            {{ user.name }}({{ user.mobile }})</a>
+                    </h1>
+                    <h2>
+                        {{ user.mobile}} {{ user.address }} </h2>
+                </div>
+                <div class="coupon-class">
+                    <div class="class-opt">
+                        <a href="/shop/delete?id={{ user.id }}" title="删除"
+                           class="" onclick="return confirm('此操作不可恢复，确认删除？');return false;"><i class="icon-remove"></i></a>
+                        <a href="/shop/setting?id={{ user.id }}&act=modify" title="编辑"
+                           class=""><i class="icon-cog"></i></a>
+                    </div>
+                    <div class="class-inf">
+                        <i class="icon-home"></i>
+                        <span class="type">0</span>
+                        <i class="icon-ticket"></i>
+                        <span class="ctime">0</span>
+                        <span class="limit"></span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="body_wrap">
+            <div class="load_tips">加载中..</div>
+        </div>
+    </div>
+
+    <div class="show_foot">
+        <div class="foot_wrap">
+            <p>© 2015 <b>汝州百事优惠圈商务</b></p>
+        </div>
+    </div>
+
+    </body>
+
+    </html>
+{% endblock %}
