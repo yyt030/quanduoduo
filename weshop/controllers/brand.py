@@ -167,6 +167,9 @@ def account():
             user_exist.mobile = form.mobile.data
             user_exist.password = form.password.data
             user_exist.role = 'shopowner'
+
+            user_exist.hash_password()
+            user_exist.gene_token()
             db.session.add(user_exist)
 
             bexist = brand.brandaccounts.filter(User.name == form.name.data).first()
@@ -209,8 +212,9 @@ def account():
                     return render_template('account/error.html', error='您输入的用户名不正确！')
                 user_new = User(name=form.name.data, email=form.email.data, mobile=form.mobile.data,
                                  password=form.password.data)
+                user_new.hash_password()
+                user_new.gene_token()
                 db.session.add(user_new)
-
                 brand.brandaccounts.append(user_new)
 
                 # 添加授权账户分店
@@ -231,7 +235,12 @@ def account():
                                shops=shops,
                                brand_brandaccounts=brand_brandaccounts)
     elif act == 'showall':
-        users = User.query.filter(User.role != 'admin').all()
+        user_session = User.query.get(session['user_id'])
+        if user_session.role == 'admin':
+            users = User.query.filter(User.role != 'admin').all()
+        else:
+            # 仅仅获取当前品牌下的账户
+            users = brand.brandaccounts.all()
         return render_template('brand/account_list.html', brand=brand, bid=bid,
                                brand_brandaccounts=users)
 
