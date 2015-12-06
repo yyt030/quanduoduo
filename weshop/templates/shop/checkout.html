@@ -45,7 +45,7 @@
                 <div class="code usedit0 expire0">
                     <p class="normal">
                         <img id="qrcode" class="load_image" width="129" height="129"/>
-                        <span>15472222</span>
+                        <span>{{ record.code }}</span>
                     </p>
 
                     <p class="normal">付款前请出示此券</p>
@@ -62,9 +62,6 @@
                     <a href="fans?weid=10018&do=raiders">领了券不会用？</a>
                 </p>
 
-                <p class="comment">
-                    <a href="fans?weid=10018&do=grade&aid=1001129582">给点评一下吧<span>赚1个积分</span></a>
-                </p>
             </div>
         </div>
 
@@ -140,7 +137,7 @@
     function loadQrcode(expire) {
         //设置二维码
         var getQrcodeUrl = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=";
-        var getTicketUrl = "/shop/checkout?do=get_qrcorde";
+        var getTicketUrl = "/shop/checkout?rid="{{ record_id }}+"&do=get_qrcorde";
         $.getJSON(getTicketUrl + '&expire=' + expire, function (result) {
             if (!result.message['verify']) {
                 if (result.message['ticket']) {

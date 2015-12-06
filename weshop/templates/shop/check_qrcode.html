@@ -1,0 +1,104 @@
+{% extends 'account_layout.html' %}
+{% block content %}
+    <div class="show_body">
+        <div class="head_wrap">
+            <div class="order">
+            </div>
+            <div class="class normal">
+                <ul>
+                    <li class="normal"><a href="site.php?weid=10014&amp;act=checkout&amp;do=display">洛阳科技职业学院游泳馆收银台</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="body_wrap  newbind avatar">
+
+            <div class="type_wrap">
+                用于核销顾客的券
+            </div>
+            <div class="load_wrap newways">
+                <div class="coupon-image">
+                    <img src="http://hui.184buy.com/resource/attachment/images/10014/2015/05/qT42522XH9A7t9XT9R2th49hf79TD2.jpg">
+                </div>
+                <div class="coupon-intro">
+                    <h1>
+                        绑定 <b>洛阳科技职业学院游泳馆</b> 微信收银台的方法：
+                    </h1>
+
+                    <h2>
+                        <b>第一步：店员扫一扫此码关注；第二步：进来为他绑一个门店</b>
+                    </h2>
+
+                    <h2>
+                        <img width="129"
+                             src="https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQFy7zoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL1lreEtLd0xrcEQtZDV6NVJ2R0FYAAIENFBxVQMEAAAAAA==">
+                    </h2>
+
+                    <h1>
+                        绑定了微信收银台的店员，直接打开微信“扫一扫”，
+                    </h1>
+
+                    <h1>
+                        扫顾客优惠券里的二维码就能完成验证
+                    </h1>
+                </div>
+                <div class="coupon-class">
+                    <div class="class-opt">
+                        <a href="javascript:void(0);" class="qrcode" title="下载二维码"><i
+                                class="icon-download icon-large"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="load_wrap newbind ">
+                <div class="coupon-image gender0" data-fid="12397289" data-avatar=""><a
+                        href="#" title="编辑信息">
+                    <img
+                        src="/static/images/noavatar_small.jpg" onerror="this.src='/static/images/noavatar_small.jpg'"></a>
+
+
+                </div>
+                <div class="coupon-intro">
+                    <h1>
+                        <i class="icon-desktop"></i>
+                        <b>编号1236133</b> （{{ shop }}）
+                    </h1>
+
+
+                    <h2 class="newbind">
+                        洛阳科技职业学院游泳馆 </h2>
+
+                </div>
+                <div class="coupon-class">
+                    <div class="class-opt">
+                        <a href="site.php?aid=1236133&amp;weid=10014&amp;act=checkout&amp;do=delete" title="删除" class=""
+                           onclick="return confirm('此操作不可恢复，确认删除？');return false;"><i class="icon-remove"></i></a>
+                    </div>
+                    <div class="class-inf">
+                        <i class="icon-bar-chart"></i>
+                        <a href="site.php?pid=1236133&amp;act=analysis&amp;do=display" title="验证数量" class="">
+                            <span class="type">17</span>
+                        </a>
+                        <i class="icon-calendar"></i>
+                        <span class="code">2015年06月03日</span>
+                        <span class="code"></span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="body_wrap">
+            <div class="load_tips">加载中..</div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(function () {
+            var getQRCodeUrl = "/shop/discount?id=10014&act=checkout&do=get_qrcode";
+            //下载二维码
+            $('a.qrcode', this).live('click', function () {
+                location.href = getQRCodeUrl + '&isajax=1';
+            });
+
+        });
+    </script>
+{% endblock %}

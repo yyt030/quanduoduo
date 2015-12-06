@@ -14,20 +14,20 @@ from weshop import csrf
 from weshop.forms.shop import ShopSetting, BrandSetting
 from weshop.utils import devices
 from weshop.utils.devices import checkMobile
-from ..models import db, User, Brand, Shop, Discount
+from ..models import db, User, Brand, Shop, Discount, GetTicketRecord
 from ..forms import SigninForm
-from ..utils.permissions import require_user, require_visitor
+from ..utils.permissions import require_user, require_visitor, require_admin
 from ..utils.uploadsets import images, random_filename, process_question, avatars
 
 bp = Blueprint('shop', __name__)
 
 
 @bp.route('/select', methods=['GET', 'POST'])
+@require_user
 def select():
     """选择品牌"""
     # TODO user_id
-    user_id = session['user_id']
-    user = User.query.get(user_id)
+    user = g.user
     # TODO 权限
     if user.role == 'admin':
         brands = Brand.query.filter(Brand.status == 1)
@@ -168,11 +168,27 @@ def list():
 def checkout():
     discount_id = int(request.args.get("discount_id", 0))
     shop_id = int(request.args.get("shop_id", 0))
+    record_id = int(request.args.get("record_id", 0))  # 领取id
+    do = request.args.get("do")
     shop = Shop.query.get(shop_id)
     discount = Discount.query.get(discount_id)
-    do = request.args.get("do")
+    record = GetTicketRecord.query.get(record_id)
+    verify = False
     if do == 'get_qrcode':
-        verify = False
+        if record.verify == 'verify':
+            verify = True
         ticket = ""
         return json.dumps({"message": {"verify": verify, "ticket": ticket, "expire": 0}})
-    return render_template('shop/checkout.html', shop=shop, discount=discount)
+    return render_template('shop/checkout.html', shop=shop, record_id=record_id, record=record, discount=discount)
+
+
+@bp.route('/check_qrcode', methods=['GET'])
+def check_qrcode():
+    shop_id =  int(request.args.get("shop_id",0))
+    shop = Shop.query.get(shop_id)
+    print shop.address
+    users = shop.shopaccounts
+    return render_template('shop/check_qrcode.html', users=users)
+
+
+# 您已成功绑定洛阳科技职业学院游泳馆的微信收银台 TODO

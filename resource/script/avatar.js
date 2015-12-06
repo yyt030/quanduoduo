@@ -6,7 +6,7 @@ $(function(){
 		if (avatar != ''){
 			avatar = 'http://wx.qlogo.cn/mmopen/'+ avatar +'/96';
 		} else{
-			avatar = 'resource/image/noavatar_small.jpg';
+			avatar = '/static/images/noavatar_small.jpg';
 		}
 		
 		item.html(

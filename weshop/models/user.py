@@ -14,6 +14,7 @@ class User(db.Model):
     """用户：id，姓名，邮箱，密码，角色，性别，头像，创建时间，token
     角色：　shopowner
         　 common
+           saler
     """
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50))
@@ -94,6 +95,8 @@ class GetTicketRecord(db.Model):
     discount = db.relationship('Discount', backref=db.backref('get_discounts', lazy='dynamic'))
 
     status = db.Column(db.Enum('normal', 'verify', 'usedit', 'expire'), default='normal')
+
+    code =db.Column(db.Integer,default=random.randint(1000000,9999999))
     create_at = db.Column(db.DateTime, default=datetime.datetime.now)
 
     def __repr__(self):

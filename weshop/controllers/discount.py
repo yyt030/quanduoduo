@@ -27,6 +27,8 @@ bp = Blueprint('discount', __name__)
 appid = 'wxb4b617b7a40c8eff'
 appsecret = '5d684675679354b7c8544651fa909921'
 
+import time
+
 
 # @wechat_login
 @bp.route('/', methods=['GET'])
@@ -86,14 +88,18 @@ def detail():
                 }
             }
             wechat.send_template_message(openid, 'A0XK30w_sZPti5_gn33PJ5msng7yb71zAEcRa0E44oM', json_data)
-            # still 表示本周还能领多少张 TODO 静态数据需要替换
+
             # 领取后需要写入到get_discount_record 表
             # 下次是否能领取则通过这张表的数据来判断
-            record = GetTicketRecord(user_id=g.user.id, discount_id=discount_id)
+            year = time.strftime("%Y", time.localtime())[2:]
+            code = year + str(time.time())[4:-3]
+            record = GetTicketRecord(user_id=g.user.id, discount_id=discount_id, code=code)
             db.session.add(record)
             db.session.commit()
+            # still 表示本周还能领多少张 TODO 静态数据需要替换
+            still = discount.number * discount.usable - 1
             return json.dumps(
-                {"message": {"still": 10, "allow": 0, "rid": record.id, "ctime": "156151515"}, "redirect": "",
+                {"message": {"still": still, "allow": 0, "rid": record.id, "ctime": "156151515"}, "redirect": "",
                  "type": "success"})
 
     # other discount in the discount
