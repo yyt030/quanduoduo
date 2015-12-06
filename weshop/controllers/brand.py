@@ -10,7 +10,7 @@ from coverage.html import STATIC_PATH
 from flask import render_template, Blueprint, redirect, url_for, g, session, request, \
     make_response, current_app, send_from_directory
 from weshop import csrf
-from weshop.forms.shop import ShopSetting, BrandSetting
+from weshop.forms.shop import ShopSetting, BrandSetting, BrandAccountSetting
 from weshop.utils import devices
 from weshop.utils.devices import checkMobile
 from ..models import db, User, Brand, Shop
@@ -236,3 +236,13 @@ def account():
 
     return render_template('brand/account_list.html', brand=brand, bid=bid,
                            brand_brandaccounts=brand_brandaccounts, do=do)
+
+
+@bp.route('/account/delete', methods=['GET'])
+def account_delete():
+    user_id = int(request.args.get("user_id", 0))
+    user = User.query.get_or_404(user_id)
+    db.session.delete(user)
+    db.session.commit()
+    url = request.referrer
+    return render_template('account/ok.html', tip="删除成功！", url=url)

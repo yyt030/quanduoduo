@@ -28,6 +28,12 @@ class BrandSetting(Form):
     thumb = TextField('logo', description='', default='icon.jpg')
 
 
+class BrandAccountSetting(Form):
+    username = TextField('商家账户', description='', default='')
+    password = HiddenField("密码")
+    repassword = HiddenField("确认密码")
+
+
 class DiscountSetting(Form):
     """折扣设置"""
     title = TextField('券面名称', description='', default='')
