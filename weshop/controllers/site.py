@@ -10,7 +10,7 @@ from coverage.html import STATIC_PATH
 from flask import render_template, Blueprint, redirect, url_for, g, session, request, \
     make_response, current_app, send_from_directory
 from wechat_sdk import WechatBasic
-from weshop import csrf,cache
+from weshop import csrf, cache
 from weshop.utils import devices
 from weshop.utils.account import signin_user, signout_user
 from weshop.utils.devices import checkMobile
@@ -18,7 +18,7 @@ from ..models import db, User, Discount, Brand, MyFavoriteShop, Shop, Profile
 from ..forms import SigninForm
 from ..utils.permissions import require_user, require_visitor
 from ..utils.uploadsets import images, random_filename, process_question, avatars
-from weshop.utils.helper import  get_url_data
+from weshop.utils.helper import get_url_data
 from weshop.wechat import WeixinHelper
 from datetime import datetime, date, timedelta
 
@@ -306,15 +306,15 @@ def add_wechat_user_to_db(from_user):
     """
     添加微信用户到数据库，在数据库创建一个对应的user关联在一起
     """
-    users = User.query.filter(User.profile.any(Profile.openid==str(from_user))).first()
-    if  not users:
+    users = User.query.filter(User.profile.any(Profile.openid == str(from_user))).first()
+    if not users:
         print u'creating a new user ...'
         print 'waiting...'
         user_json = get_user_info(get_access_token(), from_user)
         if 'errcode' in user_json:
             user_json = get_user_info(get_access_token(True), from_user)
         email = str(from_user) + '@qq.com'
-        user = User(name=user_json['nickname'],email=email,password=from_user)
+        user = User(name=user_json['nickname'], email=email, password=from_user)
         user_profile = Profile()
         user_profile.openid = from_user
         user_profile.city = user_json['city']
@@ -327,3 +327,4 @@ def add_wechat_user_to_db(from_user):
         user.profile.append(user_profile)
         db.session.add(user)
         db.session.commit()
+

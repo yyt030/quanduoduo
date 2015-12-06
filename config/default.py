@@ -22,7 +22,7 @@ class Config(object):
     # See:
     # https://pythonhosted.org/Flask-SQLAlchemy/config.html#connection-uri-format
     # http://docs.sqlalchemy.org/en/rel_0_9/core/engines.html#database-urls
-    SQLALCHEMY_DATABASE_URI = "mysql://root:@localhost/weshop"
+    SQLALCHEMY_DATABASE_URI = "mysql://root:root@localhost/weshop"
     # SQLALCHEMY_DATABASE_URI = "mysql://root:ruzhoubaishi@localhost/weshop"
 
     # Redis
