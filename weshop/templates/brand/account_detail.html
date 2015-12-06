@@ -100,25 +100,8 @@
                         <span class="help-block">请输入此商家的手机</span>
                     </td>
                 </tr>
-                <tr>
-                    <th style="width:90px;"><label for="">商家地址</label></th>
-                    <td>
-                        <input type="text" name="address" class="span6"
-                                {% if useraccount is not none and useraccount.address is not none %}
-                               value="{{ useraccount.address }}"
-                                {% endif %}/>
-                        <span class="help-block">请输入此商家的地址</span>
-                    </td>
-                </tr>
-                <tr>
-                    <th><label for="">所属平台</label></th>
-                    <td>
-                        <select name="weid">
-                            <option value="10014">券多多洛阳站</option>
-                        </select>
-                        <span class="help-block">选择平台后，商家发布的优惠券会在对应的平台上架推广</span>
-                    </td>
-                </tr>
+
+
                 <!-- tr>
                     <th><label for="">服务期限</label></th>
                     <td>

@@ -165,7 +165,6 @@ def account():
             user_exist.name = form.name.data
             user_exist.email = form.email.data
             user_exist.mobile = form.mobile.data
-            user_exist.address = form.address.data
             user_exist.password = form.password.data
             user_exist.role = 'shopowner'
             db.session.add(user_exist)
@@ -204,10 +203,12 @@ def account():
             url = request.values.get('current_url')
             exist = User.query.filter(User.name == form.name.data).first()
             if exist:
-                return render_template('account/error.html', error='您输入的商户帐号已存在, 可直接在全部帐号中修改！')
+                return render_template('account/error.html', error='您输入的商户帐号已存在！')
             else:
+                if len(form.mobile.data) or not (form.mobile.data).isdigit():
+                    return render_template('account/error.html', error='您输入的用户名不正确！')
                 user_new = User(name=form.name.data, email=form.email.data, mobile=form.mobile.data,
-                                address=form.address.data, password=form.password.data)
+                                 password=form.password.data)
                 db.session.add(user_new)
 
                 brand.brandaccounts.append(user_new)

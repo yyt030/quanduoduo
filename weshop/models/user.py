@@ -88,12 +88,12 @@ class GetTicketRecord(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    user = db.relationship('User',backref=db.backref('get_discounts', lazy='dynamic'))
+    user = db.relationship('User', backref=db.backref('get_discounts', lazy='dynamic'))
 
     discount_id = db.Column(db.Integer, db.ForeignKey('discount.id'))
     discount = db.relationship('Discount', backref=db.backref('get_discounts', lazy='dynamic'))
 
-    used = db.Column(db.Float, default=0)
+    status = db.Column(db.Enum('normal', 'verify', 'usedit', 'expire'), default='normal')
     create_at = db.Column(db.DateTime, default=datetime.datetime.now)
 
     def __repr__(self):

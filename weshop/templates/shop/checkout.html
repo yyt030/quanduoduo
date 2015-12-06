@@ -59,11 +59,11 @@
             </div>
             <div class="coupon-other link consume comment0 usedit0">
                 <p class="consume">
-                    <a href="fans.php?weid=10018&do=raiders">领了券不会用？</a>
+                    <a href="fans?weid=10018&do=raiders">领了券不会用？</a>
                 </p>
 
                 <p class="comment">
-                    <a href="fans.php?weid=10018&do=grade&aid=1001129582">给点评一下吧<span>赚1个积分</span></a>
+                    <a href="fans?weid=10018&do=grade&aid=1001129582">给点评一下吧<span>赚1个积分</span></a>
                 </p>
             </div>
         </div>
@@ -71,7 +71,7 @@
         <div class="load_wrap">
             <div class="coupon-other">
                 <p>
-                    <a href="discount.php?weid=10018&did=110012974&do=receive">
+                    <a href="discount?weid=10018&did=110012974&do=receive">
                         查看优惠详情
                     </a>
                 </p>
@@ -79,7 +79,7 @@
             <div class="coupon-store">
                 <dl>
                     <dt>
-                        <a href="business.php?weid=10018&sid=120010748&do=maps">
+                        <a href="business?weid=10018&sid=120010748&do=maps">
                             <h4>凤山店</h4>
 
                             <p class="place">汝阳县凤山南路检察院高层南100米西</p>
@@ -140,7 +140,7 @@
     function loadQrcode(expire) {
         //设置二维码
         var getQrcodeUrl = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQGq7zoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xLzZrekpvLURsWmtNZnBPdFYwMkEyAAIERWVcVgMEAAAAAA==";
-        var getTicketUrl = "checkout?aid=1001129582&tid=1448891515&weid=10018&do=voucher";
+        var getTicketUrl = "/shop/checkout?do=get_qrcorde";
         $.getJSON(getTicketUrl + '&expire=' + expire, function (result) {
             if (!result.message['verify']) {
                 if (result.message['ticket']) {
@@ -161,7 +161,7 @@
     var _share_image = "{{ website.url }}/resource/attachment/images/{{ d.image }}";
     var _share_title = "{{ d.title }}";
     var _share_intro = "快来领取手机优惠券吧";
-    var _share_place = "{{ website.url }}/checkout.php?do=voucher&aid=1001129582&tid=1448891515&weid=10018";
+    var _share_place = "{{ website.url }}/checkout?do=voucher&aid=1001129582&tid=1448891515&weid=10018";
     var isallowfirend = "false";
 
     document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {

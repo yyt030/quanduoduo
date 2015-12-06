@@ -15,7 +15,7 @@ from weshop.forms.shop import ShopSetting, BrandSetting, DiscountSetting
 from weshop.utils import devices
 from weshop.utils.account import signin_user
 from weshop.utils.devices import checkMobile
-from ..models import db, User, Brand, Shop, Discount, shop_discount, Profile
+from ..models import db, User, Brand, Shop, Discount, shop_discount, Profile, GetTicketRecord
 from ..forms import SigninForm
 from ..utils.permissions import require_user, require_visitor
 from ..utils.uploadsets import images, random_filename, process_question, avatars
@@ -89,9 +89,11 @@ def detail():
             # still 表示本周还能领多少张 TODO 静态数据需要替换
             # 领取后需要写入到get_discount_record 表
             # 下次是否能领取则通过这张表的数据来判断
-
+            record = GetTicketRecord(user_id=g.user.id, discount_id=discount_id)
+            db.session.add(record)
+            db.session.commit()
             return json.dumps(
-                {"message": {"still": 10, "allow": 0, "aid": discount.id, "ctime": "156151515"}, "redirect": "",
+                {"message": {"still": 10, "allow": 0, "rid": record.id, "ctime": "156151515"}, "redirect": "",
                  "type": "success"})
 
     # other discount in the discount
@@ -212,6 +214,3 @@ def delete():
     url = request.referrer
     print request.referrer
     return render_template('account/ok.html', tip="删除成功！", url=url)
-
-
-

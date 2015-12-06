@@ -84,7 +84,7 @@
                 <h1>我已领取此券</h1>
 
                 <h3>
-                    <a href="checkout.php?do=voucher&weid=10014&aid=&tid=">点此即可打开</a>
+                   
                 </h3>
             </div>
             <div class="coupon-footer">
@@ -191,7 +191,7 @@
             $.getJSON(getJSONURL + '&pass=',
                     function (data) {
                         if (data.type == 'success') {
-                            var url = '/checkout?do=voucher&aid=' + data.message.aid + '&tid=' + data.message.ctime;
+                            var url = '/shop/checkout?rid=' + data.message.rid + '&tid=' + data.message.ctime;
                             $('.coupon-verify h3').html('<a href="' + url + '">点此即可打开</a>');
                             $('#mycoupon').addClass('mycoupon');
                             if (data.message.still > 0) {

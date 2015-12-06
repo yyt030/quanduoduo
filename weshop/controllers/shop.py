@@ -158,7 +158,9 @@ def list():
 
 @bp.route('/checkout', methods=['GET'])
 def checkout():
+
     id = int(request.args.get("id", 0))
     d = Discount.query.get(id)
     bid = 10000
+
     return render_template('shop/checkout.html', d=d, bid=bid)
