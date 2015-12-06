@@ -9,6 +9,7 @@ from PIL import Image
 from coverage.html import STATIC_PATH
 from flask import render_template, Blueprint, redirect, url_for, g, session, request, \
     make_response, current_app, send_from_directory
+from sqlalchemy import or_
 from weshop import csrf
 from weshop.forms.shop import ShopSetting, BrandSetting
 from weshop.utils import devices
@@ -25,7 +26,9 @@ bp = Blueprint('shop', __name__)
 def select():
     """选择品牌"""
     # TODO user_id
-    brands = Brand.query.filter(Brand.status == 1).all()
+    user_id = session['user_id']
+    user = User.query.filter(or_(User.id == user_id, User.role == 'admin'))
+    brands = user.brandaccounts.filter(Brand.status == 1).all()
 
     act = request.args.get("act")
     if act == 'discount':
