@@ -11,8 +11,6 @@ import datetime
 from flask import render_template, Blueprint, redirect, url_for, g, session, request, \
     make_response, current_app, send_from_directory
 from wechat_sdk import WechatBasic
-from weshop import csrf
-from weshop.utils.helper import add_wechat_user_to_db
 from weshop.forms.shop import ShopSetting, BrandSetting, DiscountSetting
 from weshop.utils import devices
 from weshop.utils.account import signin_user
@@ -53,9 +51,9 @@ def detail():
         if 'MicroMessenger' not in user_agent:
             return json.dumps({"message": "请在微信里操作", "redirect": "permit", "type": "tips"})
         openid = session.get("openid")
-        get_wechat_info(request, openid)
-        wechat = WechatBasic(appid=appid, appsecret=appsecret)
+
         if openid:
+            wechat = WechatBasic(appid=appid, appsecret=appsecret)
             # wechat.send_text_message(session['openid'], "test")
             # 调用公众号消息模板A0XK30w_sZPti5_gn33PJ5msng7yb71zAEcRa0E44oM发送领券通知
             """{first.DATA}}
@@ -216,27 +214,4 @@ def delete():
     return render_template('account/ok.html', tip="删除成功！", url=url)
 
 
-def get_wechat_info(request, openid):
-    if not openid:
-        code = request.args.get("code")
-        if not code:
-            return redirect(WeixinHelper.oauth3(request.url))
-        else:
-            data = json.loads(WeixinHelper.getAccessTokenByCode(code))
-            access_token, openid, refresh_token = data["access_token"], data["openid"], data["refresh_token"]
-            userinfo = json.loads(WeixinHelper.getSnsapiUserInfo(access_token, openid))
-            print userinfo
-            print openid
 
-            if not g.user:
-                # 检查用户是否存在
-                add_wechat_user_to_db(openid)
-                user = User.query.filter(User.profile.any(Profile.openid == openid)).first()
-                if user is not None:
-                    signin_user(user)
-                    session['openid'] = openid
-                    print u'与微信用户关联的user（%s） 已开始登陆网站...' % user.name
-
-            else:
-                msg = u'当前已登录的用户：{user}'.format(user=g.user.name)
-                print msg

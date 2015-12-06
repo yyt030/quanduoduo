@@ -37,7 +37,7 @@
                             src="http://wx.qlogo.cn/mmopen/Fh53nfUjsSyNGTeCsROmWiaalH8w8OocY4S79lZ03MHj3RVh2naluOmkj0ibqjnQRicyMKzYZFVB7vxHkoTX7VyiaXNAhPu84tXT/132"></span>
                 </div>
                 <div class="store-title" style="background: none">
-                    <h3>猿来是你</h3>
+                    <h3>{{ g.user.name }}</h3>
 {#                    <h4>#}
 {#                        初级用户#}
 {#                    </h4>#}
@@ -50,7 +50,7 @@
                     <tbody>
                     <tr>
                         <td style="width:50%;height:2.1rem;" class="">
-                            <a href="/my_tickets">优惠券<span><b></b>2 张</span></a>
+                            <a href="/my_tickets">优惠券<span><b></b>{{ g.user.get_discounts.count() }} 张</span></a>
                         </td>
                         <td style="width:50%;height:2.1rem;" class=""><a href="/my_favorite_shop">收藏夹<span><b></b>0 家</span></a>
                         </td>

@@ -77,7 +77,7 @@ class Discount(db.Model):
     brand = db.relationship('Brand', backref=db.backref('discounts_brands', lazy='dynamic'))
 
     shops = db.relationship('Shop', secondary=shop_discount,
-                            backref=db.backref('discounts', lazy='dynamic'), lazy='dynamic')
+                            backref=db.backref('shop_discounts', lazy='dynamic'), lazy='dynamic')
 
     count = db.Column(db.Integer, default=0)
     back = db.Column(db.Integer, default=0)

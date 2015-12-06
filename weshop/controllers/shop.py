@@ -134,7 +134,8 @@ def get_resourse(folder1, folder2, filename):
 @bp.route('/<int:shop_id>', methods=['GET'])
 def detail(shop_id):
     shop = Shop.query.get_or_404(shop_id)
-    return render_template('shop/show.html', shop=shop)
+    discounts=shop.shop_discounts.count()
+    return render_template('shop/show.html', shop=shop,discounts=discounts)
 
 
 @bp.route('/delete', methods=['GET'])

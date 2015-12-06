@@ -29,12 +29,12 @@ def sns_userinfo_callback(callback=None):
     def wrap(func):
         @wraps(func)
         def inner(*args, **kwargs):
-            openid = request.cookies.get('openid')
+            openid = session.get("openid")
             userinfo = None
             if not openid:
                 code = request.args.get("code")
                 if not code:
-                    return redirect(WeixinHelper.oauth2(request.url))
+                    return redirect(WeixinHelper.oauth3(request.url))
                 else:
                     data = json.loads(WeixinHelper.getAccessTokenByCode(code))
                     access_token, openid, refresh_token = data["access_token"], data["openid"], data["refresh_token"]
@@ -42,10 +42,9 @@ def sns_userinfo_callback(callback=None):
                     userinfo = json.loads(WeixinHelper.getSnsapiUserInfo(access_token, openid))
                     print userinfo
                     print openid
-            else:
-                if session.get('openid') != openid:
-                    return redirect("/")
-            # g.openid = openid
+            # else:
+            #     if session.get('openid') != openid:
+            #         return redirect("/")
             session['openid'] = openid
             if callable(callback):
                 g.user = callback(openid, userinfo)

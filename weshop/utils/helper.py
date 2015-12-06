@@ -102,9 +102,7 @@ def _validate_no_qq(text):
             print "QQ Number Not Found"
             return True
 
-
 headers = {'User-Agent': 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.6) Gecko/20091201 Firefox/3.5.6'}
-
 
 def get_url_data(url):
     req = urllib2.Request(url=url, headers=headers)
@@ -112,28 +110,3 @@ def get_url_data(url):
     return return_data
 
 
-def add_wechat_user_to_db(from_user):
-    """
-    添加微信用户到数据库，在数据库创建一个对应的user关联在一起
-    """
-    users = User.query.filter(User.profile.any(Profile.openid == str(from_user))).first()
-    if not users:
-        print u'creating a new user ...'
-        print 'waiting...'
-        user_json = get_user_info(get_access_token(), from_user)
-        if 'errcode' in user_json:
-            user_json = get_user_info(get_access_token(True), from_user)
-        email = str(from_user) + '@qq.com'
-        user = User(name=user_json['nickname'], email=email, password=from_user)
-        user_profile = Profile()
-        user_profile.openid = from_user
-        user_profile.city = user_json['city']
-        user_profile.country = user_json['country']
-        user_profile.headimgurl = user_json['headimgurl']
-        user_profile.language = user_json['language']
-        user_profile.nickname = user_json['nickname']
-        user_profile.province = user_json['province']
-        user_profile.subscribe_time = datetime.fromtimestamp(user_json['subscribe_time'])
-        user.profile.append(user_profile)
-        db.session.add(user)
-        db.session.commit()

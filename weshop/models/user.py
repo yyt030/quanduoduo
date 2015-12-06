@@ -85,7 +85,7 @@ class GetTicketRecord(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    user = db.relationship('User')
+    user = db.relationship('User',backref=db.backref('get_discounts', lazy='dynamic'))
 
     discount_id = db.Column(db.Integer, db.ForeignKey('discount.id'))
     discount = db.relationship('Discount', backref=db.backref('get_discounts', lazy='dynamic'))
