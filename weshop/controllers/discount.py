@@ -87,8 +87,6 @@ def detail():
                     "color": "#173177"
                 }
             }
-            wechat.send_template_message(openid, 'A0XK30w_sZPti5_gn33PJ5msng7yb71zAEcRa0E44oM', json_data)
-
             # 领取后需要写入到get_discount_record 表
             # 下次是否能领取则通过这张表的数据来判断
             year = time.strftime("%Y", time.localtime())[2:]
@@ -96,10 +94,15 @@ def detail():
             record = GetTicketRecord(user_id=g.user.id, discount_id=discount_id, code=code)
             db.session.add(record)
             db.session.commit()
+            url = current_app.config.get('SITE_DOMAIN')+(url_for('shop.checkout', discount_id=discount_id, record_id=record.id))
+            wechat.send_template_message(openid, 'A0XK30w_sZPti5_gn33PJ5msng7yb71zAEcRa0E44oM', json_data, url)
+
+
             # still 表示本周还能领多少张 TODO 静态数据需要替换
+            # allow 表示本周允许领取多少张
             still = discount.number * discount.usable - 1
             return json.dumps(
-                {"message": {"still": still, "allow": 0, "rid": record.id, "ctime": "156151515"}, "redirect": "",
+                {"message": {"still": still, "allow": 1, "rid": record.id, "ctime": "156151515"}, "redirect": "",
                  "type": "success"})
 
     # other discount in the discount

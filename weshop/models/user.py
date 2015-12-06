@@ -96,7 +96,7 @@ class GetTicketRecord(db.Model):
 
     status = db.Column(db.Enum('normal', 'verify', 'usedit', 'expire'), default='normal')
 
-    code =db.Column(db.Integer,default=random.randint(1000000,9999999))
+    code =db.Column(db.Integer)
     create_at = db.Column(db.DateTime, default=datetime.datetime.now)
 
     def __repr__(self):

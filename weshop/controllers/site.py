@@ -1,6 +1,7 @@
 # !/usr/bin/env python
 # -*- coding: UTF-8 -*-
 from datetime import datetime
+import time
 import json
 import os
 import string
@@ -56,6 +57,7 @@ def signout():
 
 
 @bp.route('/home', methods=['GET', 'POST'])
+@require_user
 def home():
     return render_template('account/home.html')
 
@@ -111,30 +113,30 @@ def test():
 def find():
     openid = session.get("openid")
     print "openid,", openid
-    if not openid:
-        code = request.args.get("code")
-        if not code:
-            print "not code"
-            return redirect(WeixinHelper.oauth3(request.url))
-        else:
-            data = json.loads(WeixinHelper.getAccessTokenByCode(code))
-            access_token, openid, refresh_token = data["access_token"], data["openid"], data["refresh_token"]
-            userinfo = json.loads(WeixinHelper.getSnsapiUserInfo(access_token, openid))
-            print "user_info,", userinfo
-            # print openid
-
-            if not g.user:
-                # 检查用户是否存在
-                add_wechat_user_to_db(openid)
-                user = User.query.filter(User.profile.any(Profile.openid == openid)).first()
-                if user is not None:
-                    signin_user(user)
-                    session['openid'] = openid
-                    print u'与微信用户关联的user（%s） 已开始登陆网站...' % user.name
-
-            else:
-                msg = u'当前已登录的用户：{user}'.format(user=g.user.name)
-                print msg
+    # if not openid:
+    #     code = request.args.get("code")
+    #     if not code:
+    #         print "not code"
+    #         return redirect(WeixinHelper.oauth3(request.url))
+    #     else:
+    #         data = json.loads(WeixinHelper.getAccessTokenByCode(code))
+    #         access_token, openid, refresh_token = data["access_token"], data["openid"], data["refresh_token"]
+    #         userinfo = json.loads(WeixinHelper.getSnsapiUserInfo(access_token, openid))
+    #         print "user_info,", userinfo
+    #         # print openid
+    #
+    #         if not g.user:
+    #             # 检查用户是否存在
+    #             add_wechat_user_to_db(openid)
+    #             user = User.query.filter(User.profile.any(Profile.openid == openid)).first()
+    #             if user is not None:
+    #                 signin_user(user)
+    #                 session['openid'] = openid
+    #                 print u'与微信用户关联的user（%s） 已开始登陆网站...' % user.name
+    #
+    #         else:
+    #             msg = u'当前已登录的用户：{user}'.format(user=g.user.name)
+    #             print msg
     industry1 = request.args.get("industry1", None)
     search = request.args.get("search", "")
     if industry1 or search:
@@ -232,7 +234,7 @@ def user_home():
                 if user is not None:
                     signin_user(user)
                     session['openid'] = openid
-                    print u'       与微信用户关联的user（%s） 已开始登陆网站...' % user.name
+                    print u'与微信用户关联的user（%s） 已开始登陆网站...' % user.name
 
             else:
                 msg = u'当前已登录的用户：{user}'.format(user=g.user.name)
@@ -287,7 +289,6 @@ def interface():
     timestamp = str(request.args.get('timestamp'))
     nonce = str(request.args.get('nonce'))
     echostr = request.args.get('echostr')
-
     if 'access_token' not in session:
         # 实例化 wechat
         access_token = None
@@ -297,7 +298,7 @@ def interface():
         access_token = token_dict.get('access_token')
         session['access_token'] = access_token
         session['access_token_expires_at'] = token_dict.get('access_token_expires_at')
-
+    response = ""
     wechat = WechatBasic(token=token)
     # 对签名进行校验
     if wechat.check_signature(signature=signature, timestamp=timestamp, nonce=nonce):
@@ -306,20 +307,56 @@ def interface():
         if request.method == 'POST':
             # 读取用户发送消息
             body_text = request.data
+            print body_text
             wechat.parse_data(body_text)
             # 获得解析结果
             message = wechat.get_message()
+            print "message_type:", message.type
             # print request.data
             if message.type == 'text':
                 if message.content == 'test':
                     response = wechat.response_text(u'^_^')
                 else:
                     response = wechat.response_text(u'您好！')
+
             elif message.type == 'image':
                 response = wechat.response_text(u'图片')
+            elif message.type == 'scan':
+                if message.key and message.ticket:
+                    # TODO 扫码回收优惠券,这里还要判断扫码的用户是否为该品牌店授权的店员
+                    # TODO 考虑到还有绑定店员的扫码事件,key分为两种：bind_[brandid],ticket_[code]
+
+                    if message.key.split("_")[0] == 'ticket':
+                        record_id = int(message.key.split("_")[1])
+                        callback_ticket(record_id)
+                        response = ""
+                    elif message.key.split("_")[0] == 'bind':
+                        brand_id = int(message.key.split("_")[1])
+                        brand = Brand.query.get(brand_id)
+                        brand_text = "<a href='{0}/{1}'>{2}</a>".format(current_app.config.get("SITE_DOMAIN"), "find",
+                                                                        brand.name)
+                        text = "您正在申请绑定门店%s,点击输入手机号验证身份" % brand_text
+                        response = wechat.response_text(text)
             elif message.type == 'subscribe':
                 print message
+                if message.key and message.ticket:
+                    # TODO 扫码回收优惠券,这里还要判断扫码的用户是否为该品牌店授权的店员
+                    # TODO 考虑到还有绑定店员的扫码事件,key分为两种：bind_[brandid],ticket_[code]
+                    value = message.key.replace("qrscene_", "")
+                    if value.split("_")[0] == 'ticket':
+                        record_id = int(message.key.split("_")[1])
+                        callback_ticket(record_id)
+                        response = ""
+                    elif value.split("_")[0] == 'bind':
+                        brand_id = int(message.key.split("_")[1])
+                        brand = Brand.query.get(brand_id)
+                        brand_text = "<a href='{0}/{1}'>{2}</a>".format(current_app.config.get("SITE_DOMAIN"), "find",
+                                                                        brand.name)
+                        text = "您正在申请绑定门店%s,点击输入手机号验证身份" % brand_text
+                        response = wechat.response_text(text)
+
                 openid = session.get("openid")
+                # 扫描二维码回收优惠券
                 if not openid:
                     code = request.args.get("code")
                     if not code:
@@ -327,7 +364,8 @@ def interface():
                         return redirect(WeixinHelper.oauth3(request.url))
                     else:
                         data = json.loads(WeixinHelper.getAccessTokenByCode(code))
-                        access_token, openid, refresh_token = data["access_token"], data["openid"], data["refresh_token"]
+                        access_token, openid, refresh_token = data["access_token"], data["openid"], data[
+                            "refresh_token"]
                         userinfo = json.loads(WeixinHelper.getSnsapiUserInfo(access_token, openid))
                         print "user_info,", userinfo
 
@@ -343,11 +381,16 @@ def interface():
                         else:
                             msg = u'当前已登录的用户：{user}'.format(user=g.user.name)
                             print msg
-                            response = wechat.response_text(u'欢迎关注汝州百事优惠圈')
 
-                response = wechat.response_text(u'欢迎关注汝州百事优惠圈')
+                    response = wechat.response_text(u'欢迎关注汝州百事优惠圈')
+            elif message.type == 'location':
+                # 这里有location事件 TODO
+                print "*" * 20
+
+                return ""
             else:
                 return ""
+
             return response
 
         else:
@@ -385,7 +428,6 @@ def get_wechat_info(request, openid):
     if not openid:
         code = request.args.get("code")
         if not code:
-            print "not code"
             return redirect(WeixinHelper.oauth3(request.url))
         else:
             data = json.loads(WeixinHelper.getAccessTokenByCode(code))
@@ -433,3 +475,44 @@ def add_wechat_user_to_db(from_user):
         user.profile.append(user_profile)
         db.session.add(user)
         db.session.commit()
+
+
+def callback_ticket(record_id):
+    """回收优惠券"""
+    ticket_record = GetTicketRecord.query.get(record_id)
+    ticket_record.status = 'usedit'
+    db.session.add(ticket_record)
+    db.session.commit()
+    # 发送模板通知信息到微信
+    # 调用公众号消息模板bK9Trpq_AmdHxnaT1kQ8d0lTJt-z3QBUNzacsnQbfXg 优惠券使用通知
+    """{{first.DATA}}
+        优惠券：{{keyword1.DATA}}
+        兑换码：{{keyword2.DATA}}
+        消费日：{{keyword3.DATA}}
+        {{remark.DATA}}
+    """
+    json_data = {
+        "first": {
+            "value": "您已成功使用一张优惠券！",
+            "color": "#173177"
+        },
+        "keyword1": {
+            "value": ticket_record.discount.title,
+            "color": "#173177"
+        },
+        "keyword2": {
+            "value": ticket_record.code,
+            "color": "#173177"
+        },
+        "keyword3": {
+            "value": time.strftime("%Y-%m-%d", time.localtime()),
+            "color": "#173177"
+        },
+        "remark": {
+            "value": "感谢您的使用，请继续关注我们新的优惠活动！",
+        }
+    }
+    wechat = WechatBasic(appid=appid, appsecret=appsecret)
+    # 发送通知给指定优惠券所有人,message.source 为扫码用户
+    wechat.send_template_message(str(ticket_record.user.password),
+                                 'bK9Trpq_AmdHxnaT1kQ8d0lTJt-z3QBUNzacsnQbfXg', json_data)

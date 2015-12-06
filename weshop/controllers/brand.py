@@ -46,7 +46,6 @@ def brand_add():
     """添加品牌"""
     shop = {}
     form = BrandSetting()
-    url = request.values.get('current_url')
     if form.is_submitted():
         print request.form
         exist = Brand.query.filter(Brand.name == form.brand.data).first()
@@ -59,6 +58,7 @@ def brand_add():
             db.session.add(brand)
             db.session.commit()
             session['brand'] = brand.id
+            url=request.referrer
             return render_template('account/ok.html', tip='添加品牌成功，请添加一个门店！', url=url)
     return render_template('brand/setting.html', shop=shop, form=form)
 

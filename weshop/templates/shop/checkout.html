@@ -18,8 +18,8 @@
             <div class="coupon-header">
                 <h3>
                     <a href="/shop/{{ shop.id }}">
-                        <img src="/resource/attachment/images/{{ shop.brand.image}}"/>
-                        {{ shop.brand.name }} </a>
+                        <img src="/resource/attachment/images/{{ discount.brand.image}}"/>
+                        {{ discount.brand.name }} </a>
                 </h3>
 				<span>
 					<a href="/my_favorite_shop?id={{ shop_id }}">
@@ -37,7 +37,8 @@
                         </tr>
                         <tr>
                             <td>
-                                <h5>有效期至2015年12月02日</h5>
+{#                                <h5>有效期至2015年12月02日</h5>#}
+                                <h5>有效期至{{ expire_date }}</h5>
                             </td>
                         </tr>
                     </table>
@@ -137,16 +138,16 @@
     function loadQrcode(expire) {
         //设置二维码
         var getQrcodeUrl = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=";
-        var getTicketUrl = "/shop/checkout?rid="{{ record_id }}+"&do=get_qrcorde";
+        var getTicketUrl = "/shop/checkout?discount_id={{ discount.id }}&record_id={{ record_id }}&do=get_qrcode";
         $.getJSON(getTicketUrl + '&expire=' + expire, function (result) {
             if (!result.message['verify']) {
                 if (result.message['ticket']) {
                     $('#qrcode').attr('src', getQrcodeUrl + result.message['ticket']);
                 }
-                //下一次调用
-                setTimeout(function () {
-                    loadQrcode(result.message['expire']);
-                }, 3000);
+{#                //下一次调用#}
+{#                setTimeout(function () {#}
+{#                    loadQrcode(result.message['expire']);#}
+{#                }, 3000);#}
             } else {
                 $('.code').addClass('verify1');
                 $('.link').addClass('usedit1');
@@ -154,19 +155,7 @@
         });
     }
 </script>
-<script type="text/javascript">
-    var _share_image = "{{ website.url }}/resource/attachment/images/{{ shop.brand.image }}";
-    var _share_title = "{{ discount.title }}";
-    var _share_intro = "快来领取手机优惠券吧";
-    var _share_place = "{{ website.url }}/checkout?do=voucher&aid=1001129582&tid=1448891515&weid=10018";
-    var isallowfirend = "false";
 
-    document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
-        WeixinJSBridge.call('hideToolbar');
-        WeixinJSBridge.call('showOptionMenu');
-        WeixinJSBridgeShare(_share_image, _share_title, _share_intro, _share_place, isallowfirend);
-    }, false);
-</script>
 <div class="show_link">
     <a href="/about" rel="external">
         关于券多多

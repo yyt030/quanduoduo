@@ -4,7 +4,7 @@ def get_qrcode():
         "action_name": "QR_LIMIT_SCENE",
         "action_info": {
             "scene": {
-                "scene_id": 1000
+                "scene_str": 1000
             }
         }
     }

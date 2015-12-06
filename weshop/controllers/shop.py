@@ -1,5 +1,6 @@
 # !/usr/bin/env python
 # -*- coding: UTF-8 -*-
+from datetime import datetime, timedelta, time
 import json
 import os
 import string
@@ -10,6 +11,7 @@ from coverage.html import STATIC_PATH
 from flask import render_template, Blueprint, redirect, url_for, g, session, request, \
     make_response, current_app, send_from_directory
 from sqlalchemy import or_
+from wechat_sdk import WechatBasic
 from weshop import csrf
 from weshop.forms.shop import ShopSetting, BrandSetting
 from weshop.utils import devices
@@ -30,7 +32,7 @@ def select():
     user = g.user
     # TODO 权限
     if user.role == 'admin':
-        brands = Brand.query.filter(Brand.status == 1)
+        brands = Brand.query
     else:
         # 仅仅获取当前帐号下品牌
         brands = user.brandaccounts.filter(Brand.status == 1)
@@ -124,6 +126,8 @@ def setting():
         return redirect(url_for('ticket_record.manage'))
     elif act == 'account':
         return redirect(url_for('brand.account', bid=bid))
+    elif act == 'bind_saler':
+        return redirect(url_for('shop.bind_saler', bid=bid))
     else:
         return redirect(url_for('brand.shop_list', bid=bid))
 
@@ -171,24 +175,47 @@ def checkout():
     record_id = int(request.args.get("record_id", 0))  # 领取id
     do = request.args.get("do")
     shop = Shop.query.get(shop_id)
-    discount = Discount.query.get(discount_id)
-    record = GetTicketRecord.query.get(record_id)
+    discount = Discount.query.get_or_404(discount_id)
+    record = GetTicketRecord.query.get_or_404(record_id)
     verify = False
+    if discount:
+        expire_date = discount.create_at + timedelta(days=discount.usable)
+        print discount.create_at, discount.usable
+        expire_date = expire_date.date()
+        print "expire_date,", expire_date
+    # 获取二维码ticket
     if do == 'get_qrcode':
-        if record.verify == 'verify':
+        if record.status == 'verify':
             verify = True
-        ticket = ""
+        # 获取永久二维码
+        wechat = WechatBasic(appid=current_app.config.get('WECHAT_APPID'),
+                             appsecret=current_app.config.get('WECHAT_APPSECRET'))
+        data = {"action_name": "QR_LIMIT_SCENE", "action_info": {"scene": {"scene_str": "ticket_" + str(record.code)}}}
+        get_ticket_data = wechat.create_qrcode(data)
+        ticket = get_ticket_data.get("ticket")
+        session['ticket'] = ticket
         return json.dumps({"message": {"verify": verify, "ticket": ticket, "expire": 0}})
-    return render_template('shop/checkout.html', shop=shop, record_id=record_id, record=record, discount=discount)
+    elif do == 'download_qrcode':
+        return ""
+    return render_template('shop/checkout.html', shop=shop, expire_date=expire_date, record_id=record_id, record=record,
+                           discount=discount)
 
 
-@bp.route('/check_qrcode', methods=['GET'])
-def check_qrcode():
-    shop_id =  int(request.args.get("shop_id",0))
-    shop = Shop.query.get(shop_id)
-    print shop.address
-    users = shop.shopaccounts
-    return render_template('shop/check_qrcode.html', users=users)
+@bp.route('/bind_saler', methods=['GET'])
+def bind_saler():
+    """绑定收银台"""
+    bid = int(request.args.get("bid", 0))
+    brand = Brand.query.get(bid)
+    users = brand.brandaccounts
+    shop_id=0
+    # 获取永久二维码
+    wechat = WechatBasic(appid=current_app.config.get('WECHAT_APPID'),
+                             appsecret=current_app.config.get('WECHAT_APPSECRET'))
+    data = {"action_name": "QR_LIMIT_SCENE", "action_info": {"scene": {"scene_str": "bind_" + str(brand.id)}}}
+    print data
+    get_ticket_data = wechat.create_qrcode(data)
+    ticket = get_ticket_data.get("ticket")
+    return render_template('shop/bind_saler.html', brand=brand, ticket=ticket,users=users)
 
 
-# 您已成功绑定洛阳科技职业学院游泳馆的微信收银台 TODO
+    # 您已成功绑定洛阳科技职业学院游泳馆的微信收银台 TODO
