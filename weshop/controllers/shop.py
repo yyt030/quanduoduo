@@ -23,9 +23,9 @@ bp = Blueprint('shop', __name__)
 
 @bp.route('/select', methods=['GET', 'POST'])
 def select():
-    """选择门店"""
+    """选择品牌"""
     # TODO user_id
-    brands = Brand.query.all()
+    brands = Brand.query.filter(Brand.status == 1).all()
 
     act = request.args.get("act")
     if act == 'discount':
@@ -115,6 +115,8 @@ def setting():
         return redirect(url_for('discount.manage', bid=bid))
     elif act == 'ticket_record':
         return redirect(url_for('ticket_record.manage'))
+    elif act == 'account':
+        return redirect(url_for('brand.account_list', bid=bid))
     else:
         return redirect(url_for('brand.shop_list', bid=bid))
 

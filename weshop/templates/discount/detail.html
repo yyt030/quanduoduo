@@ -73,13 +73,13 @@
                     </p>
                 </div>
             </div>
-{#            <div class="coupon-verify" style="display:none;">#}
-{#                <h1>配额已用完，我的配额：<span id="quota"></span>张/周</h1>#}
-{##}
-{#                <h3>#}
-{#                    <a href="fans.php?weid=10000&do=mission">查看如何升级</a>#}
-{#                </h3>#}
-{#            </div>#}
+            {#            <div class="coupon-verify" style="display:none;">#}
+            {#                <h1>配额已用完，我的配额：<span id="quota"></span>张/周</h1>#}
+            {##}
+            {#                <h3>#}
+            {#                    <a href="fans.php?weid=10000&do=mission">查看如何升级</a>#}
+            {#                </h3>#}
+            {#            </div>#}
             <div class="coupon-verify info">
                 <h1>我已领取此券</h1>
 
@@ -110,9 +110,13 @@
             </div>
         </div>
         <div class="load_wrap">
-            <div><a><span>温馨提醒:</span></a></div>
-            <div>
-                <a><span>{{ discount.intro }}</span> </a>
+            <div class="coupon-footer">
+                <p><strong>温馨提醒:</strong>
+                    <br>
+                    {{ discount.intro }}
+                    </br>
+                </p>
+
             </div>
         </div>
         <div class="load_wrap">
@@ -164,6 +168,7 @@
                         <dt>
                             <a href="/shop/{{ discount.brand.id }}">
                                 <h4>{{ shop.store }}</h4>
+
                                 <p class="place">{{ shop.address }}</p>
                             </a>
                         </dt>

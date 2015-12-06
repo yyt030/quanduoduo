@@ -127,3 +127,15 @@ def shop_list():
     brand = Brand.query.get(bid)
     shops = Shop.query.filter(Shop.brand_id == bid)
     return render_template('brand/shop_list.html', shops=shops, brand=brand, bid=bid)
+
+
+@bp.route('/account_list', methods=['GET', 'POST'])
+def account_list():
+    """商户账户管理"""
+    bid = int(request.args.get("bid", 0))
+    brand = Brand.query.get(bid)
+    for i in brand.brandaccounts:
+        print '-' * 10, i.name, i.id, bid
+    shops = Shop.query.filter(Shop.brand_id == bid)
+    brandaccounts = brand.brandaccounts
+    return render_template('brand/account_list.html', shops=shops, brand=brand, bid=bid, brandaccounts=brandaccounts)
