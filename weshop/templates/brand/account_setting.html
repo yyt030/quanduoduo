@@ -1,0 +1,163 @@
+{% extends 'account_layout.html' %}
+{% from 'macro/form.html' import form_field %}
+{% block content %}
+    <body>
+    <div class="main">
+        <form action="" class="form-horizontal form" onsubmit="return checkProfile();" method="post"
+              style="float:left;" >
+            {{ form.csrf_token }}
+            <input id="current_url" name="current_url" type="hidden" value="{{ request.url }}">
+            <h4>编辑基本资料</h4>
+            <table class="tb">
+                <tbody>
+                <tr>
+                    <th><label for="">关联品牌</label></th>
+                    <td>
+                        <div class="input-append">
+                            {{ form_field(form1.brand,disabled="disabled") }}
+                            <button type="button" class="btn" name="brandBtn" value="选择品牌"
+                                    onclick="$('#brand-append').toggle();">查看品牌
+                            </button>
+                        </div>
+                        <div id="brand-append" style="margin-top:10px;display: none">
+                            <span class="help-block"><b>此品牌的简介。</b></span>
+
+                            <div class="brand-append">
+                                {{ form_field(form1.intro,cols="70",style="height:80px;",disabled="disabled") }}
+                            </div>
+                            <span class="help-block"><b>此品牌的行业。</b></span>
+
+                            <div class="brand-append">
+                                {{ form_field(form1.industry_1,class="span3",value=form1.industry_1.data,disabled="disabled") }}
+                                //
+                                {{ form_field(form1.industry_2,class="span3",value=form1.industry_2.data,disabled="disabled") }}
+                            </div>
+
+
+                            <span class="help-block">此品牌的标识</span>
+
+                            <div class="fileupload fileupload-preview thumbnail"
+                                 style="width: 320px; height: 130px; overflow:hidden;" id="image_preview">
+                                <img src="/resource/attachment/images/{{ form1.image.data }}"
+                                     onerror="/resource/attachment/back.jpg"></div>
+
+                            <div class="fileupload fileupload-preview thumbnail"
+                                 style="width: 80px; height: 80px; overflow:hidden;" id="thumb_preview">
+                                <img src="/resource/attachment/images/{{ form1.thumb.data }}"
+                                     onerror="javascript:this.src='/resource/attachment/icon.jpg'"/></div>
+
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th style="width:90px;"><label for="">商家账户</label></th>
+                    <td>
+                        <input type="text" name="username" class="span6" value="">
+                        <span class="help-block">请输入此商家的手机号</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th><label for="">密码</label></th>
+                    <td>
+                        <input id="password" name="password" type="password" class="span6" value="">
+                        <span class="help-block">请填写密码，最小长度为 8 个字符</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th><label for="">确认密码</label></th>
+                    <td>
+                        <input id="repassword" type="password" class="span6" value="">
+                        <span class="help-block">重复输入密码，确认正确输入</span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <h4>设置授权门店</h4>
+
+            <table class="tb" style="margin-top:10px;">
+                <tbody>
+                <tr class="Multiple">
+                    <th></th>
+                    <td>
+                        <span class="help-block">允许此账号管理的门店</span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <table class="tb" style="margin-top:10px;">
+                <tbody>
+                <tr>
+                    <th></th>
+                    <td>
+                        <input type="submit" class="btn btn-primary span3" name="submit" value="保存商户资料">
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+        <div id="demoSendBox" style="position:fixed;margin-left:700px;">
+            <div class="form" style="width:300px;display:none;">
+                <h4>找到品牌</h4>
+
+                <div class="side_wrap" style="display:none;"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-message" class="modal hide fade alert alert-error" tabindex="-1" role="dialog" aria-hidden="true"
+         style="display: none;">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel">系统提示</h3></div>
+        <div class="modal-body"><i class="icon-remove icon-large icon-3x pull-left"></i>
+
+            <div class="pull-left"><p>两次输入的密码不一致.</p></div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="{{ static('js/industry.js') }}"></script>
+    <script type="text/javascript">
+        function checkProfile() {
+            if ($('#password').val() != $('#repassword').val()) {
+                message('两次输入的密码不一致.', '', 'error');
+                return false;
+            }
+            return true;
+        }
+    </script>
+    <script type="text/javascript">
+        <!--
+        $('.upload-btn').each(function () {
+            kindeditorUploadBtn($(this), uploadHander);
+        });
+
+        function uploadHander(obj, data) {
+            $("#" + obj.button.attr('fieldname')).val(data.filename);
+            $("#" + obj.button.attr('fieldname') + '_preview').html('<img src="' + data.url + '" />');
+        }
+        //-->
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            //查找品牌数据
+            var value = '';
+            $('#brand').keyup(function () {
+                if (this.value != value && this.value.length > 1) {
+                    value = this.value;
+                    fillQuery();
+                }
+            });
+
+        });
+
+
+    </script>
+    <div class="show_foot">
+        <div class="foot_wrap">
+            <p>© 2015 <b>汝州百事优惠圈商务</b></p>
+        </div>
+    </div>
+
+
+    </body>
+{% endblock %}

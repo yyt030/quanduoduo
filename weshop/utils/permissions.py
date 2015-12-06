@@ -23,7 +23,7 @@ def require_user(func):
     @wraps(func)
     def decorator(*args, **kwargs):
         if not g.user:
-            flash('此操作需要登录账户')
+            # flash('此操作需要登录账户')
             return redirect(url_for('site.signin'))
         return func(*args, **kwargs)
 
@@ -41,38 +41,9 @@ def require_mobile_user(func):
 
     return decorator
 
-def require_teacher(func):
-    """Check if user is teacher"""
 
-    @wraps(func)
-    def decorator(*args, **kwargs):
-        if not g.user:
-            flash('此操作需要登录账户')
-            return redirect(url_for('account.signin'))
-        if g.user.role != 'teacher':
-            abort(403)
-        return func(*args, **kwargs)
-
-    return decorator
-
-
-def require_parent_or_student(func):
-    """Check if user is parent or student"""
-
-    @wraps(func)
-    def decorator(*args, **kwargs):
-        if not g.user:
-            flash('此操作需要登录账户')
-            return redirect(url_for('account.signin'))
-        if g.user.role not in ['parent', 'student']:
-            abort(403)
-        return func(*args, **kwargs)
-
-    return decorator
-
-
-ADMIN_EMAIL = "admin@tuomeng.com"
-ADMIN_PSW = "tuomeng2014"
+ADMIN_EMAIL = "admin"
+ADMIN_PSW = "admin"
 
 
 def require_admin(func):
@@ -81,9 +52,9 @@ def require_admin(func):
     @wraps(func)
     def decorator(*args, **kwargs):
         if not g.user:
-            flash('此操作需要登录账户')
+            # flash('此操作需要登录账户')
             return redirect(url_for('admin.login'))
-        if g.user.name != 'admin' or g.user.email != 'admin@tuomeng.com':
+        if g.user.name != 'admin' or g.user.email != 'admin@admin.com':
             abort(403)
         return func(*args, **kwargs)
 

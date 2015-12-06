@@ -11,6 +11,7 @@ from flask import render_template, Blueprint, redirect, url_for, g, session, req
     make_response, current_app, send_from_directory
 from wechat_sdk import WechatBasic
 from weshop import csrf, cache
+from weshop.controllers.discount import get_wechat_info
 from weshop.utils import devices
 from weshop.utils.account import signin_user, signout_user
 from weshop.utils.devices import checkMobile
@@ -267,8 +268,13 @@ def interface():
                     response = wechat.response_text(u'您好！')
             elif message.type == 'image':
                 response = wechat.response_text(u'图片')
-            else:
+            elif message.type == 'subscribe':
+                print message.content
+                openid = session.get("openid")
+                get_wechat_info(request, openid)
                 response = wechat.response_text(u'欢迎关注汝州百事优惠圈')
+            else:
+                return ""
             return response
 
         else:
@@ -302,29 +308,4 @@ def get_access_token(update=False):
     return str_access_token
 
 
-def add_wechat_user_to_db(from_user):
-    """
-    添加微信用户到数据库，在数据库创建一个对应的user关联在一起
-    """
-    users = User.query.filter(User.profile.any(Profile.openid == str(from_user))).first()
-    if not users:
-        print u'creating a new user ...'
-        print 'waiting...'
-        user_json = get_user_info(get_access_token(), from_user)
-        if 'errcode' in user_json:
-            user_json = get_user_info(get_access_token(True), from_user)
-        email = str(from_user) + '@qq.com'
-        user = User(name=user_json['nickname'], email=email, password=from_user)
-        user_profile = Profile()
-        user_profile.openid = from_user
-        user_profile.city = user_json['city']
-        user_profile.country = user_json['country']
-        user_profile.headimgurl = user_json['headimgurl']
-        user_profile.language = user_json['language']
-        user_profile.nickname = user_json['nickname']
-        user_profile.province = user_json['province']
-        user_profile.subscribe_time = datetime.fromtimestamp(user_json['subscribe_time'])
-        user.profile.append(user_profile)
-        db.session.add(user)
-        db.session.commit()
 

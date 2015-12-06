@@ -78,38 +78,46 @@
         <div class="body_wrap" id="body_wrap">
             <div class="type_wrap">
                 管理商户账户
-                <a href="/shop/setting?act=publish&bid={{ bid }}" class="modify" data-input="limit" title="管理商户账户"><i class="icon-plus"></i> 添加商户账户</a>
+                <a href="/brand/account_setting?do=publish&bid={{ bid }}" class="modify" data-input="limit"
+                   title="管理商户账户"><i class="icon-plus"></i> 添加商户账户</a>
             </div>
             {% for user in brandaccounts %}
-            <div class="load_wrap normal" title="">
-                <div class="coupon-image">
-                    <img src="/resource/attachment/images/icon.jpg" onerror="javascript:this.src='/resource/attachment/icon.jpg'" >
-                </div>
-                <div class="coupon-intro">
-                    <h1>
-                        <a href="/shop/checkout" title="微信收银台"><i class="icon-desktop"></i></a>
-                        <a href="/shop/{{ user.id }}" target="_blank">
-                            {{ user.name }}({{ user.mobile }})</a>
-                    </h1>
-                    <h2>
-                        {{ user.mobile}} {{ user.address }} </h2>
-                </div>
-                <div class="coupon-class">
-                    <div class="class-opt">
-                        <a href="/shop/delete?id={{ user.id }}" title="删除"
-                           class="" onclick="return confirm('此操作不可恢复，确认删除？');return false;"><i class="icon-remove"></i></a>
-                        <a href="/shop/setting?id={{ user.id }}&act=modify" title="编辑"
-                           class=""><i class="icon-cog"></i></a>
+                <div class="load_wrap normal" title="">
+                    <div class="coupon-image">
+                        <img src="/resource/attachment/images/icon.jpg"
+                             onerror="javascript:this.src='/resource/attachment/icon.jpg'">
                     </div>
-                    <div class="class-inf">
-                        <i class="icon-home"></i>
-                        <span class="type">0</span>
-                        <i class="icon-ticket"></i>
-                        <span class="ctime">0</span>
-                        <span class="limit"></span>
+                    <div class="coupon-intro">
+                        <h1>
+                            <a href="/shop/{{ user.id }}" target="_blank">
+                                {{ user.name }}</a>
+                        </h1>
+                        <h2>
+                            {{ brand.name }} </h2>
+                    </div>
+                    <div class="coupon-class">
+                        <div class="class-opt">
+                            <a href="/brand/account/delete?user_id={{ user.id }}" title="删除"
+                               class="" onclick="return confirm('此操作不可恢复，确认删除？');return false;"><i
+                                    class="icon-remove"></i></a>
+                            <a href="/brand/account_setting?id={{ brand.id }}&user_id={{ user.id }}&act=modify"
+                               title="编辑"
+                               class=""><i class="icon-cog"></i></a>
+                        </div>
+                        <div class="class-inf">
+                            <i class="icon-home" title="管理门店数量"></i>
+                            <a href="#" title="门店数量">
+                                <span class="count"></span>
+                            </a>
+                            <i class="icon-ticket" title="管理优惠数量"></i>
+                            <a href="#" title="优惠数量">
+                                <span class="count"></span>
+                            </a>
+
+                            <span class="code">服务期至01月01日</span>
+                        </div>
                     </div>
                 </div>
-            </div>
             {% endfor %}
         </div>
         <div class="body_wrap">

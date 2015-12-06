@@ -10,7 +10,7 @@ from coverage.html import STATIC_PATH
 from flask import render_template, Blueprint, redirect, url_for, g, session, request, \
     make_response, current_app, send_from_directory
 from weshop import csrf
-from weshop.forms.shop import ShopSetting, BrandSetting
+from weshop.forms.shop import ShopSetting, BrandSetting, BrandAccountSetting
 from weshop.utils import devices
 from weshop.utils.devices import checkMobile
 from ..models import db, User, Brand, Shop
@@ -129,6 +129,44 @@ def shop_list():
     return render_template('brand/shop_list.html', shops=shops, brand=brand, bid=bid)
 
 
+@bp.route('/account_setting', methods=['GET', 'POST'])
+def account_setting():
+    """编辑商户"""
+    do = request.args.get("do", "publish")
+    brand_id = int(request.args.get("bid", 0))
+    brand = Brand.query.get(brand_id)
+    form = BrandAccountSetting()
+    form1 = BrandSetting()
+    form1.brand.data = brand.name
+    form1.industry_1.data = brand.industry_1
+    form1.industry_2.data = brand.industry_2
+    form1.image.data = brand.image
+    form1.thumb.data = brand.thumb
+    if do == 'publish':
+        pass
+    if form.is_submitted():
+        exist = User.query.filter(User.name == form.username.data).first()
+        if exist:
+            return render_template('account/error.html', error='您输入的商家账户已存在！')
+        else:
+            username = form.username.data
+            password_data = form.password.data
+            if len(username) < 11 or not username.isdigit():
+                return render_template('account/error.html', error='输入的用户名不正确！')
+            if len(password_data) < 8:
+                return render_template('account/error.html', error='必须输入密码，且密码长度不得低于8位！')
+
+            u = User(name=username.replace(" ", ""), password=password_data)
+            u.hash_password()
+            u.gene_token()
+            db.session.add(u)
+            brand.brandaccounts.append(u)
+            db.session.add(brand)
+            db.session.commit()
+            return render_template('account/ok.html', tip='添加商户账号成功', url=url_for("brand.account_list", bid=brand_id))
+    return render_template('brand/account_setting.html', form=form, brand=brand, do=do, form1=form1)
+
+
 @bp.route('/account_list', methods=['GET', 'POST'])
 def account_list():
     """商户账户管理"""
@@ -139,3 +177,13 @@ def account_list():
     shops = Shop.query.filter(Shop.brand_id == bid)
     brandaccounts = brand.brandaccounts
     return render_template('brand/account_list.html', shops=shops, brand=brand, bid=bid, brandaccounts=brandaccounts)
+
+
+@bp.route('/account/delete', methods=['GET'])
+def account_delete():
+    user_id = int(request.args.get("user_id", 0))
+    user = User.query.get_or_404(user_id)
+    db.session.delete(user)
+    db.session.commit()
+    url = request.referrer
+    return render_template('account/ok.html', tip="删除成功！", url=url)
