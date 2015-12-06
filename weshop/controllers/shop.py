@@ -141,8 +141,8 @@ def get_resourse(folder1, folder2, filename):
 @bp.route('/<int:shop_id>', methods=['GET'])
 def detail(shop_id):
     shop = Shop.query.get_or_404(shop_id)
-    discounts=shop.shop_discounts.count()
-    return render_template('shop/show.html', shop=shop,discounts=discounts)
+    discounts = shop.shop_discounts.count()
+    return render_template('shop/show.html', shop=shop, discounts=discounts)
 
 
 @bp.route('/delete', methods=['GET'])
@@ -166,9 +166,13 @@ def list():
 
 @bp.route('/checkout', methods=['GET'])
 def checkout():
-
-    id = int(request.args.get("id", 0))
-    d = Discount.query.get(id)
-    bid = 10000
-
-    return render_template('shop/checkout.html', d=d, bid=bid)
+    discount_id = int(request.args.get("discount_id", 0))
+    shop_id = int(request.args.get("shop_id", 0))
+    shop = Shop.query.get(shop_id)
+    discount = Discount.query.get(discount_id)
+    do = request.args.get("do")
+    if do == 'get_qrcode':
+        verify = False
+        ticket = ""
+        return json.dumps({"message": {"verify": verify, "ticket": ticket, "expire": 0}})
+    return render_template('shop/checkout.html', shop=shop, discount=discount)

@@ -295,7 +295,6 @@ def interface():
         wechat = WechatBasic(appid=appid, appsecret=appsecret)
         token_dict = wechat.get_access_token()
         access_token = token_dict.get('access_token')
-        print access_token
         session['access_token'] = access_token
         session['access_token_expires_at'] = token_dict.get('access_token_expires_at')
 

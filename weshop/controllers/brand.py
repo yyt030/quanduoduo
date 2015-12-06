@@ -156,6 +156,8 @@ def account():
             user.role = 'common'
             db.session.add(user)
             db.session.commit()
+            url = request.referrer
+            return render_template('account/ok.html', tip="删除成功！", url=url)
     elif act == 'modify':
         values = request.form
         if values:
