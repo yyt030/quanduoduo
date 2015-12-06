@@ -168,6 +168,9 @@ def account():
             user_exist.address = form.address.data
             user_exist.password = form.password.data
             user_exist.role = 'shopowner'
+
+            user_exist.hash_password()
+            user_exist.gene_token()
             db.session.add(user_exist)
 
             bexist = brand.brandaccounts.filter(User.name == form.name.data).first()
@@ -208,6 +211,8 @@ def account():
             else:
                 user_new = User(name=form.name.data, email=form.email.data, mobile=form.mobile.data,
                                 address=form.address.data, password=form.password.data)
+                user_new.hash_password()
+                user_new.gene_token()
                 db.session.add(user_new)
 
                 brand.brandaccounts.append(user_new)
