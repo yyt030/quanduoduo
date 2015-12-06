@@ -27,8 +27,13 @@ def select():
     """选择品牌"""
     # TODO user_id
     user_id = session['user_id']
-    user = User.query.filter(or_(User.id == user_id, User.role == 'admin'))
-    brands = user.brandaccounts.filter(Brand.status == 1).all()
+    user = User.query.get(user_id)
+    # TODO 权限
+    if user.role == 'admin':
+        brands = Brand.query.filter(Brand.status == 1)
+    else:
+        # 仅仅获取当前帐号下品牌
+        brands = user.brandaccounts.filter(Brand.status == 1)
 
     act = request.args.get("act")
     if act == 'discount':

@@ -235,7 +235,12 @@ def account():
                                shops=shops,
                                brand_brandaccounts=brand_brandaccounts)
     elif act == 'showall':
-        users = User.query.filter(User.role != 'admin').all()
+        user_session = User.query.get(session['user_id'])
+        if user_session.role == 'admin':
+            users = User.query.filter(User.role != 'admin').all()
+        else:
+            # 仅仅获取当前品牌下的账户
+            users = brand.brandaccounts.all()
         return render_template('brand/account_list.html', brand=brand, bid=bid,
                                brand_brandaccounts=users)
 
