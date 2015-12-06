@@ -54,34 +54,25 @@
                     <input name="keyword" id="" type="text" value="">
                     <a href="javascript:void(0);" onclick="$('form[name=search]').submit();"><i class="icon-search"></i></a>
                 </div>
-                <div class="class normal">
+                <div class="class {{ do }}">
                     <ul>
-                        <li class="normal"><a
-                                href="/shop/all"> {{ brand.name }}</a>
+                        <li class="normal">
+                            <a href="/brand/account?bid={{ brand.id }}&do=normal"> {{ brand.name }}</a>
+                        </li>
+                        <li class="closed">
+                            <a href="/brand/account?bid={{ brand.id }}&act=showall&do=closed"> 全部账户</a>
                         </li>
                     </ul>
                 </div>
             </form>
         </div>
-        <style type="text/css">
-            .load_wrap.nobody {
-                background: #FFFFEF;
-            }
-
-            /*已使用*/
-            .load_wrap.closed {
-                background: #EFEFEF;
-            }
-
-            /*已过期*/
-        </style>
         <div class="body_wrap" id="body_wrap">
             <div class="type_wrap">
                 管理商户账户
-                <a href="/brand/account_setting?do=publish&bid={{ bid }}" class="modify" data-input="limit"
-                   title="管理商户账户"><i class="icon-plus"></i> 添加商户账户</a>
+                <a href="/brand/account?bid={{ brand.id }}&act=add" class="modify" data-input="limit" title="管理商户账户"><i
+                        class="icon-plus"></i> 添加商户账户</a>
             </div>
-            {% for user in brandaccounts %}
+            {% for user in brand_brandaccounts %}
                 <div class="load_wrap normal" title="">
                     <div class="coupon-image">
                         <img src="/resource/attachment/images/icon.jpg"
@@ -90,18 +81,19 @@
                     <div class="coupon-intro">
                         <h1>
                             <a href="/shop/{{ user.id }}" target="_blank">
-                                {{ user.name }}</a>
+                                {{ user.name }}({{ user.mobile }})</a>
                         </h1>
+
                         <h2>
-                            {{ brand.name }} </h2>
+                            {{ user.mobile }} {{ user.address }}
+                        </h2>
                     </div>
                     <div class="coupon-class">
                         <div class="class-opt">
-                            <a href="/brand/account/delete?user_id={{ user.id }}" title="删除"
+                            <a href="/brand/account?bid={{ brand.id }}&uid={{ user.id }}&act=delete" title="删除"
                                class="" onclick="return confirm('此操作不可恢复，确认删除？');return false;"><i
                                     class="icon-remove"></i></a>
-                            <a href="/brand/account_setting?id={{ brand.id }}&user_id={{ user.id }}&act=modify"
-                               title="编辑"
+                            <a href="/brand/account?bid={{ brand.id }}&uid={{ user.id }}&act=modify" title="编辑"
                                class=""><i class="icon-cog"></i></a>
                         </div>
                         <div class="class-inf">

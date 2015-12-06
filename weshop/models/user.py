@@ -11,7 +11,10 @@ from ..utils._redis import get_user_active_time
 
 
 class User(db.Model):
-    """用户：id，姓名，邮箱，密码，角色，性别，头像，创建时间，token"""
+    """用户：id，姓名，邮箱，密码，角色，性别，头像，创建时间，token
+    角色：　shopowner
+        　 common
+    """
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50))
     qq = db.Column(db.String(20))

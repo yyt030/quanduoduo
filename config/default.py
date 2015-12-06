@@ -25,6 +25,9 @@ class Config(object):
     SQLALCHEMY_DATABASE_URI = "mysql://root:root@localhost/weshop"
     # SQLALCHEMY_DATABASE_URI = "mysql://root:ruzhoubaishi@localhost/weshop"
 
+    SQLALCHEMY_RECORD_QUERIES = True
+    FLASKY_DB_QUERY_TIMEOUT = 0.5
+
     # Redis
     REDIS = False  # 是否启用Redis
     REDIS_HOST = "localhost"
