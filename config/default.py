@@ -6,7 +6,7 @@ class Config(object):
     """配置基类"""
     # Flask app config
 
-    DEBUG = False
+    DEBUG = True
     TESTING = False
     SECRET_KEY = "\xb5\xb3}#\xb7A\xcac\x9d0\xb6\x0f\x80z\x97\x00\x1e\xc0\xb8+\xe9)\xf0}"
     PERMANENT_SESSION_LIFETIME = 3600 * 1
@@ -24,6 +24,9 @@ class Config(object):
     # http://docs.sqlalchemy.org/en/rel_0_9/core/engines.html#database-urls
     SQLALCHEMY_DATABASE_URI = "mysql://root:@localhost/weshop"
     # SQLALCHEMY_DATABASE_URI = "mysql://root:ruzhoubaishi@localhost/weshop"
+
+    SQLALCHEMY_RECORD_QUERIES = True
+    FLASKY_DB_QUERY_TIMEOUT = 0.5
 
     # Redis
     REDIS = False  # 是否启用Redis

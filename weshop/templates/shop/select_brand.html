@@ -29,12 +29,12 @@
                 第1步.<b style="color:#44b549;">选择品牌</b> &gt; 第2步.{{ handle }}
             </div>
             {% for b in brands %}
-            <dl>
-                <dt><a href="/shop/setting?bid={{ b.id }}&act={{ act }}"><img
-                        src="/resource/attachment/images/{{ b.thumb }}"></a>
-                </dt>
-                <dd>{{ b.name }}</dd>
-            </dl>
+                <dl>
+                    <dt><a href="/shop/setting?bid={{ b.id }}&act={{ act }}"><img
+                            src="/resource/attachment/images/{{ b.thumb }}"></a>
+                    </dt>
+                    <dd>{{ b.name }}</dd>
+                </dl>
             {% endfor %}
             <dl title="CTRL+F 可快速查找">
                 <dt><a href="/brand/add"><img src="/resource/attachment/icon.jpg"></a></dt>

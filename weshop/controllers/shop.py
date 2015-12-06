@@ -73,7 +73,6 @@ def setting():
         else:
             bid = session['brand']
         brandinfo = Brand.query.get(bid)
-        print '-------------', brandinfo
         brandForm = BrandSetting(brand=brandinfo.name, intro=brandinfo.intro, image=brandinfo.image,
                                  thumb=brandinfo.thumb, industry_1=brandinfo.industry_1,
                                  industry_2=brandinfo.industry_2)
@@ -116,7 +115,7 @@ def setting():
     elif act == 'ticket_record':
         return redirect(url_for('ticket_record.manage'))
     elif act == 'account':
-        return redirect(url_for('brand.account_list', bid=bid))
+        return redirect(url_for('brand.account', bid=bid))
     else:
         return redirect(url_for('brand.shop_list', bid=bid))
 

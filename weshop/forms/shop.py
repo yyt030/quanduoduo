@@ -30,8 +30,8 @@ class BrandSetting(Form):
 
 class DiscountSetting(Form):
     """折扣设置"""
-    title = TextField('券面名称', description='',default='')
-    type =TextField('优惠形式', description='',default='')
+    title = TextField('券面名称', description='', default='')
+    type = TextField('优惠形式', description='', default='')
     intro = TextAreaField("温馨提示", default='')
     image = TextField("封面图", default='')
     supply = TextField("每天开抢时间", default='00')

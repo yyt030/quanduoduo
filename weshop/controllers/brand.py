@@ -14,7 +14,7 @@ from weshop.forms.shop import ShopSetting, BrandSetting
 from weshop.utils import devices
 from weshop.utils.devices import checkMobile
 from ..models import db, User, Brand, Shop
-from ..forms import SigninForm
+from ..forms import SigninForm, RegisterForm
 from ..utils.permissions import require_user, require_visitor
 from ..utils.uploadsets import images, random_filename, process_question, avatars
 
@@ -129,13 +129,110 @@ def shop_list():
     return render_template('brand/shop_list.html', shops=shops, brand=brand, bid=bid)
 
 
-@bp.route('/account_list', methods=['GET', 'POST'])
-def account_list():
+@bp.route('/account', methods=['GET', 'POST'])
+def account():
     """商户账户管理"""
     bid = int(request.args.get("bid", 0))
+    uid = int(request.args.get('uid', 0))
+    act = request.args.get('act')
+    do = request.args.get("do", "normal")
     brand = Brand.query.get(bid)
-    for i in brand.brandaccounts:
-        print '-' * 10, i.name, i.id, bid
-    shops = Shop.query.filter(Shop.brand_id == bid)
-    brandaccounts = brand.brandaccounts
-    return render_template('brand/account_list.html', shops=shops, brand=brand, bid=bid, brandaccounts=brandaccounts)
+    shops = Shop.query.filter(Shop.brand_id == bid).all()
+    user = User.query.get(uid)
+
+    form = RegisterForm()
+
+    brand_brandaccounts = ''
+    if brand:
+        brand_brandaccounts = brand.brandaccounts
+
+    if act == 'delete':
+        if user:
+            if user.brandaccounts.filter(Brand.id == bid).first():
+                user.brandaccounts.remove(brand)
+            for shop in shops:
+                if user.shopaccounts.filter(Shop.id == shop.id).first():
+                    user.shopaccounts.remove(shop)
+            user.role = 'common'
+            db.session.add(user)
+            db.session.commit()
+    elif act == 'modify':
+        values = request.form
+        if values:
+            url = request.values.get('current_url')
+
+            user_exist = User.query.filter(User.name == form.name.data).first()
+            user_exist.name = form.name.data
+            user_exist.email = form.email.data
+            user_exist.mobile = form.mobile.data
+            user_exist.address = form.address.data
+            user_exist.password = form.password.data
+            user_exist.role = 'shopowner'
+            db.session.add(user_exist)
+
+            bexist = brand.brandaccounts.filter(User.name == form.name.data).first()
+            if not bexist:
+                brand.brandaccounts.append(user_exist)
+
+            # 添加授权账户分店
+            shopvalues = []
+            for value in values:
+                if value.startswith('shop'):
+                    shopvalues.append(int(values.get(value)))
+            if shopvalues:
+                for shop in shops:
+                    sexist = shop.shopaccounts.filter(User.name == form.name.data).first()
+                    if shop.id in shopvalues and not sexist:
+                        print '-' * 10, shopvalues, shop.id,
+                        shop.shopaccounts.append(user_exist)
+            else:
+                for shop in shops:
+                    sexist = shop.shopaccounts.filter(User.name == form.name.data).first()
+                    if sexist:
+                        shop.shopaccounts.remove(user_exist)
+            db.session.commit()
+
+            return render_template('account/ok.html', tip='修改商户帐号成功！', url=url)
+
+        return render_template('brand/account_detail.html', brand=brand, bid=bid, useraccount=user, form=form,
+                               shops=shops,
+                               brand_brandaccounts=brand_brandaccounts)
+
+    elif act == 'add':
+        values = request.form
+        if values:
+            url = request.values.get('current_url')
+            exist = User.query.filter(User.name == form.name.data).first()
+            if exist:
+                return render_template('account/error.html', error='您输入的商户帐号已存在, 可直接在全部帐号中修改！')
+            else:
+                user_new = User(name=form.name.data, email=form.email.data, mobile=form.mobile.data,
+                                address=form.address.data, password=form.password.data)
+                db.session.add(user_new)
+
+                brand.brandaccounts.append(user_new)
+
+                # 添加授权账户分店
+                shopvalues = []
+                for value in values:
+                    if value.startswith('shop'):
+                        shopvalues.append(int(values.get(value)))
+
+                if shopvalues:
+                    for shop in shops:
+                        if shop.id in shopvalues:
+                            shop.shopaccounts.append(user_new)
+                db.session.commit()
+
+                return render_template('account/ok.html', tip='添加商户帐号成功！', url=url)
+
+        return render_template('brand/account_detail.html', brand=brand, bid=bid, useraccount=user, form=form,
+                               shops=shops,
+                               brand_brandaccounts=brand_brandaccounts)
+    elif act == 'showall':
+        users = User.query.filter(User.role != 'admin').all()
+        return render_template('brand/account_list.html', brand=brand, bid=bid,
+                               brand_brandaccounts=users)
+
+    return render_template('brand/account_list.html', brand=brand, bid=bid,
+                           brand_brandaccounts=brand_brandaccounts, do=do)

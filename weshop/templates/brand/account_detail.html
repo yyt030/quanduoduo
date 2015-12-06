@@ -1,0 +1,262 @@
+{% extends 'account_layout.html' %}
+{% from 'macro/form.html' import form_field %}
+{% block content %}
+    <body>
+    <link type="text/css" rel="stylesheet" href="/resource/script/kindeditor/themes/default/default.css">
+    <style type="text/css">
+        .appendSelect.title,
+        .appendSelect.title .input-append {
+            display: none;
+        }
+
+        .appendSelect.title .input-append {
+            margin-right: 4px;
+        }
+
+        .form .btn-group .more,
+        .form .btn-group[data-spread='1'] .look {
+            display: none;
+        }
+
+        .form .btn-group[data-spread='1'] .more {
+            display: inline-block;
+        }
+    </style>
+    <body>
+
+    <div class="main">
+        <form action="" class="form-horizontal form" method="post" enctype="multipart/form-data">
+            {{ form.csrf_token }}
+            <input id="current_url" name="current_url" type="hidden" value="{{ request.url }}">
+            <h4>编辑商户账户基本资料</h4>
+            <table class="tb" style="margin-top:10px;">
+                <tr>
+                    <th><label for="">关联品牌</label></th>
+                    <td>
+                        <div class="input-append">
+                            <input type="text" name="brand" id="brand"
+                                   value={{ brand.name }} data-value={{ brand.name }}
+                                   class="span6" title="修改品牌会更换品牌归属"/>
+                            <button type="button" class="btn" name="brandBtn" value="选择品牌"
+                                    onclick="$('#brand-append').toggle();">查看品牌
+                            </button>
+                        </div>
+                        <div id="brand-append" style="margin-top:10px;display:none;">
+                            <span class="help-block"><b>此品牌的简介。</b></span>
+
+                            <div class="brand-append">
+                                <textarea style="height:100px;" class="span7" name="intro"
+                                          cols="70">{{ brand.intro }}</textarea>
+                            </div>
+                            <span class="help-block"><b>此品牌的行业。</b></span>
+
+                            <div class="brand-append">
+                                <select name="industry_1" id="industry_1" value="{{ brand.industry_1 }}" class="span3"
+                                ></select> //
+                                <select name="industry_2" id="industry_2" value="{{ brand.industry_2 }}" class="span3"
+                                ></select>
+                            </div>
+
+                            <span class="help-block"><b>此品牌的标识。</b></span>
+
+                            <div class="fileupload fileupload-preview thumbnail"
+                                 style="width: 320px; height: 130px; overflow:hidden;" id="image_preview">
+                                <img src="/resource/attachment/images/{{ brand.image }}"/></div>
+
+                            <div class="fileupload fileupload-preview thumbnail"
+                                 style="width: 80px; height: 80px; overflow:hidden;" id="thumb_preview">
+                                <img src="/resource/attachment/images/{{ brand.thumb }}"/></div>
+
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th style="width:90px;"><label for="">商家账户名</label></th>
+                    <td>
+                        <input type="text" name="name" class="span6"
+                                {% if useraccount is not none and useraccount.name is not none %}
+                               value="{{ useraccount.name }}"
+                               readonly="readonly" {% endif %}/>
+                        <span class="help-block">请输入此商家的账户名</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th style="width:90px;"><label for="">商家账户邮箱</label></th>
+                    <td>
+                        <input type="text" name="email" class="span6"
+                                {% if useraccount is not none and useraccount.email is not none %}
+                               value="{{ useraccount.email }}"
+                                {% endif %}/>
+                        <span class="help-block">请输入此商家的email</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th style="width:90px;"><label for="">商家电话</label></th>
+                    <td>
+                        <input type="text" name="mobile" class="span6"
+                                {% if useraccount is not none and useraccount.mobile is not none %}
+                               value="{{ useraccount.mobile }}"
+                                {% endif %}/>
+                        <span class="help-block">请输入此商家的手机</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th style="width:90px;"><label for="">商家地址</label></th>
+                    <td>
+                        <input type="text" name="address" class="span6"
+                                {% if useraccount is not none and useraccount.address is not none %}
+                               value="{{ useraccount.address }}"
+                                {% endif %}/>
+                        <span class="help-block">请输入此商家的地址</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th><label for="">所属平台</label></th>
+                    <td>
+                        <select name="weid">
+                            <option value="10014">券多多洛阳站</option>
+                        </select>
+                        <span class="help-block">选择平台后，商家发布的优惠券会在对应的平台上架推广</span>
+                    </td>
+                </tr>
+                <!-- tr>
+                    <th><label for="">服务期限</label></th>
+                    <td>
+                        <input type="date" name="period" class="span3" value="2016-01-04" />
+                        <span class="help-block"></span>
+                    </td>
+                </tr -->
+                <tr>
+                    <th><label for="">密码</label></th>
+                    <td>
+                        <input id="password" name="password" type="password" class="span6"/>
+                        <span class="help-block">请填写密码，最小长度为 8 个字符</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th><label for="">确认密码</label></th>
+                    <td>
+                        <input id="repassword" type="password" class="span6" value=""/>
+                        <span class="help-block">重复输入密码，确认正确输入</span>
+                    </td>
+                </tr>
+            </table>
+
+            <h4>设置授权门店</h4>
+            <table class="tb" style="margin-top:10px;">
+                <!-- tr>
+                    <th><label for="">门店&优惠券配额</label></th>
+                    <td>
+                        <div class="input-append" title="门店配额">
+                            <input type="number" name="quota1" class="span1" style="width:55px;" value="2" min="1" max="10" />
+                            <button type="button" class="btn">个</button>
+                        </div>
+                        <div class="input-append" title="优惠券配额">
+                            <input type="number" name="quota2" class="span1" style="width:55px;" value="10" min="1" max="20" />
+                            <button type="button" class="btn">个</button>
+                        </div>
+                        <span class="help-block">可以发布的连锁店和优惠券数量</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th><label for="">推广&二维码配额</label></th>
+                    <td>
+                        <div class="input-append" title="推广配额">
+                            <input type="number" name="quota3" class="span1" style="width:55px;" value="1" min="1" max="2" />
+                            <button type="button" class="btn">个</button>
+                        </div>
+                        <div class="input-append" title="二维码配额">
+                            <input type="number" name="quota4" class="span1" style="width:55px;" value="1" min="1" max="3" />
+                            <button type="button" class="btn">个</button>
+                        </div>
+                        <span class="help-block">可以上架的优惠券和创建的二维码，上架推广受服务期限制</span>
+                    </td>
+                </tr -->
+                <tr class="Multiple">
+                    <th></th>
+                    <td>
+                        {% for s in shops %}
+                            <div class="store">
+                                <input id="shop{{ s.id }}" type="checkbox" name="shop[{{ s.id }}]" value="{{ s.id }}"
+                                       {% if s.id in stores %}checked{% endif %}>
+                                <label for="shop{{ s.id }}">{{ s.store }} </label>
+                            </div>
+                        {% endfor %}
+                        <span class="help-block">允许此账号管理的门店</span>
+                    </td>
+                </tr>
+            </table>
+
+            <table class="tb" style="margin-top:10px;">
+                <tr>
+                    <th></th>
+                    <td>
+                        <input type="submit" class="btn btn-primary span3" name="submit" value="保存商户资料"/>
+                        <input type="hidden" name="token" value="36a9e559"/>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <script type="text/javascript">
+        function checkProfile() {
+            if ($('#password').val() != $('#repassword').val()) {
+                message('两次输入的密码不一致.', '', 'error');
+                return false;
+            }
+            return true;
+        }
+    </script>
+    <script type="text/javascript" src="./source/modules/business/images/industry.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            //检查品牌数据
+            $('#brand-append :input,#brand').attr('disabled', 'disabled');
+            $('#brand').change(function () {
+                var getJSONURL = "http://hui.184buy.com/custom.php?act=change";
+                $.getJSON(getJSONURL + 'title=' + this.value,
+                        function (data) {
+                            if (data.type == 'ajax' && data.message) {
+                                fillBrand(data.message);
+                                $('#brand-append').show();
+                            }
+                        }
+                );
+            });
+        });
+        function fillBrand(data) {
+            var imgurl = "http://hui.184buy.com/resource/attachment/";
+            $(':input[name="brand"]').val(data['brand']);
+            $('#brand-append :input[name="intro"]').val(data['intro']);
+            $('#brand-append :input[name="image"]').val(data['image']);
+            $('#brand-append :input[name="thumb"]').val(data['thumb']);
+            $('#industry_1 option[value="' + data['industry1'] + '"]').attr("selected", true).change();
+            $('#industry_2 option[value="' + data['industry2'] + '"]').attr("selected", true);
+            //处理图片
+            var image = '';
+            var thumb = '';
+            if (typeof(data['image']) != 'undefined' && typeof(data['thumb']) != 'undefined') {
+                image = '<img src="' + imgurl + data['image'] + '" />';
+                thumb = '<img src="' + imgurl + data['thumb'] + '" />';
+            }
+            $('#image_preview').empty().append(image);
+            $('#thumb_preview').empty().append(thumb);
+        }
+    </script>
+    <div class="show_foot">
+        <div class="foot_wrap">
+            <p>&copy; 2015 <b>券多多商务</b></p>
+        </div>
+    </div>
+
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?50b4952461c191a55d14ad9dbe6b22ae";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+    </body>
+{% endblock %}

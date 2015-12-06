@@ -5,7 +5,7 @@ import random
 from ._base import db
 import time
 
-# brand品牌 和 商品账户的 many to many 关系
+# 品牌 和 账户的 many to many 关系
 brand_account = db.Table('brand_account',
                          db.Column('brand_id', db.Integer, db.ForeignKey('brand.id')),
                          db.Column('user_id', db.Integer, db.ForeignKey('user.id')))
@@ -22,8 +22,9 @@ class Brand(db.Model):
     thumb = db.Column(db.String(200))
     status = db.Column(db.SMALLINT, default=1)
 
-    create_user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    create_user = db.relationship('User')
+    # create_user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    # create_user = db.relationship('User')
+
     brandaccounts = db.relationship('User', secondary=brand_account,
                                     backref=db.backref('brandaccounts', lazy='dynamic'), lazy='dynamic')
 
@@ -165,6 +166,12 @@ class MyFavoriteShop(db.Model):
         return '<MyFavoriteShop %s>' % self.id
 
 
+# shop 店铺 和 账户的 many to many 关系
+shop_account = db.Table('shop_account',
+                        db.Column('shop_id', db.Integer, db.ForeignKey('shop.id')),
+                        db.Column('user_id', db.Integer, db.ForeignKey('user.id')))
+
+
 class Shop(db.Model):
     """店铺
     brand:品牌
@@ -179,6 +186,9 @@ class Shop(db.Model):
 
     brand_id = db.Column(db.Integer, db.ForeignKey('brand.id'))
     brand = db.relationship('Brand', backref=db.backref('shops', lazy='dynamic'))
+
+    shopaccounts = db.relationship('User', secondary=shop_account,
+                                   backref=db.backref('shopaccounts', lazy='dynamic'), lazy='dynamic')
 
     store = db.Column(db.String(50))
     title = db.Column(db.String(400))
