@@ -58,7 +58,7 @@ def brand_add():
             db.session.add(brand)
             db.session.commit()
             session['brand'] = brand.id
-            url=request.referrer
+            url = request.referrer
             return render_template('account/ok.html', tip='添加品牌成功，请添加一个门店！', url=url)
     return render_template('brand/setting.html', shop=shop, form=form)
 
@@ -106,10 +106,17 @@ def manage():
     """管理品牌"""
     do = request.args.get("do", "normal")
     if do == 'normal':
-        brands = Brand.query.filter(Brand.status == 1).all()
+        brands_query = Brand.query.filter(Brand.status == 1)
     else:
-        brands = Brand.query.filter(Brand.status == 0).all()
-    return render_template('brand/manage.html', brands=brands, do=do)
+        brands_query = Brand.query.filter(Brand.status == 0)
+
+    page = request.args.get('page', 1, type=int)
+    pagination = brands_query.order_by(Brand.create_at.desc()).paginate(
+        page, per_page=current_app.config['FLASKY_PER_PAGE'],
+        error_out=False)
+    brands = pagination.items
+
+    return render_template('brand/manage.html', brands=brands, do=do, pagination=pagination)
 
 
 @bp.route('/search', methods=['GET', 'POST'])
@@ -125,8 +132,15 @@ def shop_list():
     """门店管理"""
     bid = int(request.args.get("bid", 0))
     brand = Brand.query.get(bid)
-    shops = Shop.query.filter(Shop.brand_id == bid)
-    return render_template('brand/shop_list.html', shops=shops, brand=brand, bid=bid)
+    shops_query = Shop.query.filter(Shop.brand_id == bid)
+    page = request.args.get('page', 1, type=int)
+    pagination = shops_query.order_by(Shop.id.desc()).paginate(
+        page, per_page=current_app.config['FLASKY_PER_PAGE'],
+        error_out=False)
+    shops = pagination.items
+
+    return render_template('brand/shop_list.html', shops=shops, brand=brand,
+                           bid=bid, pagination=pagination)
 
 
 @bp.route('/account', methods=['GET', 'POST'])
@@ -213,7 +227,7 @@ def account():
                 if len(form.mobile.data) or not (form.mobile.data).isdigit():
                     return render_template('account/error.html', error='您输入的用户名不正确！')
                 user_new = User(name=form.name.data, email=form.email.data, mobile=form.mobile.data,
-                                 password=form.password.data)
+                                password=form.password.data)
                 user_new.hash_password()
                 user_new.gene_token()
                 db.session.add(user_new)

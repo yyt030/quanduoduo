@@ -121,8 +121,16 @@ def manage():
     """"""
     bid = int(request.args.get("bid", 0))
     brand = Brand.query.get(bid)
-    discounts = Discount.query.filter(Discount.brand_id == bid)
-    return render_template('discount/manage.html', bid=bid, brand=brand, discounts=discounts)
+    discounts_query = Discount.query.filter(Discount.brand_id == bid)
+
+    page = request.args.get('page', 1, type=int)
+    pagination = discounts_query.order_by(Discount.create_at.desc()).paginate(
+        page, per_page=current_app.config['FLASKY_PER_PAGE'],
+        error_out=False)
+    discounts = pagination.items
+
+    return render_template('discount/manage.html', bid=bid, brand=brand,
+                           discounts=discounts, pagination=pagination)
 
 
 @bp.route('/getlist', methods=['GET', 'POST'])
@@ -134,9 +142,6 @@ def getlist():
     bid = int(request.args.get("bid", 0))
     did = int(request.args.get("did", 0))
     status = request.args.get('status')
-
-    page = request.args.get('page', 1, type=int)
-
     brand = Brand.query.get(bid)
     discount = Discount.query.get(did)
 
@@ -144,7 +149,7 @@ def getlist():
         query = discount.get_discounts.filter(GetTicketRecord.status == status)
     else:
         query = discount.get_discounts
-
+    page = request.args.get('page', 1, type=int)
     pagination = query.order_by(GetTicketRecord.create_at.desc()).paginate(
         page, per_page=current_app.config['FLASKY_PER_PAGE'],
         error_out=False)

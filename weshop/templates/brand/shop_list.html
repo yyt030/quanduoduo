@@ -1,5 +1,6 @@
 {% extends 'account_layout.html' %}
 {% from 'macro/form.html' import form_field %}
+{% from 'macro/ui.html' import pagination as pagination_widget %}
 {% block content %}
     <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
@@ -78,49 +79,58 @@
         <div class="body_wrap" id="body_wrap">
             <div class="type_wrap">
                 管理连锁店
-                <a href="/shop/setting?act=publish&bid={{ bid }}" class="modify" data-input="limit" title="添加连锁店"><i class="icon-plus"></i> 添加连锁店</a>
+                <a href="/shop/setting?act=publish&bid={{ bid }}" class="modify" data-input="limit" title="添加连锁店"><i
+                        class="icon-plus"></i> 添加连锁店</a>
             </div>
             {% for s in shops %}
-            <div class="load_wrap normal" title="">
-                <div class="coupon-image">
-                    <img src="/resource/attachment/images/{{ brand.thumb }}" onerror="javascript:this.src='/resource/attachment/icon.jpg'" >
-                </div>
-                <div class="coupon-intro">
-                    <h1>
-                        <a href="/shop/checkout" title="微信收银台"><i class="icon-desktop"></i></a>
-                        <a href="/shop/{{ s.id }}" target="_blank">
-                            {{ brand.name }}({{ s.store }})</a>
-                    </h1>
-                    <h2>
-                        {{ s.phone }} {{ s.address }} </h2>
-                </div>
-                <div class="coupon-class">
-                    <div class="class-opt">
+                <div class="load_wrap normal" title="">
+                    <div class="coupon-image">
+                        <img src="/resource/attachment/images/{{ brand.thumb }}"
+                             onerror="javascript:this.src='/resource/attachment/icon.jpg'">
+                    </div>
+                    <div class="coupon-intro">
+                        <h1>
+                            <a href="/shop/checkout" title="微信收银台"><i class="icon-desktop"></i></a>
+                            <a href="/shop/{{ s.id }}" target="_blank">
+                                {{ brand.name }}({{ s.store }})</a>
+                        </h1>
 
-                        <a href="/shop/record?id={{ s.id }}" title="分析"
-                           class=""><i class="icon-bar-chart"></i></a>
-                        <a href="/shop/qrcode?id={{ s.id }}" title="二维码"
-                           class=""><i class="icon-qrcode"></i></a>
-                        <a href="/shop/upload?id={{ s.id }}" title="相册"
-                           class=""><i class="icon-picture"></i></a>
-                        <a href="/shop/delete?id={{ s.id }}" title="删除"
-                           class="" onclick="return confirm('此操作不可恢复，确认删除？');return false;"><i class="icon-remove"></i></a>
-                        <a href="/shop/setting?id={{ s.id }}&act=modify" title="编辑"
-                           class=""><i class="icon-cog"></i></a>
+                        <h2>
+                            {{ s.phone }} {{ s.address }} </h2>
                     </div>
-                    <div class="class-inf">
-                        <i class="icon-ticket"></i>
-                        <span class="type">{{ s.discount or 0 }}</span>
-                        <i class="icon-tags"></i>
-                        <span class="ctime">{{ brand.industry_1 }}</span>
-                        <span class="code">{{ brand.industry_2 }}</span>
-                        <span class="limit"></span>
+                    <div class="coupon-class">
+                        <div class="class-opt">
+
+                            <a href="/shop/record?id={{ s.id }}" title="分析"
+                               class=""><i class="icon-bar-chart"></i></a>
+                            <a href="/shop/qrcode?id={{ s.id }}" title="二维码"
+                               class=""><i class="icon-qrcode"></i></a>
+                            <a href="/shop/upload?id={{ s.id }}" title="相册"
+                               class=""><i class="icon-picture"></i></a>
+                            <a href="/shop/delete?id={{ s.id }}" title="删除"
+                               class="" onclick="return confirm('此操作不可恢复，确认删除？');return false;"><i
+                                    class="icon-remove"></i></a>
+                            <a href="/shop/setting?id={{ s.id }}&act=modify" title="编辑"
+                               class=""><i class="icon-cog"></i></a>
+                        </div>
+                        <div class="class-inf">
+                            <i class="icon-ticket"></i>
+                            <span class="type">{{ s.discount or 0 }}</span>
+                            <i class="icon-tags"></i>
+                            <span class="ctime">{{ brand.industry_1 }}</span>
+                            <span class="code">{{ brand.industry_2 }}</span>
+                            <span class="limit"></span>
+                        </div>
                     </div>
                 </div>
-            </div>
             {% endfor %}
         </div>
         <div class="body_wrap">
+            {% if pagination %}
+                <div class="pagination pagination-centered">
+                    {{ pagination_widget(pagination, 'page') }}
+                </div>
+            {% endif %}
             <div class="load_tips">加载中..</div>
         </div>
     </div>
