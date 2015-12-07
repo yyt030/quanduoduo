@@ -42,12 +42,14 @@
                         <div class="coupon-intro">
                             <p class="title">{{ record.discount.title }}</p>
 
-                            <p class="count">每天<b>{{ record.discount.limits }}</b>份</p>
+                            <p class="count">有效期至{{ expire_date }}</p>
 
-                            <p class="brand">{{ record.discount.brand.name }}</p>
+                            <p class="count"><small>{{ record.discount.brand.name }}<small></p>
                         </div>
                         <div class="coupon-class">
-                            <i class="state"><small>验证返３分</small></i>
+                            <i class="state">
+                                <small>验证返３分</small>
+                            </i>
 
 
                         </div>

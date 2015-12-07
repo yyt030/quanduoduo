@@ -246,7 +246,7 @@ def user_home():
 def tickets():
     """券包"""
     type = request.args.get("type", "not_use")
-    user_id = session['user_id']
+    user_id = g.user.id
     nav = 2
     if type == 'not_use':
         records = GetTicketRecord.query.filter(GetTicketRecord.user_id == user_id,
@@ -256,8 +256,11 @@ def tickets():
                                                GetTicketRecord.status == type)
     else:
         records = GetTicketRecord.query.filter(GetTicketRecord.user_id == user_id)
-        
-    return render_template('mobile/my_tickets.html', type=type, nav=2, records=records)
+
+    from datetime import timedelta
+    expire_date = datetime.date(records.first().discount.create_at) + timedelta(days=records.first().discount.usable)
+
+    return render_template('mobile/my_tickets.html', type=type, nav=2, records=records, expire_date=expire_date)
 
 
 @bp.route('/gonglue')
