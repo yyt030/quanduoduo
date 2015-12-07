@@ -190,7 +190,7 @@ def checkout():
         # 获取永久二维码
         wechat = WechatBasic(appid=current_app.config.get('WECHAT_APPID'),
                              appsecret=current_app.config.get('WECHAT_APPSECRET'))
-        data = {"action_name": "QR_LIMIT_SCENE", "action_info": {"scene": {"scene_str": "ticket_" + str(record.code)}}}
+        data = {"action_name": "QR_LIMIT_SCENE", "action_info": {"scene": {"scene_id":  record.code}}}
         get_ticket_data = wechat.create_qrcode(data)
         ticket = get_ticket_data.get("ticket")
         session['ticket'] = ticket
@@ -207,15 +207,15 @@ def bind_saler():
     bid = int(request.args.get("bid", 0))
     brand = Brand.query.get(bid)
     users = brand.brandaccounts
-    shop_id=0
+    shop_id = 0
     # 获取永久二维码
     wechat = WechatBasic(appid=current_app.config.get('WECHAT_APPID'),
-                             appsecret=current_app.config.get('WECHAT_APPSECRET'))
-    data = {"action_name": "QR_LIMIT_SCENE", "action_info": {"scene": {"scene_str": "bind_" + str(brand.id)}}}
+                         appsecret=current_app.config.get('WECHAT_APPSECRET'))
+    data = {"action_name": "QR_LIMIT_SCENE", "action_info": {"scene": {"scene_id": int("11" + str(brand.id))}}}
     print data
     get_ticket_data = wechat.create_qrcode(data)
     ticket = get_ticket_data.get("ticket")
-    return render_template('shop/bind_saler.html', brand=brand, ticket=ticket,users=users)
+    return render_template('shop/bind_saler.html', brand=brand, ticket=ticket, users=users)
 
 
     # 您已成功绑定洛阳科技职业学院游泳馆的微信收银台 TODO

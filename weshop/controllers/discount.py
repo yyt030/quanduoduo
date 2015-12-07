@@ -11,6 +11,7 @@ import datetime
 from flask import render_template, Blueprint, redirect, url_for, g, session, request, \
     make_response, current_app, send_from_directory
 from wechat_sdk import WechatBasic
+from weshop.controllers.site import add_wechat_user_to_db
 from weshop.forms.shop import ShopSetting, BrandSetting, DiscountSetting
 from weshop.utils import devices
 from weshop.utils.account import signin_user
@@ -46,15 +47,13 @@ def detail():
     # discount.count 每天0：00清零 TODO 脚本任务
     left_count = discount.number - discount.count
     discount_shop_count = discount.shops.count()
-    # print discount_shop_count
     user_agent = request.headers.get('User-Agent')
     # print user_agent
     if do == 'post':
         if 'MicroMessenger' not in user_agent:
             return json.dumps({"message": "请在微信里操作", "redirect": "permit", "type": "tips"})
-        openid = session.get("openid")
-
-        if openid:
+        else:
+            openid=session['openid']
             wechat = WechatBasic(appid=appid, appsecret=appsecret)
             # wechat.send_text_message(session['openid'], "test")
             # 调用公众号消息模板A0XK30w_sZPti5_gn33PJ5msng7yb71zAEcRa0E44oM发送领券通知

@@ -113,30 +113,30 @@ def test():
 def find():
     openid = session.get("openid")
     print "openid,", openid
-    # if not openid:
-    #     code = request.args.get("code")
-    #     if not code:
-    #         print "not code"
-    #         return redirect(WeixinHelper.oauth3(request.url))
-    #     else:
-    #         data = json.loads(WeixinHelper.getAccessTokenByCode(code))
-    #         access_token, openid, refresh_token = data["access_token"], data["openid"], data["refresh_token"]
-    #         userinfo = json.loads(WeixinHelper.getSnsapiUserInfo(access_token, openid))
-    #         print "user_info,", userinfo
-    #         # print openid
-    #
-    #         if not g.user:
-    #             # 检查用户是否存在
-    #             add_wechat_user_to_db(openid)
-    #             user = User.query.filter(User.profile.any(Profile.openid == openid)).first()
-    #             if user is not None:
-    #                 signin_user(user)
-    #                 session['openid'] = openid
-    #                 print u'与微信用户关联的user（%s） 已开始登陆网站...' % user.name
-    #
-    #         else:
-    #             msg = u'当前已登录的用户：{user}'.format(user=g.user.name)
-    #             print msg
+    if not openid:
+        code = request.args.get("code")
+        if not code:
+            print "not code"
+            return redirect(WeixinHelper.oauth3('/find'))
+        else:
+            data = json.loads(WeixinHelper.getAccessTokenByCode(code))
+            access_token, openid, refresh_token = data["access_token"], data["openid"], data["refresh_token"]
+            userinfo = json.loads(WeixinHelper.getSnsapiUserInfo(access_token, openid))
+            print "user_info,", userinfo
+            # print openid
+
+            if not g.user:
+                # 检查用户是否存在
+                add_wechat_user_to_db(openid)
+                user = User.query.filter(User.profile.any(Profile.openid == openid)).first()
+                if user is not None:
+                    signin_user(user)
+                    session['openid'] = openid
+                    print u'与微信用户关联的user（%s） 已开始登陆网站...' % user.name
+
+            else:
+                msg = u'当前已登录的用户：{user}'.format(user=g.user.name)
+                print msg
     industry1 = request.args.get("industry1", None)
     search = request.args.get("search", "")
     if industry1 or search:
@@ -358,14 +358,14 @@ def interface():
             elif message.type == 'scan':
                 if message.key and message.ticket:
                     # TODO 扫码回收优惠券,这里还要判断扫码的用户是否为该品牌店授权的店员
-                    # TODO 考虑到还有绑定店员的扫码事件,key分为两种：bind_[brandid],ticket_[code]
-
-                    if message.key.split("_")[0] == 'ticket':
-                        record_id = int(message.key.split("_")[1])
+                    # TODO 考虑到还有绑定店员的扫码事件,key分为两种：11[brandid],12[code]
+                    print message.key[0:2]
+                    if message.key[0:2] == '11':
+                        record_id = int(message.key[2:])
                         callback_ticket(record_id)
                         response = ""
-                    elif message.key.split("_")[0] == 'bind':
-                        brand_id = int(message.key.split("_")[1])
+                    elif message.key[0:2] == '12':
+                        brand_id = int(message.key[2:])
                         brand = Brand.query.get(brand_id)
                         brand_text = "<a href='{0}/{1}'>{2}</a>".format(current_app.config.get("SITE_DOMAIN"), "find",
                                                                         brand.name)
