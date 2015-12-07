@@ -68,6 +68,49 @@ def user_data():
     return render_template('account/user_data.html')
 
 
+@bp.route('/check_saler_info', methods=['GET', 'POST'])
+@require_user
+def check_saler_info():
+    """确认收银员信息"""
+    brand_id = int(request.args.get("bid", 0))
+    openid = session.get("openid")
+    do = request.args.get("do")
+    print "openid,", openid
+    if not openid:
+        code = request.args.get("code")
+        if not code:
+            print "not code"
+            return redirect(WeixinHelper.oauth3('/find'))
+        else:
+            data = json.loads(WeixinHelper.getAccessTokenByCode(code))
+            access_token, openid, refresh_token = data["access_token"], data["openid"], data["refresh_token"]
+            userinfo = json.loads(WeixinHelper.getSnsapiUserInfo(access_token, openid))
+            print "user_info,", userinfo
+            # print openid
+
+            if not g.user:
+                # 检查用户是否存在
+                add_wechat_user_to_db(openid)
+                user = User.query.filter(User.profile.any(Profile.openid == openid)).first()
+                if user is not None:
+                    signin_user(user)
+                    session['openid'] = openid
+                    print u'与微信用户关联的user（%s） 已开始登陆网站...' % user.name
+
+            else:
+                msg = u'当前已登录的用户：{user}'.format(user=g.user.name)
+                print msg
+    if do == 'check':
+        #绑定店员
+        mobile = request.args.get("mobile")
+        user = request.user
+        user.mobile = mobile
+        user.save()
+
+        return json.dumps({"message": "提交成功", "type": "success"})
+    return render_template('account/user_data.html')
+
+
 @bp.route('/resource/<string:folder1>/<string:filename>', defaults={"folder2": "", "folder3": ""}, methods=['GET'])
 @bp.route('/resource/<string:folder1>/<string:folder2>/<string:filename>', defaults={"folder3": ""}, methods=['GET'])
 @bp.route('/resource/<string:folder1>/<string:folder2>/<string:folder3>/<string:filename>', methods=['GET'])
@@ -215,7 +258,7 @@ def favorite_brands():
             db.session.add(favorite)
             db.session.commit()
     if type == 'hot':
-        #TODO
+        # TODO
         records = MyFavoriteBrand.query.filter(MyFavoriteBrand.user_id == user.id).order_by(
             MyFavoriteBrand.create_at.desc())
     else:
@@ -358,19 +401,25 @@ def interface():
             elif message.type == 'scan':
                 if message.key and message.ticket:
                     # TODO 扫码回收优惠券,这里还要判断扫码的用户是否为该品牌店授权的店员
-                    # TODO 考虑到还有绑定店员的扫码事件,key分为两种：11[brandid],12[code]
+                    # TODO 考虑到还有绑定店员的扫码事件,key分为两种：11[brandid],12[discount_id]
                     print message.key[0:2]
+                    print message.key[2:]
                     if message.key[0:2] == '11':
+                        brand_id = int(message.key[2:])
+                        brand = Brand.query.get(brand_id)
+                        if not brand:
+                            response = wechat.response_text("要绑定的店铺不存在")
+                        brand_text = "<a href='{0}/{1}?bid={2}'>{3}</a>".format(current_app.config.get("SITE_DOMAIN"),
+                                                                                "check_saler_info",
+                                                                                brand.id, brand.name)
+                        print brand_text
+
+                        text = "您正在申请绑定门店%s,点击输入手机号验证身份" % brand_text
+                        response = wechat.response_text(text)
+                    elif message.key[0:2] == '12':
                         record_id = int(message.key[2:])
                         callback_ticket(record_id)
                         response = ""
-                    elif message.key[0:2] == '12':
-                        brand_id = int(message.key[2:])
-                        brand = Brand.query.get(brand_id)
-                        brand_text = "<a href='{0}/{1}'>{2}</a>".format(current_app.config.get("SITE_DOMAIN"), "find",
-                                                                        brand.name)
-                        text = "您正在申请绑定门店%s,点击输入手机号验证身份" % brand_text
-                        response = wechat.response_text(text)
             elif message.type == 'subscribe':
                 print message
                 if message.key and message.ticket:
