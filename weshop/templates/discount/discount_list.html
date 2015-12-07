@@ -1,0 +1,208 @@
+{% extends 'account_layout.html' %}
+{% from 'macro/form.html' import form_field %}
+{% from 'macro/ui.html' import pagination as pagination_widget %}
+{% block content %}
+    <html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=8">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>汝州百事优惠圈</title>
+        <meta name="keywords" content="汝州百事优惠圈,优惠券,手机优惠券,电子优惠券,微信优惠券">
+        <meta name="description" content="汝州百事优惠圈是一个借助于微信APP免费发放电子优惠券的公众平台。">
+        <link type="text/css" rel="stylesheet" href="/resource/style/bootstrap.css">
+        <link type="text/css" rel="stylesheet" href="/resource/style/font-awesome.css">
+        <link type="text/css" rel="stylesheet" href="/resource/style/common.css?v=1445775363">
+        <link type="text/css" rel="stylesheet" href="/resource/style/search.css?v=1445775363">
+        <script type="text/javascript" src="/resource/script/jquery-1.7.2.min.js"></script>
+        <script type="text/javascript" src="/resource/script/bootstrap.js"></script>
+        <script type="text/javascript" src="/resource/script/common.js"></script>
+        <script type="text/javascript" src="/resource/script/avatar.js"></script>
+        <script type="text/javascript">
+            cookie.prefix = 'cb65_';
+        </script>
+        <!--[if IE 7]>
+<link rel="stylesheet" href="/resource/style/font-awesome-ie7.min.css">
+<![endif]-->
+        <!--[if lte IE 6]>
+<link rel="stylesheet" type="text/css" href="/resource/style/bootstrap-ie6.min.css">
+<link rel="stylesheet" type="text/css" href="/resource/style/ie.css">
+<![endif]-->
+    </head>
+    <body>
+
+    <div class="show_body">
+        <div class="head_wrap">
+            <form name="search" action="" method="">
+                <div class="query">
+                    <input name="keyword" id="" type="text" value="">
+                    <a href="javascript:void(0);" onclick="$('form[name=search]').submit();"><i class="icon-search"></i></a>
+                </div>
+                <div class="order">
+                    <a href="/discount/getlist?bid={{ brand.id }}&did={{ discount.id }}&status=verify">已提醒</a> /
+                    <a href="/discount/getlist?bid={{ brand.id }}&did={{ discount.id }}&status=usedit">已使用</a> /
+                    <a href="/discount/getlist?bid={{ brand.id }}&did={{ discount.id }}&status=normal">未使用</a>
+                </div>
+                <div class="class normal">
+                    <ul>
+                        <li class="normal"><a href="/discount/getlist?bid={{ brand.id }}&did={{ discount.id }}">全部记录</a>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+        <style type="text/css">
+            .nobody {
+                background: #FFFFEF;
+            }
+
+            /*已使用*/
+            .closed {
+                background: #EFEFEF;
+            }
+
+            /*已过期*/
+        </style>
+        <div class="body_wrap avatar" id="body_wrap">
+            <div class="type_wrap">
+                优惠券记录
+            </div>
+            {% for record in records %}
+                <div class="load_wrap modelList {% if record.status == 'expire' %} closed {% else %} nobody {% endif %}"
+                     data-aid="1001086160"
+                     title="{% if record.status == 'expire' %} 已过期 {% else %} {{ record.status }} {% endif %}">
+                    <div class="coupon-image gender1" data-fid="12435138"
+                         data-avatar="Q3auHgzwzM7msPgJ92ZuPic3ZVxZZWHfutMRibqXI6Un9SUeyHX3FNUicQr4PYw4VV86FQkAVfCEMibSNkr9IKwmiaQ">
+                    </div>
+                    <div class="coupon-intro">
+                        <h1>
+                            {{ record.user.id }}（{{ record.user.name }}）
+                        </h1>
+
+                        <h2>
+                            <a href="/discount/detail?did={{ discount.id }}&brand_id={{ discount.brand_id }}" target="_blank"
+                               class="light">{{ brand.name }}</a>
+                            <a href="/discount/detail?did={{ discount.id }}&brand_id={{ discount.brand_id }}" target="_blank">{{ discount.title }}</a>
+                        </h2>
+                    </div>
+                    <div class="coupon-class">
+                        <div class="class-opt">
+                            <a href="javascript:void(0);" class="modify" data-input="day" title="延期"><i
+                                    class="icon-time"></i></a>
+                        </div>
+                        <div class="class-inf">
+                            <span class="type"><a
+                                    href="site.php?from=normal&weid=10014&act=analysis&do=display"></a></span>
+                            <span class="icon"></span>
+                            <span class="icon"></span>
+                            <i class="icon-ticket"></i>
+                            <span class="code" title="">{{ record.code }}</span>
+                            <i class="icon-calendar"></i>
+                            <span class="ctime">{{ record.create_at }}</span> -
+                            <span class="ctime day">{{ record.create_at }}</span>
+                        </div>
+                    </div>
+                </div>
+
+            {% endfor %}
+        </div>
+
+
+        <div class="body_wrap">
+            {% if pagination %}
+                <div class="pagination pagination-centered">
+                    {{ pagination_widget(pagination, 'page') }}
+                </div>
+            {% endif %}
+            <div class="load_tips">加载中..</div>
+        </div>
+    </div>
+
+
+    <div id="textWindow" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true" style=" width:600px;">
+        <div class="modal-header">
+            <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+            <h3>设置延期程序</h3></div>
+        <div class="modal-body">
+            <div id="module-menus">
+                <table class="table-hover">
+                    <tbody>
+                    <tr class="limitText">
+                        <td style="width:30px;">延长时间</td>
+                        <td>
+                            <div style="display:block; margin-top:10px;" class="input-append">
+                                <input type="number" name="day" class="span2 modifyText" style="width:67px;" min="1"
+                                       max="7" value="3"/>
+                                <button class="btn" type="button">天</button>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td style="width:30px;"></td>
+                        <td>
+                            <a href="javascript:void(0);" class="btn">确认提交</a>
+                            <span></span>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer"></div>
+    </div>
+
+    <script type="text/javascript">
+        $(function () {
+            var modifyUrl = "http://hui.184buy.com/site.php?weid=10014&act=analysis&do=append";
+            $('.modelList').each(function () {
+                var model = this;
+                var modelId = $(this).attr('data-aid');
+
+                //修改信息
+                $('a.modify', this).live('click', function () {
+                    var modifyName = $(this).attr('data-input');//修改的字段名
+                    $('#textWindow tbody .' + modifyName + 'Text').show().siblings().hide();
+                    $('#textWindow tfoot span').hide();
+                    $('#textWindow tfoot .btn').attr('data-aid', modelId).attr('data-input', modifyName);
+                    $('#textWindow').modal();
+                });
+            });
+
+            //修改数据
+            $('#textWindow tfoot .btn').live('click', function () {
+                var modifyId = $(this).attr('data-aid');
+                var modifyName = $(this).attr('data-input');
+                var modifyText = $('#textWindow tbody .modifyText[name="' + modifyName + '"]');
+
+                $('#textWindow tfoot span').text('提交中..').show();
+                $.getJSON(modifyUrl + '&aid=' + modifyId, modifyText.serialize(), function (result) {
+                    if (result.type == 'success') {
+                        $('#textWindow').modal('hide');
+                        $('.modelList[data-aid="' + modifyId + '"]').find('span.' + modifyName).text(result.message[modifyName]);
+                    } else {
+                        $('#textWindow tfoot span').text(result.message);
+                    }
+                });
+            });
+        });
+    </script>
+    <div class="show_foot">
+        <div class="foot_wrap">
+            <p>&copy; 2015 <b>券多多商务</b></p>
+        </div>
+    </div>
+
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?50b4952461c191a55d14ad9dbe6b22ae";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+    </body>
+    </html>
+{% endblock %}

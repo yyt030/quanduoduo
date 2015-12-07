@@ -39,7 +39,7 @@ class Config(object):
     UPLOADS_DEFAULT_DEST = os.path.join(PROJECT_PATH, 'resource/attachment')  # 上传文件存储路径
     # UPLOADS_DEFAULT_URL = "http://localhost/jeepsk_uploads/"  # 上传文件访问URL
     UPLOADS_DEFAULT_URL = "/resource/attachment"  # 上传文件访问URL
-    WECHAT_TICKET="gQGq7zoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xLzZrekpvLURsWmtNZnBPdFYwMkEyAAIERWVcVgMEAAAAAA=="
+    WECHAT_TICKET = "gQGq7zoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xLzZrekpvLURsWmtNZnBPdFYwMkEyAAIERWVcVgMEAAAAAA=="
     # Flask-DebugToolbar
     DEBUG_TB_INTERCEPT_REDIRECTS = False
     WECHAT_TOKEN = 'q8745ac18171be1af01f6ac4a9085wd2'
@@ -49,7 +49,8 @@ class Config(object):
     # Sentry config
     SENTRY_DSN = ''
 
-
+    # 查询分页
+    FLASKY_PER_PAGE = 5
 
     # Host string, used by fabric
     HOST_STRING = "ubuntu@182.254.152.46"

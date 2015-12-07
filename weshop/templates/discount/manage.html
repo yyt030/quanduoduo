@@ -121,10 +121,10 @@
                         <i class="icon-lock"></i>
 					<span class="allow" title="每人限领次数">{% if d.perple==10000 %}不限{% else %}{{ d.perple }}次{% endif %}</span>
                         <i class="icon-tags"></i>
-                        <a class="count" href="site.php?did=110013292&amp;act=analysis&amp;do=display">
+                        <a class="count" href="/discount/getlist?bid={{ bid }}&did={{ d.id }}">
                             <span class="count" title="发放{{ d.count }}份">{{ d.count }}</span>
-                        </a> /
-                        <a class="apply" href="site.php?did=110013292&amp;used=1&amp;act=analysis&amp;do=display">
+                        </a>/
+                        <a class="apply" href="/discount/getlist?bid={{ bid }}&did={{ d.id }}&status=usedit">
                             <span class="count" title="回收{{ d.back }}份">{{ d.back }}</span>
                         </a>
                         <span class="total">{{  d.number}}/天</span>

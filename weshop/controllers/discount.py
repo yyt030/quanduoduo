@@ -94,9 +94,9 @@ def detail():
             record = GetTicketRecord(user_id=g.user.id, discount_id=discount_id, code=code)
             db.session.add(record)
             db.session.commit()
-            url = current_app.config.get('SITE_DOMAIN')+(url_for('shop.checkout', discount_id=discount_id, record_id=record.id))
+            url = current_app.config.get('SITE_DOMAIN') + (
+                url_for('shop.checkout', discount_id=discount_id, record_id=record.id))
             wechat.send_template_message(openid, 'A0XK30w_sZPti5_gn33PJ5msng7yb71zAEcRa0E44oM', json_data, url)
-
 
             # still 表示本周还能领多少张 TODO 静态数据需要替换
             # allow 表示本周允许领取多少张
@@ -123,6 +123,35 @@ def manage():
     brand = Brand.query.get(bid)
     discounts = Discount.query.filter(Discount.brand_id == bid)
     return render_template('discount/manage.html', bid=bid, brand=brand, discounts=discounts)
+
+
+@bp.route('/getlist', methods=['GET', 'POST'])
+def getlist():
+    """
+    根据品牌获取discount列表
+    :return:
+    """
+    bid = int(request.args.get("bid", 0))
+    did = int(request.args.get("did", 0))
+    status = request.args.get('status')
+
+    page = request.args.get('page', 1, type=int)
+
+    brand = Brand.query.get(bid)
+    discount = Discount.query.get(did)
+
+    if status:
+        query = discount.get_discounts.filter(GetTicketRecord.status == status)
+    else:
+        query = discount.get_discounts
+
+    pagination = query.order_by(GetTicketRecord.create_at.desc()).paginate(
+        page, per_page=current_app.config['FLASKY_PER_PAGE'],
+        error_out=False)
+    records = pagination.items
+
+    return render_template('discount/discount_list.html', brand=brand, discount=discount, records=records,
+                           pagination=pagination)
 
 
 @bp.route('/setting', methods=['GET', 'POST'])
