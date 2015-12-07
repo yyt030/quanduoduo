@@ -14,7 +14,7 @@ from flask import render_template, Blueprint, redirect, url_for, g, session, req
 from wechat_sdk import WechatBasic
 from weshop import csrf
 from weshop.utils.account import signin_user, signout_user
-from ..models import db, User, Discount, Brand, MyFavoriteShop, Shop, Profile, GetTicketRecord
+from ..models import db, User, Discount, Brand, MyFavoriteBrand, Shop, Profile, GetTicketRecord
 from ..forms import SigninForm
 from ..utils.permissions import require_user, require_visitor
 from ..utils.uploadsets import images, random_filename, process_question, avatars
@@ -199,12 +199,34 @@ def center():
 
 
 @bp.route('/my_favorite_shop')
-def favorite_shops():
-    type = request.args.get("type")
-    shops = MyFavoriteShop.query.all()
-    shops = Shop.query.all()
+@bp.route('/favorite')
+def favorite_brands():
+    user = g.user
+    type = request.args.get('type', 'new')
+    act = request.args.get('act')
+    brand_id = request.args.get('bid', type=int)
+    if act == "add":
+        exist = MyFavoriteBrand.query.filter(MyFavoriteBrand.user_id == user.id,
+                                             MyFavoriteBrand.brand_id == brand_id).all()
+        if not exist:
+            favorite = MyFavoriteBrand()
+            favorite.user_id = user.id
+            favorite.brand_id = brand_id
+            db.session.add(favorite)
+            db.session.commit()
+    if type == 'hot':
+        #TODO
+        records = MyFavoriteBrand.query.filter(MyFavoriteBrand.user_id == user.id).order_by(
+            MyFavoriteBrand.create_at.desc())
+    else:
+        records = MyFavoriteBrand.query.filter(MyFavoriteBrand.user_id == user.id).order_by(
+            MyFavoriteBrand.create_at.desc())
+
+    brand = records.first().brand
+
     nav = 1
-    return render_template('mobile/my_favorite_shops.html', type=type, nav=nav, shops=shops)
+    return render_template('mobile/my_favorite_brand.html', type=type, nav=nav, brand=brand,
+                           records=records)
 
 
 @bp.route('/user_home')

@@ -150,15 +150,15 @@ class MyFavoriteDiscount(db.Model):
         return '<MyFavoriteDiscount %s>' % self.id
 
 
-class MyFavoriteShop(db.Model):
+class MyFavoriteBrand(db.Model):
     """收藏的商家"""
     id = db.Column(db.Integer, primary_key=True)
 
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     user = db.relationship('User')
 
-    shop_id = db.Column(db.Integer, db.ForeignKey('shop.id'))
-    shop = db.relationship('Shop', backref=db.backref('favorite_shops', lazy='dynamic'))
+    brand_id = db.Column(db.Integer, db.ForeignKey('brand.id'))
+    brand = db.relationship('Brand', backref=db.backref('favorite_brands', lazy='dynamic'))
 
     create_at = db.Column(db.DateTime, default=datetime.datetime.now)
 

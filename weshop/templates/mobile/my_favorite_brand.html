@@ -14,71 +14,52 @@
 
 <body>
 <style type="text/css">
-    .nav {
-        height: 50px;
-
-    }
-
-    .nav ul {
-        padding-bottom: 20px;
-        border-radius: 4px;
-
-    }
-
-    .nav ul li {
-        float: left;
-        background: #ffffff;
-        width: 48%;
-        text-align: center;
-    }
-
-    .nav ul li.active {
-
-        background: #2F80E4;
-    }
-
-    .nav ul li a {
-        color: #2F80E4;
-
-    }
-
-    .nav ul li.active a {
-        color: #ffffff;
+    .tab1 a {
+        color: #ffffff !important;
     }
 
 </style>
 <div class="show_body wide" style="">
 
-    <div class="body_wrap" id="body_wrap">
-        {% for s in shops %}
+    <div class="show_body">
+        <div class="head_wrap">
+            <div class="table table1">
+                <h3 class="{% if type=='new' %}tab1{% else %}tab2{% endif %}"><a
+                        href="/favorite?type=new&bid={{ brand.id }}">新加入</a></h3>
 
-            <div class="load_wrap business">
-                <a href="/shop/{{ s.id }}">
-                    <div class="coupon-image">
-                        <img src="/resource/attachment/images/{{ s.brand.image }}">
-                    </div>
-                    <div class="coupon-intro">
-                        <p class="title">{{ s.store }}</p>
-
-                        <p class="count">{{ s.brand.industry_1 }}/</p>
-
-                        <p class="brand">本地商家</p>
-                    </div>
-                </a>
+                <h3 class="{% if type=='hot' %}tab1{% else %}tab2{% endif %}"><a
+                        href="/favorite?type=hot&bid={{ brand.id }}">热门度</a></h3>
             </div>
+        </div>
 
-        {% endfor %}
+        <div class="body_wrap" id="body_wrap">
+            {% for record in records %}
+                <div class="load_wrap activity">
+                    <a href="/brand/show?id={{ record.brand_id }}" target="_blank">
+                        <div class="coupon-image">
+                            <img src="/resource/attachment/images/{{ record.brand.image }}"/>
+                        </div>
+                        <div class="coupon-intro">
+                            <p class="title">{{ record.brand.name }}</p>
+
+                            <p class="count">{{ record.brand.industry_1 }}/{{ record.brand.industry_2 }}</p>
+
+                            <p class="brand">本地商家</p>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
 
 
+        </div>
     </div>
 </div>
-
 <div class="show_foot">
     <div class="foot_wrap">
         <table cellspacing="0" class="find">
             <tr>
                 <td width="25%" class="{% if nav ==1 %}find{% endif %}  customer"><a
-                        href="/my_favorite_shop"><span></span><i
+                        href="/favorite"><span></span><i
                         class="iconfont icon-tag"></i>收藏</a></td>
                 <td width="25%" class="{% if nav ==2 %}find{% endif %} checkout"><a href="/my_tickets"><span></span><i
                         class="iconfont icon-pay"></i>券包</a></td>
