@@ -40,17 +40,49 @@
             margin-bottom: 0;
         }
     </style>
+    {% set photo_types={"0":"消费环境","1":"菜品介绍","2":"服务项目","3":"套餐说明","4":"营销广告"} %}
     <div class="main">
         <form action="" class="form" method="post" name="myform">
+            {{ form.csrf_token }}
             <h4>商户相册</h4>
 
 
             <input type="button" fieldname="image" class="btn btn-primary upload-btn"
                    value="上传照片" style="display: none;">
             <input type="submit" name="submit" id="submit" class="btn" value="保存">
-            <input type="hidden" name="token" value="ccad9e6f">
 
             <div class="photo_list" id="listimage">
+                {% for u in shop_photos %}
+                    <div class="alert alert-block alert-new">
+                        <input type="hidden" name="id[]"
+                               value="{{ u.id }}">
+                        <input type="hidden" name="image-old[]" class="d" value="{{ u.id }}">
+			            <span class="pull-right">
+				            <a href="javascript:void(0)" class="delete">删除</a>
+			            </span>
+                        <div class="pull-left photo_preview ">
+                            <img src="/resource/attachment/images/{{ u.image }}">
+                        </div>
+                        <table class="pull-left">
+                            <tbody>
+                            <tr>
+                                <th>类型</th>
+                                <td>
+                                    <select class="span2" name="class[]">
+                                        {% for k,v in photo_types.items() %}
+                                            <option value={{ k }} selected="">{{ v }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>说明</th>
+                                <td><textarea class="span5" name="title[]">{{ u.intro }}</textarea></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                {% endfor %}
             </div>
         </form>
     </div>

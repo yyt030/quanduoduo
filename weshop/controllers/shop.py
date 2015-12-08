@@ -16,8 +16,8 @@ from weshop import csrf
 from weshop.forms.shop import ShopSetting, BrandSetting
 from weshop.utils import devices
 from weshop.utils.devices import checkMobile
-from ..models import db, User, Brand, Shop, Discount, GetTicketRecord
-from ..forms import SigninForm
+from ..models import db, User, Brand, Shop, Discount, GetTicketRecord, ShopPhoto
+from ..forms import SigninForm, UploadForm
 from ..utils.permissions import require_user, require_visitor, require_admin
 from ..utils.uploadsets import images, random_filename, process_question, avatars
 
@@ -48,6 +48,8 @@ def select():
         handle = '绑收银台'
     elif act == 'manage':
         handle = '管理门店'
+    elif act == 'upload':
+        handle = '编辑相册'
     else:
         handle = "管理门店"
     return render_template('shop/select_brand.html', handle=handle, act=act, brands=brands)
@@ -62,9 +64,38 @@ def qrcode():
 
 @bp.route('/upload', methods=['GET', 'POST'])
 def upload():
-    """管理二维码"""
+    """上传"""
     # TODO user_id
-    return render_template('shop/upload.html')
+    form = UploadForm()
+    bid = int(request.args.get("bid", 0))
+    brand = Brand.query.get_or_404(bid)
+    shop_photos = ShopPhoto.query.filter(ShopPhoto.brand_id == bid)
+    datas = dict(request.form)
+    if request.method == 'POST':
+        print datas
+        url = request.referrer
+        new_images = datas.get('image-new[]')
+        old_images = datas.get('image-old[]')
+        titles = datas.get('title-new[]')
+        types = datas.get('class-new[]')
+        print old_images
+        if new_images:
+            item_count = len(new_images)
+            for i in range(0, item_count):
+                photo = ShopPhoto(image=new_images[i], type=types[i], intro=titles[i], brand_id=bid, user_id=g.user.id)
+                db.session.add(photo)
+                db.session.commit()
+        if old_images:
+            id_items = datas.get('id[]')
+            for i in range(0, len(old_images)):
+                if old_images[i] == 'true':
+                    delete_id = int(id_items[i])
+                    photo=ShopPhoto.query.get(delete_id)
+                    db.session.delete(photo)
+                    db.session.commit()
+        return render_template('account/ok.html', tip="相册更新成功！", url=url)
+
+    return render_template('shop/upload.html', form=form, shop_photos=shop_photos)
 
 
 @bp.route('/setting', methods=['GET', 'POST'])
@@ -128,6 +159,8 @@ def setting():
         return redirect(url_for('brand.account', bid=bid))
     elif act == 'bind_saler':
         return redirect(url_for('shop.bind_saler', bid=bid))
+    elif act == 'upload':
+        return redirect(url_for('shop.upload', bid=bid))
     else:
         return redirect(url_for('brand.shop_list', bid=bid))
 
@@ -190,7 +223,8 @@ def checkout():
         # 获取永久二维码
         wechat = WechatBasic(appid=current_app.config.get('WECHAT_APPID'),
                              appsecret=current_app.config.get('WECHAT_APPSECRET'))
-        data = {"action_name": "QR_LIMIT_SCENE", "action_info": {"scene": {"scene_id": int(str("11")+str(record.id))}}}
+        data = {"action_name": "QR_LIMIT_SCENE",
+                "action_info": {"scene": {"scene_id": int(str("11") + str(record.id))}}}
         get_ticket_data = wechat.create_qrcode(data)
         ticket = get_ticket_data.get("ticket")
         session['ticket'] = ticket
@@ -209,15 +243,15 @@ def bind_saler():
     brand = Brand.query.get(bid)
     print brand.id
     users = brand.brandaccounts
-    shop_id=0
+    shop_id = 0
     # 获取永久二维码
     wechat = WechatBasic(appid=current_app.config.get('WECHAT_APPID'),
-                             appsecret=current_app.config.get('WECHAT_APPSECRET'))
-    data = {"action_name": "QR_LIMIT_SCENE", "action_info": {"scene": {"scene_id":int(str("11")+str(brand.id))}}}
+                         appsecret=current_app.config.get('WECHAT_APPSECRET'))
+    data = {"action_name": "QR_LIMIT_SCENE", "action_info": {"scene": {"scene_id": int(str("11") + str(brand.id))}}}
     print data
     get_ticket_data = wechat.create_qrcode(data)
     ticket = get_ticket_data.get("ticket")
-    return render_template('shop/bind_saler.html', brand=brand, ticket=ticket,users=users)
+    return render_template('shop/bind_saler.html', brand=brand, ticket=ticket, users=users)
 
 
     # 您已成功绑定洛阳科技职业学院游泳馆的微信收银台 TODO

@@ -39,8 +39,8 @@ def create_app():
     # CSRF protect
     csrf.init_app(app)
 
-    if app.debug:
-        DebugToolbarExtension(app)
+    # if app.debug:
+    #     DebugToolbarExtension(app)
 
 
     # from .mails import mail

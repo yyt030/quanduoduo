@@ -202,3 +202,18 @@ class Shop(db.Model):
 
     def __repr__(self):
         return '<Shop %s>' % self.id
+
+
+class ShopPhoto(db.Model):
+    """商户相册"""
+    id = db.Column(db.Integer, primary_key=True)
+    type = db.Column(db.Enum('0', '1', '2', '3', '4'), default='0')
+    brand_id = db.Column(db.Integer, db.ForeignKey('brand.id'))
+    brand = db.relationship('Brand', backref=db.backref('brand_photos', lazy='dynamic'))
+    image = db.Column(db.String(50))
+    intro = db.Column(db.Text)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship('User')
+
+    def __repr__(self):
+        return '<Shop %s>' % self.id

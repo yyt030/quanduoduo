@@ -8,11 +8,6 @@ from wtforms import TextAreaField, SelectField, PasswordField, RadioField, TextF
 from wtforms.validators import DataRequired, Regexp, EqualTo, InputRequired
 
 
-
-
-
-
-
 class PayForm(Form):
     month = SelectField('充值时长', validators=[DataRequired('充值时长不能为空')],
                         choices=[(i, "%d个月" % i) for i in range(1, 13)], coerce=int)
@@ -37,5 +32,6 @@ class SearchUserForm(Form):
     name = TextField('姓名', validators=[DataRequired()])
 
 
-
-
+class UploadForm(Form):
+    photo_types = (("0", "消费环境"), ("1", "菜品介绍"), ("2", "服务项目"), ("3", "套餐说明"), ("4", "营销广告"))
+    types = SelectField("类型", choices=photo_types)
