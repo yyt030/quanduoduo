@@ -8,6 +8,8 @@ import random
 from PIL import Image
 from coverage.html import STATIC_PATH
 import datetime
+from datetime import  datetime as dt
+from datetime import time, tzinfo
 from flask import render_template, Blueprint, redirect, url_for, g, session, request, \
     make_response, current_app, send_from_directory
 from wechat_sdk import WechatBasic
@@ -53,7 +55,7 @@ def detail():
         if 'MicroMessenger' not in user_agent:
             return json.dumps({"message": "请在微信里操作", "redirect": "permit", "type": "tips"})
         else:
-            openid=session['openid']
+            openid = session['openid']
             wechat = WechatBasic(appid=appid, appsecret=appsecret)
             # wechat.send_text_message(session['openid'], "test")
             # 调用公众号消息模板A0XK30w_sZPti5_gn33PJ5msng7yb71zAEcRa0E44oM发送领券通知
@@ -130,6 +132,22 @@ def manage():
 
     return render_template('discount/manage.html', bid=bid, brand=brand,
                            discounts=discounts, pagination=pagination)
+
+
+@bp.route('/delay', methods=['GET', 'POST'])
+def delay():
+    """延长发放"""
+    id = int(request.args.get("did", 0))
+    print request.args
+    limit = int(request.args.get('limit', 0))
+    discount = Discount.query.get_or_404(id)
+    print discount.limits
+    discount.limits+=limit
+    db.session.add(discount)
+    db.session.commit()
+    end_date=discount.create_at+ datetime.timedelta(days=limit)
+    end_date=end_date.date()
+    return json.dumps({"message": {"limit": str(end_date), "gtime": 1449609566}, "redirect": "", "type": "success"})
 
 
 @bp.route('/getlist', methods=['GET', 'POST'])
