@@ -57,8 +57,14 @@
             <div class="coupon-tip"><span></span></div>
             <div class="coupon-intro post">
                 {% if left_day >= 0 %}
-                    <a href="javascript:void(0);" id="snatchCoupon">
-                        点击领取(还剩{{ left_count }}份) </a>
+                    {% if curr_ticket_records %}
+                        <a href="/my_tickets_detail?did={{ discount_id }}">
+                            我已领取此券，点此即可打开
+                        </a>
+                    {% else %}
+                        <a href="javascript:void(0);" id="snatchCoupon">
+                            点击领取(还剩{{ left_count }}份) </a>
+                    {% endif %}
                 {% endif %}
             </div>
             <div class="coupon-ticket" style="display:none;">
@@ -84,7 +90,7 @@
                 <h1>我已领取此券</h1>
 
                 <h3>
-                   
+
                 </h3>
             </div>
             <div class="coupon-footer">
@@ -104,8 +110,8 @@
                 </p>
             </div>
             <div class="coupon-other tips">
-                <p><a href="javascript:;">
-                    本周我已领券 <b></b><span>0/张</span>
+                <p><a href="/my_tickets">
+                    本周我已领券 <b></b><span>{{ curr_ticket_records_week }}/张</span>
                 </a></p>
             </div>
         </div>
