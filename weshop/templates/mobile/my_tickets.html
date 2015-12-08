@@ -35,7 +35,7 @@
         <div class="body_wrap" id="body_wrap">
             {% for record in records %}
                 <div class="load_wrap activity">
-                    <a href="/discount/detail?did={{ record.discount_id }}">
+                    <a href="/my_tickets_detail?did={{ record.discount_id }}">
                         <div class="coupon-image">
                             <img src="/resource/attachment/images/{{ record.discount.image }}"/>
                         </div>
@@ -56,8 +56,6 @@
                     </a>
                 </div>
             {% endfor %}
-
-
         </div>
     </div>
 </div>

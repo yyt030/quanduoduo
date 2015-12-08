@@ -331,6 +331,24 @@ def tickets():
     return render_template('mobile/my_tickets.html', type=type, nav=2, records=records, expire_date=expire_date)
 
 
+@bp.route('/my_tickets_detail')
+def tickets_detail():
+    """券包"""
+    nav = 2
+    type = request.args.get("type", "not_use")
+    user_id = g.user.id
+    discount_id = request.args.get('did', 0, type=int)
+
+    discount = Discount.query.get(discount_id)
+
+    from datetime import timedelta
+    expire_date = datetime.date(discount.create_at) + timedelta(days=discount.usable)
+
+    shops = discount.shops
+    return render_template('mobile/my_tickets_detail.html', type=type, nav=2, discount=discount,
+                           shops=shops, expire_date=expire_date)
+
+
 @bp.route('/gonglue')
 def gonglue():
     """使用攻略"""
