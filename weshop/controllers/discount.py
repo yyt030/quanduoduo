@@ -227,7 +227,7 @@ def setting():
                     shop_id = int(v)
                     shop = Shop.query.get(shop_id)
 
-                    records = shop.discounts.all()
+                    records = shop.shop_discounts.all()
                     if not records:
                         discount.shops.append(shop)
                         db.session.add(discount)
