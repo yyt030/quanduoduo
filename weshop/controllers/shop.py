@@ -32,7 +32,7 @@ def select():
     user = g.user
     # TODO 权限
     if user.role == 'admin':
-        brands = Brand.query
+        brands = Brand.query.filter(Brand.status == 1)
     else:
         # 仅仅获取当前帐号下品牌
         brands = user.brandaccounts.filter(Brand.status == 1)

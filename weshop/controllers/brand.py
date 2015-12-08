@@ -104,11 +104,18 @@ def brand_modify():
 @bp.route('/manage', methods=['GET', 'POST'])
 def manage():
     """管理品牌"""
+    curruser = g.user
     do = request.args.get("do", "normal")
     if do == 'normal':
-        brands_query = Brand.query.filter(Brand.status == 1)
+        if curruser.role == 'admin':
+            brands_query = Brand.query.filter(Brand.status == 1)
+        else:
+            brands_query = curruser.brandaccounts.filter(Brand.status == 1)
     else:
-        brands_query = Brand.query.filter(Brand.status == 0)
+        if curruser.role == 'admin':
+            brands_query = Brand.query.filter(Brand.status == 0)
+        else:
+            brands_query = curruser.brandaccounts.filter(Brand.status == 0)
 
     page = request.args.get('page', 1, type=int)
     pagination = brands_query.order_by(Brand.create_at.desc()).paginate(
