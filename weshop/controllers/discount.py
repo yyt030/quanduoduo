@@ -50,6 +50,22 @@ def detail():
     left_count = discount.number - discount.count
     discount_shop_count = discount.shops.count()
     user_agent = request.headers.get('User-Agent')
+
+    # user的领券情况
+    user = g.user
+    # 该用户下领用的存在有效期的券（含使用或者未使用）
+    my_ticket_records = GetTicketRecord.query.filter(GetTicketRecord.user_id == user.id)
+    curr_ticket_records = my_ticket_records.filter(GetTicketRecord.discount_id == discount_id,
+                                                   GetTicketRecord.create_at >= now - datetime.timedelta(
+                                                       days=discount.usable)).all()
+
+    monday = now - datetime.timedelta(days=now.weekday())
+    sunday = now + datetime.timedelta(days=7 - now.weekday())
+    curr_ticket_records_week = my_ticket_records.filter(
+        GetTicketRecord.create_at > monday, GetTicketRecord.create_at < sunday
+    ).count()
+    print monday, sunday, curr_ticket_records, curr_ticket_records_week
+
     # print user_agent
     if do == 'post':
         if 'MicroMessenger' not in user_agent:
@@ -114,7 +130,8 @@ def detail():
                            discount_shop_count=discount_shop_count,
                            discount_id=discount_id, left_count=left_count,
                            other_discounts=other_discounts,
-                           shops=shops)
+                           shops=shops, curr_ticket_records=curr_ticket_records,
+                           curr_ticket_records_week=curr_ticket_records_week)
 
 
 @bp.route('/manage', methods=['GET', 'POST'])

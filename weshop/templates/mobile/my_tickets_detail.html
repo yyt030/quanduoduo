@@ -36,9 +36,17 @@
             <div class="coupon-intro">
                 <p>{{ discount.title }}</p>
 
-                <p>
-                    <small>有效期至{{ expire_date }}</small>
-                </p>
+                <p>{{ discount.code }}</p>
+                {% if isexpire > 0 %}
+                    <p>
+                        <small>有效期至{{ expire_date }},该优惠券已过期</small>
+                    </p>
+                {% else %}
+                    <p>
+                        <small>有效期至{{ expire_date }}</small>
+                    </p>
+                {% endif %}
+
             </div>
 
 
