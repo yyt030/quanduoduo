@@ -101,7 +101,7 @@ def check_saler_info():
                 msg = u'当前已登录的用户：{user}'.format(user=g.user.name)
                 print msg
     if do == 'check':
-        #绑定店员
+        # 绑定店员
         mobile = request.args.get("mobile")
         user = request.user
         user.mobile = mobile
@@ -322,8 +322,11 @@ def tickets():
     else:
         records = GetTicketRecord.query.filter(GetTicketRecord.user_id == user_id)
 
-    from datetime import timedelta
-    expire_date = datetime.date(records.first().discount.create_at) + timedelta(days=records.first().discount.usable)
+    expire_date = ''
+    if records.all():
+        from datetime import timedelta
+        expire_date = datetime.date(records.first().discount.create_at) + timedelta(
+            days=records.first().discount.usable)
 
     return render_template('mobile/my_tickets.html', type=type, nav=2, records=records, expire_date=expire_date)
 
