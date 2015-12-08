@@ -1,6 +1,6 @@
 # !/usr/bin/env python
 # -*- coding: UTF-8 -*-
-from datetime import datetime
+from datetime import datetime, timedelta
 import time
 import json
 import os
@@ -312,11 +312,13 @@ def tickets():
     """券包"""
     type = request.args.get("type", "not_use")
     user_id = g.user.id
+    now = datetime.date(datetime.now())
     nav = 2
     if type == 'not_use':
         records = GetTicketRecord.query.filter(GetTicketRecord.user_id == user_id,
                                                GetTicketRecord.status == 'normal')
     elif type == 'expire':
+        from sqlalchemy import or_
         records = GetTicketRecord.query.filter(GetTicketRecord.user_id == user_id,
                                                GetTicketRecord.status == type)
     else:
@@ -324,7 +326,6 @@ def tickets():
 
     expire_date = ''
     if records.all():
-        from datetime import timedelta
         expire_date = datetime.date(records.first().discount.create_at) + timedelta(
             days=records.first().discount.usable)
 
@@ -333,20 +334,21 @@ def tickets():
 
 @bp.route('/my_tickets_detail')
 def tickets_detail():
-    """券包"""
+    """券　详情页面"""
     nav = 2
-    type = request.args.get("type", "not_use")
     user_id = g.user.id
-    discount_id = request.args.get('did', 0, type=int)
+    tickets_id = request.args.get('tid', 0, type=int)
 
-    discount = Discount.query.get(discount_id)
+    ticket = GetTicketRecord.query.get(tickets_id)
 
-    from datetime import timedelta
-    expire_date = datetime.date(discount.create_at) + timedelta(days=discount.usable)
+    now = datetime.date(datetime.now())
+    expire_date = datetime.date(ticket.create_at) + timedelta(days=ticket.discount.usable)
+    isexpire = (now - expire_date).days
 
-    shops = discount.shops
-    return render_template('mobile/my_tickets_detail.html', type=type, nav=2, discount=discount,
-                           shops=shops, expire_date=expire_date)
+    print '-' * 10, isexpire
+    shops = ticket.discount.shops
+    return render_template('mobile/my_tickets_detail.html', nav=2, discount=ticket.discount,
+                           shops=shops, expire_date=expire_date, isexpire=isexpire)
 
 
 @bp.route('/gonglue')
