@@ -8,7 +8,8 @@
 {% block content %}
     <body>
     <div class="main">
-        <form action="/shop/setting?act={{ act }}{% if act=='modify' %}&id={{ shop_id }}{% endif %}" class="form-horizontal form" method="post" enctype="multipart/form-data">
+        <form action="/shop/setting?act={{ act }}{% if act=='modify' %}&id={{ shop_id }}{% endif %}"
+              class="form-horizontal form" method="post" enctype="multipart/form-data">
             {{ form.csrf_token }}
             <h4>商户基本信息</h4>
             <table class="tb">
@@ -46,8 +47,8 @@
 
                             <div class="fileupload fileupload-preview thumbnail"
                                  style="width: 320px; height: 130px; overflow:hidden;" id="image_preview">
-                                <img src="/resource/attachment/images/{{ brandinfo.image }}"
-                                     onerror="javascript:this.src='/resource/attachment/images/10014/2015/05/bzi9iZZMM7pwmoaayU3cd5ypi9AVoc.jpg'">
+                                <img src="/resource/attachment/images/{{ brandinfo.image }}">
+                                {#                                     onerror="javascript:this.src='/resource/attachment/images/10014/2015/05/bzi9iZZMM7pwmoaayU3cd5ypi9AVoc.jpg'">#}
                             </div>
                             <input class="span3" type="text" name="image" id="image"
                                    value="{{ brandinfo.image }}" disabled="disabled">
@@ -71,8 +72,8 @@
 
                             <div class="fileupload fileupload-preview thumbnail"
                                  style="width: 80px; height: 80px; overflow:hidden;" id="thumb_preview">
-                                <img src="/resource/attachment/images/{{ brandinfo.thumb }}"
-                                     onerror="javascript:this.src='/resource/attachment/images/10014/2015/05/qT42522XH9A7t9XT9R2th49hf79TD2.jpg'">
+                                <img src="/resource/attachment/images/{{ brandinfo.thumb }}">
+                                {#                                     onerror="javascript:this.src='/resource/attachment/images/10014/2015/05/qT42522XH9A7t9XT9R2th49hf79TD2.jpg'">#}
                             </div>
                             <input class="span3" type="text" name="thumb" id="thumb"
                                    value="{{ brandinfo.thumb }}" disabled="disabled">
@@ -99,7 +100,7 @@
                     <th><label for="">门店</label></th>
                     <td>
                         <div class="input-append">
-                             {{ form_field(form.store,value=form.store.data) }}
+                            {{ form_field(form.store,value=form.store.data) }}
                             <button type="button" class="btn" name="storeBtn" value="设为单店" id="storeBtn">设为单店</button>
                         </div>
                     </td>
@@ -107,14 +108,14 @@
                 <tr>
                     <th><label for="">公告栏</label></th>
                     <td>
-                        <textarea  class="span6" name="title" >{{ form.title.data }}</textarea>
+                        <textarea class="span6" name="title">{{ form.title.data }}</textarea>
 
                         <span class="help-block">展示在门店主页的一句话，可以放广告。</span></td>
                 </tr>
                 <tr>
                     <th><label for="">电话</label></th>
                     <td>
-                       {{ form_field(form.phone) }}
+                        {{ form_field(form.phone) }}
                     </td>
                 </tr>
                 <tr style="display:none;">
@@ -148,7 +149,7 @@
 
                     <td>
                         {{ form_field(form.lng,class="span3", readonly="readonly") }}
-                         //
+                        //
                         {{ form_field(form.lat,class="span3", readonly="readonly") }}
                     </td>
                 </tr>
@@ -448,10 +449,10 @@
             $('#brand').change(function () {
                 $('#brand-append').show();//展开品牌输入框
             });
-{#            var t1 = "{{  brandinfo.industry_1}}";#}
-{#            var t2 = "{{  brandinfo.industry_2}}";#}
-{#            $("#industry_1").val(t1);#}
-{#            $("#industry_2").append("<option value='" + t2 + "'>" + t2 + "</option>").val(t2);#}
+            {#            var t1 = "{{  brandinfo.industry_1}}";#}
+            {#            var t2 = "{{  brandinfo.industry_2}}";#}
+            {#            $("#industry_1").val(t1);#}
+            {#            $("#industry_2").append("<option value='" + t2 + "'>" + t2 + "</option>").val(t2);#}
         });
     </script>
     <div class="show_foot">
