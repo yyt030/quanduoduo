@@ -1,6 +1,6 @@
 # !/usr/bin/env python
 # -*- coding: UTF-8 -*-
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 import time
 import json
 import os
@@ -59,7 +59,63 @@ def signout():
 @bp.route('/home', methods=['GET', 'POST'])
 @require_user
 def home():
-    return render_template('account/home.html')
+    user = g.user
+
+    brand = user.brandaccounts.first()
+    # 优惠券
+    discount_count = 0  # 发放总数
+    discount_back = 0  # 回收总数
+    user_count_list = []  # 领券用户数
+    usedit_count_list = []  # 使用用户数
+    active_users_count = 0  # 月活动用户总数
+    curr_discount_count = 0  # 当前券总数
+    closed_discount_count = 0  #
+
+    start_month_day = (datetime.now() - timedelta(days=datetime.now().day - 1)).date()
+
+    discounts = brand.discounts_brands
+    for discount in discounts:
+        discount_count += discount.count
+        discount_back += discount.back
+
+        # 优惠券领用信息
+        ticket_records = discount.get_discounts
+        for ticket_record in ticket_records:
+
+            user_count_list.append(ticket_record.user_id)
+            if datetime.date(ticket_record.create_at) > start_month_day:
+                active_users_count += 1
+            if ticket_record.status == 'usedit':
+                usedit_count_list.append(ticket_record.user_id)
+            if ticket_record.status != 'expire':
+                curr_discount_count += 1
+            if ticket_record.create_at + timedelta(days=7) < datetime.now():
+                closed_discount_count += 1
+
+    user_count = len(set(user_count_list))  # 领券用户数
+    usedit_count = len(set(usedit_count_list))  # 使用用户数
+
+    # 回收比例
+    if discount_count == 0:
+        back_vate = 0
+    else:
+        back_vate = (discount_back // discount_count) * 100
+
+    # 转化比例
+    if user_count == 0:
+        convert_vate = 0
+    else:
+        convert_vate = (usedit_count // user_count) * 100
+
+    print '-' * 10, discount_count, discount_back, user_count_list, usedit_count_list, \
+        active_users_count, curr_discount_count, closed_discount_count
+
+    return render_template('account/home.html', discount_count=discount_count,
+                           discount_back=discount_back, active_users_count=active_users_count,
+                           curr_discount_count=curr_discount_count, closed_discount_count=closed_discount_count,
+                           user_count=user_count, usedit_count=usedit_count,
+                           back_vate=back_vate, convert_vate=convert_vate
+                           )
 
 
 @bp.route('/user_data', methods=['GET', 'POST'])
