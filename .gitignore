@@ -9,3 +9,4 @@ migrations/*
 *.sqlite
 venv/
 *.log
+celerybeat-schedule

@@ -1,5 +1,6 @@
 # coding: utf-8
 import os
+from celery.schedules import crontab
 
 
 class Config(object):
@@ -62,3 +63,19 @@ class Config(object):
         ('tablet', 'iPad|Android'),
         ('pc', '.*')
     ]
+
+    # Celery schedule 配置文件
+    BROKER_URL = 'sqla+' + SQLALCHEMY_DATABASE_URI
+    # CELERY_RESULT_BACKEND = 'database'
+    # CELERY_RESULT_DBURI = 'mysql://root:root@localhost/weshop'
+    # from datetime import timedelta
+    CELERYBEAT_SCHEDULE = {
+        'update_ticket_status': {
+            'task': 'schedules.ticket.update_ticket_status',
+            'schedule': crontab(minute=0, hour=1),
+            # 'schedule': timedelta(seconds=5),
+            # 'args': (1, 2),
+        },
+    }
+
+    CELERY_TIMEZONE = 'Asia/Shanghai'  # 'UTC'
