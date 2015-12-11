@@ -385,9 +385,9 @@ def tickets():
                 add_wechat_user_to_db(openid)
                 user = User.query.filter(User.profile.any(Profile.openid == openid)).first()
                 if user is not None:
-                    print "user login"
                     signin_user(user)
                     session['openid'] = openid
+                    g.user=user
                     print u'与微信用户关联的user（%s） 已开始登陆网站...' % user.name
 
             else:
