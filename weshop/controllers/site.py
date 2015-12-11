@@ -374,6 +374,7 @@ def tickets():
             return redirect(WeixinHelper.oauth3(request.url))
         else:
             data = json.loads(WeixinHelper.getAccessTokenByCode(code))
+            print data
             access_token, openid, refresh_token = data["access_token"], data["openid"], data["refresh_token"]
             userinfo = json.loads(WeixinHelper.getSnsapiUserInfo(access_token, openid))
             print "user_info,", userinfo
