@@ -160,9 +160,13 @@ def delay():
     discount = Discount.query.get_or_404(id)
     print discount.limits
     discount.limits+=limit
+    end_date=discount.create_at+ datetime.timedelta(days=limit)
+    # if end_date>datetime.datetime.now():
+    #     pass
     db.session.add(discount)
     db.session.commit()
-    end_date=discount.create_at+ datetime.timedelta(days=limit)
+
+
     end_date=end_date.date()
     return json.dumps({"message": {"limit": str(end_date), "gtime": 1449609566}, "redirect": "", "type": "success"})
 
