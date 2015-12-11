@@ -27,6 +27,7 @@ query_sql = '''
         WHERE
             a.discount_id = b.id
         AND DATEDIFF(CURRENT_TIMESTAMP,a.create_at) > b.usable
+        AND a.status != 'usedit'
     '''
 
 update_sql = '''

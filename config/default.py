@@ -72,7 +72,7 @@ class Config(object):
     CELERYBEAT_SCHEDULE = {
         'update_ticket_status': {
             'task': 'schedules.ticket.update_ticket_status',
-            'schedule': crontab(minute=0, hour=1),
+            'schedule': crontab(minute=0, hour=8),
             # 'schedule': timedelta(seconds=5),
             # 'args': (1, 2),
         },
