@@ -60,8 +60,8 @@ def signout():
 @require_user
 def home():
     user = g.user
+    brands = user.brandaccounts.all()
 
-    brand = user.brandaccounts.first()
     # 优惠券
     discount_count = 0  # 发放总数
     discount_back = 0  # 回收总数
@@ -73,24 +73,25 @@ def home():
 
     start_month_day = (datetime.now() - timedelta(days=datetime.now().day - 1)).date()
 
-    discounts = brand.discounts_brands
-    for discount in discounts:
-        discount_count += discount.count
-        discount_back += discount.back
+    for brand in brands:
+        discounts = brand.discounts_brands
+        for discount in discounts:
+            discount_count += discount.count
+            discount_back += discount.back
 
-        # 优惠券领用信息
-        ticket_records = discount.get_discounts
-        for ticket_record in ticket_records:
+            # 优惠券领用信息
+            ticket_records = discount.get_discounts
+            for ticket_record in ticket_records:
 
-            user_count_list.append(ticket_record.user_id)
-            if datetime.date(ticket_record.create_at) > start_month_day:
-                active_users_count += 1
-            if ticket_record.status == 'usedit':
-                usedit_count_list.append(ticket_record.user_id)
-            if ticket_record.status != 'expire':
-                curr_discount_count += 1
-            if ticket_record.create_at + timedelta(days=7) < datetime.now():
-                closed_discount_count += 1
+                user_count_list.append(ticket_record.user_id)
+                if datetime.date(ticket_record.create_at) > start_month_day:
+                    active_users_count += 1
+                if ticket_record.status == 'usedit':
+                    usedit_count_list.append(ticket_record.user_id)
+                if ticket_record.status != 'expire':
+                    curr_discount_count += 1
+                if ticket_record.create_at + timedelta(days=7) < datetime.now():
+                    closed_discount_count += 1
 
     user_count = len(set(user_count_list))  # 领券用户数
     usedit_count = len(set(usedit_count_list))  # 使用用户数
@@ -387,7 +388,7 @@ def tickets():
                 if user is not None:
                     signin_user(user)
                     session['openid'] = openid
-                    g.user=user
+                    g.user = user
                     print u'与微信用户关联的user（%s） 已开始登陆网站...' % user.name
 
             else:
