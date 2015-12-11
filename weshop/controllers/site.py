@@ -320,9 +320,10 @@ def favorite_brands():
     else:
         records = MyFavoriteBrand.query.filter(MyFavoriteBrand.user_id == user.id).order_by(
             MyFavoriteBrand.create_at.desc())
-
-    brand = records.first().brand
-
+    if records.first():
+        brand = records.first().brand
+    else:
+        brand =None
     nav = 1
     return render_template('mobile/my_favorite_brand.html', type=type, nav=nav, brand=brand,
                            records=records)
