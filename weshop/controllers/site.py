@@ -364,7 +364,6 @@ def user_home():
 
 
 @bp.route('/my_tickets')
-
 def tickets():
     """券包"""
     openid = session.get("openid")
