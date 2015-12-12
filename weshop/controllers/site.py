@@ -419,6 +419,33 @@ def tickets():
 @bp.route('/my_tickets_detail')
 def tickets_detail():
     """券　详情页面"""
+    openid = session.get("openid")
+    if not openid:
+        code = request.args.get("code")
+        if not code:
+            print "not code"
+            return redirect(WeixinHelper.oauth3(request.url))
+        else:
+            data = json.loads(WeixinHelper.getAccessTokenByCode(code))
+            print data
+            access_token, openid, refresh_token = data["access_token"], data["openid"], data["refresh_token"]
+            userinfo = json.loads(WeixinHelper.getSnsapiUserInfo(access_token, openid))
+            print "user_info,", userinfo
+            # print openid
+
+            if not g.user:
+                # 检查用户是否存在
+                add_wechat_user_to_db(openid)
+                user = User.query.filter(User.profile.any(Profile.openid == openid)).first()
+                if user is not None:
+                    signin_user(user)
+                    session['openid'] = openid
+                    g.user = user
+                    print u'与微信用户关联的user（%s） 已开始登陆网站...' % user.name
+
+            else:
+                msg = u'当前已登录的用户：{user}'.format(user=g.user.name)
+                print msg
     nav = 2
     user_id = g.user.id
     tickets_id = request.args.get('tid', 0, type=int)
