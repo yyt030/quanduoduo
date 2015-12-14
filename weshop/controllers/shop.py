@@ -204,11 +204,11 @@ def list():
 @bp.route('/checkout', methods=['GET'])
 def checkout():
     discount_id = int(request.args.get("discount_id", 0))
-    shop_id = int(request.args.get("shop_id", 0))
+
     record_id = int(request.args.get("record_id", 0))  # 领取id
     do = request.args.get("do")
-    shop = Shop.query.get(shop_id)
     discount = Discount.query.get_or_404(discount_id)
+    shops = discount.shops
     record = GetTicketRecord.query.get_or_404(record_id)
     verify = False
     if discount:
@@ -231,7 +231,7 @@ def checkout():
         return json.dumps({"message": {"verify": verify, "ticket": ticket, "expire": 0}})
     elif do == 'download_qrcode':
         return ""
-    return render_template('shop/checkout.html', shop=shop, expire_date=expire_date, record_id=record_id, record=record,
+    return render_template('shop/checkout.html', shops=shops, expire_date=expire_date, record_id=record_id, record=record,
                            discount=discount)
 
 
