@@ -57,8 +57,8 @@
             <div class="coupon-tip"><span></span></div>
             <div class="coupon-intro post">
                 {% if left_day >= 0 %}
-                    {% if curr_ticket_records %}
-                        <a href="/my_tickets_detail?did={{ discount_id }}">
+                    {% if curr_ticket_record %}
+                        <a href="/my_tickets_detail?tid={{ curr_ticket_record.id }}">
                             我已领取此券，点此即可打开
                         </a>
                     {% else %}
