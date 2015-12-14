@@ -21,6 +21,7 @@ from ..utils.uploadsets import images, random_filename, process_question, avatar
 from weshop.utils.helper import get_url_data
 from weshop.wechat import WeixinHelper
 from weshop.wechat.backends.flask_interface import wechat_login
+from geopy.distance import great_circle
 
 bp = Blueprint('site', __name__)
 
@@ -212,7 +213,7 @@ def test():
 @bp.route('/find')
 def find():
     openid = session.get("openid")
-    print "openid,", openid
+    print "openid", openid
     if not openid:
         code = request.args.get("code")
         if not code:
@@ -602,7 +603,15 @@ def interface():
                     response = wechat.response_text(u'欢迎关注汝州百事优惠圈')
             elif message.type == 'location':
                 # 这里有location事件 TODO
-                print "*" * 20
+                latitude, longitude, precision = message.latitude, message.longitude, message.precision
+                print '-' * 10, latitude, longitude, precision, request.remote_addr
+                session['latitude'] = latitude
+                session['longitude'] = longitude
+                session['precision'] = precision
+
+                g.latitude = latitude
+                g.longitude = longitude
+                g.precision = precision
 
                 return ""
             else:
@@ -733,3 +742,16 @@ def callback_ticket(record_id):
     # 发送通知给指定优惠券所有人,message.source 为扫码用户
     wechat.send_template_message(str(ticket_record.user.password),
                                  'bK9Trpq_AmdHxnaT1kQ8d0lTJt-z3QBUNzacsnQbfXg', json_data)
+
+
+@bp.route('/get_distinct', methods=['GET', 'POST'])
+def get_distinct():
+    default_point = (112.873668, 34.156861)
+    if not g.longitude or not g.latitude:
+        curr_user_point = default_point
+    else:
+        curr_user_point = (g.longitude, g.latitude)
+    for shop in Shop.query.all():
+        print shop.id, shop.store, great_circle(curr_user_point, (shop.lng, shop.lat)).kilometers
+
+    return make_response('this is test')
