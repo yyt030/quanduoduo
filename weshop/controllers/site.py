@@ -212,50 +212,101 @@ def test():
 
 @bp.route('/find')
 def find():
-    openid = session.get("openid")
-    print "openid", openid
-    if not openid:
-        code = request.args.get("code")
-        if not code:
-            print "not code"
-            return redirect(WeixinHelper.oauth3('/find'))
-        else:
-            data = json.loads(WeixinHelper.getAccessTokenByCode(code))
-            access_token, openid, refresh_token = data["access_token"], data["openid"], data["refresh_token"]
-            userinfo = json.loads(WeixinHelper.getSnsapiUserInfo(access_token, openid))
-            print "user_info,", userinfo
-            # print openid
-
-            if not g.user:
-                # 检查用户是否存在
-                add_wechat_user_to_db(openid)
-                user = User.query.filter(User.profile.any(Profile.openid == openid)).first()
-                if user is not None:
-                    signin_user(user)
-                    session['openid'] = openid
-                    print u'与微信用户关联的user（%s） 已开始登陆网站...' % user.name
-
-            else:
-                msg = u'当前已登录的用户：{user}'.format(user=g.user.name)
-                print msg
+    # openid = session.get("openid")
+    # print "openid", openid
+    # if not openid:
+    #     code = request.args.get("code")
+    #     if not code:
+    #         print "not code"
+    #         return redirect(WeixinHelper.oauth3('/find'))
+    #     else:
+    #         data = json.loads(WeixinHelper.getAccessTokenByCode(code))
+    #         access_token, openid, refresh_token = data["access_token"], data["openid"], data["refresh_token"]
+    #         userinfo = json.loads(WeixinHelper.getSnsapiUserInfo(access_token, openid))
+    #         print "user_info,", userinfo
+    #         # print openid
+    #
+    #         if not g.user:
+    #             # 检查用户是否存在
+    #             add_wechat_user_to_db(openid)
+    #             user = User.query.filter(User.profile.any(Profile.openid == openid)).first()
+    #             if user is not None:
+    #                 signin_user(user)
+    #                 session['openid'] = openid
+    #                 print u'与微信用户关联的user（%s） 已开始登陆网站...' % user.name
+    #
+    #         else:
+    #             msg = u'当前已登录的用户：{user}'.format(user=g.user.name)
+    #             print msg
     industry1 = request.args.get("industry1", None)
-    search = request.args.get("search", "")
-    if industry1 or search:
-        discounts = Discount.query.filter(Discount.brand.has(Brand.industry_1 == industry1))
-        return render_template('mobile/search_result.html', discounts=discounts, search=search, industry1=industry1)
-    else:
-        discounts = Discount.query.limit(10)
+    industry2 = request.args.get('industry2', None)
+    district1 = request.args.get('district1', None)
+    sortrank1 = request.args.get('sortrank1', None)
+    page = request.args.get('page', 0, type=int)
+    do = request.args.get("do", "")
+
+    print '=' * 10, industry1, industry2, district1, sortrank1
+
+    # 拼装查询条件
+    discounts = Discount.query
+    if industry1 != u'全部分类':
+        if industry1:  # 品牌大类1
+            discounts = discounts.filter(Discount.brand.has(Brand.industry_1 == industry1))
+        if industry2:  # 品牌大类2
+            discounts = discounts.filter(Discount.brand.has(Brand.industry_2 == industry2))
+
+    if district1:  # 地区
+        # TODO
+        pass
+    if sortrank1:  # 排序方式
+        if sortrank1 == u'领取量':
+            discounts = discounts.order_by(Discount.count.desc())
+        elif sortrank1 == u'使用量':
+            discounts = discounts.order_by(Discount.back.desc())
+        else:  # 默认排序
+            discounts = discounts.order_by(Discount.create_at.desc())
+    if page:  # 加载页数
+        discounts = discounts.slice(page, page + current_app.config['FLASKY_PER_PAGE'])
+
+    if industry1 or do:
+        return render_template('mobile/search_result.html', discounts=discounts, industry1=industry1)
+
     return render_template('mobile/home.html', discounts=discounts, industry1=industry1)
 
 
 @bp.route('/searchapi')
 def search_api():
-    industry1 = request.args.get("industry1", None)
+    industry1 = request.args.get('industry1', None)
+    industry2 = request.args.get('industry2', None)
+    district1 = request.args.get('district1', None)
+    sortrank1 = request.args.get('sortrank1', None)
+
+    page = request.args.get('page', 0, type=int)
     search = request.args.get("search", "")
-    if industry1 != "全部分类":
-        discounts = Discount.query.filter(Discount.brand.has(Brand.industry_1 == industry1))
-    else:
-        discounts = Discount.query.limit(20)
+
+    print '-' * 10, industry1, industry2, district1, sortrank1
+
+    # 拼装查询条件
+    discounts = Discount.query
+    if industry1 != u'全部分类':
+        if industry1:  # 品牌大类1
+            discounts = discounts.filter(Discount.brand.has(Brand.industry_1 == industry1))
+        if industry2:  # 品牌大类2
+            discounts = discounts.filter(Discount.brand.has(Brand.industry_2 == industry2))
+
+    if district1:  # 地区
+        # TODO
+        pass
+    if sortrank1:  # 排序方式
+        if sortrank1 == u'领取量':
+            discounts = discounts.order_by(Discount.count.desc())
+        elif sortrank1 == u'使用量':
+            discounts = discounts.order_by(Discount.back.desc())
+        else:  # 默认排序
+            discounts = discounts.order_by(Discount.create_at.desc())
+    if page:  # 加载页数
+        discounts = discounts.slice(page, page + current_app.config['FLASKY_PER_PAGE'])
+
     brands = {}
     items = []
     for d in discounts:

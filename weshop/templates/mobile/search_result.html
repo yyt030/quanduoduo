@@ -177,8 +177,9 @@
         </div>
     </div>
     <div class="body_wrap" id="body_wrap">
-        {% for d in discounts %}
-            <div class="load_wrap activity">
+
+        <div class="load_wrap activity">
+            {% for d in discounts %}
                 <a href="/discount/detail?id={{ d.id }}">
                     <div class="coupon-image">
                         <img src="/resource/attachment/images/{{ d.image }}"/>
@@ -194,8 +195,9 @@
                         <i class="state">领券</i>
                     </div>
                 </a>
-            </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
+
         <div class="more_wrap">
             <div class="load_tips" style="display: none;">加载中..</div>
             <div class="load_more" style="display: block;">加载更多</div>
