@@ -256,8 +256,15 @@ def find():
             discounts = discounts.filter(Discount.brand.has(Brand.industry_2 == industry2))
 
     if district1:  # 地区
-        # TODO
-        pass
+        if district1 == u'200米内':
+            pass
+        elif district1 == u'1千米内':
+            pass
+        elif district1 == u'5千米内':
+            pass
+        else:  # 全城范围
+            pass
+
     if sortrank1:  # 排序方式
         if sortrank1 == u'领取量':
             discounts = discounts.order_by(Discount.count.desc())
@@ -265,8 +272,11 @@ def find():
             discounts = discounts.order_by(Discount.back.desc())
         else:  # 默认排序
             discounts = discounts.order_by(Discount.create_at.desc())
+
+    EVENY_PAGE_NUM = current_app.config['FLASKY_PER_PAGE']
     if page:  # 加载页数
-        discounts = discounts.slice(page, page + current_app.config['FLASKY_PER_PAGE'])
+        discounts = discounts.slice(page * EVENY_PAGE_NUM,
+                                    (page + 1) * EVENY_PAGE_NUM)
 
     if industry1 or do:
         return render_template('mobile/search_result.html', discounts=discounts, industry1=industry1)
@@ -295,8 +305,15 @@ def search_api():
             discounts = discounts.filter(Discount.brand.has(Brand.industry_2 == industry2))
 
     if district1:  # 地区
-        # TODO
-        pass
+        if district1 == u'200米内':
+            pass
+        elif district1 == u'1千米内':
+            pass
+        elif district1 == u'5千米内':
+            pass
+        else:  # 全城范围
+            pass
+
     if sortrank1:  # 排序方式
         if sortrank1 == u'领取量':
             discounts = discounts.order_by(Discount.count.desc())
@@ -304,8 +321,11 @@ def search_api():
             discounts = discounts.order_by(Discount.back.desc())
         else:  # 默认排序
             discounts = discounts.order_by(Discount.create_at.desc())
+
+    EVENY_PAGE_NUM = current_app.config['FLASKY_PER_PAGE']
     if page:  # 加载页数
-        discounts = discounts.slice(page, page + current_app.config['FLASKY_PER_PAGE'])
+        discounts = discounts.slice(page * EVENY_PAGE_NUM,
+                                    (page + 1) * EVENY_PAGE_NUM)
 
     brands = {}
     items = []
