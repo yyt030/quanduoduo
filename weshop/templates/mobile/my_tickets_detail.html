@@ -50,7 +50,7 @@
                 <div class="code usedit0 expire0">
                     <p class="normal">
                         <img id="qrcode" class="load_image" width="129" height="129"/>
-                        <span>{{ record.code }}</span>
+                        <span>{{ discount.code }}</span>
                     </p>
 
                     <p class="normal">付款前请出示此券</p>
@@ -92,6 +92,42 @@
         </div>
     </div>
 </div>
+<style type="text/css">
+    .code > p {
+        display: none;
+    }
+
+    .usedit0.expire0 .normal {
+        display: block;
+    }
+
+    .usedit0.expire0.verify1 .normal {
+        display: none;
+    }
+
+    .usedit1 .usedit {
+        display: block;
+    }
+
+    .verify1 .verify {
+        display: block;
+    }
+
+    .expire1.usedit0 .expire {
+        display: block;
+    }
+
+    .link,
+    .link > p {
+        display: none;
+    }
+
+    .consume0, .comment0,
+    .comment0.usedit1 .comment,
+    .consume0.usedit0 .consume {
+        display: block;
+    }
+</style>
 <script type="text/javascript">
     $(function () {
         //设置二维码
