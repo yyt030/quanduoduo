@@ -177,8 +177,9 @@
         </div>
     </div>
     <div class="body_wrap" id="body_wrap">
-        {% for d in discounts %}
-            <div class="load_wrap activity">
+
+        <div class="load_wrap activity">
+            {% for d in discounts %}
                 <a href="/discount/detail?id={{ d.id }}">
                     <div class="coupon-image">
                         <img src="/resource/attachment/images/{{ d.image }}"/>
@@ -194,8 +195,9 @@
                         <i class="state">领券</i>
                     </div>
                 </a>
-            </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
+
         <div class="more_wrap">
             <div class="load_tips" style="display: none;">加载中..</div>
             <div class="load_more" style="display: block;">加载更多</div>
@@ -211,7 +213,7 @@
                         class="iconfont icon-tag"></i>收藏</a></td>
                 <td width="25%" class=" checkout"><a href="/my_tickets"><span></span><i
                         class="iconfont icon-pay"></i>券包</a></td>
-                <td width="25%" class=" find"><a href="/find"><span></span><i
+                <td width="25%" class=" find"><a href="/center"><span></span><i
                         class="iconfont icon-attention"></i>发现</a></td>
                 <td width="25%" class=" fans"><a href="/user_home"><span></span><i
                         class="iconfont icon-my"></i>我的</a></td>
@@ -232,8 +234,11 @@
     save_urlparam('industry1', '休闲娱乐');
     $(".menu_wrap dl:contains('休闲娱乐')").addClass("active");
     setRecord('district1', '');
-    save_urlparam('district1', '范围');
-    $(".menu_wrap dl:contains('范围')").addClass("active");
+    save_urlparam('district1', '全城范围');
+    $(".menu_wrap dl:contains('全城范围')").addClass("active");
+    setRecord('sortrank1', '');
+    save_urlparam('sortrank1', '默认排序');
+    $(".menu_wrap dl:contains('默认排序')").addClass("active");
     //});
 </script>
 <script type="text/javascript">

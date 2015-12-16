@@ -21,6 +21,7 @@ from ..utils.uploadsets import images, random_filename, process_question, avatar
 from weshop.utils.helper import get_url_data
 from weshop.wechat import WeixinHelper
 from weshop.wechat.backends.flask_interface import wechat_login
+from geopy.distance import great_circle
 
 bp = Blueprint('site', __name__)
 
@@ -60,8 +61,8 @@ def signout():
 @require_user
 def home():
     user = g.user
+    brands = user.brandaccounts.all()
 
-    brand = user.brandaccounts.first()
     # 优惠券
     discount_count = 0  # 发放总数
     discount_back = 0  # 回收总数
@@ -73,24 +74,25 @@ def home():
 
     start_month_day = (datetime.now() - timedelta(days=datetime.now().day - 1)).date()
 
-    discounts = brand.discounts_brands
-    for discount in discounts:
-        discount_count += discount.count
-        discount_back += discount.back
+    for brand in brands:
+        discounts = brand.discounts_brands
+        for discount in discounts:
+            discount_count += discount.count
+            discount_back += discount.back
 
-        # 优惠券领用信息
-        ticket_records = discount.get_discounts
-        for ticket_record in ticket_records:
+            # 优惠券领用信息
+            ticket_records = discount.get_discounts
+            for ticket_record in ticket_records:
 
-            user_count_list.append(ticket_record.user_id)
-            if datetime.date(ticket_record.create_at) > start_month_day:
-                active_users_count += 1
-            if ticket_record.status == 'usedit':
-                usedit_count_list.append(ticket_record.user_id)
-            if ticket_record.status != 'expire':
-                curr_discount_count += 1
-            if ticket_record.create_at + timedelta(days=7) < datetime.now():
-                closed_discount_count += 1
+                user_count_list.append(ticket_record.user_id)
+                if datetime.date(ticket_record.create_at) > start_month_day:
+                    active_users_count += 1
+                if ticket_record.status == 'usedit':
+                    usedit_count_list.append(ticket_record.user_id)
+                if ticket_record.status != 'expire':
+                    curr_discount_count += 1
+                if ticket_record.create_at + timedelta(days=7) < datetime.now():
+                    closed_discount_count += 1
 
     user_count = len(set(user_count_list))  # 领券用户数
     usedit_count = len(set(usedit_count_list))  # 使用用户数
@@ -210,50 +212,121 @@ def test():
 
 @bp.route('/find')
 def find():
-    openid = session.get("openid")
-    print "openid,", openid
-    if not openid:
-        code = request.args.get("code")
-        if not code:
-            print "not code"
-            return redirect(WeixinHelper.oauth3('/find'))
-        else:
-            data = json.loads(WeixinHelper.getAccessTokenByCode(code))
-            access_token, openid, refresh_token = data["access_token"], data["openid"], data["refresh_token"]
-            userinfo = json.loads(WeixinHelper.getSnsapiUserInfo(access_token, openid))
-            print "user_info,", userinfo
-            # print openid
-
-            if not g.user:
-                # 检查用户是否存在
-                add_wechat_user_to_db(openid)
-                user = User.query.filter(User.profile.any(Profile.openid == openid)).first()
-                if user is not None:
-                    signin_user(user)
-                    session['openid'] = openid
-                    print u'与微信用户关联的user（%s） 已开始登陆网站...' % user.name
-
-            else:
-                msg = u'当前已登录的用户：{user}'.format(user=g.user.name)
-                print msg
+    # openid = session.get("openid")
+    # print "openid", openid
+    # if not openid:
+    #     code = request.args.get("code")
+    #     if not code:
+    #         print "not code"
+    #         return redirect(WeixinHelper.oauth3('/find'))
+    #     else:
+    #         data = json.loads(WeixinHelper.getAccessTokenByCode(code))
+    #         access_token, openid, refresh_token = data["access_token"], data["openid"], data["refresh_token"]
+    #         userinfo = json.loads(WeixinHelper.getSnsapiUserInfo(access_token, openid))
+    #         print "user_info,", userinfo
+    #         # print openid
+    #
+    #         if not g.user:
+    #             # 检查用户是否存在
+    #             add_wechat_user_to_db(openid)
+    #             user = User.query.filter(User.profile.any(Profile.openid == openid)).first()
+    #             if user is not None:
+    #                 signin_user(user)
+    #                 session['openid'] = openid
+    #                 print u'与微信用户关联的user（%s） 已开始登陆网站...' % user.name
+    #
+    #         else:
+    #             msg = u'当前已登录的用户：{user}'.format(user=g.user.name)
+    #             print msg
     industry1 = request.args.get("industry1", None)
-    search = request.args.get("search", "")
-    if industry1 or search:
-        discounts = Discount.query.filter(Discount.brand.has(Brand.industry_1 == industry1))
-        return render_template('mobile/search_result.html', discounts=discounts, search=search, industry1=industry1)
-    else:
-        discounts = Discount.query.limit(10)
+    industry2 = request.args.get('industry2', None)
+    district1 = request.args.get('district1', None)
+    sortrank1 = request.args.get('sortrank1', None)
+    page = request.args.get('page', 0, type=int)
+    do = request.args.get("do", "")
+
+    print '=' * 10, industry1, industry2, district1, sortrank1
+
+    # 拼装查询条件
+    discounts = Discount.query
+    if industry1 != u'全部分类':
+        if industry1:  # 品牌大类1
+            discounts = discounts.filter(Discount.brand.has(Brand.industry_1 == industry1))
+        if industry2:  # 品牌大类2
+            discounts = discounts.filter(Discount.brand.has(Brand.industry_2 == industry2))
+
+    if district1:  # 地区
+        if district1 == u'200米内':
+            pass
+        elif district1 == u'1千米内':
+            pass
+        elif district1 == u'5千米内':
+            pass
+        else:  # 全城范围
+            pass
+
+    if sortrank1:  # 排序方式
+        if sortrank1 == u'领取量':
+            discounts = discounts.order_by(Discount.count.desc())
+        elif sortrank1 == u'使用量':
+            discounts = discounts.order_by(Discount.back.desc())
+        else:  # 默认排序
+            discounts = discounts.order_by(Discount.create_at.desc())
+
+    EVENY_PAGE_NUM = current_app.config['FLASKY_PER_PAGE']
+    if page:  # 加载页数
+        discounts = discounts.slice(page * EVENY_PAGE_NUM,
+                                    (page + 1) * EVENY_PAGE_NUM)
+
+    if industry1 or do:
+        return render_template('mobile/search_result.html', discounts=discounts, industry1=industry1)
+
     return render_template('mobile/home.html', discounts=discounts, industry1=industry1)
 
 
 @bp.route('/searchapi')
 def search_api():
-    industry1 = request.args.get("industry1", None)
+    industry1 = request.args.get('industry1', None)
+    industry2 = request.args.get('industry2', None)
+    district1 = request.args.get('district1', None)
+    sortrank1 = request.args.get('sortrank1', None)
+
+    page = request.args.get('page', 0, type=int)
     search = request.args.get("search", "")
-    if industry1 != "全部分类":
-        discounts = Discount.query.filter(Discount.brand.has(Brand.industry_1 == industry1))
-    else:
-        discounts = Discount.query.limit(20)
+
+    print '-' * 10, industry1, industry2, district1, sortrank1
+
+    # 拼装查询条件
+    discounts = Discount.query
+    if industry1 != u'全部分类':
+        if industry1:  # 品牌大类1
+            discounts = discounts.filter(Discount.brand.has(Brand.industry_1 == industry1))
+        if industry2:  # 品牌大类2
+            discounts = discounts.filter(Discount.brand.has(Brand.industry_2 == industry2))
+
+    if district1:  # 地区
+        if district1 == u'200米内':
+            pass
+        elif district1 == u'1千米内':
+            pass
+        elif district1 == u'5千米内':
+            pass
+        else:  # 全城范围
+            pass
+
+    if sortrank1:  # 排序方式
+        if sortrank1 == u'领取量':
+            discounts = discounts.order_by(Discount.count.desc())
+        elif sortrank1 == u'使用量':
+            discounts = discounts.order_by(Discount.back.desc())
+        else:  # 默认排序
+            discounts = discounts.order_by(Discount.create_at.desc())
+
+    EVENY_PAGE_NUM = current_app.config['FLASKY_PER_PAGE']
+    if page:  # 加载页数
+        discounts = discounts.slice(page * EVENY_PAGE_NUM,
+                                    (page + 1) * EVENY_PAGE_NUM)
+
     brands = {}
     items = []
     for d in discounts:
@@ -388,7 +461,7 @@ def tickets():
                 if user is not None:
                     signin_user(user)
                     session['openid'] = openid
-                    g.user=user
+                    g.user = user
                     print u'与微信用户关联的user（%s） 已开始登陆网站...' % user.name
 
             else:
@@ -419,6 +492,33 @@ def tickets():
 @bp.route('/my_tickets_detail')
 def tickets_detail():
     """券　详情页面"""
+    openid = session.get("openid")
+    if not openid:
+        code = request.args.get("code")
+        if not code:
+            print "not code"
+            return redirect(WeixinHelper.oauth3(request.url))
+        else:
+            data = json.loads(WeixinHelper.getAccessTokenByCode(code))
+            print data
+            access_token, openid, refresh_token = data["access_token"], data["openid"], data["refresh_token"]
+            userinfo = json.loads(WeixinHelper.getSnsapiUserInfo(access_token, openid))
+            print "user_info,", userinfo
+            # print openid
+
+            if not g.user:
+                # 检查用户是否存在
+                add_wechat_user_to_db(openid)
+                user = User.query.filter(User.profile.any(Profile.openid == openid)).first()
+                if user is not None:
+                    signin_user(user)
+                    session['openid'] = openid
+                    g.user = user
+                    print u'与微信用户关联的user（%s） 已开始登陆网站...' % user.name
+
+            else:
+                msg = u'当前已登录的用户：{user}'.format(user=g.user.name)
+                print msg
     nav = 2
     user_id = g.user.id
     tickets_id = request.args.get('tid', 0, type=int)
@@ -575,7 +675,15 @@ def interface():
                     response = wechat.response_text(u'欢迎关注汝州百事优惠圈')
             elif message.type == 'location':
                 # 这里有location事件 TODO
-                print "*" * 20
+                latitude, longitude, precision = message.latitude, message.longitude, message.precision
+                print '-' * 10, latitude, longitude, precision, request.remote_addr
+                session['latitude'] = latitude
+                session['longitude'] = longitude
+                session['precision'] = precision
+
+                g.latitude = latitude
+                g.longitude = longitude
+                g.precision = precision
 
                 return ""
             else:
@@ -706,3 +814,16 @@ def callback_ticket(record_id):
     # 发送通知给指定优惠券所有人,message.source 为扫码用户
     wechat.send_template_message(str(ticket_record.user.password),
                                  'bK9Trpq_AmdHxnaT1kQ8d0lTJt-z3QBUNzacsnQbfXg', json_data)
+
+
+@bp.route('/get_distinct', methods=['GET', 'POST'])
+def get_distinct():
+    default_point = (112.873668, 34.156861)
+    if not g.longitude or not g.latitude:
+        curr_user_point = default_point
+    else:
+        curr_user_point = (g.longitude, g.latitude)
+    for shop in Shop.query.all():
+        print shop.id, shop.store, great_circle(curr_user_point, (shop.lng, shop.lat)).kilometers
+
+    return make_response('this is test')

@@ -28,38 +28,38 @@
                         </a>
                     </span>
             </div>
-            <div class="coupon-image">
-                <a href="">
-                    <img src="/resource/attachment/images/{{ discount.brand.image }}"/>
-                </a>
-            </div>
-            <div class="coupon-intro">
-                <p>{{ discount.title }}</p>
-
-                <p>{{ discount.code }}</p>
-                {% if isexpire > 0 %}
-                    <p>
-                        <small>有效期至{{ expire_date }},该优惠券已过期</small>
-                    </p>
-                {% else %}
-                    <p>
-                        <small>有效期至{{ expire_date }}</small>
-                    </p>
-                {% endif %}
-
-            </div>
-
-
-            <div class="coupon-ticket" style="display:none;">
-                <div class="code">
+            <div class="coupon-ticket">
+                <div class="face">
+                    <table class="name">
+                        <tr>
+                            <td valign="middle" style="height:3.6rem;">
+                                <h2>{{ discount.title }}</h2>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {% if isexpire > 0 %}
+                                    <h5>有效期至{{ expire_date }},该优惠券已过期</h5>
+                                {% else %}
+                                    <h5>有效期至{{ expire_date }}</h5>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="code usedit0 expire0">
                     <p class="normal">
                         <img id="qrcode" class="load_image" width="129" height="129"/>
+                        <span>{{ discount.code }}</span>
                     </p>
 
-                    <p class="normal">
-                        <span id="permit" style="color:#54C61D;">长按识别二维码领券</span>
-                        <span id="follow" style="color:#54C61D;">微信扫此二维码领券</span>
-                    </p>
+                    <p class="normal">付款前请出示此券</p>
+
+                    <p class="verify">已验证成功</p>
+
+                    <p class="usedit">此券已使用</p>
+
+                    <p class="expire">此券已过期</p>
                 </div>
             </div>
             <div class="coupon-other tips">
@@ -92,6 +92,42 @@
         </div>
     </div>
 </div>
+<style type="text/css">
+    .code > p {
+        display: none;
+    }
+
+    .usedit0.expire0 .normal {
+        display: block;
+    }
+
+    .usedit0.expire0.verify1 .normal {
+        display: none;
+    }
+
+    .usedit1 .usedit {
+        display: block;
+    }
+
+    .verify1 .verify {
+        display: block;
+    }
+
+    .expire1.usedit0 .expire {
+        display: block;
+    }
+
+    .link,
+    .link > p {
+        display: none;
+    }
+
+    .consume0, .comment0,
+    .comment0.usedit1 .comment,
+    .consume0.usedit0 .consume {
+        display: block;
+    }
+</style>
 <script type="text/javascript">
     $(function () {
         //设置二维码

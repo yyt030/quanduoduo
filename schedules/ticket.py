@@ -6,7 +6,8 @@
 # celery -A schedules.ticket worker --loglevel=info --beat
 #
 
-
+import sys, os
+sys.path.append(os.getcwd())
 
 import MySQLdb as mdb
 from datetime import datetime, timedelta
@@ -40,7 +41,7 @@ def update_ticket_status():
     conn = mdb.connect(host='localhost', db='weshop', user='root', passwd='root',
                        port=3306)
     cursor = conn.cursor()
-    conn.autocommit(on=False)
+    # conn.autocommit(on=False)
     num_commit = 500
     now = datetime.now()
 
@@ -57,3 +58,9 @@ def update_ticket_status():
     conn.commit()
     cursor.close()
     conn.close()
+
+
+if __name__ == '__main__':
+    print 'update task start ...'
+    update_ticket_status()
+    print 'update finished'
