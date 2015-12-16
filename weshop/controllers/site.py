@@ -245,7 +245,7 @@ def find():
     page = request.args.get('page', 0, type=int)
     do = request.args.get("do", "")
 
-    print '=' * 10, industry1, industry2, district1, sortrank1
+    # print '=' * 10, industry1, industry2, district1, sortrank1
 
     # 拼装查询条件
     discounts = Discount.query
@@ -257,11 +257,11 @@ def find():
 
     if district1:  # 地区
         if district1 == u'200米内':
-            pass
+            discounts = discounts.filter(Discount.shops.has(Shop.get_distinct() <= 200))
         elif district1 == u'1千米内':
-            pass
+            discounts = discounts.filter(Discount.shops.has(Shop.get_distinct() <= 1000))
         elif district1 == u'5千米内':
-            pass
+            discounts = discounts.filter(Discount.shops.has(Shop.get_distinct() <= 5000))
         else:  # 全城范围
             pass
 
@@ -291,10 +291,10 @@ def search_api():
     district1 = request.args.get('district1', None)
     sortrank1 = request.args.get('sortrank1', None)
 
-    page = request.args.get('page', 0, type=int)
+    page = request.args.get('page', 0, type=int) + 1
     search = request.args.get("search", "")
 
-    print '-' * 10, industry1, industry2, district1, sortrank1
+    # print '-' * 10, industry1, industry2, district1, sortrank1
 
     # 拼装查询条件
     discounts = Discount.query
@@ -306,10 +306,13 @@ def search_api():
 
     if district1:  # 地区
         if district1 == u'200米内':
+            # discounts = discounts.filter(Discount.shops.any(Shop.get_distinct((112.873668, 34.156861)) <= 200))
             pass
         elif district1 == u'1千米内':
+            # discounts = discounts.filter(Discount.shops.has(Shop.get_distinct((112.873668, 34.156861)) <= 1000))
             pass
         elif district1 == u'5千米内':
+            # discounts = discounts.filter(Discount.shops.has(Shop.get_distinct((112.873668, 34.156861)) <= 5000))
             pass
         else:  # 全城范围
             pass
