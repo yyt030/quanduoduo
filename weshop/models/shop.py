@@ -4,6 +4,7 @@ import datetime
 import random
 from ._base import db
 import time
+from geopy.distance import great_circle
 
 # 品牌 和 账户的 many to many 关系
 brand_account = db.Table('brand_account',
@@ -204,6 +205,11 @@ class Shop(db.Model):
     address = db.Column(db.String(100))
     lng = db.Column(db.String(20))
     lat = db.Column(db.String(20))
+
+    #@staticmethod
+    # @classmethod
+    def get_distinct(self, curr_user_point):
+        return great_circle((self.lng, self.lat), curr_user_point).kilometers
 
     def __repr__(self):
         return '<Shop %s>' % self.id

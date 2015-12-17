@@ -254,32 +254,51 @@ def find():
             discounts = discounts.filter(Discount.brand.has(Brand.industry_1 == industry1))
         if industry2:  # 品牌大类2
             discounts = discounts.filter(Discount.brand.has(Brand.industry_2 == industry2))
+    curr_user_point = (session.get('longitude', ''), session.get('latitude', ''))
+    # shop_list = []
+    discount_list = []
 
-    if district1:  # 地区
+    if district1 and session.get('longitude', ''):  # 地区
         if district1 == u'200米内':
-            # discounts = discounts.filter(Discount.shops.has(Shop.get_distinct() <= 200))
-            pass
+            # for i in Shop.query.all():
+            #     print '-' * 10, i, i.get_distinct(point)
+            for discount in discounts.all():
+                for shop in discount.shops.all():
+                    if shop.get_distinct(curr_user_point) <= 0.2:
+                        # shop_list.append(shop)
+                        discount.append(shop.get_distinct(curr_user_point))
+                        discount_list.append(discount)
         elif district1 == u'1千米内':
-            # discounts = discounts.filter(Discount.shops.has(Shop.get_distinct() <= 1000))
-            pass
+            for discount in discounts.all():
+                for shop in discount.shops.all():
+                    if shop.get_distinct(curr_user_point) <= 1:
+                        # shop_list.append(shop)
+                        discount_list.append(discount)
         elif district1 == u'5千米内':
-            # discounts = discounts.filter(Discount.shops.has(Shop.get_distinct() <= 5000))
-            pass
+            for discount in discounts.all():
+                for shop in discount.shops.all():
+                    if shop.get_distinct(curr_user_point) <= 5:
+                        # shop_list.append(shop)
+                        discount_list.append(discount)
         else:  # 全城范围
             pass
+    else:
+        discount_list = discounts.all()
 
     if sortrank1:  # 排序方式
         if sortrank1 == u'领取量':
-            discounts = discounts.order_by(Discount.count.desc())
+            discount_list.sort(key=lambda x: x.count, reverse=True)
         elif sortrank1 == u'使用量':
-            discounts = discounts.order_by(Discount.back.desc())
+            discount_list.sort(key=lambda x: x.back, reverse=True)
         else:  # 默认排序
-            discounts = discounts.order_by(Discount.create_at.desc())
+            discount_list.sort(key=lambda x: x.create_at, reverse=True)
+
+    discounts = discount_list
 
     EVENY_PAGE_NUM = current_app.config['FLASKY_PER_PAGE']
     if page:  # 加载页数
-        discounts = discounts.slice(page * EVENY_PAGE_NUM,
-                                    (page + 1) * EVENY_PAGE_NUM)
+        discounts = discounts[page * EVENY_PAGE_NUM:
+        (page + 1) * EVENY_PAGE_NUM]
 
     if industry1 or do:
         return render_template('mobile/search_result.html', discounts=discounts, industry1=industry1)
@@ -306,32 +325,49 @@ def search_api():
             discounts = discounts.filter(Discount.brand.has(Brand.industry_1 == industry1))
         if industry2:  # 品牌大类2
             discounts = discounts.filter(Discount.brand.has(Brand.industry_2 == industry2))
+    curr_user_point = (session.get('longitude', ''), session.get('latitude', ''))
+    # shop_list = []
+    discount_list = []
 
-    if district1:  # 地区
+    if district1 and session.get('longitude', ''):  # 地区
         if district1 == u'200米内':
-            # discounts = discounts.filter(Discount.shops.any(Shop.get_distinct((112.873668, 34.156861)) <= 200))
-            pass
+            for discount in discounts.all():
+                for shop in discount.shops.all():
+                    if shop.get_distinct(curr_user_point) <= 0.2:
+                        # shop_list.append(shop)
+                        discount.append(shop.get_distinct(curr_user_point))
+                        discount_list.append(discount)
         elif district1 == u'1千米内':
-            # discounts = discounts.filter(Discount.shops.has(Shop.get_distinct((112.873668, 34.156861)) <= 1000))
-            pass
+            for discount in discounts.all():
+                for shop in discount.shops.all():
+                    if shop.get_distinct(curr_user_point) <= 1:
+                        # shop_list.append(shop)
+                        discount_list.append(discount)
         elif district1 == u'5千米内':
-            # discounts = discounts.filter(Discount.shops.has(Shop.get_distinct((112.873668, 34.156861)) <= 5000))
-            pass
+            for discount in discounts.all():
+                for shop in discount.shops.all():
+                    if shop.get_distinct(curr_user_point) <= 5:
+                        # shop_list.append(shop)
+                        discount_list.append(discount)
         else:  # 全城范围
             pass
+    else:
+        discount_list = discounts.all()
 
     if sortrank1:  # 排序方式
         if sortrank1 == u'领取量':
-            discounts = discounts.order_by(Discount.count.desc())
+            discount_list.sort(key=lambda x: x.count, reverse=True)
         elif sortrank1 == u'使用量':
-            discounts = discounts.order_by(Discount.back.desc())
+            discount_list.sort(key=lambda x: x.back, reverse=True)
         else:  # 默认排序
-            discounts = discounts.order_by(Discount.create_at.desc())
+            discount_list.sort(key=lambda x: x.create_at, reverse=True)
+
+    discounts = discount_list
 
     EVENY_PAGE_NUM = current_app.config['FLASKY_PER_PAGE']
     if page:  # 加载页数
-        discounts = discounts.slice(page * EVENY_PAGE_NUM,
-                                    (page + 1) * EVENY_PAGE_NUM)
+        discounts = discounts[page * EVENY_PAGE_NUM:
+        (page + 1) * EVENY_PAGE_NUM]
 
     brands = {}
     items = []
