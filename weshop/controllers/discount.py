@@ -107,6 +107,7 @@ def detail():
             code = year + str(time.time())[4:-3]
             record = GetTicketRecord(user_id=g.user.id, discount_id=discount_id, code=code)
             db.session.add(record)
+            db.session.add(Discount(id=discount_id, count=discount.count + 1))  # 更新券领用个数
             db.session.commit()
             url = current_app.config.get('SITE_DOMAIN') + (
                 url_for('shop.checkout', discount_id=discount_id, record_id=record.id))
