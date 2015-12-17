@@ -8,6 +8,7 @@ from werkzeug import security
 from ._base import db
 from ..utils.uploadsets import avatars, id_images, student_images, teacher_images, honor_images
 from ..utils._redis import get_user_active_time
+from datetime import timedelta
 
 
 class User(db.Model):
@@ -96,8 +97,16 @@ class GetTicketRecord(db.Model):
 
     status = db.Column(db.Enum('normal', 'verify', 'usedit', 'expire'), default='normal')
 
-    code =db.Column(db.Integer)
+    code = db.Column(db.Integer)
     create_at = db.Column(db.DateTime, default=datetime.datetime.now)
+
+    @property
+    def get_expire_date(self):
+        return (self.create_at + timedelta(days=self.discount.usable)).date()
+
+    @property
+    def is_expire(self):
+        return self.get_expire_date >= datetime.date.today()
 
     def __repr__(self):
         return '<GetDiscountRecord %s>' % self.id

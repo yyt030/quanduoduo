@@ -257,11 +257,14 @@ def find():
 
     if district1:  # 地区
         if district1 == u'200米内':
-            discounts = discounts.filter(Discount.shops.has(Shop.get_distinct() <= 200))
+            # discounts = discounts.filter(Discount.shops.has(Shop.get_distinct() <= 200))
+            pass
         elif district1 == u'1千米内':
-            discounts = discounts.filter(Discount.shops.has(Shop.get_distinct() <= 1000))
+            # discounts = discounts.filter(Discount.shops.has(Shop.get_distinct() <= 1000))
+            pass
         elif district1 == u'5千米内':
-            discounts = discounts.filter(Discount.shops.has(Shop.get_distinct() <= 5000))
+            # discounts = discounts.filter(Discount.shops.has(Shop.get_distinct() <= 5000))
+            pass
         else:  # 全城范围
             pass
 
@@ -291,7 +294,7 @@ def search_api():
     district1 = request.args.get('district1', None)
     sortrank1 = request.args.get('sortrank1', None)
 
-    page = request.args.get('page', 0, type=int) + 1
+    page = request.args.get('page', 0, type=int)
     search = request.args.get("search", "")
 
     # print '-' * 10, industry1, industry2, district1, sortrank1
@@ -470,25 +473,29 @@ def tickets():
                 msg = u'当前已登录的用户：{user}'.format(user=g.user.name)
                 print msg
     type = request.args.get("type", "not_use")
-    user_id = g.user.id
-    now = datetime.date(datetime.now())
+    user = g.user
     nav = 2
-    if type == 'not_use':
-        records = GetTicketRecord.query.filter(GetTicketRecord.user_id == user_id,
-                                               GetTicketRecord.status == 'normal')
-    elif type == 'expire':
-        from sqlalchemy import or_
-        records = GetTicketRecord.query.filter(GetTicketRecord.user_id == user_id,
-                                               GetTicketRecord.status == type)
+    if user:
+        user_id = user.id
     else:
-        records = GetTicketRecord.query.filter(GetTicketRecord.user_id == user_id)
+        user_id = ''
 
-    expire_date = ''
-    if records.all():
-        expire_date = datetime.date(records.first().discount.create_at) + timedelta(
-            days=records.first().discount.usable)
+    records = GetTicketRecord.query.filter(GetTicketRecord.user_id == user_id)
+    if type == 'not_use':
+        from sqlalchemy import or_
+        records = records.filter(or_(GetTicketRecord.status == 'normal', GetTicketRecord.status == 'verify'))
+        new_records = []
+        for record in records:
+            if record.is_expire:
+                new_records.append(record)
 
-    return render_template('mobile/my_tickets.html', type=type, nav=2, records=records, expire_date=expire_date)
+    elif type == 'expire':
+        new_records = []
+        for record in records:
+            if not record.is_expire:
+                new_records.append(record)
+
+    return render_template('mobile/my_tickets.html', type=type, nav=2, records=new_records)
 
 
 @bp.route('/my_tickets_detail')
