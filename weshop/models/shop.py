@@ -53,7 +53,7 @@ class Discount(db.Model):
     number 每天提供份数
     usable 有效期 默认7天
     perple 每人可领个数
-    limits 发放时间
+    limits 发放持续时间
     count 认领次数
     back 回收份数
     create_at 创建时间
@@ -86,13 +86,17 @@ class Discount(db.Model):
     latest_update = db.Column(db.DateTime, default=datetime.datetime.now)
     code = db.Column(db.Integer, default=random.randint(10000000, 20000000))
 
-    def is_end(self):
-        end_date_time = self.create_at + datetime.timedelta(days=self.limits)
-        now_time = datetime.datetime.now()
-        if now_time >= end_date_time:
-            return True
-        else:
-            return False
+    @property
+    def get_expire_datetime(self):
+        return self.create_at + datetime.timedelta(days=self.limits)
+
+    @property
+    def is_expire(self):
+        return self.get_expire_datetime.date() >= datetime.date.today()
+
+    @property
+    def get_left_days(self):
+        return (self.get_expire_datetime.date() - datetime.date.today()).days
 
     @property
     def check_status(self):
@@ -127,7 +131,8 @@ class Discount(db.Model):
 
         return {"state": "normalstate", "word": "可领取"}
 
-    def is_expired(self):
+    @property
+    def aa(self):
         """过期时间"""
 
     def __repr__(self):

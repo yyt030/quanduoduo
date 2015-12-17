@@ -56,7 +56,7 @@
             </div>
             <div class="coupon-tip"><span></span></div>
             <div class="coupon-intro post">
-                {% if left_day >= 0 %}
+                {% if discount.get_left_days >= 0 %}
                     {% if curr_ticket_record %}
                         <a href="/my_tickets_detail?tid={{ curr_ticket_record.id }}">
                             我已领取此券，点此即可打开
@@ -94,8 +94,8 @@
                 </h3>
             </div>
             <div class="coupon-footer">
-                {% if left_day >= 0 %}
-                    <h3>发放时间还剩：{{ left_day }}天</h3>
+                {% if discount.get_left_days >= 0 %}
+                    <h3>发放时间还剩：{{ discount.get_left_days }}天</h3>
                 {% else %}
                     <h3>发放时间已过期,请选择其他优惠吧</h3>
                 {% endif %}
