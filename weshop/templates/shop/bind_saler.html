@@ -37,7 +37,6 @@
                     <h1>
                         绑定了微信收银台的店员，直接打开微信“扫一扫”，
                     </h1>
-
                     <h1>
                         扫顾客优惠券里的二维码就能完成验证
                     </h1>
@@ -49,9 +48,9 @@
                     </div>
                 </div>
             </div>
-
+            {% for  s in brand.brand_salers.all() %}
             <div class="load_wrap newbind ">
-                <div class="coupon-image gender0" data-fid="12397289" data-avatar=""><a
+                <div class="coupon-image gender0" data-fid="{{ s.id }}" data-avatar=""><a
                         href="#" title="编辑信息">
                     <img src="/static/images/noavatar_small.jpg" onerror="this.src='/static/images/noavatar_small.jpg'"></a>
 
@@ -59,7 +58,7 @@
                 <div class="coupon-intro">
                     <h1>
                         <i class="icon-desktop"></i>
-                        <b>编号1236133</b> （{{ brand.name }}）
+                        <b>手机号{{ s.user.mobile }}</b> （{{ brand.name }}）
                     </h1>
 
 
@@ -69,21 +68,21 @@
                 </div>
                 <div class="coupon-class">
                     <div class="class-opt">
-                        <a href="site.php?aid=1236133&amp;weid=10014&amp;act=checkout&amp;do=delete" title="删除" class=""
+                        <a href="/shop/delete_saler?id={{ s.user_id }}" title="删除" class=""
                            onclick="return confirm('此操作不可恢复，确认删除？');return false;"><i class="icon-remove"></i></a>
                     </div>
                     <div class="class-inf">
                         <i class="icon-bar-chart"></i>
-                        <a href="site.php?pid=1236133&amp;act=analysis&amp;do=display" title="验证数量" class="">
-                            <span class="type">17</span>
+                        <a href="#" title="验证数量" class="">
+                            <span class="type">{{ s.count }}</span>
                         </a>
                         <i class="icon-calendar"></i>
-                        <span class="code">2015年06月03日</span>
+                        <span class="code">{{ s.time }}</span>
                         <span class="code"></span>
                     </div>
                 </div>
             </div>
-
+            {% endfor %}
         </div>
         <div class="body_wrap">
             <div class="load_tips">加载中..</div>
@@ -91,7 +90,7 @@
     </div>
     <script type="text/javascript">
         $(function () {
-            var getQRCodeUrl = "/shop/bind_saler?id=10014&do=download_qrcode";
+            var getQRCodeUrl = "/shop/bind_saler?bid={{ brand_id }}&do=download_qrcode";
             //下载二维码
             $('a.qrcode', this).live('click', function () {
                 location.href = getQRCodeUrl + '&isajax=1';

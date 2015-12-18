@@ -56,59 +56,8 @@ class RegisterForm(Form):
             raise ValueError('邮箱已存在')
 
 
-class SignupTeacherBasicForm(Form):
-    """老师基本信息表单"""
-    sex = RadioField('性别', choices=[('男', '男'), ('女', '女')], validators=[
-        InputRequired('性别不能为空')
-    ])
-    province_id = IntegerField()
-    city_id = IntegerField()
-    region_id = IntegerField('所在地区',
-                             validators=[
-                                 DataRequired('所在地区不能为空')
-                             ])
-    type_id = SelectField('身份', coerce=int, validators=[
-        DataRequired('身份不能为空')
-    ])
-    university = TextField('学校', validators=[
-        DataRequired('学校不能为空')
-    ])
-    university_id = HiddenField()
-    desc = TextAreaField('个人简介', validators=[
-        DataRequired('个人简介不能为空'),
-        Regexp(r'^([^(Q{4}|q{4})|])*$', 0, '请不要留下敏感的数字信息')
-    ])
 
 
-class SignupTeacherExtraForm(Form):
-    """老师额外信息表单"""
-    charge_id = SelectField('课时费用', coerce=int)
-    teach_method_id = RadioField('授课方式',
-                                 coerce=int,
-                                 validators=[
-                                     InputRequired('授课方式不能为空')
-                                 ])
-
-
-class SignupParentOrStudentBasicForm(Form):
-    """家长/学生基本信息表单"""
-    sex = RadioField('性别', choices=[('男', '男'), ('女', '女')], validators=[
-        InputRequired('性别不能为空')
-    ])
-    province_id = IntegerField()
-    city_id = IntegerField()
-    region_id = IntegerField('所在地区', validators=[
-        DataRequired('所在地区不能为空')
-    ])
-    desc = TextAreaField('学员简介', validators=[
-        Regexp(r'^([^(Q{4}|q{4})|])*$', 0, '请不要留下敏感的数字信息')
-    ])
-
-
-class SignupParentOrStudentExtraForm(Form):
-    """家长/学生额外信息表单"""
-    charge_id = SelectField('课时报酬', coerce=int)
-    require_for_teacher = TextAreaField('对老师的期望')
 
 
 class SignupOpenidForm(Form):

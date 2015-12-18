@@ -133,7 +133,7 @@ class Discount(db.Model):
         return {"state": "normalstate", "word": "可领取"}
 
     @property
-    def aa(self):
+    def expire_time(self):
         """过期时间"""
 
     def __repr__(self):
@@ -228,3 +228,17 @@ class ShopPhoto(db.Model):
 
     def __repr__(self):
         return '<Shop %s>' % self.id
+
+class Saler(db.Model):
+    """店员"""
+    id = db.Column(db.Integer, primary_key=True)
+
+    brand_id = db.Column(db.Integer, db.ForeignKey('brand.id'))
+    brand = db.relationship('Brand', backref=db.backref('brand_salers', lazy='dynamic'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship('User')
+    count = db.Column(db.Integer,default=0)
+    time = db.Column(db.DateTime, default=datetime.datetime.now)
+
+    def __repr__(self):
+        return '<Saler %s>' % self.id

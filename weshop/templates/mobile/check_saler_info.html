@@ -17,13 +17,11 @@
         <div class="load_wrap">
             <form action="" class="form-horizontal form"  method="post"
                   style="float:left;">
-                {{ form.csrf_token }}
+                {{ form.csrf_token() }}
                 <div class="coupon-other">
-                    <p>
-                        手机号
-                        <input type="text" id="mobile" name="mobile" placeholder="请输入手机号"
-                               style="width:80%;line-height:.8rem;font-size:.7rem;border:none;" value="">
-                    </p>
+                    <input type="text" id="mobile" name="mobile" placeholder="请输入手机号"
+                               style="width: 100%;padding-top: 20px;font-size: 40px;border: none;display: block;margin-top: 10px;" value="">
+
                 </div>
             </form>
         </div>
@@ -45,7 +43,7 @@
         });
     });
 
-    var getJSONURL = "/check_saler_info?do=check";
+    var getJSONURL = "/check_saler_info?do=check&bid={{ brand_id }}";
     function requireSubmit(mobile) {
         $('.load_tips').html('<span>保存中..</span>').fadeIn();
         $.getJSON(getJSONURL + '&mobile=' + mobile, function (data) {

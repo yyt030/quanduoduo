@@ -35,3 +35,7 @@ class SearchUserForm(Form):
 class UploadForm(Form):
     photo_types = (("0", "消费环境"), ("1", "菜品介绍"), ("2", "服务项目"), ("3", "套餐说明"), ("4", "营销广告"))
     types = SelectField("类型", choices=photo_types)
+
+
+class SalerInfoForm(Form):
+    phone = TextField('手机号')
