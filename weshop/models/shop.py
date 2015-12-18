@@ -4,6 +4,7 @@ import datetime
 import random
 from ._base import db
 import time
+from geopy.distance import great_circle
 
 # 品牌 和 账户的 many to many 关系
 brand_account = db.Table('brand_account',
@@ -53,7 +54,7 @@ class Discount(db.Model):
     number 每天提供份数
     usable 有效期 默认7天
     perple 每人可领个数
-    limits 发放时间
+    limits 发放持续时间
     count 认领次数
     back 回收份数
     create_at 创建时间
@@ -86,13 +87,17 @@ class Discount(db.Model):
     latest_update = db.Column(db.DateTime, default=datetime.datetime.now)
     code = db.Column(db.Integer, default=random.randint(10000000, 20000000))
 
-    def is_end(self):
-        end_date_time = self.create_at + datetime.timedelta(days=self.limits)
-        now_time = datetime.datetime.now()
-        if now_time >= end_date_time:
-            return True
-        else:
-            return False
+    @property
+    def get_expire_datetime(self):
+        return self.create_at + datetime.timedelta(days=self.limits)
+
+    @property
+    def is_expire(self):
+        return self.get_expire_datetime.date() >= datetime.date.today()
+
+    @property
+    def get_left_days(self):
+        return (self.get_expire_datetime.date() - datetime.date.today()).days
 
     @property
     def check_status(self):
@@ -127,7 +132,8 @@ class Discount(db.Model):
 
         return {"state": "normalstate", "word": "可领取"}
 
-    def is_expired(self):
+    @property
+    def aa(self):
         """过期时间"""
 
     def __repr__(self):
@@ -199,6 +205,11 @@ class Shop(db.Model):
     address = db.Column(db.String(100))
     lng = db.Column(db.String(20))
     lat = db.Column(db.String(20))
+
+    #@staticmethod
+    # @classmethod
+    def get_distinct(self, curr_user_point):
+        return great_circle((self.lng, self.lat), curr_user_point).kilometers
 
     def __repr__(self):
         return '<Shop %s>' % self.id

@@ -42,7 +42,7 @@
                         <div class="coupon-intro">
                             <p class="title">{{ record.discount.title }}</p>
 
-                            <p class="count">有效期至{{ expire_date }}</p>
+                            <p class="count">有效期至{{ record.get_expire_date }}</p>
 
                             <p class="count"><small>{{ record.discount.brand.name }}<small></p>
                         </div>
