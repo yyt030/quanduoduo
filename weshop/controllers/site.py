@@ -7,6 +7,7 @@ import os
 import string
 import re, urllib2
 import random
+from urllib import urlencode
 from PIL import Image
 from coverage.html import STATIC_PATH
 from flask import render_template, Blueprint, redirect, url_for, g, session, request, \
@@ -127,18 +128,17 @@ def user_data():
 
 
 @bp.route('/check_saler_info', methods=['GET', 'POST'])
-@require_user
 def check_saler_info():
     """确认收银员信息"""
     brand_id = int(request.args.get("bid", 0))
     openid = session.get("openid")
     do = request.args.get("do")
-    print "openid,", openid
     if not openid:
         code = request.args.get("code")
         if not code:
             print "not code"
-            return redirect(WeixinHelper.oauth3('/find'))
+            print "/check_saler_info"
+            return redirect(WeixinHelper.oauth3('/check_saler_info'))
         else:
             data = json.loads(WeixinHelper.getAccessTokenByCode(code))
             access_token, openid, refresh_token = data["access_token"], data["openid"], data["refresh_token"]
@@ -166,7 +166,7 @@ def check_saler_info():
         user.save()
 
         return json.dumps({"message": "提交成功", "type": "success"})
-    return render_template('account/user_data.html')
+    return render_template('mobile/check_saler_info.html')
 
 
 @bp.route('/resource/<string:folder1>/<string:filename>', defaults={"folder2": "", "folder3": ""}, methods=['GET'])
@@ -209,7 +209,7 @@ def crossdomain_xml():
 def test():
     return str(zip(session.keys(), session.values()))
 
-@wechat_login
+
 @bp.route('/find')
 def find():
     openid = session.get("openid")
@@ -439,7 +439,7 @@ def favorite_brands():
     if records.first():
         brand = records.first().brand
     else:
-        brand ={}
+        brand = {}
     nav = 1
     return render_template('mobile/my_favorite_brand.html', type=type, nav=nav, brand=brand,
                            records=records)
@@ -552,7 +552,6 @@ def tickets_detail():
             userinfo = json.loads(WeixinHelper.getSnsapiUserInfo(access_token, openid))
             print "user_info,", userinfo
             # print openid
-
             if not g.user:
                 # 检查用户是否存在
                 add_wechat_user_to_db(openid)
@@ -569,7 +568,7 @@ def tickets_detail():
     nav = 2
     user_id = g.user.id
     tickets_id = request.args.get('tid', 0, type=int)
-
+    print "ticket_id", tickets_id
     ticket = GetTicketRecord.query.get(tickets_id)
     now = datetime.date(datetime.now())
     if ticket:
@@ -577,10 +576,10 @@ def tickets_detail():
         isexpire = (now - expire_date).days
         print '-' * 10, isexpire
     else:
-        expire_date=""
-        isexpire=True
+        expire_date = ""
+        isexpire = True
     shops = ticket.discount.shops
-    return render_template('mobile/my_tickets_detail.html', nav=2, discount=ticket.discount,
+    return render_template('mobile/my_tickets_detail.html', nav=2, ticket=ticket, discount=ticket.discount,
                            shops=shops, expire_date=expire_date, isexpire=isexpire)
 
 
@@ -689,8 +688,9 @@ def interface():
                     elif value.split("_")[0] == 'bind':
                         brand_id = int(message.key.split("_")[1])
                         brand = Brand.query.get(brand_id)
-                        brand_text = "<a href='{0}/{1}'>{2}</a>".format(current_app.config.get("SITE_DOMAIN"), "find",
-                                                                        brand.name)
+                        data = {"bid": brand_id}
+                        url_text = current_app.config.get("SITE_DOMAIN") + "/check_saler_info" + "?" + urlencode(data)
+                        brand_text = "<a href='{0}'>{1}</a>".format(url_text, brand.name)
                         text = "您正在申请绑定门店%s,点击输入手机号验证身份" % brand_text
                         response = wechat.response_text(text)
 

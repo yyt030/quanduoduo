@@ -37,13 +37,13 @@
                         </tr>
                         <tr>
                             <td>
-                                {#                                <h5>有效期至2015年12月02日</h5>#}
                                 <h5>有效期至{{ expire_date }}</h5>
                             </td>
                         </tr>
                     </table>
                 </div>
-                <div class="code usedit0 expire0">
+                <div class="code usedit{% if not usedit %}0{% else %}1{% endif %} expire{% if not is_expire %}0{% else %}1{% endif %}">
+
                     <p class="normal">
                         <img id="qrcode" class="load_image" width="129" height="129"/>
                         <span>{{ record.code }}</span>

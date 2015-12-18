@@ -96,7 +96,7 @@ def text(xml):
         companyInfo = company_info_query[0]
         return str(companyInfo.welcome)
     else:
-        return "欢迎加入缤芬兰！您已链接全球最洁净食品来源地---芬兰"
+        return "欢迎加入"
 
 
 @wechat_login
