@@ -8,7 +8,7 @@ import random
 from PIL import Image
 from coverage.html import STATIC_PATH
 import datetime
-from datetime import datetime as dt
+from datetime import  datetime as dt
 from datetime import time, tzinfo
 from flask import render_template, Blueprint, redirect, url_for, g, session, request, \
     make_response, current_app, send_from_directory
@@ -42,26 +42,29 @@ def detail():
         discount_id = int(request.args.get("did", 0))
     do = request.args.get("do")
     discount = Discount.query.get_or_404(discount_id)
-
+    now = datetime.datetime.now()
+    end_time = discount.create_at + datetime.timedelta(days=discount.limits)
+    delta = end_time - now
+    left_day = delta.days
     # discount.count 每天0：00清零 TODO 脚本任务
     left_count = discount.number - discount.count
     discount_shop_count = discount.shops.count()
-
     user_agent = request.headers.get('User-Agent')
 
     # user的领券情况
     user = g.user
     # 该用户下领用的存在有效期的券（含使用或者未使用）
-    curr_ticket_record = GetTicketRecord.query.filter(GetTicketRecord.user_id == user.id,
-                                                      GetTicketRecord.discount_id == discount_id,
-                                                      GetTicketRecord.create_at >= datetime.datetime.now() - datetime.timedelta(
-                                                          days=discount.usable
-                                                      ), GetTicketRecord.status != 'expire')
+    my_ticket_records = GetTicketRecord.query.filter(GetTicketRecord.user_id == user.id)
+    curr_ticket_record = my_ticket_records.filter(GetTicketRecord.discount_id == discount_id,
+                                                   GetTicketRecord.create_at >= now - datetime.timedelta(
+                                                       days=discount.usable)).first()
 
-    monday = datetime.datetime.now() - datetime.timedelta(days=datetime.datetime.now().weekday())
-    sunday = datetime.datetime.now() + datetime.timedelta(days=7 - datetime.datetime.now().weekday())
-    curr_ticket_records_week = curr_ticket_record.filter(GetTicketRecord.create_at > monday,
-                                                         GetTicketRecord.create_at < sunday).count()
+    monday = now - datetime.timedelta(days=now.weekday())
+    sunday = now + datetime.timedelta(days=7 - now.weekday())
+    curr_ticket_records_week = my_ticket_records.filter(
+        GetTicketRecord.create_at > monday, GetTicketRecord.create_at < sunday
+    ).count()
+    print monday, sunday, curr_ticket_record, curr_ticket_records_week
 
     # print user_agent
     if do == 'post':
@@ -107,7 +110,6 @@ def detail():
             code = year + str(time.time())[4:-3]
             record = GetTicketRecord(user_id=g.user.id, discount_id=discount_id, code=code)
             db.session.add(record)
-            db.session.add(Discount(id=discount_id, count=discount.count + 1))  # 更新券领用个数
             db.session.commit()
             url = current_app.config.get('SITE_DOMAIN') + (
                 url_for('shop.checkout', discount_id=discount_id, record_id=record.id))
@@ -124,7 +126,7 @@ def detail():
     other_discounts = Discount.query.filter(Discount.id != discount_id,
                                             Discount.brand_id == discount.brand_id)
     shops = discount.shops.all()
-    return render_template('discount/detail.html', discount=discount,
+    return render_template('discount/detail.html', discount=discount, left_day=left_day,
                            discount_shop_count=discount_shop_count,
                            discount_id=discount_id, left_count=left_count,
                            other_discounts=other_discounts,
@@ -157,14 +159,15 @@ def delay():
     limit = int(request.args.get('limit', 0))
     discount = Discount.query.get_or_404(id)
     print discount.limits
-    discount.limits += limit
-    end_date = discount.create_at + datetime.timedelta(days=limit)
+    discount.limits+=limit
+    end_date=discount.create_at+ datetime.timedelta(days=limit)
     # if end_date>datetime.datetime.now():
     #     pass
     db.session.add(discount)
     db.session.commit()
 
-    end_date = end_date.date()
+
+    end_date=end_date.date()
     return json.dumps({"message": {"limit": str(end_date), "gtime": 1449609566}, "redirect": "", "type": "success"})
 
 
