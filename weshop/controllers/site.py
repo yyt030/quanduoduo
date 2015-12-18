@@ -482,7 +482,7 @@ def tickets():
         records = GetTicketRecord.query.filter(GetTicketRecord.user_id == user_id)
 
     expire_date = ''
-    if records.all():
+    if records.count()>0:
         expire_date = datetime.date(records.first().discount.create_at) + timedelta(
             days=records.first().discount.usable)
 

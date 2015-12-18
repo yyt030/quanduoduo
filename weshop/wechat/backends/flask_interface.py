@@ -17,6 +17,7 @@ def oauth():
 import json
 from functools import wraps
 from flask import request, redirect, g, session
+from weshop.models import User, Profile
 from weshop.wechat import WeixinHelper
 
 
@@ -47,7 +48,8 @@ def sns_userinfo_callback(callback=None):
             #         return redirect("/")
             session['openid'] = openid
             if callable(callback):
-                g.user = callback(openid, userinfo)
+                g.user = User.query.filter(User.profile.any(Profile.openid == openid)).first()
+
             response = func()
             return response
 
