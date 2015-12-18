@@ -573,10 +573,13 @@ def tickets_detail():
     ticket = GetTicketRecord.query.get(tickets_id)
 
     now = datetime.date(datetime.now())
-    expire_date = datetime.date(ticket.create_at) + timedelta(days=ticket.discount.usable)
-    isexpire = (now - expire_date).days
-
-    print '-' * 10, isexpire
+    if ticket:
+        expire_date = datetime.date(ticket.create_at) + timedelta(days=ticket.discount.usable)
+        isexpire = (now - expire_date).days
+        print '-' * 10, isexpire
+    else:
+        expire_date=""
+        isexpire=True
     shops = ticket.discount.shops
     return render_template('mobile/my_tickets_detail.html', nav=2, discount=ticket.discount,
                            shops=shops, expire_date=expire_date, isexpire=isexpire)
