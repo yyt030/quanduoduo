@@ -214,7 +214,30 @@ def test():
 def find():
     openid = session.get("openid")
     print "openid", openid
+    if not openid:
+        code = request.args.get("code")
+        if not code:
+            print "not code"
+            return redirect(WeixinHelper.oauth3('/find'))
+        else:
+            data = json.loads(WeixinHelper.getAccessTokenByCode(code))
+            access_token, openid, refresh_token = data["access_token"], data["openid"], data["refresh_token"]
+            userinfo = json.loads(WeixinHelper.getSnsapiUserInfo(access_token, openid))
+            print "user_info,", userinfo
+            # print openid
 
+            if not g.user:
+                # 检查用户是否存在
+                add_wechat_user_to_db(openid)
+                user = User.query.filter(User.profile.any(Profile.openid == openid)).first()
+                if user is not None:
+                    signin_user(user)
+                    session['openid'] = openid
+                    print u'与微信用户关联的user（%s） 已开始登陆网站...' % user.name
+
+            else:
+                msg = u'当前已登录的用户：{user}'.format(user=g.user.name)
+                print msg
     industry1 = request.args.get("industry1", None)
     industry2 = request.args.get('industry2', None)
     district1 = request.args.get('district1', None)
@@ -222,7 +245,8 @@ def find():
     page = request.args.get('page', 0, type=int)
     do = request.args.get("do", "")
 
-    # print '=' * 10, industry1, industry2, district1, sortrank1
+    print '=' * 10, industry1, industry2, district1, sortrank1
+    #print '=' * 10, session['latitude']
 
     # 拼装查询条件
     discounts = Discount.query
@@ -231,51 +255,29 @@ def find():
             discounts = discounts.filter(Discount.brand.has(Brand.industry_1 == industry1))
         if industry2:  # 品牌大类2
             discounts = discounts.filter(Discount.brand.has(Brand.industry_2 == industry2))
-    curr_user_point = (session.get('longitude', ''), session.get('latitude', ''))
-    # shop_list = []
-    discount_list = []
 
-    if district1 and session.get('longitude', ''):  # 地区
+    if district1:  # 地区
         if district1 == u'200米内':
-            # for i in Shop.query.all():
-            #     print '-' * 10, i, i.get_distinct(point)
-            for discount in discounts.all():
-                for shop in discount.shops.all():
-                    if shop.get_distinct(curr_user_point) <= 0.2:
-                        # shop_list.append(shop)
-                        discount.append(shop.get_distinct(curr_user_point))
-                        discount_list.append(discount)
+            pass
         elif district1 == u'1千米内':
-            for discount in discounts.all():
-                for shop in discount.shops.all():
-                    if shop.get_distinct(curr_user_point) <= 1:
-                        # shop_list.append(shop)
-                        discount_list.append(discount)
+            pass
         elif district1 == u'5千米内':
-            for discount in discounts.all():
-                for shop in discount.shops.all():
-                    if shop.get_distinct(curr_user_point) <= 5:
-                        # shop_list.append(shop)
-                        discount_list.append(discount)
+            pass
         else:  # 全城范围
             pass
-    else:
-        discount_list = discounts.all()
 
     if sortrank1:  # 排序方式
         if sortrank1 == u'领取量':
-            discount_list.sort(key=lambda x: x.count, reverse=True)
+            discounts = discounts.order_by(Discount.count.desc())
         elif sortrank1 == u'使用量':
-            discount_list.sort(key=lambda x: x.back, reverse=True)
+            discounts = discounts.order_by(Discount.back.desc())
         else:  # 默认排序
-            discount_list.sort(key=lambda x: x.create_at, reverse=True)
-
-    discounts = discount_list
+            discounts = discounts.order_by(Discount.create_at.desc())
 
     EVENY_PAGE_NUM = current_app.config['FLASKY_PER_PAGE']
     if page:  # 加载页数
-        discounts = discounts[page * EVENY_PAGE_NUM:
-        (page + 1) * EVENY_PAGE_NUM]
+        discounts = discounts.slice(page * EVENY_PAGE_NUM,
+                                    (page + 1) * EVENY_PAGE_NUM)
 
     if industry1 or do:
         return render_template('mobile/search_result.html', discounts=discounts, industry1=industry1)
@@ -293,7 +295,7 @@ def search_api():
     page = request.args.get('page', 0, type=int)
     search = request.args.get("search", "")
 
-    # print '-' * 10, industry1, industry2, district1, sortrank1
+    print '-' * 10, industry1, industry2, district1, sortrank1
 
     # 拼装查询条件
     discounts = Discount.query
@@ -302,49 +304,29 @@ def search_api():
             discounts = discounts.filter(Discount.brand.has(Brand.industry_1 == industry1))
         if industry2:  # 品牌大类2
             discounts = discounts.filter(Discount.brand.has(Brand.industry_2 == industry2))
-    curr_user_point = (session.get('longitude', ''), session.get('latitude', ''))
-    # shop_list = []
-    discount_list = []
 
-    if district1 and session.get('longitude', ''):  # 地区
+    if district1:  # 地区
         if district1 == u'200米内':
-            for discount in discounts.all():
-                for shop in discount.shops.all():
-                    if shop.get_distinct(curr_user_point) <= 0.2:
-                        # shop_list.append(shop)
-                        discount.append(shop.get_distinct(curr_user_point))
-                        discount_list.append(discount)
+            pass
         elif district1 == u'1千米内':
-            for discount in discounts.all():
-                for shop in discount.shops.all():
-                    if shop.get_distinct(curr_user_point) <= 1:
-                        # shop_list.append(shop)
-                        discount_list.append(discount)
+            pass
         elif district1 == u'5千米内':
-            for discount in discounts.all():
-                for shop in discount.shops.all():
-                    if shop.get_distinct(curr_user_point) <= 5:
-                        # shop_list.append(shop)
-                        discount_list.append(discount)
+            pass
         else:  # 全城范围
             pass
-    else:
-        discount_list = discounts.all()
 
     if sortrank1:  # 排序方式
         if sortrank1 == u'领取量':
-            discount_list.sort(key=lambda x: x.count, reverse=True)
+            discounts = discounts.order_by(Discount.count.desc())
         elif sortrank1 == u'使用量':
-            discount_list.sort(key=lambda x: x.back, reverse=True)
+            discounts = discounts.order_by(Discount.back.desc())
         else:  # 默认排序
-            discount_list.sort(key=lambda x: x.create_at, reverse=True)
-
-    discounts = discount_list
+            discounts = discounts.order_by(Discount.create_at.desc())
 
     EVENY_PAGE_NUM = current_app.config['FLASKY_PER_PAGE']
     if page:  # 加载页数
-        discounts = discounts[page * EVENY_PAGE_NUM:
-        (page + 1) * EVENY_PAGE_NUM]
+        discounts = discounts.slice(page * EVENY_PAGE_NUM,
+                                    (page + 1) * EVENY_PAGE_NUM)
 
     brands = {}
     items = []
@@ -412,10 +394,9 @@ def favorite_brands():
     else:
         records = MyFavoriteBrand.query.filter(MyFavoriteBrand.user_id == user.id).order_by(
             MyFavoriteBrand.create_at.desc())
-    if records.first():
-        brand = records.first().brand
-    else:
-        brand =None
+
+    brand = records.first().brand
+
     nav = 1
     return render_template('mobile/my_favorite_brand.html', type=type, nav=nav, brand=brand,
                            records=records)
@@ -487,29 +468,25 @@ def tickets():
                 msg = u'当前已登录的用户：{user}'.format(user=g.user.name)
                 print msg
     type = request.args.get("type", "not_use")
-    user = g.user
+    user_id = g.user.id
+    now = datetime.date(datetime.now())
     nav = 2
-    if user:
-        user_id = user.id
-    else:
-        user_id = ''
-
-    records = GetTicketRecord.query.filter(GetTicketRecord.user_id == user_id)
     if type == 'not_use':
-        from sqlalchemy import or_
-        records = records.filter(or_(GetTicketRecord.status == 'normal', GetTicketRecord.status == 'verify'))
-        new_records = []
-        for record in records:
-            if record.is_expire:
-                new_records.append(record)
-
+        records = GetTicketRecord.query.filter(GetTicketRecord.user_id == user_id,
+                                               GetTicketRecord.status == 'normal')
     elif type == 'expire':
-        new_records = []
-        for record in records:
-            if not record.is_expire:
-                new_records.append(record)
+        from sqlalchemy import or_
+        records = GetTicketRecord.query.filter(GetTicketRecord.user_id == user_id,
+                                               GetTicketRecord.status == type)
+    else:
+        records = GetTicketRecord.query.filter(GetTicketRecord.user_id == user_id)
 
-    return render_template('mobile/my_tickets.html', type=type, nav=2, records=new_records)
+    expire_date = ''
+    if records.all():
+        expire_date = datetime.date(records.first().discount.create_at) + timedelta(
+            days=records.first().discount.usable)
+
+    return render_template('mobile/my_tickets.html', type=type, nav=2, records=records, expire_date=expire_date)
 
 
 @bp.route('/my_tickets_detail')

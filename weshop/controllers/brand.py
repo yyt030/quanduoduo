@@ -231,7 +231,7 @@ def account():
             if exist:
                 return render_template('account/error.html', error='您输入的商户帐号已存在！')
             else:
-                if not len(form.mobile.data) or not (form.mobile.data).isdigit():
+                if len(form.mobile.data) or not (form.mobile.data).isdigit():
                     return render_template('account/error.html', error='您输入的用户名不正确！')
                 user_new = User(name=form.name.data, email=form.email.data, mobile=form.mobile.data,
                                 password=form.password.data)
