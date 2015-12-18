@@ -22,7 +22,7 @@ def run():
 @manager.command
 def run_80():
     """启动网站"""
-    app.run(host="0.0.0.0", port=80)
+    app.run(host="0.0.0.0", port=80,threaded=True)
 
 
 @manager.command
