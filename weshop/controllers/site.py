@@ -565,19 +565,14 @@ def tickets_detail():
                 msg = u'当前已登录的用户：{user}'.format(user=g.user.name)
                 print msg
     nav = 2
-    user_id = g.user.id
+    
     tickets_id = request.args.get('tid', 0, type=int)
 
     ticket = GetTicketRecord.query.get(tickets_id)
 
-    now = datetime.date(datetime.now())
-    expire_date = datetime.date(ticket.create_at) + timedelta(days=ticket.discount.usable)
-    isexpire = (now - expire_date).days
-
-    print '-' * 10, isexpire
     shops = ticket.discount.shops
     return render_template('mobile/my_tickets_detail.html', nav=2, discount=ticket.discount,
-                           shops=shops, expire_date=expire_date, isexpire=isexpire)
+                           shops=shops, expire_date=ticket.get_expire_date, isexpire=ticket.is_expire)
 
 
 @bp.route('/gonglue')

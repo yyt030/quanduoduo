@@ -38,7 +38,7 @@
                         </tr>
                         <tr>
                             <td>
-                                {% if isexpire > 0 %}
+                                {% if not isexpire %}
                                     <h5>有效期至{{ expire_date }},该优惠券已过期</h5>
                                 {% else %}
                                     <h5>有效期至{{ expire_date }}</h5>
