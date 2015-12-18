@@ -33,7 +33,7 @@ appsecret = '5d684675679354b7c8544651fa909921'
 import time
 
 
-# @wechat_login
+@wechat_login
 @bp.route('/', methods=['GET'])
 @bp.route('/detail', methods=['GET'])
 def detail():
@@ -54,7 +54,7 @@ def detail():
     # user的领券情况
     user = g.user
     # 该用户下领用的存在有效期的券（含使用或者未使用）
-    my_ticket_records = GetTicketRecord.query.filter(GetTicketRecord.user_id == user.id)
+    my_ticket_records = GetTicketRecord.query.filter(GetTicketRecord.user_id == g.user.id)
     curr_ticket_record = my_ticket_records.filter(GetTicketRecord.discount_id == discount_id,
                                                    GetTicketRecord.create_at >= now - datetime.timedelta(
                                                        days=discount.usable)).first()
