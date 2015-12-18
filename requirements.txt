@@ -30,3 +30,4 @@ qrcode
 
 Flask-Cache==0.13.1
 celery==3.1.19
+great_circle

@@ -209,35 +209,12 @@ def crossdomain_xml():
 def test():
     return str(zip(session.keys(), session.values()))
 
-
+@wechat_login
 @bp.route('/find')
 def find():
     openid = session.get("openid")
     print "openid", openid
-    if not openid:
-        code = request.args.get("code")
-        if not code:
-            print "not code"
-            return redirect(WeixinHelper.oauth3('/find'))
-        else:
-            data = json.loads(WeixinHelper.getAccessTokenByCode(code))
-            access_token, openid, refresh_token = data["access_token"], data["openid"], data["refresh_token"]
-            userinfo = json.loads(WeixinHelper.getSnsapiUserInfo(access_token, openid))
-            print "user_info,", userinfo
-            # print openid
 
-            if not g.user:
-                # 检查用户是否存在
-                add_wechat_user_to_db(openid)
-                user = User.query.filter(User.profile.any(Profile.openid == openid)).first()
-                if user is not None:
-                    signin_user(user)
-                    session['openid'] = openid
-                    print u'与微信用户关联的user（%s） 已开始登陆网站...' % user.name
-
-            else:
-                msg = u'当前已登录的用户：{user}'.format(user=g.user.name)
-                print msg
     industry1 = request.args.get("industry1", None)
     industry2 = request.args.get('industry2', None)
     district1 = request.args.get('district1', None)
