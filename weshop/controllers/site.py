@@ -571,7 +571,7 @@ def tickets_detail():
     tickets_id = request.args.get('tid', 0, type=int)
 
     ticket = GetTicketRecord.query.get(tickets_id)
-
+    print "ticket,",ticket.id
     now = datetime.date(datetime.now())
     if ticket:
         expire_date = datetime.date(ticket.create_at) + timedelta(days=ticket.discount.usable)
