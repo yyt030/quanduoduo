@@ -110,3 +110,15 @@ class GetTicketRecord(db.Model):
 
     def __repr__(self):
         return '<GetDiscountRecord %s>' % self.id
+
+
+class WechatMessage(db.Model):
+    """发放的优惠券记录"""
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    content = db.Column(db.String(200), default='')
+    user = db.relationship('User', backref=db.backref('wechat_messages', lazy='dynamic'))
+    create_at = db.Column(db.DateTime, default=datetime.datetime.now)
+
+    def __repr__(self):
+        return '<WechatMessage %s>' % self.id

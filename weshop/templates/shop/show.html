@@ -3,13 +3,13 @@
     <body>
     <div class="show_head store">
         <div class="head_back">
-            <img src="http://mob.32184.com/resource/attachment/images/10014/2015/05/bzi9iZZMM7pwmoaayU3cd5ypi9AVoc.jpg">
+            <img src="/resource/attachment/images/{{ shop.brand.image }}">
         </div>
         <div class="head_wrap">
             <div class="load_wrap">
                 <div class="store-brand">
                 <span><img
-                        src="/resource/attachment/images/{{ shop.brand.image }}"></span>
+                        src="/resource/attachment/images/{{ shop.brand.thumb }}"></span>
                 </div>
                 <div class="store-title">
                     <h3>{{ shop.brand.name }}</h3>
@@ -61,21 +61,19 @@
                 <div class="coupon-other">
                     <p>
                         <span>4张</span>
-                        <a href="business.php?sid=120010848&weid=10014&do=album">门店相册</a>
+                        <a href="/shop/photo_list?bid={{ shop.brand_id }}&shop_id={{ shop.id }}">门店相册</a>
                     </p>
                 </div>
                 <div class="coupon-photo">
                     <table cellspacing="0">
+
                         <tr>
-                            <td><a href="business.php?aid=1234568921&weid=10014&do=photo"><img
-                                    src="http://mob.32184.com/resource/attachment/images/10014/2015/05/Ne3uUEO2ySVX6U6s46A7s2sT8627O6.jpg"/></a>
+                            {% for s in shop_photos %}
+                            <td>
+                                <a href="/shop/photo_detail/{{ s.id }}"><img src="/resource/attachment/images/{{ s.image }}"/></a>
                             </td>
-                            <td><a href="business.php?aid=1234568922&weid=10014&do=photo"><img
-                                    src="http://mob.32184.com/resource/attachment/images/10014/2015/05/rYhsGksA4HbYhzY6YRy0XB0Hy40h0b.jpg"/></a>
-                            </td>
-                            <td><a href="business.php?aid=1234568923&weid=10014&do=photo"><img
-                                    src="http://mob.32184.com/resource/attachment/images/10014/2015/05/zdO699ipdzQd7pjJoDw44G4l7467dU.jpg"/></a>
-                            </td>
+
+                            {% endfor %}
                         </tr>
                     </table>
                 </div>
@@ -88,10 +86,10 @@
         </div>
     </div>
     <script type="text/javascript">
-        var _share_image = "http://mob.32184.com/resource/attachment/images/10014/2015/05/qT42522XH9A7t9XT9R2th49hf79TD2.jpg";
+        var _share_image = "{{website.url}}/resource/attachment/images/10014/2015/05/qT42522XH9A7t9XT9R2th49hf79TD2.jpg";
         var _share_title = "{{ shop.brand.name }}";
         var _share_intro = "快来领取手机优惠券吧";
-        var _share_place = "http://mob.32184.com/business.php?do=store&sid=120010848&weid=10014&path=store&param=120010848";
+        var _share_place = "{{website.url}}/business.php?do=store&sid=120010848&weid=10014&path=store&param=120010848";
         var isallowfirend = "true";
 
         document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {

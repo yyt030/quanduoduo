@@ -53,7 +53,7 @@
             </div>
             <div class="load_wrap">
                 <div class="coupon-other">
-                    <p><a href="http://mob.32184.com/find.php?weid=10012">查找更多商家</a></p>
+                    <p><a href="{{website.url}}/find.php?weid=10012">查找更多商家</a></p>
                 </div>
             </div>
         </div>
@@ -67,7 +67,7 @@
     <script type="text/javascript">
         $(function () {
             $('#enjoy').click(function () {
-                var getJSONURL = "http://mob.32184.com/business.php?bid=1002377&weid=10012&do=post";
+                var getJSONURL = "{{website.url}}/business.php?bid=1002377&weid=10012&do=post";
                 $.getJSON(getJSONURL,
                         function (data) {
                             if (data.type == 'success') {
@@ -84,10 +84,10 @@
         });
     </script>
     <script type="text/javascript">
-        var _share_image = "http://mob.32184.com/resource/attachment/icon.jpg";
+        var _share_image = "{{website.url}}/resource/attachment/icon.jpg";
         var _share_title = "shs";
         var _share_intro = "快来领取手机优惠券吧";
-        var _share_place = "http://mob.32184.com/business.php?do=brand&bid=1002377&weid=10012&path=brand&param=1002377";
+        var _share_place = "{{website.url}}/business.php?do=brand&bid=1002377&weid=10012&path=brand&param=1002377";
         var isallowfirend = "true";
 
         document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {

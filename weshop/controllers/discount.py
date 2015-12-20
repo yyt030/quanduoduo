@@ -33,7 +33,6 @@ appsecret = '5d684675679354b7c8544651fa909921'
 import time
 
 
-# @wechat_login
 @bp.route('/', methods=['GET'])
 @bp.route('/detail', methods=['GET'])
 def detail():
@@ -48,10 +47,10 @@ def detail():
     discount_shop_count = discount.shops.count()
 
     user_agent = request.headers.get('User-Agent')
-    print "discount_id",discount_id
+
     # user的领券情况
     # 该用户下领用的存在有效期的券（含使用或者未使用）
-    curr_ticket_record = GetTicketRecord.query.filter(GetTicketRecord.user_id ==g.user,
+    curr_ticket_record = GetTicketRecord.query.filter(GetTicketRecord.user_id == g.user,
                                                       GetTicketRecord.discount_id == discount_id,
                                                       GetTicketRecord.create_at >= datetime.datetime.now() - datetime.timedelta(
                                                           days=discount.usable), GetTicketRecord.status != 'expire')
@@ -68,10 +67,13 @@ def detail():
         if 'MicroMessenger' not in user_agent:
             return json.dumps({"message": "请在微信里操作", "redirect": "permit", "type": "tips"})
         else:
+            expire_datetime = discount.get_expire_datetime()
+            expire_datetime_format = expire_datetime.strftime("%Y年%m%月%d")
             openid = session['openid']
             wechat = WechatBasic(appid=appid, appsecret=appsecret)
             # wechat.send_text_message(session['openid'], "test")
             # 调用公众号消息模板A0XK30w_sZPti5_gn33PJ5msng7yb71zAEcRa0E44oM发送领券通知
+            template_id = 'A0XK30w_sZPti5_gn33PJ5msng7yb71zAEcRa0E44oM'
             """{first.DATA}}
             优惠券：{{keyword1.DATA}}
             来源：{{keyword2.DATA}}
@@ -93,7 +95,7 @@ def detail():
                     "color": "#173177"
                 },
                 "keyword3": {
-                    "value": "2015年12月10日",
+                    "value": expire_datetime_format,
                     "color": "#173177"
                 },
                 "remark": {
@@ -102,8 +104,9 @@ def detail():
                 }
             }
             # 领取后需要写入到get_discount_record 表
-            # 下次是否能领取则通过这张表的数据来判断
+            # TODO 下次是否能领取则通过这张表的数据来判断
             year = time.strftime("%Y", time.localtime())[2:]
+            # TODO 根据时间戳生成唯一id,可能有点不规范
             code = year + str(time.time())[4:-3]
             record = GetTicketRecord(user_id=g.user.id, discount_id=discount_id, code=code)
             db.session.add(record)
@@ -111,7 +114,7 @@ def detail():
             db.session.commit()
             url = current_app.config.get('SITE_DOMAIN') + (
                 url_for('shop.checkout', discount_id=discount_id, record_id=record.id))
-            wechat.send_template_message(openid, 'A0XK30w_sZPti5_gn33PJ5msng7yb71zAEcRa0E44oM', json_data, url)
+            wechat.send_template_message(openid, template_id, json_data, url)
 
             # still 表示本周还能领多少张 TODO 静态数据需要替换
             # allow 表示本周允许领取多少张
@@ -186,8 +189,7 @@ def getlist():
         query = discount.get_discounts
     page = request.args.get('page', 1, type=int)
     pagination = query.order_by(GetTicketRecord.create_at.desc()).paginate(
-        page, per_page=current_app.config['FLASKY_PER_PAGE'],
-        error_out=False)
+        page, per_page=current_app.config['FLASKY_PER_PAGE'], error_out=False)
     records = pagination.items
 
     return render_template('discount/discount_list.html', brand=brand, discount=discount, records=records,

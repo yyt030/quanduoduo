@@ -205,7 +205,7 @@ def register_logger(app):
         logger.setLevel(logging.DEBUG)
 
         # 创建一个handler，用于写入日志文件
-        rfh = RotatingFileHandler('%s/jeepsk.log' % app.config.get('PROJECT_PATH'), 'a',
+        rfh = RotatingFileHandler('%s/web.log' % app.config.get('PROJECT_PATH'), 'a',
                                   1 * 1024 * 1024, 10)
         rfh.setLevel(logging.DEBUG)
 

@@ -38,13 +38,13 @@
                     <a href="javascript:void(0);" onclick="$('form[name=search]').submit();"><i class="icon-search"></i></a>
                 </div>
                 <div class="order">
-                    <a href="/discount/getlist?bid={{ brand.id }}&did={{ discount.id }}&status=verify">已提醒</a> /
-                    <a href="/discount/getlist?bid={{ brand.id }}&did={{ discount.id }}&status=usedit">已使用</a> /
-                    <a href="/discount/getlist?bid={{ brand.id }}&did={{ discount.id }}&status=normal">未使用</a>
+                    <a href="{{ url_for('discount.getlist',bid=brand_id,did=discount.id,status='verify') }}">已提醒</a> /
+                    <a href="{{ url_for('discount.getlist',bid=brand_id,did=discount.id,status='usedit') }}">已使用</a> /
+                    <a href="{{ url_for('discount.getlist',bid=brand_id,did=discount.id,status='normal') }}">未使用</a> /
                 </div>
                 <div class="class normal">
                     <ul>
-                        <li class="normal"><a href="/discount/getlist?bid={{ brand.id }}&did={{ discount.id }}">全部记录</a>
+                        <li class="normal"><a href="{{ url_for('discount.getlist',bid=brand_id,did=discount.id) }}">全部记录</a>
                         </li>
                     </ul>
                 </div>
@@ -68,10 +68,10 @@
             </div>
             {% for record in records %}
                 <div class="load_wrap modelList {% if record.status == 'expire' %} closed {% else %} nobody {% endif %}"
-                     data-aid="1001086160"
+                     data-aid="{{ record.code }}"
                      title="{% if record.status == 'expire' %} 已过期 {% else %} {{ record.status }} {% endif %}">
-                    <div class="coupon-image gender1" data-fid="12435138"
-                         data-avatar="Q3auHgzwzM7msPgJ92ZuPic3ZVxZZWHfutMRibqXI6Un9SUeyHX3FNUicQr4PYw4VV86FQkAVfCEMibSNkr9IKwmiaQ">
+                    <div class="coupon-image gender1" data-fid="{{  record.user.id}}"
+                         data-avatar="{{ record.user.profile.headimgurl }}">
                     </div>
                     <div class="coupon-intro">
                         <h1>
@@ -79,9 +79,9 @@
                         </h1>
 
                         <h2>
-                            <a href="/discount/detail?did={{ discount.id }}&brand_id={{ discount.brand_id }}" target="_blank"
+                            <a href="/discount/detail?did={{ record.discount.id }}&brand_id={{ record.discount.brand_id }}" target="_blank"
                                class="light">{{ brand.name }}</a>
-                            <a href="/discount/detail?did={{ discount.id }}&brand_id={{ discount.brand_id }}" target="_blank">{{ discount.title }}</a>
+                            <a href="/discount/detail?did={{ record.discount.id }}&brand_id={{ record.discount.brand_id }}" target="_blank">{{ discount.title }}</a>
                         </h2>
                     </div>
                     <div class="coupon-class">
@@ -91,7 +91,7 @@
                         </div>
                         <div class="class-inf">
                             <span class="type"><a
-                                    href="site.php?from=normal&weid=10014&act=analysis&do=display"></a></span>
+                                    href="#"></a></span>
                             <span class="icon"></span>
                             <span class="icon"></span>
                             <i class="icon-ticket"></i>

@@ -33,7 +33,8 @@
         <div class="load_wrap " id="mycoupon">
             <div class="coupon-header">
                 <h3>
-                    <a href="/shop/{{ discount.brand.id }}">
+                    {# TODO 获取优惠券所在店铺名 #}
+                    <a href="/shop/{{ discount.shops.first().id }}">
                         <img src="/resource/attachment/images/{{ discount.brand.thumb }}"/>
                         {{ discount.brand.name }} </a>
                 </h3>
@@ -165,7 +166,7 @@
 
         <div class="load_wrap">
             <div class="coupon-other last">
-                <p><a href="/find?did=110014705&weid=10014&do=more">此券适用门店<span>{{ discount_shop_count }}家</span></a>
+                <p><a href="#">此券适用门店<span>{{ discount_shop_count }}家</span></a>
                 </p>
             </div>
             {% for shop in shops %}

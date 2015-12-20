@@ -1,0 +1,54 @@
+{% extends 'account_layout.html' %}
+{% from 'macro/form.html' import form_field %}
+{% block content %}
+    <body>
+    <div class="show_body">
+        <div class="head_wrap">
+            <div class="class normal">
+                <ul>
+                    <li class="normal"><a href="">全部消息</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="body_wrap" id="body_wrap">
+            <div class="type_wrap">
+                查看消息
+            </div>
+            {% for m in messages %}
+            <div class="load_wrap" title="" id="the{{ m.user_id }}">
+                <div class="coupon-image">
+                    <img src="{{ m.user.profile.headimgurl }}"
+                         width="48">
+                </div>
+                <div class="coupon-intro">
+                    <h1>
+                        { m.user.profile.nickname }}
+                    </h1>
+
+                    <h2>
+                       {{ m.content }} </h2>
+                </div>
+                <div class="coupon-class">
+                    <div class="class-opt">
+                    </div>
+                    <div class="class-inf">
+                        <span class="code">{{ m.time }}</span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+
+
+        </div>
+    </div>
+
+    <div class="show_foot">
+        <div class="foot_wrap">
+            <p>© 2015 <b>汝州百事优惠圈商务</b></p>
+        </div>
+    </div>
+
+
+    </body>
+{% endblock %}
