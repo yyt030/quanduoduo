@@ -189,13 +189,17 @@ def test():
 def find():
     openid = session.get("openid")
     access_token = session.get('access_token')
-    if not openid:
-        code = request.args.get("code")
-        if not code:
-            print "not code"
-            return redirect(WeixinHelper.oauth2(request.url))
-        else:
-            wechat_login_fun(code)
+    user_agent = request.headers.get('User-Agent')
+    # 如果操作是在微信网页端进行，要获取openid
+    if 'MicroMessenger' in user_agent:
+        if not openid:
+            code = request.args.get("code")
+            if not code:
+                print "not code"
+                return redirect(WeixinHelper.oauth2(request.url))
+            else:
+                wechat_login_fun(code)
+
     industry1 = request.args.get("industry1", None)
     industry2 = request.args.get('industry2', None)
     district1 = request.args.get('district1', None)

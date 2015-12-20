@@ -50,7 +50,7 @@ def detail():
 
     # user的领券情况
     # 该用户下领用的存在有效期的券（含使用或者未使用）
-    curr_ticket_record = GetTicketRecord.query.filter(GetTicketRecord.user_id == g.user,shop_photos=shop_photos,
+    curr_ticket_record = GetTicketRecord.query.filter(GetTicketRecord.user_id == g.user,
                                                       GetTicketRecord.discount_id == discount_id,
                                                       GetTicketRecord.create_at >= datetime.datetime.now() - datetime.timedelta(
                                                           days=discount.usable), GetTicketRecord.status != 'expire')
@@ -130,7 +130,7 @@ def detail():
     return render_template('discount/detail.html', discount=discount,
                            discount_shop_count=discount_shop_count,
                            discount_id=discount_id, left_count=left_count,
-                           other_discounts=other_discounts,
+                           other_discounts=other_discounts,shop_photos=shop_photos,
                            shops=shops, curr_ticket_record=curr_ticket_record,
                            curr_ticket_records_week=curr_ticket_records_week)
 
