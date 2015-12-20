@@ -7,6 +7,7 @@ import os
 import string
 import re, urllib2
 import random
+from urllib import urlencode
 from PIL import Image
 from coverage.html import STATIC_PATH
 from flask import render_template, Blueprint, redirect, url_for, g, session, request, \
@@ -14,8 +15,8 @@ from flask import render_template, Blueprint, redirect, url_for, g, session, req
 from wechat_sdk import WechatBasic
 from weshop import csrf
 from weshop.utils.account import signin_user, signout_user
-from ..models import db, User, Discount, Brand, MyFavoriteBrand, Shop, Profile, GetTicketRecord
-from ..forms import SigninForm
+from ..models import db, User, Discount, Brand, MyFavoriteBrand, Shop, Profile, GetTicketRecord, Saler
+from ..forms import SigninForm, SalerInfoForm
 from ..utils.permissions import require_user, require_visitor
 from ..utils.uploadsets import images, random_filename, process_question, avatars
 from weshop.utils.helper import get_url_data
@@ -127,46 +128,47 @@ def user_data():
 
 
 @bp.route('/check_saler_info', methods=['GET', 'POST'])
-@require_user
 def check_saler_info():
     """确认收银员信息"""
     brand_id = int(request.args.get("bid", 0))
+    print re
     openid = session.get("openid")
     do = request.args.get("do")
-    print "openid,", openid
-    if not openid:
-        code = request.args.get("code")
-        if not code:
-            print "not code"
-            return redirect(WeixinHelper.oauth3('/find'))
-        else:
-            data = json.loads(WeixinHelper.getAccessTokenByCode(code))
-            access_token, openid, refresh_token = data["access_token"], data["openid"], data["refresh_token"]
-            userinfo = json.loads(WeixinHelper.getSnsapiUserInfo(access_token, openid))
-            print "user_info,", userinfo
-            # print openid
-
-            if not g.user:
-                # 检查用户是否存在
-                add_wechat_user_to_db(openid)
-                user = User.query.filter(User.profile.any(Profile.openid == openid)).first()
-                if user is not None:
-                    signin_user(user)
-                    session['openid'] = openid
-                    print u'与微信用户关联的user（%s） 已开始登陆网站...' % user.name
-
-            else:
-                msg = u'当前已登录的用户：{user}'.format(user=g.user.name)
-                print msg
+    form = SalerInfoForm()
+    # if not openid:
+    #     code = request.args.get("code")
+    #     if not code:
+    #         print "not code"
+    #         print "/check_saler_info"
+    #         return redirect(WeixinHelper.oauth3('/check_saler_info'))
+    #     else:
+    #         data = json.loads(WeixinHelper.getAccessTokenByCode(code))
+    #         access_token, openid, refresh_token = data["access_token"], data["openid"], data["refresh_token"]
+    #         userinfo = json.loads(WeixinHelper.getSnsapiUserInfo(access_token, openid))
+    #         print "user_info,", userinfo
+    #         # print openid
+    #
+    #         if not g.user:
+    #             # 检查用户是否存在
+    #             add_wechat_user_to_db(openid)
+    #             user = User.query.filter(User.profile.any(Profile.openid == openid)).first()
+    #             if user is not None:
+    #                 signin_user(user)
+    #                 session['openid'] = openid
+    #                 print u'与微信用户关联的user（%s） 已开始登陆网站...' % user.name
+    #
+    #         else:
+    #             msg = u'当前已登录的用户：{user}'.format(user=g.user.name)
+    #             print msg
     if do == 'check':
         # 绑定店员
         mobile = request.args.get("mobile")
-        user = request.user
-        user.mobile = mobile
-        user.save()
-
+        g.user.mobile = mobile
+        saler = Saler(user_id=g.user.id, brand_id=brand_id)
+        db.session.add(saler)
+        db.session.commit()
         return json.dumps({"message": "提交成功", "type": "success"})
-    return render_template('account/user_data.html')
+    return render_template('mobile/check_saler_info.html', brand_id=brand_id, form=form)
 
 
 @bp.route('/resource/<string:folder1>/<string:filename>', defaults={"folder2": "", "folder3": ""}, methods=['GET'])
@@ -184,16 +186,6 @@ def get_resourse(folder1, folder2, folder3, filename):
     mimetypes = {"jpg": 'image/jpg', "css": 'text/css', "png": "image/png", "js": 'application/x-javascript',
                  "xml": 'application/xHTML+XML'}
     return send_from_directory(BASE_URL, filename, mimetype=mimetypes.get(ext))
-
-
-@bp.route('/switch_city/<int:city_id>')
-def switch_city(city_id):
-    """切换城市"""
-    city = City.query.get_or_404(city_id)
-    session['city'] = city.name
-    session['city_id'] = city.id
-    session['province_id'] = city.province_id
-    return redirect(request.referrer or url_for('site.index'))
 
 
 @bp.route('/get_resource')
@@ -436,8 +428,10 @@ def favorite_brands():
         records = MyFavoriteBrand.query.filter(MyFavoriteBrand.user_id == user.id).order_by(
             MyFavoriteBrand.create_at.desc())
 
-    brand = records.first().brand
-
+    if records.first():
+        brand = records.first().brand
+    else:
+        brand = {}
     nav = 1
     return render_template('mobile/my_favorite_brand.html', type=type, nav=nav, brand=brand,
                            records=records)
@@ -550,7 +544,6 @@ def tickets_detail():
             userinfo = json.loads(WeixinHelper.getSnsapiUserInfo(access_token, openid))
             print "user_info,", userinfo
             # print openid
-
             if not g.user:
                 # 检查用户是否存在
                 add_wechat_user_to_db(openid)
@@ -567,12 +560,19 @@ def tickets_detail():
     nav = 2
     
     tickets_id = request.args.get('tid', 0, type=int)
-
+    print "ticket_id", tickets_id
     ticket = GetTicketRecord.query.get(tickets_id)
-
+    now = datetime.date(datetime.now())
+    if ticket:
+        expire_date = datetime.date(ticket.create_at) + timedelta(days=ticket.discount.usable)
+        isexpire = (now - expire_date).days
+        print '-' * 10, isexpire
+    else:
+        expire_date = ""
+        isexpire = True
     shops = ticket.discount.shops
-    return render_template('mobile/my_tickets_detail.html', nav=2, discount=ticket.discount,
-                           shops=shops, expire_date=ticket.get_expire_date, isexpire=ticket.is_expire)
+    return render_template('mobile/my_tickets_detail.html', nav=2, ticket=ticket, discount=ticket.discount,
+                           shops=shops, expire_date=expire_date, isexpire=isexpire)
 
 
 @bp.route('/gonglue')
@@ -635,6 +635,7 @@ def interface():
             wechat.parse_data(body_text)
             # 获得解析结果
             message = wechat.get_message()
+            print "user,", message.target
             print "message_type:", message.type
             # print request.data
             if message.type == 'text':
@@ -656,17 +657,28 @@ def interface():
                         brand = Brand.query.get(brand_id)
                         if not brand:
                             response = wechat.response_text("要绑定的店铺不存在")
-                        brand_text = "<a href='{0}/{1}?bid={2}'>{3}</a>".format(current_app.config.get("SITE_DOMAIN"),
-                                                                                "check_saler_info",
-                                                                                brand.id, brand.name)
+                        data = {"bid": brand_id}
+                        url_text = current_app.config.get("SITE_DOMAIN") + "/check_saler_info" + "?" + urlencode(data)
+                        brand_text = "<a href='{0}'>{1}</a>".format(url_text, brand.name)
                         print brand_text
 
                         text = "您正在申请绑定门店%s,点击输入手机号验证身份" % brand_text
                         response = wechat.response_text(text)
                     elif message.key[0:2] == '12':
+                        from_user = message.target
                         record_id = int(message.key[2:])
-                        callback_ticket(record_id)
-                        response = ""
+                        scan_user = User.query.filter(User.password == from_user).first()
+                        saler = Saler.query.filter(Saler.user_id == scan_user.user_id).first()
+                        ticket_record = GetTicketRecord.query.get(record_id)
+                        # 判断扫码用户是否为该店铺的店员
+                        if saler.brand_id != ticket_record.discount.brand_id:
+                            response = ""
+                        else:
+                            callback_ticket(record_id)
+                            saler.count += 1
+                            db.session.add(saler)
+                            db.session.commit()
+                            response = ""
             elif message.type == 'subscribe':
                 print message
                 if message.key and message.ticket:
@@ -680,8 +692,9 @@ def interface():
                     elif value.split("_")[0] == 'bind':
                         brand_id = int(message.key.split("_")[1])
                         brand = Brand.query.get(brand_id)
-                        brand_text = "<a href='{0}/{1}'>{2}</a>".format(current_app.config.get("SITE_DOMAIN"), "find",
-                                                                        brand.name)
+                        data = {"bid": brand_id}
+                        url_text = current_app.config.get("SITE_DOMAIN") + "/check_saler_info" + "?" + urlencode(data)
+                        brand_text = "<a href='{0}'>{1}</a>".format(url_text, brand.name)
                         text = "您正在申请绑定门店%s,点击输入手机号验证身份" % brand_text
                         response = wechat.response_text(text)
 

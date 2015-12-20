@@ -90,7 +90,6 @@
                 <div class="coupon-intro">
                     <h1>
                         {{ d.brand.name }} </h1>
-
                     <h2>
                         <span class="class-{{ d.type }}"></span>
                         <a href="/discount/detail?id={{ d.id }}&brand_id={{ bid }}" target="_blank">{{ d.title }}</a>
@@ -111,8 +110,9 @@
 {#                        <a href="/discount/qrcode?id={{ d.id }}" title="二维码"#}
 {#                           class=""><i class="icon-qrcode"></i></a>#}
                         <a href="/discount/delete?id={{ d.id }}" title="删除"
-                           class="remove" onclick="return confirm('此操作不可恢复，确认删除？');return false;"><i
-                                class="icon-remove"></i></a>
+                           class="remove" onclick="return confirm('此操作不可恢复，确认删除？');return false;">
+                            <i class="icon-remove"></i>
+                        </a>
                         <a href="/discount/setting?id={{ d.id }}&act=modify" title="编辑"
                            class=""><i class="icon-cog"></i></a>
                     </div>

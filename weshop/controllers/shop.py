@@ -20,6 +20,7 @@ from ..models import db, User, Brand, Shop, Discount, GetTicketRecord, ShopPhoto
 from ..forms import SigninForm, UploadForm
 from ..utils.permissions import require_user, require_visitor, require_admin
 from ..utils.uploadsets import images, random_filename, process_question, avatars
+import datetime
 
 bp = Blueprint('shop', __name__)
 
@@ -90,7 +91,7 @@ def upload():
             for i in range(0, len(old_images)):
                 if old_images[i] == 'true':
                     delete_id = int(id_items[i])
-                    photo=ShopPhoto.query.get(delete_id)
+                    photo = ShopPhoto.query.get(delete_id)
                     db.session.delete(photo)
                     db.session.commit()
         return render_template('account/ok.html', tip="相册更新成功！", url=url)
@@ -203,19 +204,24 @@ def list():
 
 @bp.route('/checkout', methods=['GET'])
 def checkout():
+    verify = False
+    is_expire = False
+    usedit = False
     discount_id = int(request.args.get("discount_id", 0))
-
     record_id = int(request.args.get("record_id", 0))  # 领取id
     do = request.args.get("do")
     discount = Discount.query.get_or_404(discount_id)
     shops = discount.shops
     record = GetTicketRecord.query.get_or_404(record_id)
-    verify = False
+    if record.status == 'usedit':
+        usedit = True
     if discount:
         expire_date = discount.create_at + timedelta(days=discount.usable)
         print discount.create_at, discount.usable
         expire_date = expire_date.date()
-        print "expire_date,", expire_date
+        if datetime.datetime.now() > record.create_at:
+            is_expire = True
+
     # 获取二维码ticket
     if do == 'get_qrcode':
         if record.status == 'verify':
@@ -231,7 +237,8 @@ def checkout():
         return json.dumps({"message": {"verify": verify, "ticket": ticket, "expire": 0}})
     elif do == 'download_qrcode':
         return ""
-    return render_template('shop/checkout.html', shops=shops, expire_date=expire_date, record_id=record_id, record=record,
+    return render_template('shop/checkout.html', shops=shops, expire_date=expire_date, is_expire=is_expire,
+                           record_id=record_id, record=record, usedit=usedit,
                            discount=discount)
 
 
@@ -239,16 +246,14 @@ def checkout():
 def bind_saler():
     """绑定收银台"""
     bid = int(request.args.get("bid", 0))
-    print bid
     brand = Brand.query.get(bid)
-    print brand.id
+    salers=brand.brand_salers.count()
     users = brand.brandaccounts
     shop_id = 0
     # 获取永久二维码
     wechat = WechatBasic(appid=current_app.config.get('WECHAT_APPID'),
                          appsecret=current_app.config.get('WECHAT_APPSECRET'))
     data = {"action_name": "QR_LIMIT_SCENE", "action_info": {"scene": {"scene_id": int(str("11") + str(brand.id))}}}
-    print data
     get_ticket_data = wechat.create_qrcode(data)
     ticket = get_ticket_data.get("ticket")
     return render_template('shop/bind_saler.html', brand=brand, ticket=ticket, users=users)

@@ -11,7 +11,7 @@ $(function(){
 		
 		item.html(
 			'<a href="site.php?act=fans&do=profile&fid='+fid+'" title="编辑信息">'+
-				'<img src="'+avatar+'" onerror="this.src=\'resource/image/noavatar_small.jpg\'" />'+
+				'<img src="'+avatar+'" onerror="this.src=\'/static/images/noavatar_small.jpg\'" />'+
 			'</a>'+
 			'<div class="photo-intro">'+
 				'<div class="popover_inner">'+
