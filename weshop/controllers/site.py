@@ -628,7 +628,6 @@ def interface():
                             response = ""
             # 用户在关注微信时就将用户数据写入数据库
             elif message.type == 'subscribe':
-
                 if message.key and message.ticket:
                     # TODO 扫码回收优惠券,这里还要判断扫码的用户是否为该品牌店授权的店员
                     # TODO 考虑到还有绑定店员的扫码事件,key分为两种：bind_[brandid],ticket_[code]
@@ -662,7 +661,6 @@ def interface():
                 session['latitude'] = latitude
                 session['longitude'] = longitude
                 session['precision'] = precision
-
                 g.latitude = latitude
                 g.longitude = longitude
                 g.precision = precision
@@ -672,9 +670,7 @@ def interface():
                 return ""
 
             return response
-
         else:
-
             return echostr
     else:
 

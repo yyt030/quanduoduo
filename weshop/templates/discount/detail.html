@@ -140,29 +140,27 @@
                 </div>
             {% endfor %}
         </div>
-        {#        <div class="load_wrap">#}
-        {#            <div class="coupon-other">#}
-        {#                <p>#}
-        {#                    <span>4张</span>#}
-        {#                    <a href="business.php?weid=10014&bid=1001819&do=album">门店相册</a>#}
-        {#                </p>#}
-        {#            </div>#}
-        {#            <div class="coupon-photo">#}
-        {#                <table cellspacing="0">#}
-        {#                    <tr>#}
-        {#                        <td><a href="business.php?weid=10014&aid=1234568921&do=photo"><img#}
-        {#                                src="http://hui.184buy.com/resource/attachment/images/10014/2015/05/Ne3uUEO2ySVX6U6s46A7s2sT8627O6.jpg"/></a>#}
-        {#                        </td>#}
-        {#                        <td><a href="business.php?weid=10014&aid=1234568922&do=photo"><img#}
-        {#                                src="http://hui.184buy.com/resource/attachment/images/10014/2015/05/rYhsGksA4HbYhzY6YRy0XB0Hy40h0b.jpg"/></a>#}
-        {#                        </td>#}
-        {#                        <td><a href="business.php?weid=10014&aid=1234568923&do=photo"><img#}
-        {#                                src="http://hui.184buy.com/resource/attachment/images/10014/2015/05/zdO699ipdzQd7pjJoDw44G4l7467dU.jpg"/></a>#}
-        {#                        </td>#}
-        {#                    </tr>#}
-        {#                </table>#}
-        {#            </div>#}
-        {#        </div>#}
+         <div class="load_wrap">
+                <div class="coupon-other">
+                    <p>
+                        <span>{{ shop_photos.count() }}张</span>
+                        <a href="/shop/photo_list?bid={{ discount.brand_id }}&shop_id={{ discount.shops.first().id }}">门店相册</a>
+                    </p>
+                </div>
+                <div class="coupon-photo">
+                    <table cellspacing="0">
+
+                        <tr>
+                            {% for s in shop_photos %}
+                            <td>
+                                <a href="/shop/photo_detail/{{ s.id }}"><img src="/resource/attachment/images/{{ s.image }}"/></a>
+                            </td>
+
+                            {% endfor %}
+                        </tr>
+                    </table>
+                </div>
+            </div>
 
         <div class="load_wrap">
             <div class="coupon-other last">

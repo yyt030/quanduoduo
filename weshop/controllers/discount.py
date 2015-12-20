@@ -18,7 +18,7 @@ from weshop.forms.shop import ShopSetting, BrandSetting, DiscountSetting
 from weshop.utils import devices
 from weshop.utils.account import signin_user
 from weshop.utils.devices import checkMobile
-from ..models import db, User, Brand, Shop, Discount, shop_discount, Profile, GetTicketRecord
+from ..models import db, User, Brand, Shop, Discount, shop_discount, Profile, GetTicketRecord, ShopPhoto
 from ..forms import SigninForm
 from ..utils.permissions import require_user, require_visitor
 from ..utils.uploadsets import images, random_filename, process_question, avatars
@@ -45,12 +45,12 @@ def detail():
     # discount.count 每天0：00清零 TODO 脚本任务
     left_count = discount.number - discount.count
     discount_shop_count = discount.shops.count()
-
+    shop_photos=ShopPhoto.query.filter(ShopPhoto.brand_id == discount.brand_id)
     user_agent = request.headers.get('User-Agent')
 
     # user的领券情况
     # 该用户下领用的存在有效期的券（含使用或者未使用）
-    curr_ticket_record = GetTicketRecord.query.filter(GetTicketRecord.user_id == g.user,
+    curr_ticket_record = GetTicketRecord.query.filter(GetTicketRecord.user_id == g.user,shop_photos=shop_photos,
                                                       GetTicketRecord.discount_id == discount_id,
                                                       GetTicketRecord.create_at >= datetime.datetime.now() - datetime.timedelta(
                                                           days=discount.usable), GetTicketRecord.status != 'expire')
