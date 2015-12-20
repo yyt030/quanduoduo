@@ -201,9 +201,12 @@ def find():
     district1 = request.args.get('district1', None)
     sortrank1 = request.args.get('sortrank1', None)
     page = request.args.get('page', 0, type=int)
-    do = request.args.get("do", "")
+    query = request.args.get("query", "")
 
-    # print '=' * 10, industry1, industry2, district1, sortrank1
+    if query:
+        discounts = Discount.query.join(Brand).filter(Brand.name.like('%{0}%'.format(query)))
+        return render_template('mobile/search_result.html', discounts=discounts)
+
 
     # 拼装查询条件
     discounts = Discount.query
@@ -218,8 +221,6 @@ def find():
 
     if district1 and session.get('longitude', ''):  # 地区
         if district1 == u'200米内':
-            # for i in Shop.query.all():
-            #     print '-' * 10, i, i.get_distinct(point)
             for discount in discounts.all():
                 for shop in discount.shops.all():
                     if shop.get_distinct(curr_user_point) <= 0.2:
@@ -258,7 +259,7 @@ def find():
         discounts = discounts[page * EVENY_PAGE_NUM:
         (page + 1) * EVENY_PAGE_NUM]
 
-    if industry1 or do:
+    if industry1 or district1 or sortrank1:
         return render_template('mobile/search_result.html', discounts=discounts, industry1=industry1)
 
     return render_template('mobile/home.html', discounts=discounts, industry1=industry1)
@@ -272,9 +273,7 @@ def search_api():
     sortrank1 = request.args.get('sortrank1', None)
 
     page = request.args.get('page', 0, type=int)
-    search = request.args.get("search", "")
-
-    # print '-' * 10, industry1, industry2, district1, sortrank1
+    query = request.args.get("query", "")
 
     # 拼装查询条件
     discounts = Discount.query
@@ -390,10 +389,10 @@ def favorite_brands():
     if type == 'hot':
         # TODO
         records = MyFavoriteBrand.query.filter(MyFavoriteBrand.user_id == user.id).order_by(
-            MyFavoriteBrand.create_at.desc())
+                MyFavoriteBrand.create_at.desc())
     else:
         records = MyFavoriteBrand.query.filter(MyFavoriteBrand.user_id == user.id).order_by(
-            MyFavoriteBrand.create_at.desc())
+                MyFavoriteBrand.create_at.desc())
 
     if records.first():
         brand = records.first().brand
@@ -490,7 +489,7 @@ def tickets_detail():
                 msg = u'当前已登录的用户：{user}'.format(user=g.user.name)
                 print msg
     nav = 2
-    user_id = g.user.id
+
     tickets_id = request.args.get('tid', 0, type=int)
     print "ticket_id", tickets_id
     ticket = GetTicketRecord.query.get(tickets_id)
