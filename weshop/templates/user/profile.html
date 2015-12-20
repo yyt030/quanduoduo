@@ -10,11 +10,7 @@
                     <tbody>
                     <tr>
                         <td width="230" rowspan="9">
-                            {% if not user.profile.headimgurl %}
-                                <img src="/static/images/noavatar_middle.gif" width="160"><br>
-                            {% else %}
-                                <img src="{{ user.profile.headimgurl }}" width="160"><br>
-                            {% endif %}
+                             <img src="{{ user.profile.headimgurl }}" width="160"><br>
                         </td>
                         <td width="300">
                             编号：{{ user.id }}
@@ -40,7 +36,7 @@
 {#                        </td>#}
 {#                    </tr>#}
                     <tr>
-                        <td>创建：{{ user.proile.subscribe_time }}</td>
+                        <td>创建：{{ user.profile.subscribe_time }}</td>
 {#                        <td title="0%">#}
 {#                            用量：0 / 2#}
 {#                        </td>#}

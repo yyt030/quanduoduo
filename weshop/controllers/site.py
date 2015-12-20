@@ -190,6 +190,7 @@ def find():
     openid = session.get("openid")
     access_token = session.get('access_token')
     user_agent = request.headers.get('User-Agent')
+    print user_agent
     # 如果操作是在微信网页端进行，要获取openid
     if 'MicroMessenger' in user_agent:
         if not openid:

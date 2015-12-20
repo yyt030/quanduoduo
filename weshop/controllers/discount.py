@@ -45,7 +45,7 @@ def detail():
     # discount.count 每天0：00清零 TODO 脚本任务
     left_count = discount.number - discount.count
     discount_shop_count = discount.shops.count()
-    shop_photos=ShopPhoto.query.filter(ShopPhoto.brand_id == discount.brand_id)
+    shop_photos = ShopPhoto.query.filter(ShopPhoto.brand_id == discount.brand_id)
     user_agent = request.headers.get('User-Agent')
 
     # user的领券情况
@@ -130,7 +130,7 @@ def detail():
     return render_template('discount/detail.html', discount=discount,
                            discount_shop_count=discount_shop_count,
                            discount_id=discount_id, left_count=left_count,
-                           other_discounts=other_discounts,shop_photos=shop_photos,
+                           other_discounts=other_discounts, shop_photos=shop_photos,
                            shops=shops, curr_ticket_record=curr_ticket_record,
                            curr_ticket_records_week=curr_ticket_records_week)
 
@@ -174,25 +174,32 @@ def delay():
 @bp.route('/getlist', methods=['GET', 'POST'])
 def getlist():
     """
-    根据品牌获取discount列表
+    根据品牌获取领用记录
+    根据店铺获取领用记录
+    根据指定用户获取领用记录
     :return:
     """
     bid = int(request.args.get("bid", 0))
     did = int(request.args.get("did", 0))
+    fid = int(request.args.get("fid", 0))
     status = request.args.get('status')
     brand = Brand.query.get(bid)
-    discount = Discount.query.get(did)
-
+    records = GetTicketRecord.query
+    if bid:
+        records = records.filter(GetTicketRecord.discount.has(Discount.brand_id == bid))
+    if did:
+        records = records.filter(GetTicketRecord.discount_id == did)
+    if fid:
+        records=records.filter(GetTicketRecord.user_id==fid)
     if status:
-        query = discount.get_discounts.filter(GetTicketRecord.status == status)
-    else:
-        query = discount.get_discounts
+        records = records.filter(GetTicketRecord.status == status)
+
     page = request.args.get('page', 1, type=int)
-    pagination = query.order_by(GetTicketRecord.create_at.desc()).paginate(
+    pagination = records.order_by(GetTicketRecord.create_at.desc()).paginate(
         page, per_page=current_app.config['FLASKY_PER_PAGE'], error_out=False)
     records = pagination.items
 
-    return render_template('discount/discount_list.html', brand=brand, discount=discount, records=records,
+    return render_template('discount/discount_list.html', brand=brand, records=records,bid=bid,did=did,fid=fid,
                            pagination=pagination)
 
 

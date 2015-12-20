@@ -38,13 +38,13 @@
                     <a href="javascript:void(0);" onclick="$('form[name=search]').submit();"><i class="icon-search"></i></a>
                 </div>
                 <div class="order">
-                    <a href="{{ url_for('discount.getlist',bid=brand_id,did=discount.id,status='verify') }}">已提醒</a> /
-                    <a href="{{ url_for('discount.getlist',bid=brand_id,did=discount.id,status='usedit') }}">已使用</a> /
-                    <a href="{{ url_for('discount.getlist',bid=brand_id,did=discount.id,status='normal') }}">未使用</a> /
+                    <a href="{{ url_for('discount.getlist',bid=bid,did=did,status='verify') }}">已提醒</a> /
+                    <a href="{{ url_for('discount.getlist',bid=bid,did=did,status='usedit') }}">已使用</a> /
+                    <a href="{{ url_for('discount.getlist',bid=bid,did=did,status='normal') }}">未使用</a> /
                 </div>
                 <div class="class normal">
                     <ul>
-                        <li class="normal"><a href="{{ url_for('discount.getlist',bid=brand_id,did=discount.id) }}">全部记录</a>
+                        <li class="normal"><a href="{{ url_for('discount.getlist',bid=bid,did=did) }}">全部记录</a>
                         </li>
                     </ul>
                 </div>
@@ -81,7 +81,7 @@
                         <h2>
                             <a href="/discount/detail?did={{ record.discount.id }}&brand_id={{ record.discount.brand_id }}" target="_blank"
                                class="light">{{ brand.name }}</a>
-                            <a href="/discount/detail?did={{ record.discount.id }}&brand_id={{ record.discount.brand_id }}" target="_blank">{{ discount.title }}</a>
+                            <a href="/discount/detail?did={{ record.discount.id }}&brand_id={{ record.discount.brand_id }}" target="_blank">{{ record.discount.title }}</a>
                         </h2>
                     </div>
                     <div class="coupon-class">
