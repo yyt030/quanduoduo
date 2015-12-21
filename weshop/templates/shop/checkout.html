@@ -45,7 +45,11 @@
                 <div class="code usedit{% if  record.status=='usedit' %}1{% else %}0{% endif %} expire{% if not is_expire %}0{% else %}1{% endif %}">
 
                     <p class="normal">
-                        <img id="qrcode" class="load_image" width="129" height="129"/>
+                        {% if record.ticket %}
+                            <img id="qrcode" src='"https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket={{ record.ticket }}' class="load_image" width="129" height="129"/>
+                        {% else %}
+                            <img id="qrcode" class="load_image" width="129" height="129"/>
+                        {% endif %}
                         <span>{{ record.code }}</span>
                     </p>
 
@@ -133,7 +137,7 @@
 <script type="text/javascript">
     $(function () {
         $('.usedit0 .expire0').each(function () {
-            alert ("hehe");
+            alert("hehe");
             loadQrcode(0);
         });
     });
@@ -142,7 +146,7 @@
         var getQrcodeUrl = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=";
         var getTicketUrl = "/shop/checkout?discount_id={{ discount.id }}&record_id={{ record_id }}&do=get_qrcode";
         $.getJSON(getTicketUrl + '&expire=' + expire, function (result) {
-            alert (result.message['verify']);
+            alert(result.message['verify']);
             if (!result.message['verify']) {
                 if (result.message['ticket']) {
                     $('#qrcode').attr('src', getQrcodeUrl + result.message['ticket']);
