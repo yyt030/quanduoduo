@@ -16,7 +16,7 @@ from weshop import csrf
 from weshop.forms.shop import ShopSetting, BrandSetting
 from weshop.utils import devices
 from weshop.utils.devices import checkMobile
-from ..models import db, User, Brand, Shop, Discount, GetTicketRecord, ShopPhoto
+from ..models import db, User, Brand, Shop, Discount, GetTicketRecord, ShopPhoto, Saler
 from ..forms import SigninForm, UploadForm
 from ..utils.permissions import require_user, require_visitor, require_admin
 from ..utils.uploadsets import images, random_filename, process_question, avatars
@@ -112,8 +112,8 @@ def photo_list():
     bid = request.args.get("bid", type=int)
     shop_id = request.args.get("shop_id", type=int)
     photos = ShopPhoto.query.filter(ShopPhoto.brand_id == bid)
-    shop= Shop.query.get(shop_id)
-    return render_template('shop/photo_list.html', shop=shop,photos=photos)
+    shop = Shop.query.get(shop_id)
+    return render_template('shop/photo_list.html', shop=shop, photos=photos)
 
 
 @bp.route('/setting', methods=['GET', 'POST'])
@@ -226,7 +226,7 @@ def checkout():
     is_expire = False
     usedit = False
     discount_id = request.args.get("discount_id", 0, type=int)
-    record_id = request.args.get("record_id", 0, type=int) # 领取id
+    record_id = request.args.get("record_id", 0, type=int)  # 领取id
     do = request.args.get("do")
     discount = Discount.query.get_or_404(discount_id)
     shops = discount.shops
@@ -254,11 +254,11 @@ def checkout():
             ticket = get_ticket_data.get("ticket")
             session['ticket'] = ticket
             # 写入数据库
-            record.ticket=ticket
+            record.ticket = ticket
             db.session.add(record)
             db.session.commit()
         else:
-            ticket=record.ticket
+            ticket = record.ticket
         return json.dumps({"message": {"verify": verify, "ticket": ticket, "expire": 0}})
     elif do == 'download_qrcode':
         return ""
@@ -285,3 +285,14 @@ def bind_saler():
 
 
     # 您已成功绑定洛阳科技职业学院游泳馆的微信收银台 TODO
+
+
+@bp.route('/delete_saler', methods=['GET'])
+def delete_saler():
+    """删除店员"""
+    id = int(request.args.get("id", 0))
+    if id:
+        saler = Saler.query.get(id)
+        db.session.delete(saler)
+        db.session.commit()
+    return redirect(url_for('shop.bind_saler'))

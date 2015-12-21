@@ -604,10 +604,9 @@ def interface():
                         text = "您正在申请绑定门店%s,点击输入手机号验证身份" % brand_text
                         response = wechat.response_text(text)
                     elif message.key[0:2] == '12':
-                        from_user = message.target
                         record_id = int(message.key[2:])
-                        scan_user = User.query.filter(User.password == from_user).first()
-                        saler = Saler.query.filter(Saler.user_id == scan_user.user_id).first()
+                        scan_user = User.query.filter(User.profile.any(Profile.openid == openid)).first()
+                        saler = Saler.query.filter(Saler.user_id == scan_user.id).first()
                         ticket_record = GetTicketRecord.query.get(record_id)
                         # 判断扫码用户是否为该店铺的店员
                         if saler.brand_id != ticket_record.discount.brand_id:
