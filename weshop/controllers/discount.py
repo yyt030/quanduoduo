@@ -66,7 +66,7 @@ def detail():
         else:
             expire_datetime = discount.get_expire_datetime
             # expire_datetime_format = expire_datetime.strftime("%Y-%m%-%d")
-            expire_datetime_format = str(expire_datetime)
+            expire_datetime_format = str(expire_datetime.date)
             print expire_datetime
             openid = session['openid']
             wechat = WechatBasic(appid=appid, appsecret=appsecret)
@@ -120,7 +120,7 @@ def detail():
             # allow 表示本周允许领取多少张
             still = discount.number * discount.usable - 1
             return json.dumps(
-                {"message": {"still": still, "allow": 1, "tid": record.id, "ctime": "156151515"}, "redirect": "",
+                {"message": {"still": still, "allow": 1, "rid": record.id, "ctime": "156151515"}, "redirect": "",
                  "type": "success"})
 
     # other discount in the discount
