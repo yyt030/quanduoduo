@@ -64,7 +64,7 @@ def detail():
         if 'MicroMessenger' not in user_agent:
             return json.dumps({"message": "请在微信里操作", "redirect": "permit", "type": "tips"})
         else:
-            expire_datetime = discount.get_expire_datetime()
+            expire_datetime = discount.get_expire_datetime
             expire_datetime_format = expire_datetime.strftime("%Y年%m%月%d")
             openid = session['openid']
             wechat = WechatBasic(appid=appid, appsecret=appsecret)
