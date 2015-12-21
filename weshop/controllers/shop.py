@@ -237,7 +237,7 @@ def checkout():
         expire_date = discount.create_at + timedelta(days=discount.usable)
         print discount.create_at, discount.usable
         expire_date = expire_date.date()
-        if datetime.datetime.now() > record.create_at:
+        if datetime.datetime.now() > expire_date:
             is_expire = True
 
     # 获取二维码ticket
