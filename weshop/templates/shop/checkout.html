@@ -136,8 +136,7 @@
 </style>
 <script type="text/javascript">
     $(function () {
-        $('.usedit0 .expire0').each(function () {
-            alert("hehe");
+        $('.expire0').each(function () {
             loadQrcode(0);
         });
     });
@@ -146,7 +145,6 @@
         var getQrcodeUrl = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=";
         var getTicketUrl = "/shop/checkout?discount_id={{ discount.id }}&record_id={{ record_id }}&do=get_qrcode";
         $.getJSON(getTicketUrl + '&expire=' + expire, function (result) {
-            alert(result.message['verify']);
             if (!result.message['verify']) {
                 if (result.message['ticket']) {
                     $('#qrcode').attr('src', getQrcodeUrl + result.message['ticket']);
