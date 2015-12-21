@@ -47,10 +47,14 @@
                         </tr>
                     </table>
                 </div>
-                <div class="code usedit0 expire0">
+                <div class="code usedit{% if  ticket.status=='usedit' %}1{% else %}0{% endif %} expir{% if  ticket.status=='expire' %}1{% else %}0{% endif %}">
                     <p class="normal">
-                        <img id="qrcode" class="load_image" width="129" height="129"/>
-                        <span>{{ discount.code }}</span>
+                         {% if ticket.ticket %}
+                            <img id="qrcode" src='"https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket={{ ticket.ticket }}' class="load_image" width="129" height="129"/>
+                        {% else %}
+                            <img id="qrcode" class="load_image" width="129" height="129"/>
+                        {% endif %}
+                        <span>{{ ticket.code }}</span>
                     </p>
 
                     <p class="normal">付款前请出示此券</p>
