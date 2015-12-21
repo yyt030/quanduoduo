@@ -48,20 +48,17 @@ def detail():
     shop_photos = ShopPhoto.query.filter(ShopPhoto.brand_id == discount.brand_id)
     user_agent = request.headers.get('User-Agent')
 
+    curr_user = g.user
     # user的领券情况
     # 该用户下领用的存在有效期的券（含使用或者未使用）
-    curr_ticket_record = GetTicketRecord.query.filter(GetTicketRecord.user_id == g.user,
+    curr_ticket_record = GetTicketRecord.query.filter(GetTicketRecord.user_id == curr_user.id,
                                                       GetTicketRecord.discount_id == discount_id,
                                                       GetTicketRecord.create_at >= datetime.datetime.now() - datetime.timedelta(
                                                           days=discount.usable))
-    # print str(GetTicketRecord.create_at)
-    # print datetime.timedelta(days=discount.usable)
-    # print discount.usable
     monday = datetime.datetime.now() - datetime.timedelta(days=datetime.datetime.now().weekday())
     sunday = datetime.datetime.now() + datetime.timedelta(days=7 - datetime.datetime.now().weekday())
-    curr_ticket_records_week = curr_ticket_record.filter(GetTicketRecord.create_at > monday,
-                                                         GetTicketRecord.create_at < sunday).count()
-
+    curr_ticket_records_week = curr_ticket_record.filter(GetTicketRecord.create_at >= monday,
+                                                         GetTicketRecord.create_at <= sunday).count()
     # print user_agent
     if do == 'post':
         if 'MicroMessenger' not in user_agent:
@@ -131,7 +128,7 @@ def detail():
                            discount_shop_count=discount_shop_count,
                            discount_id=discount_id, left_count=left_count,
                            other_discounts=other_discounts, shop_photos=shop_photos,
-                           shops=shops, curr_ticket_record=curr_ticket_record,
+                           shops=shops, curr_ticket_record=curr_ticket_record.first(),
                            curr_ticket_records_week=curr_ticket_records_week)
 
 

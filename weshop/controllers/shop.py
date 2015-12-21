@@ -225,8 +225,8 @@ def checkout():
     verify = False
     is_expire = False
     usedit = False
-    discount_id = int(request.args.get("discount_id", 0))
-    record_id = int(request.args.get("record_id", 0))  # 领取id
+    discount_id = request.args.get("discount_id", 0, type=int)
+    record_id = request.args.get("record_id", 0, type=int) # 领取id
     do = request.args.get("do")
     discount = Discount.query.get_or_404(discount_id)
     shops = discount.shops
