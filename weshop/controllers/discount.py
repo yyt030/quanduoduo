@@ -66,7 +66,7 @@ def detail():
         else:
             expire_datetime = discount.get_expire_datetime
             # expire_datetime_format = expire_datetime.strftime("%Y-%m%-%d")
-            expire_datetime_format =str(expire_datetime)
+            expire_datetime_format = str(expire_datetime)
             print expire_datetime
             openid = session['openid']
             wechat = WechatBasic(appid=appid, appsecret=appsecret)
@@ -109,7 +109,9 @@ def detail():
             code = year + str(time.time())[4:-3]
             record = GetTicketRecord(user_id=g.user.id, discount_id=discount_id, code=code)
             db.session.add(record)
-            db.session.add(Discount(id=discount_id, count=discount.count + 1))  # 更新券领用个数
+            discount.count = discount.count + 1
+            db.session.add(discount)
+            # db.session.add(Discount(id=discount_id, count=discount.count + 1))  # 更新券领用个数
             db.session.commit()
             url = current_app.config.get('SITE_DOMAIN') + (
                 url_for('shop.checkout', discount_id=discount_id, record_id=record.id))
@@ -189,7 +191,7 @@ def getlist():
     if did:
         records = records.filter(GetTicketRecord.discount_id == did)
     if fid:
-        records=records.filter(GetTicketRecord.user_id==fid)
+        records = records.filter(GetTicketRecord.user_id == fid)
     if status:
         records = records.filter(GetTicketRecord.status == status)
 
@@ -198,7 +200,7 @@ def getlist():
         page, per_page=current_app.config['FLASKY_PER_PAGE'], error_out=False)
     records = pagination.items
 
-    return render_template('discount/discount_list.html', brand=brand, records=records,bid=bid,did=did,fid=fid,
+    return render_template('discount/discount_list.html', brand=brand, records=records, bid=bid, did=did, fid=fid,
                            pagination=pagination)
 
 
