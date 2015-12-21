@@ -145,24 +145,24 @@ def check_saler_info():
         code = request.args.get("code")
         if not code:
             print "not code"
-            print "/check_saler_info"
+            # print "/check_saler_info"
             return redirect(WeixinHelper.oauth3(request.url))
         else:
             wechat_login_fun(code)
     if do == 'check':
         # 绑定店员
         mobile = request.args.get("mobile")
-        exist_saler = Saler.query.filter(Saler.user_id == g.user.id, Saler.brand_id == brand_id)
+        exist_saler = Saler.query.filter(Saler.user_id == g.user.id, Saler.brand_id == brand_id).first()
         if not exist_saler:
             g.user.mobile = mobile
             saler = Saler(user_id=g.user.id, brand_id=brand_id)
             db.session.add(saler)
             db.session.commit()
             wechat = WechatBasic(appid=appid, appsecret=appsecret)
-            wechat.send_text_message(openid, "您已成功绑定店铺")
+            wechat.send_text_message(openid, "您已成功绑定门店")
             return json.dumps({"message": "提交成功", "type": "success"})
         else:
-            return json.dumps({"message": "您已绑定店铺,不用再次绑定", "type": "error"})
+            return json.dumps({"message": "您已绑定门店,不用再次绑定", "type": "error"})
     return render_template('mobile/check_saler_info.html', brand_id=brand_id, form=form)
 
 
