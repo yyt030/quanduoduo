@@ -47,10 +47,10 @@
                         </tr>
                     </table>
                 </div>
-                <div class="code usedit{% if  ticket.status=='usedit' %}1{% else %}0{% endif %} expir{% if  ticket.status=='expire' %}1{% else %}0{% endif %}">
+                <div class="code usedit{% if  ticket.status=='usedit' %}1{% else %}0{% endif %} expire{% if  ticket.status=='expire' %}1{% else %}0{% endif %}">
                     <p class="normal">
                          {% if ticket.ticket %}
-                            <img id="qrcode" src='"https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket={{ ticket.ticket }}' class="load_image" width="129" height="129"/>
+                            <img id="qrcode" src="https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket={{ ticket.ticket }}" class="load_image" width="129" height="129"/>
                         {% else %}
                             <img id="qrcode" class="load_image" width="129" height="129"/>
                         {% endif %}

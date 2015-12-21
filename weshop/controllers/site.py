@@ -1,6 +1,7 @@
 # !/usr/bin/env python
 # -*- coding: UTF-8 -*-
 from datetime import datetime, timedelta, date
+import logging
 import time
 import json
 import os
@@ -588,8 +589,8 @@ def interface():
                 if message.key and message.ticket:
                     # TODO 扫码回收优惠券,这里还要判断扫码的用户是否为该品牌店授权的店员
                     # TODO 考虑到还有绑定店员的扫码事件,key分为两种：11[brandid],12[discount_id]
-                    print message.key[0:2]
-                    print message.key[2:]
+                    logging.info(message.key[0:2])
+                    logging.info(message.key[2])
                     if message.key[0:2] == '11':
                         brand_id = int(message.key[2:])
                         brand = Brand.query.get(brand_id)
@@ -610,7 +611,9 @@ def interface():
                         ticket_record = GetTicketRecord.query.get(record_id)
                         # 判断扫码用户是否为该店铺的店员
                         if saler.brand_id != ticket_record.discount.brand_id:
-                            response = ""
+                             brand = Brand.query.get(ticket_record.discount.brand_id)
+                             tip ="您不是该店铺{0}的店员".format(brand.name)
+                             response = wechat.response_text(tip)
                         else:
                             callback_ticket(record_id)
                             saler.count += 1

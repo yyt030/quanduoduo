@@ -46,7 +46,7 @@
 
                     <p class="normal">
                         {% if record.ticket %}
-                            <img id="qrcode" src='"https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket={{ record.ticket }}' class="load_image" width="129" height="129"/>
+                            <img id="qrcode" src="https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket={{ record.ticket }}" class="load_image" width="129" height="129"/>
                         {% else %}
                             <img id="qrcode" class="load_image" width="129" height="129"/>
                         {% endif %}

@@ -245,11 +245,11 @@ def checkout():
         if record.status == 'verify':
             verify = True
         if not record.ticket:
-            # 获取永久二维码
+            # 获取永久二维码 scene_id前缀12表示是优惠券类型的二维码
             wechat = WechatBasic(appid=current_app.config.get('WECHAT_APPID'),
                                  appsecret=current_app.config.get('WECHAT_APPSECRET'))
             data = {"action_name": "QR_LIMIT_SCENE",
-                    "action_info": {"scene": {"scene_id": int(str("11") + str(record.id))}}}
+                    "action_info": {"scene": {"scene_id": int(str("12") + str(record.id))}}}
             get_ticket_data = wechat.create_qrcode(data)
             ticket = get_ticket_data.get("ticket")
             session['ticket'] = ticket
