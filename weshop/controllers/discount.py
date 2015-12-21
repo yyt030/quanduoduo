@@ -120,7 +120,7 @@ def detail():
             # allow 表示本周允许领取多少张
             still = discount.number * discount.usable - 1
             return json.dumps(
-                {"message": {"still": still, "allow": 1, "rid": record.id, "ctime": "156151515"}, "redirect": "",
+                {"message": {"still": still, "allow": 1, "tid": record.id, "ctime": "156151515"}, "redirect": "",
                  "type": "success"})
 
     # other discount in the discount

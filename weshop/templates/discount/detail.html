@@ -196,7 +196,8 @@
             $.getJSON(getJSONURL + '&pass=',
                     function (data) {
                         if (data.type == 'success') {
-                            var url = '/shop/checkout?discount_id={{ discount_id }}&rid=' + data.message.rid + '&tid=' + data.message.ctime;
+{#                            var url = '/shop/checkout?discount_id={{ discount_id }}&rid=' + data.message.rid + '&tid=' + data.message.ctime;#}
+                            var url = '/my_tickets_detail?' + data.message.tid;
                             $('.coupon-verify h3').html('<a href="' + url + '">点此即可打开</a>');
                             $('#mycoupon').addClass('mycoupon');
                             if (data.message.still > 0) {
