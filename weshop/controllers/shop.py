@@ -65,7 +65,7 @@ def qrcode():
 
 @bp.route('/upload', methods=['GET', 'POST'])
 def upload():
-    """上传"""
+    """上传相册"""
     # TODO user_id
     form = UploadForm()
     bid = int(request.args.get("bid", 0))
@@ -73,7 +73,7 @@ def upload():
     shop_photos = ShopPhoto.query.filter(ShopPhoto.brand_id == bid)
     datas = dict(request.form)
     if request.method == 'POST':
-        print datas
+        # print datas
         url = request.referrer
         new_images = datas.get('image-new[]')
         old_images = datas.get('image-old[]')
@@ -97,6 +97,23 @@ def upload():
         return render_template('account/ok.html', tip="相册更新成功！", url=url)
 
     return render_template('shop/upload.html', form=form, shop_photos=shop_photos)
+
+
+@bp.route('/photo_detail/<int:photo_id>', methods=['GET', 'POST'])
+def photo_detail(photo_id):
+    """相册详情"""
+    photo = ShopPhoto.query.get(photo_id)
+    return render_template('shop/photo_detail.html', photo=photo)
+
+
+@bp.route('/photo_list', methods=['GET', 'POST'])
+def photo_list():
+    """相册列表"""
+    bid = request.args.get("bid", type=int)
+    shop_id = request.args.get("shop_id", type=int)
+    photos = ShopPhoto.query.filter(ShopPhoto.brand_id == bid)
+    shop= Shop.query.get(shop_id)
+    return render_template('shop/photo_list.html', shop=shop,photos=photos)
 
 
 @bp.route('/setting', methods=['GET', 'POST'])
@@ -155,7 +172,7 @@ def setting():
     elif act == 'discount':
         return redirect(url_for('discount.manage', bid=bid))
     elif act == 'ticket_record':
-        return redirect(url_for('ticket_record.manage'))
+        return redirect(url_for('discount.getlist', bid=bid))
     elif act == 'account':
         return redirect(url_for('brand.account', bid=bid))
     elif act == 'bind_saler':
@@ -180,7 +197,8 @@ def get_resourse(folder1, folder2, filename):
 def detail(shop_id):
     shop = Shop.query.get_or_404(shop_id)
     discounts = shop.shop_discounts.count()
-    return render_template('shop/show.html', shop=shop, discounts=discounts)
+    shop_photos = ShopPhoto.query.filter(ShopPhoto.brand_id == shop.brand_id)
+    return render_template('shop/show.html', shop=shop, shop_photos=shop_photos, discounts=discounts)
 
 
 @bp.route('/delete', methods=['GET'])
@@ -247,7 +265,7 @@ def bind_saler():
     """绑定收银台"""
     bid = int(request.args.get("bid", 0))
     brand = Brand.query.get(bid)
-    salers=brand.brand_salers.count()
+    salers = brand.brand_salers.count()
     users = brand.brandaccounts
     shop_id = 0
     # 获取永久二维码

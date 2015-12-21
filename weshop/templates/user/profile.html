@@ -1,0 +1,64 @@
+{% extends 'account_layout.html' %}
+{% from 'macro/form.html' import form_field %}
+{% block content %}
+    <body>
+    <div class="main">
+        <div class="main">
+            <form action="" class="form-horizontal form" method="post" enctype="multipart/form-data">
+                <h4>基本资料</h4>
+                <table class="tb">
+                    <tbody>
+                    <tr>
+                        <td width="230" rowspan="9">
+                             <img src="{{ user.profile.headimgurl }}" width="160"><br>
+                        </td>
+                        <td width="300">
+                            编号：{{ user.id }}
+                        </td>
+                        <td width="20" rowspan="9">
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td title="，">
+                            昵称：{{ user.profile.nickname }}
+                        </td>
+{#                        <td>#}
+{#                            积分：98#}
+{#                        </td>#}
+                    </tr>
+{#                    <tr>#}
+{#                        <td>#}
+{#                            性别：未知#}
+{#                        </td>#}
+{#                        <td title="5（之前）">#}
+{#                            配额：3#}
+{#                        </td>#}
+{#                    </tr>#}
+                    <tr>
+                        <td>创建：{{ user.profile.subscribe_time }}</td>
+{#                        <td title="0%">#}
+{#                            用量：0 / 2#}
+{#                        </td>#}
+                    </tr>
+                    <!-- tr>
+                        <td><label for="">生日</label></td>
+                        <td>
+                            $fans['birthtype']$fans['birthmonth']$fans['birthdayly']
+                        </td>
+                    </tr -->
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+
+    <div class="show_foot">
+        <div class="foot_wrap">
+            <p>© 2015 <b>汝州百事优惠圈商务</b></p>
+        </div>
+    </div>
+
+
+    </body>
+{% endblock %}

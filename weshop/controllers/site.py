@@ -15,7 +15,7 @@ from flask import render_template, Blueprint, redirect, url_for, g, session, req
 from wechat_sdk import WechatBasic
 from weshop import csrf
 from weshop.utils.account import signin_user, signout_user
-from ..models import db, User, Discount, Brand, MyFavoriteBrand, Shop, Profile, GetTicketRecord, Saler
+from ..models import db, User, Discount, Brand, MyFavoriteBrand, Shop, Profile, GetTicketRecord, Saler, WechatMessage
 from ..forms import SigninForm, SalerInfoForm
 from ..utils.permissions import require_user, require_visitor
 from ..utils.uploadsets import images, random_filename, process_question, avatars
@@ -135,31 +135,14 @@ def check_saler_info():
     openid = session.get("openid")
     do = request.args.get("do")
     form = SalerInfoForm()
-    # if not openid:
-    #     code = request.args.get("code")
-    #     if not code:
-    #         print "not code"
-    #         print "/check_saler_info"
-    #         return redirect(WeixinHelper.oauth3('/check_saler_info'))
-    #     else:
-    #         data = json.loads(WeixinHelper.getAccessTokenByCode(code))
-    #         access_token, openid, refresh_token = data["access_token"], data["openid"], data["refresh_token"]
-    #         userinfo = json.loads(WeixinHelper.getSnsapiUserInfo(access_token, openid))
-    #         print "user_info,", userinfo
-    #         # print openid
-    #
-    #         if not g.user:
-    #             # 检查用户是否存在
-    #             add_wechat_user_to_db(openid)
-    #             user = User.query.filter(User.profile.any(Profile.openid == openid)).first()
-    #             if user is not None:
-    #                 signin_user(user)
-    #                 session['openid'] = openid
-    #                 print u'与微信用户关联的user（%s） 已开始登陆网站...' % user.name
-    #
-    #         else:
-    #             msg = u'当前已登录的用户：{user}'.format(user=g.user.name)
-    #             print msg
+    if not openid:
+        code = request.args.get("code")
+        if not code:
+            print "not code"
+            print "/check_saler_info"
+            return redirect(WeixinHelper.oauth3(request.url))
+        else:
+            wechat_login_fun(code)
     if do == 'check':
         # 绑定店员
         mobile = request.args.get("mobile")
@@ -204,32 +187,20 @@ def test():
 
 @bp.route('/find')
 def find():
-    # openid = session.get("openid")
-    # print "openid", openid
-    # if not openid:
-    #     code = request.args.get("code")
-    #     if not code:
-    #         print "not code"
-    #         return redirect(WeixinHelper.oauth3('/find'))
-    #     else:
-    #         data = json.loads(WeixinHelper.getAccessTokenByCode(code))
-    #         access_token, openid, refresh_token = data["access_token"], data["openid"], data["refresh_token"]
-    #         userinfo = json.loads(WeixinHelper.getSnsapiUserInfo(access_token, openid))
-    #         print "user_info,", userinfo
-    #         # print openid
-    #
-    #         if not g.user:
-    #             # 检查用户是否存在
-    #             add_wechat_user_to_db(openid)
-    #             user = User.query.filter(User.profile.any(Profile.openid == openid)).first()
-    #             if user is not None:
-    #                 signin_user(user)
-    #                 session['openid'] = openid
-    #                 print u'与微信用户关联的user（%s） 已开始登陆网站...' % user.name
-    #
-    #         else:
-    #             msg = u'当前已登录的用户：{user}'.format(user=g.user.name)
-    #             print msg
+    openid = session.get("openid")
+    access_token = session.get('access_token')
+    user_agent = request.headers.get('User-Agent')
+    print user_agent
+    # 如果操作是在微信网页端进行，要获取openid
+    if 'MicroMessenger' in user_agent:
+        if not openid:
+            code = request.args.get("code")
+            if not code:
+                print "not code"
+                return redirect(WeixinHelper.oauth2(request.url))
+            else:
+                wechat_login_fun(code)
+
     industry1 = request.args.get("industry1", None)
     industry2 = request.args.get('industry2', None)
     district1 = request.args.get('district1', None)
@@ -384,6 +355,7 @@ def search_api():
 
 @bp.route('/about')
 def about():
+    print request.url_root
     return render_template('mobile/about.html')
 
 
@@ -450,24 +422,7 @@ def user_home():
             print "not code"
             return redirect(WeixinHelper.oauth3(request.url))
         else:
-            data = json.loads(WeixinHelper.getAccessTokenByCode(code))
-            access_token, openid, refresh_token = data["access_token"], data["openid"], data["refresh_token"]
-            userinfo = json.loads(WeixinHelper.getSnsapiUserInfo(access_token, openid))
-            print "user_info,", userinfo
-            # print openid
-
-            if not g.user:
-                # 检查用户是否存在
-                add_wechat_user_to_db(openid)
-                user = User.query.filter(User.profile.any(Profile.openid == openid)).first()
-                if user is not None:
-                    signin_user(user)
-                    session['openid'] = openid
-                    print u'与微信用户关联的user（%s） 已开始登陆网站...' % user.name
-
-            else:
-                msg = u'当前已登录的用户：{user}'.format(user=g.user.name)
-                print msg
+            wechat_login_fun(code)
     return render_template('mobile/user_home.html', type=type, nav=nav, tickets=tickets)
 
 
@@ -481,26 +436,7 @@ def tickets():
             print "not code"
             return redirect(WeixinHelper.oauth3(request.url))
         else:
-            data = json.loads(WeixinHelper.getAccessTokenByCode(code))
-            print data
-            access_token, openid, refresh_token = data["access_token"], data["openid"], data["refresh_token"]
-            userinfo = json.loads(WeixinHelper.getSnsapiUserInfo(access_token, openid))
-            print "user_info,", userinfo
-            # print openid
-
-            if not g.user:
-                # 检查用户是否存在
-                add_wechat_user_to_db(openid)
-                user = User.query.filter(User.profile.any(Profile.openid == openid)).first()
-                if user is not None:
-                    signin_user(user)
-                    session['openid'] = openid
-                    g.user = user
-                    print u'与微信用户关联的user（%s） 已开始登陆网站...' % user.name
-
-            else:
-                msg = u'当前已登录的用户：{user}'.format(user=g.user.name)
-                print msg
+            wechat_login_fun(code)
     type = request.args.get("type", "not_use")
     user = g.user
     nav = 2
@@ -539,7 +475,8 @@ def tickets_detail():
         else:
             data = json.loads(WeixinHelper.getAccessTokenByCode(code))
             print data
-            access_token, openid, refresh_token = data["access_token"], data["openid"], data["refresh_token"]
+            access_token, openid, refresh_token = data.get("access_token"), data.get("openid"), data.get(
+                "refresh_token")
             userinfo = json.loads(WeixinHelper.getSnsapiUserInfo(access_token, openid))
             print "user_info,", userinfo
             # print openid
@@ -619,8 +556,9 @@ def interface():
         wechat = WechatBasic(appid=appid, appsecret=appsecret)
         token_dict = wechat.get_access_token()
         access_token = token_dict.get('access_token')
-        session['access_token'] = access_token
-        session['access_token_expires_at'] = token_dict.get('access_token_expires_at')
+        if access_token:
+            session['access_token'] = access_token
+            session['access_token_expires_at'] = token_dict.get('access_token_expires_at')
     response = ""
     wechat = WechatBasic(token=token)
     # 对签名进行校验
@@ -634,15 +572,30 @@ def interface():
             wechat.parse_data(body_text)
             # 获得解析结果
             message = wechat.get_message()
-            print "user,", message.target
+            print "target_user,", message.target
+            print "from_user,", message.source
             print "message_type:", message.type
+            openid = message.source
             # print request.data
+            # 用户发送文本消息
             if message.type == 'text':
                 if message.content == 'test':
                     response = wechat.response_text(u'^_^')
                 else:
                     response = wechat.response_text(u'您好！')
-
+                if not g.user:
+                    # 检查用户是否存在
+                    user = User.query.filter(User.profile.any(Profile.openid == openid)).first()
+                    if user is not None:
+                        signin_user(user)
+                        print u'新用户（%s）关注微信...' % user.name
+                    else:
+                        add_wechat_user_to_db(openid)
+                    session['openid'] = openid
+                message = WechatMessage(user_id=g.user.id, content=message.content)
+                db.session.add(message)
+                db.session.commit()
+            # 用户发送图片消息
             elif message.type == 'image':
                 response = wechat.response_text(u'图片')
             elif message.type == 'scan':
@@ -678,8 +631,8 @@ def interface():
                             db.session.add(saler)
                             db.session.commit()
                             response = ""
+            # 用户在关注微信时就将用户数据写入数据库
             elif message.type == 'subscribe':
-                print message
                 if message.key and message.ticket:
                     # TODO 扫码回收优惠券,这里还要判断扫码的用户是否为该品牌店授权的店员
                     # TODO 考虑到还有绑定店员的扫码事件,key分为两种：bind_[brandid],ticket_[code]
@@ -697,34 +650,15 @@ def interface():
                         text = "您正在申请绑定门店%s,点击输入手机号验证身份" % brand_text
                         response = wechat.response_text(text)
 
-                openid = session.get("openid")
-                # 扫描二维码回收优惠券
-                if not openid:
-                    code = request.args.get("code")
-                    if not code:
-                        print "not code"
-                        return redirect(WeixinHelper.oauth3(request.url))
-                    else:
-                        data = json.loads(WeixinHelper.getAccessTokenByCode(code))
-                        access_token, openid, refresh_token = data["access_token"], data["openid"], data[
-                            "refresh_token"]
-                        userinfo = json.loads(WeixinHelper.getSnsapiUserInfo(access_token, openid))
-                        print "user_info,", userinfo
+                openid = message.source
+                if not g.user:
+                    # 检查用户是否存在
+                    user = User.query.filter(User.profile.any(Profile.openid == openid)).first()
+                    if user is None:
+                        add_wechat_user_to_db(openid)
+                        print u'新用户（%s）关注微信' % user.name
 
-                        if not g.user:
-                            # 检查用户是否存在
-                            add_wechat_user_to_db(openid)
-                            user = User.query.filter(User.profile.any(Profile.openid == openid)).first()
-                            if user is not None:
-                                signin_user(user)
-                                session['openid'] = openid
-                                print u'与微信用户关联的user（%s） 已开始登陆网站...' % user.name
-
-                        else:
-                            msg = u'当前已登录的用户：{user}'.format(user=g.user.name)
-                            print msg
-
-                    response = wechat.response_text(u'欢迎关注汝州百事优惠圈')
+                response = wechat.response_text(u'欢迎关注汝州百事优惠圈')
             elif message.type == 'location':
                 # 这里有location事件 TODO
                 latitude, longitude, precision = message.latitude, message.longitude, message.precision
@@ -732,7 +666,6 @@ def interface():
                 session['latitude'] = latitude
                 session['longitude'] = longitude
                 session['precision'] = precision
-
                 g.latitude = latitude
                 g.longitude = longitude
                 g.precision = precision
@@ -742,9 +675,7 @@ def interface():
                 return ""
 
             return response
-
         else:
-
             return echostr
     else:
 
@@ -780,51 +711,33 @@ def get_wechat_info(request, openid):
         if not code:
             return redirect(WeixinHelper.oauth3(request.url))
         else:
-            data = json.loads(WeixinHelper.getAccessTokenByCode(code))
-            access_token, openid, refresh_token = data["access_token"], data["openid"], data["refresh_token"]
-            userinfo = json.loads(WeixinHelper.getSnsapiUserInfo(access_token, openid))
-            print "user_info,", userinfo
-            # print openid
-
-            if not g.user:
-                # 检查用户是否存在
-                add_wechat_user_to_db(openid)
-                user = User.query.filter(User.profile.any(Profile.openid == openid)).first()
-                if user is not None:
-                    signin_user(user)
-                    session['openid'] = openid
-                    print u'与微信用户关联的user（%s） 已开始登陆网站...' % user.name
-
-            else:
-                msg = u'当前已登录的用户：{user}'.format(user=g.user.name)
-                print msg
+            wechat_login_fun(code)
 
 
 def add_wechat_user_to_db(from_user):
     """
     添加微信用户到数据库，在数据库创建一个对应的user关联在一起
     """
-    users = User.query.filter(User.profile.any(Profile.openid == str(from_user))).first()
-    if not users:
-        print u'creating a new user ...'
-        print 'waiting...'
-        user_json = get_user_info(get_access_token(), from_user)
-        if 'errcode' in user_json:
-            user_json = get_user_info(get_access_token(True), from_user)
-        email = str(from_user) + '@qq.com'
-        user = User(name=user_json['nickname'], email=email, password=from_user)
-        user_profile = Profile()
-        user_profile.openid = from_user
-        user_profile.city = user_json['city']
-        user_profile.country = user_json['country']
-        user_profile.headimgurl = user_json['headimgurl']
-        user_profile.language = user_json['language']
-        user_profile.nickname = user_json['nickname']
-        user_profile.province = user_json['province']
-        user_profile.subscribe_time = datetime.fromtimestamp(user_json['subscribe_time'])
-        user.profile.append(user_profile)
-        db.session.add(user)
-        db.session.commit()
+
+    print u'creating a new user ...'
+    print 'waiting...'
+    user_json = get_user_info(get_access_token(), from_user)
+    if 'errcode' in user_json:
+        user_json = get_user_info(get_access_token(True), from_user)
+    email = str(from_user) + '@qq.com'
+    user = User(name=user_json['nickname'], email=email, password=from_user)
+    user_profile = Profile()
+    user_profile.openid = from_user
+    user_profile.city = user_json['city']
+    user_profile.country = user_json['country']
+    user_profile.headimgurl = user_json['headimgurl']
+    user_profile.language = user_json['language']
+    user_profile.nickname = user_json['nickname']
+    user_profile.province = user_json['province']
+    user_profile.subscribe_time = datetime.fromtimestamp(user_json['subscribe_time'])
+    user.profile.append(user_profile)
+    db.session.add(user)
+    db.session.commit()
 
 
 def callback_ticket(record_id):
@@ -879,3 +792,23 @@ def get_distinct():
         print shop.id, shop.store, great_circle(curr_user_point, (shop.lng, shop.lat)).kilometers
 
     return make_response('this is test')
+
+
+def wechat_login_fun(code):
+    data = json.loads(WeixinHelper.getAccessTokenByCode(code))
+    access_token, openid, refresh_token = data.get("access_token"), data.get("openid"), data.get("refresh_token")
+    userinfo = json.loads(WeixinHelper.getSnsapiUserInfo(access_token, openid))
+    print "user_info,", userinfo
+    # print openid
+
+    if not g.user:
+        # 检查用户是否存在
+        user = User.query.filter(User.profile.any(Profile.openid == openid)).first()
+        if user is not None:
+            signin_user(user)
+            session['openid'] = openid
+            session['access_token'] = openid
+
+            print u'与微信用户关联的user（%s） 已开始登陆网站...' % user.name
+        else:
+            add_wechat_user_to_db(openid)
