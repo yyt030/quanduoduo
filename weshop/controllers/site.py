@@ -62,6 +62,19 @@ def signout():
 @bp.route('/home', methods=['GET', 'POST'])
 @require_user
 def home():
+    return render_template('account/home.html')
+
+
+@bp.route('/user_data', methods=['GET', 'POST'])
+@require_user
+def user_data():
+    """过期，领券，回收"""
+    init_data =[0, 0, 0, 0, 0, 0, 0]
+
+    expire_data = [2, 2, 0, 3, 1, 0, 0]
+    get_ticket_data = [0, 0, 0, 0, 0, 0, 0]
+    callback_data = [0, 0, 0, 0, 0, 0, 0]
+
     user = g.user
     brands = user.brandaccounts.all()
 
@@ -113,19 +126,12 @@ def home():
 
     print '-' * 10, discount_count, discount_back, user_count_list, usedit_count_list, \
         active_users_count, curr_discount_count, closed_discount_count
-
-    return render_template('account/home.html', discount_count=discount_count,
+    return render_template('account/user_data.html', expire_data=expire_data, get_ticket_data=get_ticket_data,
+                           callback_data=callback_data, discount_count=discount_count,
                            discount_back=discount_back, active_users_count=active_users_count,
                            curr_discount_count=curr_discount_count, closed_discount_count=closed_discount_count,
                            user_count=user_count, usedit_count=usedit_count,
-                           back_vate=back_vate, convert_vate=convert_vate
-                           )
-
-
-@bp.route('/user_data', methods=['GET', 'POST'])
-@require_user
-def user_data():
-    return render_template('account/user_data.html')
+                           back_vate=back_vate, convert_vate=convert_vate)
 
 
 @bp.route('/check_saler_info', methods=['GET', 'POST'])
