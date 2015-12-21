@@ -69,7 +69,7 @@ def home():
 @require_user
 def user_data():
     """过期，领券，回收"""
-    init_data =[0, 0, 0, 0, 0, 0, 0]
+    init_data = [0, 0, 0, 0, 0, 0, 0]
 
     expire_data = [2, 2, 0, 3, 1, 0, 0]
     get_ticket_data = [0, 0, 0, 0, 0, 0, 0]
@@ -138,7 +138,6 @@ def user_data():
 def check_saler_info():
     """确认收银员信息"""
     brand_id = int(request.args.get("bid", 0))
-    print re
     openid = session.get("openid")
     do = request.args.get("do")
     form = SalerInfoForm()
@@ -153,11 +152,17 @@ def check_saler_info():
     if do == 'check':
         # 绑定店员
         mobile = request.args.get("mobile")
-        g.user.mobile = mobile
-        saler = Saler(user_id=g.user.id, brand_id=brand_id)
-        db.session.add(saler)
-        db.session.commit()
-        return json.dumps({"message": "提交成功", "type": "success"})
+        exist_saler = Saler.query.filter(Saler.user_id == g.user.id, Saler.brand_id == brand_id)
+        if not exist_saler:
+            g.user.mobile = mobile
+            saler = Saler(user_id=g.user.id, brand_id=brand_id)
+            db.session.add(saler)
+            db.session.commit()
+            wechat = WechatBasic(appid=appid, appsecret=appsecret)
+            wechat.send_text_message(openid, "您已成功绑定店铺")
+            return json.dumps({"message": "提交成功", "type": "success"})
+        else:
+            return json.dumps({"message": "您已绑定店铺,不用再次绑定", "type": "error"})
     return render_template('mobile/check_saler_info.html', brand_id=brand_id, form=form)
 
 
