@@ -66,7 +66,7 @@ def detail():
         else:
             expire_datetime = discount.get_expire_datetime
             # expire_datetime_format = expire_datetime.strftime("%Y-%m%-%d")
-            expire_datetime_format = str(expire_datetime)
+            expire_datetime_format = str(expire_datetime.date())
             print expire_datetime
             openid = session['openid']
             wechat = WechatBasic(appid=appid, appsecret=appsecret)

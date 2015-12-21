@@ -101,9 +101,6 @@ def user_data():
     closed_discount_count = db.session.query(func.count(GetTicketRecord.id)).filter(
         GetTicketRecord.status == 'expire'
     ).scalar()
-    print '-' * 10, start_month_day
-    print discount_count, discount_back, user_count, usedit_count, active_users_count, \
-        curr_discount_count, closed_discount_count
 
     # 回收比例
     if discount_count == 0:
@@ -129,7 +126,6 @@ def user_data():
 def check_saler_info():
     """确认收银员信息"""
     brand_id = int(request.args.get("bid", 0))
-    print re
     openid = session.get("openid")
     do = request.args.get("do")
     form = SalerInfoForm()
@@ -137,18 +133,24 @@ def check_saler_info():
         code = request.args.get("code")
         if not code:
             print "not code"
-            print "/check_saler_info"
+            # print "/check_saler_info"
             return redirect(WeixinHelper.oauth3(request.url))
         else:
             wechat_login_fun(code)
     if do == 'check':
         # 绑定店员
         mobile = request.args.get("mobile")
-        g.user.mobile = mobile
-        saler = Saler(user_id=g.user.id, brand_id=brand_id)
-        db.session.add(saler)
-        db.session.commit()
-        return json.dumps({"message": "提交成功", "type": "success"})
+        exist_saler = Saler.query.filter(Saler.user_id == g.user.id, Saler.brand_id == brand_id).first()
+        if not exist_saler:
+            g.user.mobile = mobile
+            saler = Saler(user_id=g.user.id, brand_id=brand_id)
+            db.session.add(saler)
+            db.session.commit()
+            wechat = WechatBasic(appid=appid, appsecret=appsecret)
+            wechat.send_text_message(openid, "您已成功绑定门店")
+            return json.dumps({"message": "提交成功", "type": "success"})
+        else:
+            return json.dumps({"message": "您已绑定门店,不用再次绑定", "type": "error"})
     return render_template('mobile/check_saler_info.html', brand_id=brand_id, form=form)
 
 
