@@ -395,10 +395,10 @@ def favorite_brands():
     if type == 'hot':
         # TODO
         records = MyFavoriteBrand.query.filter(MyFavoriteBrand.user_id == user.id).order_by(
-                MyFavoriteBrand.create_at.desc())
+            MyFavoriteBrand.create_at.desc())
     else:
         records = MyFavoriteBrand.query.filter(MyFavoriteBrand.user_id == user.id).order_by(
-                MyFavoriteBrand.create_at.desc())
+            MyFavoriteBrand.create_at.desc())
 
     if records.first():
         brand = records.first().brand
@@ -575,10 +575,10 @@ def interface():
                         signin_user(user)
                         print u'新用户（%s）关注微信...' % user.name
                     else:
-                        user=add_wechat_user_to_db(openid)
+                        user = add_wechat_user_to_db(openid)
                     session['openid'] = openid
                 else:
-                    user=g.user
+                    user = g.user
                 message = WechatMessage(user_id=user.id, content=message.content)
                 db.session.add(message)
                 db.session.commit()
@@ -607,18 +607,25 @@ def interface():
                         record_id = int(message.key[2:])
                         scan_user = User.query.filter(User.profile.any(Profile.openid == openid)).first()
                         saler = Saler.query.filter(Saler.user_id == scan_user.id).first()
-                        ticket_record = GetTicketRecord.query.get(record_id)
-                        # 判断扫码用户是否为该店铺的店员
-                        if saler.brand_id != ticket_record.discount.brand_id:
-                             brand = Brand.query.get(ticket_record.discount.brand_id)
-                             tip ="您不是该店铺{0}的店员".format(brand.name)
-                             response = wechat.response_text(tip)
+                        if saler:
+                            ticket_record = GetTicketRecord.query.get(record_id)
+                            logging.info("tid" + str(ticket_record.id))
+                            # 判断扫码用户是否为该店铺的店员
+                            discount_id = ticket_record.discount_id
+                            brand_id = Discount.query.get(discount_id)
+                            if saler.brand_id != brand_id:
+                                brand = Brand.query.get(brand_id)
+                                tip = "您不是该店铺{0}的店员".format(brand.name)
+                                response = wechat.response_text(tip)
+                            else:
+                                callback_ticket(record_id)
+                                saler.count += 1
+                                db.session.add(saler)
+                                db.session.commit()
+                                response = ""
                         else:
-                            callback_ticket(record_id)
-                            saler.count += 1
-                            db.session.add(saler)
-                            db.session.commit()
-                            response = ""
+                            tip = "您还没有绑定该店铺"
+                            response = wechat.response_text(tip)
             # 用户在关注微信时就将用户数据写入数据库
             elif message.type == 'subscribe':
                 if message.key and message.ticket:

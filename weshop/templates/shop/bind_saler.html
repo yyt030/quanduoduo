@@ -48,6 +48,7 @@
                     </div>
                 </div>
             </div>
+            {% if  brand.brand_salers %}
             {% for  s in brand.brand_salers.all() %}
             <div class="load_wrap newbind ">
                 <div class="coupon-image gender0" data-fid="{{ s.id }}" data-avatar=""><a
@@ -83,6 +84,7 @@
                 </div>
             </div>
             {% endfor %}
+        {% endif %}
         </div>
         <div class="body_wrap">
             <div class="load_tips">加载中..</div>
