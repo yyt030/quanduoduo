@@ -53,7 +53,7 @@ def detail():
     curr_ticket_record = GetTicketRecord.query.filter(GetTicketRecord.user_id == g.user,
                                                       GetTicketRecord.discount_id == discount_id,
                                                       GetTicketRecord.create_at >= datetime.datetime.now() - datetime.timedelta(
-                                                          days=discount.usable), GetTicketRecord.status != 'expire')
+                                                          days=discount.usable))
     # print str(GetTicketRecord.create_at)
     # print datetime.timedelta(days=discount.usable)
     # print discount.usable

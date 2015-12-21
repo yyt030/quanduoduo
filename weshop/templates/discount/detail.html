@@ -59,7 +59,7 @@
             <div class="coupon-intro post">
                 {% if discount.get_left_days >= 0 %}
                     {% if curr_ticket_record %}
-                        <a href="//shop/checkout?discount_id={{ discount.id }}&record_id={{ curr_ticket_record.id }}">
+                        <a href="/shop/checkout?discount_id={{ discount.id }}&record_id={{ curr_ticket_record.id }}">
                             我已领取此券，点此即可打开
                         </a>
                     {% else %}
