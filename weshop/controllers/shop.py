@@ -252,6 +252,7 @@ def checkout():
         get_ticket_data = wechat.create_qrcode(data)
         ticket = get_ticket_data.get("ticket")
         session['ticket'] = ticket
+
         return json.dumps({"message": {"verify": verify, "ticket": ticket, "expire": 0}})
     elif do == 'download_qrcode':
         return ""
