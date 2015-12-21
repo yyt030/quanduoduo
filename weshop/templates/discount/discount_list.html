@@ -71,7 +71,7 @@
                      data-aid="{{ record.code }}"
                      title="{% if record.status == 'expire' %} 已过期 {% else %} {{ record.status }} {% endif %}">
                     <div class="coupon-image gender1" data-fid="{{  record.user.id}}"
-                         data-avatar="{{ record.user.profile.headimgurl }}">
+                         data-avatar="{{ record.user.profile.first().headimgurl }}">
                     </div>
                     <div class="coupon-intro">
                         <h1>
