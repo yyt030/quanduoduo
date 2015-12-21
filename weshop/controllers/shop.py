@@ -292,7 +292,7 @@ def delete_saler():
     """删除店员"""
     user_id = int(request.args.get("id", 0))
     if id:
-        saler = Saler.query.get(Saler.user_id==user_id)
+        saler = Saler.query.filter(Saler.user_id==user_id).first()
         db.session.delete(saler)
         db.session.commit()
     return redirect(url_for('shop.bind_saler'))
