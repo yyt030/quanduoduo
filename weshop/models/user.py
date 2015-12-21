@@ -98,7 +98,7 @@ class GetTicketRecord(db.Model):
     status = db.Column(db.Enum('normal', 'verify', 'usedit', 'expire'), default='normal')
 
     code = db.Column(db.Integer)
-    ticket=db.Column(db.String(50))
+    ticket=db.Column(db.String(100))
     create_at = db.Column(db.DateTime, default=datetime.datetime.now)
 
     @property

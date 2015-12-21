@@ -244,18 +244,21 @@ def checkout():
     if do == 'get_qrcode':
         if record.status == 'verify':
             verify = True
-        # 获取永久二维码
-        wechat = WechatBasic(appid=current_app.config.get('WECHAT_APPID'),
-                             appsecret=current_app.config.get('WECHAT_APPSECRET'))
-        data = {"action_name": "QR_LIMIT_SCENE",
-                "action_info": {"scene": {"scene_id": int(str("11") + str(record.id))}}}
-        get_ticket_data = wechat.create_qrcode(data)
-        ticket = get_ticket_data.get("ticket")
-        session['ticket'] = ticket
-        # 写入数据库
-        record.ticket=ticket
-        db.session.add(record)
-        db.session.commit()
+        if not record.ticket:
+            # 获取永久二维码
+            wechat = WechatBasic(appid=current_app.config.get('WECHAT_APPID'),
+                                 appsecret=current_app.config.get('WECHAT_APPSECRET'))
+            data = {"action_name": "QR_LIMIT_SCENE",
+                    "action_info": {"scene": {"scene_id": int(str("11") + str(record.id))}}}
+            get_ticket_data = wechat.create_qrcode(data)
+            ticket = get_ticket_data.get("ticket")
+            session['ticket'] = ticket
+            # 写入数据库
+            record.ticket=ticket
+            db.session.add(record)
+            db.session.commit()
+        else:
+            ticket=record.ticket
         return json.dumps({"message": {"verify": verify, "ticket": ticket, "expire": 0}})
     elif do == 'download_qrcode':
         return ""

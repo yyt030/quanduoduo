@@ -111,7 +111,6 @@ def detail():
             db.session.add(record)
             discount.count = discount.count + 1
             db.session.add(discount)
-            # db.session.add(Discount(id=discount_id, count=discount.count + 1))  # 更新券领用个数
             db.session.commit()
             url = current_app.config.get('SITE_DOMAIN') + (
                 url_for('shop.checkout', discount_id=discount_id, record_id=record.id))
