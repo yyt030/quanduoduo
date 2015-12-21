@@ -1,16 +1,13 @@
 # !/usr/bin/env python
 # -*- coding: UTF-8 -*-
-from datetime import datetime, timedelta, date
+from datetime import datetime, timedelta
 import logging
 import time
 import json
-import os
-import string
-import re, urllib2
-import random
 from urllib import urlencode
-from PIL import Image
-from coverage.html import STATIC_PATH
+
+import os
+import re
 from flask import render_template, Blueprint, redirect, url_for, g, session, request, \
     make_response, current_app, send_from_directory
 from wechat_sdk import WechatBasic
@@ -19,10 +16,9 @@ from weshop.utils.account import signin_user, signout_user
 from ..models import db, User, Discount, Brand, MyFavoriteBrand, Shop, Profile, GetTicketRecord, Saler, WechatMessage
 from ..forms import SigninForm, SalerInfoForm
 from ..utils.permissions import require_user, require_visitor
-from ..utils.uploadsets import images, random_filename, process_question, avatars
+from ..utils.uploadsets import images, process_question
 from weshop.utils.helper import get_url_data
 from weshop.wechat import WeixinHelper
-from weshop.wechat.backends.flask_interface import wechat_login
 from geopy.distance import great_circle
 
 bp = Blueprint('site', __name__)
@@ -69,14 +65,14 @@ def home():
 @require_user
 def user_data():
     """过期，领券，回收"""
-    init_data =[0, 0, 0, 0, 0, 0, 0]
+    init_data = [0, 0, 0, 0, 0, 0, 0]
 
     expire_data = [2, 2, 0, 3, 1, 0, 0]
     get_ticket_data = [0, 0, 0, 0, 0, 0, 0]
     callback_data = [0, 0, 0, 0, 0, 0, 0]
 
     user = g.user
-    brands = user.brandaccounts.all()
+    brands = Brand.query.all()
 
     # 优惠券
     discount_count = 0  # 发放总数
@@ -89,43 +85,38 @@ def user_data():
 
     start_month_day = (datetime.now() - timedelta(days=datetime.now().day - 1)).date()
 
-    for brand in brands:
-        discounts = brand.discounts_brands
-        for discount in discounts:
-            discount_count += discount.count
-            discount_back += discount.back
+    from sqlalchemy import func
+    discount_count = db.session.query(func.sum(Discount.count)).scalar()
+    discount_back = db.session.query(func.sum(Discount.back)).scalar()
 
-            # 优惠券领用信息
-            ticket_records = discount.get_discounts
-            for ticket_record in ticket_records:
+    user_count = db.session.query(func.count(func.distinct(GetTicketRecord.user_id))).scalar()
+    usedit_count = db.session.query(func.count(func.distinct(GetTicketRecord.user_id))).filter(
+        GetTicketRecord.status == 'usedit').scalar()
 
-                user_count_list.append(ticket_record.user_id)
-                if datetime.date(ticket_record.create_at) >= start_month_day:
-                    active_users_count += 1
-                if ticket_record.status == 'usedit':
-                    usedit_count_list.append(ticket_record.user_id)
-                if ticket_record.status != 'expire':
-                    curr_discount_count += 1
-                if ticket_record.create_at + timedelta(days=7) < datetime.now():
-                    closed_discount_count += 1
+    active_users_count = db.session.query(func.count(func.distinct(GetTicketRecord.user_id))).filter(
+        GetTicketRecord.create_at >= start_month_day
+    ).scalar()
 
-    user_count = len(set(user_count_list))  # 领券用户数
-    usedit_count = len(set(usedit_count_list))  # 使用用户数
+    curr_discount_count = db.session.query(func.count(GetTicketRecord.id)).scalar()
+    closed_discount_count = db.session.query(func.count(GetTicketRecord.id)).filter(
+        GetTicketRecord.status == 'expire'
+    ).scalar()
+    print '-' * 10, start_month_day
+    print discount_count, discount_back, user_count, usedit_count, active_users_count, \
+        curr_discount_count, closed_discount_count
 
     # 回收比例
     if discount_count == 0:
         back_vate = 0
     else:
-        back_vate = (discount_back // discount_count) * 100
+        back_vate = '%.0f' % ((discount_back / discount_count) * 100)
 
     # 转化比例
     if user_count == 0:
         convert_vate = 0
     else:
-        convert_vate = (usedit_count // user_count) * 100
+        convert_vate = '%.0f' % ((usedit_count / user_count) * 100)
 
-    print '-' * 10, discount_count, discount_back, user_count_list, usedit_count_list, \
-        active_users_count, curr_discount_count, closed_discount_count
     return render_template('account/user_data.html', expire_data=expire_data, get_ticket_data=get_ticket_data,
                            callback_data=callback_data, discount_count=discount_count,
                            discount_back=discount_back, active_users_count=active_users_count,
