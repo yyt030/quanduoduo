@@ -100,7 +100,7 @@ def user_data():
             for ticket_record in ticket_records:
 
                 user_count_list.append(ticket_record.user_id)
-                if datetime.date(ticket_record.create_at) > start_month_day:
+                if datetime.date(ticket_record.create_at) >= start_month_day:
                     active_users_count += 1
                 if ticket_record.status == 'usedit':
                     usedit_count_list.append(ticket_record.user_id)
