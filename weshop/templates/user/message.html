@@ -17,12 +17,12 @@
             {% for m in messages %}
             <div class="load_wrap" title="" id="the{{ m.user_id }}">
                 <div class="coupon-image">
-                    <img src="{{ m.user.profile.headimgurl }}"
+                    <img src="{{profile.headimgurl }}"
                          width="48">
                 </div>
                 <div class="coupon-intro">
                     <h1>
-                        { m.user.profile.nickname }}
+                        {{ profile.nickname }}
                     </h1>
 
                     <h2>

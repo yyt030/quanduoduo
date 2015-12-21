@@ -467,33 +467,17 @@ def tickets():
 def tickets_detail():
     """券　详情页面"""
     openid = session.get("openid")
-    if not openid:
-        code = request.args.get("code")
-        if not code:
-            print "not code"
-            return redirect(WeixinHelper.oauth3(request.url))
-        else:
-            data = json.loads(WeixinHelper.getAccessTokenByCode(code))
-            print data
-            access_token, openid, refresh_token = data.get("access_token"), data.get("openid"), data.get(
-                "refresh_token")
-            userinfo = json.loads(WeixinHelper.getSnsapiUserInfo(access_token, openid))
-            print "user_info,", userinfo
-            # print openid
-            if not g.user:
-                # 检查用户是否存在
-                add_wechat_user_to_db(openid)
-                user = User.query.filter(User.profile.any(Profile.openid == openid)).first()
-                if user is not None:
-                    signin_user(user)
-                    session['openid'] = openid
-                    g.user = user
-                    print u'与微信用户关联的user（%s） 已开始登陆网站...' % user.name
-
+    user_agent = request.headers.get('User-Agent')
+    print user_agent
+    # 如果操作是在微信网页端进行，要获取openid
+    if 'MicroMessenger' in user_agent:
+        if not openid:
+            code = request.args.get("code")
+            if not code:
+                print "not code"
+                return redirect(WeixinHelper.oauth2(request.url))
             else:
-                msg = u'当前已登录的用户：{user}'.format(user=g.user.name)
-                print msg
-    nav = 2
+                wechat_login_fun(code)
 
     tickets_id = request.args.get('tid', 0, type=int)
     print "ticket_id", tickets_id
@@ -590,9 +574,11 @@ def interface():
                         signin_user(user)
                         print u'新用户（%s）关注微信...' % user.name
                     else:
-                        add_wechat_user_to_db(openid)
+                        user=add_wechat_user_to_db(openid)
                     session['openid'] = openid
-                message = WechatMessage(user_id=g.user.id, content=message.content)
+                else:
+                    user=g.user
+                message = WechatMessage(user_id=user.id, content=message.content)
                 db.session.add(message)
                 db.session.commit()
             # 用户发送图片消息
