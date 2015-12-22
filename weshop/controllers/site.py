@@ -377,6 +377,14 @@ def center():
 @bp.route('/my_favorite_shop')
 @bp.route('/favorite')
 def favorite_brands():
+    openid = session.get("openid")
+    if not openid:
+        code = request.args.get("code")
+        if not code:
+            print "not code"
+            return redirect(WeixinHelper.oauth3(request.url))
+        else:
+            wechat_login_fun(code)
     user = g.user
     type = request.args.get('type', 'new')
     act = request.args.get('act')
