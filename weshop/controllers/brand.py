@@ -15,7 +15,7 @@ from weshop.utils import devices
 from weshop.utils.devices import checkMobile
 from ..models import db, User, Brand, Shop
 from ..forms import SigninForm, RegisterForm
-from ..utils.permissions import require_user, require_visitor
+from ..utils.permissions import require_user, require_visitor, require_admin
 from ..utils.uploadsets import images, random_filename, process_question, avatars
 
 bp = Blueprint('brand', __name__)
@@ -42,6 +42,7 @@ def show():
 
 
 @bp.route('/add', methods=['GET', 'POST'])
+@require_admin
 def brand_add():
     """添加品牌"""
     shop = {}
@@ -64,6 +65,7 @@ def brand_add():
 
 
 @bp.route('/modify', methods=['GET', 'POST'])
+@require_admin
 def brand_modify():
     """修改品牌"""
     shop = {}
@@ -102,6 +104,7 @@ def brand_modify():
 
 
 @bp.route('/manage', methods=['GET', 'POST'])
+@require_admin
 def manage():
     """管理品牌"""
     curruser = g.user
@@ -119,8 +122,7 @@ def manage():
 
     page = request.args.get('page', 1, type=int)
     pagination = brands_query.order_by(Brand.create_at.desc()).paginate(
-        page, per_page=current_app.config['FLASKY_PER_PAGE'],
-        error_out=False)
+        page, per_page=current_app.config['FLASKY_PER_PAGE'],error_out=False)
     brands = pagination.items
 
     return render_template('brand/manage.html', brands=brands, do=do, pagination=pagination)
@@ -135,6 +137,7 @@ def brand_search():
 
 
 @bp.route('/shop', methods=['GET', 'POST'])
+@require_admin
 def shop_list():
     """门店管理"""
     bid = int(request.args.get("bid", 0))
@@ -151,6 +154,7 @@ def shop_list():
 
 
 @bp.route('/account', methods=['GET', 'POST'])
+@require_admin
 def account():
     """商户账户管理"""
     bid = int(request.args.get("bid", 0))
@@ -272,6 +276,7 @@ def account():
 
 
 @bp.route('/account/delete', methods=['GET'])
+@require_admin
 def account_delete():
     user_id = int(request.args.get("user_id", 0))
     user = User.query.get_or_404(user_id)

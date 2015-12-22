@@ -117,6 +117,7 @@ def photo_list():
 
 
 @bp.route('/setting', methods=['GET', 'POST'])
+@require_admin
 def setting():
     """
     门店发布、编辑
@@ -202,6 +203,7 @@ def detail(shop_id):
 
 
 @bp.route('/delete', methods=['GET'])
+@require_admin
 def delete():
     shop_id = int(request.args.get("id", 0))
     shop = Shop.query.get_or_404(shop_id)

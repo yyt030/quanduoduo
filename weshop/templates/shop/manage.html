@@ -19,9 +19,11 @@
 
     <div class="show_body">
         <div class="head_wrap">
+             {% if g.user.role =='admin' %}
             <div class="order">
                 <a href="brand.php?act=modify"><i class="icon-plus"></i> 添加品牌</a>
             </div>
+            {% endif %}
             <div class="class normal">
                 <ul>
                     <li class="normal"><a href="">选择品牌</a></li>
@@ -52,9 +54,9 @@
                 <dd>未添加？</dd>
             </dl>
         </div>
-        <div class="body_wrap">
-            <div class="load_tips">加载中..</div>
-        </div>
+{#        <div class="body_wrap">#}
+{#            <div class="load_tips">加载中..</div>#}
+{#        </div>#}
     </div>
     <div class="show_foot">
         <div class="foot_wrap">

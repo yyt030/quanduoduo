@@ -611,17 +611,17 @@ def interface():
                         response = wechat.response_text(text)
                     elif message.key[0:2] == '12':
                         record_id = int(message.key[2:])
+                        ticket_record = GetTicketRecord.query.get(record_id)
+                        logging.info("tid" + str(ticket_record.id))
+                        # 判断扫码用户是否为该店铺的店员
+                        discount_id = ticket_record.discount_id
+                        discount = Discount.query.get(discount_id)
                         scan_user = User.query.filter(User.profile.any(Profile.openid == openid)).first()
-                        saler = Saler.query.filter(Saler.user_id == scan_user.id).first()
-                        if saler:
-                            ticket_record = GetTicketRecord.query.get(record_id)
-                            logging.info("tid" + str(ticket_record.id))
-                            # 判断扫码用户是否为该店铺的店员
-                            discount_id = ticket_record.discount_id
-                            brand_id = Discount.query.get(discount_id)
-                            if saler.brand_id != brand_id:
-                                # TODO 这里brand name获取有点问题
-                                brand = Brand.query.get(brand_id)
+                        salers = Saler.query.filter(Saler.user_id == scan_user.id)
+                        if salers.count()>0:
+                            saler=salers.filter(Saler.brand_id==discount.brand_id).first()
+                            if not saler:
+                                brand = Brand.query.get(discount.brand_id)
                                 tip = "您不是该店铺{0}的店员".format(brand.name)
                                 response = wechat.response_text(tip)
                             else:

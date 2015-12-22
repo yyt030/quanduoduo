@@ -50,9 +50,11 @@
     </style>
     <div class="show_body">
         <div class="head_wrap">
+            {% if g.user.role =='admin' %}
             <div class="order">
                 <a href="/brand/add"><i class="icon-plus"></i> 添加品牌</a>
             </div>
+            {% endif %}
             <div class="class {{ do }}">
                 <ul>
                     <li class="normal"><a href="/brand/manage?do=normal">启用中</a></li>
@@ -112,7 +114,7 @@
                     {{ pagination_widget(pagination, 'page') }}
                 </div>
             {% endif %}
-            <div class="load_tips">加载中..</div>
+{#            <div class="load_tips">加载中..</div>#}
         </div>
     </div>
 

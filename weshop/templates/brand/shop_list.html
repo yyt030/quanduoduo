@@ -79,8 +79,10 @@
         <div class="body_wrap" id="body_wrap">
             <div class="type_wrap">
                 管理连锁店
+                 {% if g.user.role =='admin' %}
                 <a href="/shop/setting?act=publish&bid={{ bid }}" class="modify" data-input="limit" title="添加连锁店"><i
                         class="icon-plus"></i> 添加连锁店</a>
+                {% endif %}
             </div>
             {% for s in shops %}
                 <div class="load_wrap normal" title="">
@@ -131,7 +133,7 @@
                     {{ pagination_widget(pagination, 'page') }}
                 </div>
             {% endif %}
-            <div class="load_tips">加载中..</div>
+{#            <div class="load_tips">加载中..</div>#}
         </div>
     </div>
 

@@ -435,21 +435,25 @@
                                     src="resource/image/icon/discountpublish.png"></a></dt>
                             <dd style="color:red;">发布优惠</dd>
                         </dl>
-                        <dl title="">
-                            <dt><a href="/shop/select?act=publish"><img
-                                    src="resource/image/icon/businesspublish.png"></a></dt>
-                            <dd>添加门店</dd>
-                        </dl>
+                        {% if g.user.role =='admin' %}
+                            <dl title="">
+                                <dt><a href="/shop/select?act=publish"><img
+                                        src="resource/image/icon/businesspublish.png"></a></dt>
+                                <dd>添加门店</dd>
+                            </dl>
+                        {% endif %}
                         <dl title="">
                             <dt><a href="/shop/select?act=upload"><img
                                     src="resource/image/icon/businessupload.png"></a></dt>
                             <dd>上传相册</dd>
                         </dl>
-                        <dl title="">
-                            <dt><a href="/shop/select?act=account"><img
-                                    src="resource/image/icon/businesscustom.png"></a></dt>
-                            <dd>商家账户</dd>
-                        </dl>
+                        {% if g.user.role =='admin' %}
+                            <dl title="">
+                                <dt><a href="/shop/select?act=account"><img
+                                        src="resource/image/icon/businesscustom.png"></a></dt>
+                                <dd>商家账户</dd>
+                            </dl>
+                        {% endif %}
                         <dl title="店员通过微信绑定后，使用扫一扫即可回收用户的券">
                             <dt><a href="/shop/select?act=bind_saler"><img
                                     src="resource/image/icon/checkoutbinding.png"></a></dt>
@@ -468,14 +472,14 @@
                     </div>
                     <p class="main-info" style="top: 25px;">
                         <a href="javascript:void(0)">
-{#                            <span class="large-text" style="font-size:60px;" title="优惠太少（致命）">太低</span>#}
+                            {#                            <span class="large-text" style="font-size:60px;" title="优惠太少（致命）">太低</span>#}
                             <span style=""></span>
                         </a>
                     </p>
 
-{#                    <p class="main-text">#}
-{#                        <span class="text-detail">平衡指数</span>#}
-{#                    </p>#}
+                    {#                    <p class="main-text">#}
+                    {#                        <span class="text-detail">平衡指数</span>#}
+                    {#                    </p>#}
                 </div>
             </div>
         </div>

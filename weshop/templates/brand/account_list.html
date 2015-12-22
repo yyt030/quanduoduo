@@ -69,8 +69,10 @@
         <div class="body_wrap" id="body_wrap">
             <div class="type_wrap">
                 管理商户账户
+                 {% if g.user.role =='admin' %}
                 <a href="/brand/account?bid={{ brand.id }}&act=add" class="modify" data-input="limit" title="管理商户账户"><i
                         class="icon-plus"></i> 添加商户账户</a>
+                {% endif %}
             </div>
             {% for user in brand_brandaccounts %}
                 <div class="load_wrap normal" title="">
@@ -112,9 +114,9 @@
                 </div>
             {% endfor %}
         </div>
-        <div class="body_wrap">
-            <div class="load_tips">加载中..</div>
-        </div>
+{#        <div class="body_wrap">#}
+{#            <div class="load_tips">加载中..</div>#}
+{#        </div>#}
     </div>
 
     <div class="show_foot">
