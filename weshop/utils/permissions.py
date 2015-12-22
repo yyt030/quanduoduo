@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
-from flask import g
+from flask import g, render_template
 from functools import wraps
 from flask import abort, redirect, url_for, flash
 
@@ -24,7 +24,8 @@ def require_user(func):
     def decorator(*args, **kwargs):
         if not g.user:
             # flash('此操作需要登录账户')
-            return redirect(url_for('site.login'))
+            return render_template('account/error.html', error='抱歉，您无权进行该操作！')
+            # return redirect(url_for('site.login'))
         return func(*args, **kwargs)
 
     return decorator

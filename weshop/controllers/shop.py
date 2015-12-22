@@ -100,6 +100,7 @@ def upload():
 
 
 @bp.route('/photo_detail/<int:photo_id>', methods=['GET', 'POST'])
+@require_user
 def photo_detail(photo_id):
     """相册详情"""
     photo = ShopPhoto.query.get(photo_id)
@@ -107,6 +108,7 @@ def photo_detail(photo_id):
 
 
 @bp.route('/photo_list', methods=['GET', 'POST'])
+
 def photo_list():
     """相册列表"""
     bid = request.args.get("bid", type=int)
@@ -117,7 +119,7 @@ def photo_list():
 
 
 @bp.route('/setting', methods=['GET', 'POST'])
-@require_admin
+@require_user
 def setting():
     """
     门店发布、编辑

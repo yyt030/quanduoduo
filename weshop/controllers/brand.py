@@ -129,6 +129,7 @@ def manage():
 
 
 @bp.route('/search', methods=['GET', 'POST'])
+
 def brand_search():
     """搜索品牌"""
     message = "message"
@@ -137,7 +138,7 @@ def brand_search():
 
 
 @bp.route('/shop', methods=['GET', 'POST'])
-@require_admin
+@require_user
 def shop_list():
     """门店管理"""
     bid = int(request.args.get("bid", 0))

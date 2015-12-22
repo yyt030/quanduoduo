@@ -14,10 +14,10 @@
 
     <div class="show_body">
         <div class="head_wrap">
-             {% if g.user.role =='admin' %}
-            <div class="order">
-                <a href="/brand/add"><i class="icon-plus"></i> 添加品牌</a>
-            </div>
+            {% if g.user.role =='admin' %}
+                <div class="order">
+                    <a href="/brand/add"><i class="icon-plus"></i> 添加品牌</a>
+                </div>
             {% endif %}
             <div class="class normal">
                 <ul>
@@ -38,14 +38,16 @@
                     <dd>{{ b.name }}</dd>
                 </dl>
             {% endfor %}
-            <dl title="CTRL+F 可快速查找">
-                <dt><a href="/brand/add"><img src="/resource/attachment/icon.jpg"></a></dt>
-                <dd>未添加？</dd>
-            </dl>
+            {% if g.user.role =='admin' %}
+                <dl title="CTRL+F 可快速查找">
+                    <dt><a href="/brand/add"><img src="/resource/attachment/icon.jpg"></a></dt>
+                    <dd>未添加？</dd>
+                </dl>
+            {% endif %}
         </div>
-{#        <div class="body_wrap">#}
-{#            <div class="load_tips">加载中..</div>#}
-{#        </div>#}
+        {#        <div class="body_wrap">#}
+        {#            <div class="load_tips">加载中..</div>#}
+        {#        </div>#}
     </div>
     <div class="show_foot">
         <div class="foot_wrap">

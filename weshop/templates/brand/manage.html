@@ -51,9 +51,9 @@
     <div class="show_body">
         <div class="head_wrap">
             {% if g.user.role =='admin' %}
-            <div class="order">
-                <a href="/brand/add"><i class="icon-plus"></i> 添加品牌</a>
-            </div>
+                <div class="order">
+                    <a href="/brand/add"><i class="icon-plus"></i> 添加品牌</a>
+                </div>
             {% endif %}
             <div class="class {{ do }}">
                 <ul>
@@ -63,9 +63,11 @@
             </div>
         </div>
         <div class="body_wrap" id="body_wrap">
-            <div class="type_wrap">
-                管理品牌
-            </div>
+            {% if g.user.role=='admin' %}
+                <div class="type_wrap">
+                    管理品牌
+                </div>
+            {% endif %}
             {% for b in  brands %}
                 <div class="load_wrap {{ do }}">
                     <div class="coupon-image">
@@ -114,7 +116,7 @@
                     {{ pagination_widget(pagination, 'page') }}
                 </div>
             {% endif %}
-{#            <div class="load_tips">加载中..</div>#}
+            {#            <div class="load_tips">加载中..</div>#}
         </div>
     </div>
 
