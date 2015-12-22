@@ -53,7 +53,7 @@ def signin():
 @require_visitor
 def signout():
     signout_user()
-    return redirect(url_for('site.index'))
+    return redirect(url_for('site.login'))
 
 
 @bp.route('/home', methods=['GET', 'POST'])
