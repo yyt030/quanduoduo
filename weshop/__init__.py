@@ -108,10 +108,10 @@ def register_jinja(app):
 
         # site info
         g_site_info = {
-            "url": "http://localhost:5000",
+            "url": "http://www.ruzhoubaishi.com",
             "logo": "../static/images/logo.png",
             "title": "",
-            "company": "济南锦粉世家商贸有限公司",
+            "company": "汝州百事广告有限公司",
             "year": "2015",
             "icp": "沪ICP备11038770号",
             "qq": "8888888",

@@ -10,6 +10,7 @@ import os
 import re
 from flask import render_template, Blueprint, redirect, url_for, g, session, request, \
     make_response, current_app, send_from_directory
+from sqlalchemy import func
 from wechat_sdk import WechatBasic
 from weshop import csrf
 from weshop.utils.account import signin_user, signout_user
@@ -67,9 +68,7 @@ def user_data():
     """过期，领券，回收"""
     init_data = [0, 0, 0, 0, 0, 0, 0]
 
-    expire_data = [2, 2, 0, 3, 1, 0, 0]
-    get_ticket_data = [0, 0, 0, 0, 0, 0, 0]
-    callback_data = [0, 0, 0, 0, 0, 0, 0]
+    expire_data,get_ticket_data,callback_data=count_last_week_data()
 
     user = g.user
     brands = Brand.query.all()
@@ -613,6 +612,7 @@ def interface():
                             discount_id = ticket_record.discount_id
                             brand_id = Discount.query.get(discount_id)
                             if saler.brand_id != brand_id:
+                                # TODO 这里brand name获取有点问题
                                 brand = Brand.query.get(brand_id)
                                 tip = "您不是该店铺{0}的店员".format(brand.name)
                                 response = wechat.response_text(tip)
@@ -806,3 +806,29 @@ def wechat_login_fun(code):
             print u'与微信用户关联的user（%s） 已开始登陆网站...' % user.name
         else:
             add_wechat_user_to_db(openid)
+
+
+def count_last_week_data():
+    """统计上周七天内的数据
+    [0, 0, 0, 0, 0, 0, 0]
+    周一-周日：0-6
+    过期日期：优惠券创建时间+发放时间+1天
+    1.首先获取当天日期
+    2.然后获取上周一日期
+    3.for循环得出上周7天日期
+    """
+    import datetime
+
+    expire_data = [0, 0, 0, 0, 0, 0, 0]
+    get_ticket_data = [0, 0, 0, 0, 0, 0, 0]
+    callback_data = [0, 0, 0, 0, 0, 0, 0]
+    today = datetime.date.today()
+    last_monday = today - timedelta(days=today.weekday() + 7)
+    for i in range(0, 6):
+        index_day = last_monday + timedelta(days=i)
+        expire_data[i] += int(GetTicketRecord.query.filter(
+            GetTicketRecord.get_expire_date == index_day + timedelta(days=1)).count())
+        get_ticket_data[i] += int(GetTicketRecord.query.filter(func.date(GetTicketRecord.create_at) == index_day).count())
+        callback_data[i] += int(GetTicketRecord.query.filter(func.date(GetTicketRecord.create_at) == index_day,
+                                                         GetTicketRecord.status == 'usedit').count())
+    return  expire_data,get_ticket_data,callback_data

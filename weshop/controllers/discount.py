@@ -67,8 +67,12 @@ def detail():
             expire_datetime = discount.get_expire_datetime
             # expire_datetime_format = expire_datetime.strftime("%Y-%m%-%d")
             expire_datetime_format = str(expire_datetime.date())
-            print expire_datetime
+            record = GetTicketRecord.query.filter(user_id=g.user.id, discount_id=discount_id)
+            if record.status !='expire':
+                 return json.dumps(
+                {"message": {}, "redirect": "", "type": "success"})
             openid = session['openid']
+
             wechat = WechatBasic(appid=appid, appsecret=appsecret)
             # wechat.send_text_message(session['openid'], "test")
             # 调用公众号消息模板A0XK30w_sZPti5_gn33PJ5msng7yb71zAEcRa0E44oM发送领券通知
