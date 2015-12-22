@@ -67,7 +67,7 @@ def user_data():
     """过期，领券，回收"""
     init_data = [0, 0, 0, 0, 0, 0, 0]
 
-    expire_data,get_ticket_data,callback_data=count_last_week_data()
+    expire_data, get_ticket_data, callback_data = count_last_week_data()
 
     user = g.user
     brands = Brand.query.all()
@@ -89,16 +89,18 @@ def user_data():
 
     user_count = db.session.query(func.count(func.distinct(GetTicketRecord.user_id))).scalar()
     usedit_count = db.session.query(func.count(func.distinct(GetTicketRecord.user_id))).filter(
-        GetTicketRecord.status == 'usedit').scalar()
+            GetTicketRecord.status == 'usedit').scalar()
 
     active_users_count = db.session.query(func.count(func.distinct(GetTicketRecord.user_id))).filter(
-        GetTicketRecord.create_at >= start_month_day
+            GetTicketRecord.create_at >= start_month_day
     ).scalar()
 
-    curr_discount_count = db.session.query(func.count(GetTicketRecord.id)).scalar()
-    closed_discount_count = db.session.query(func.count(GetTicketRecord.id)).filter(
-        GetTicketRecord.status == 'expire'
-    ).scalar()
+    curr_discounts = Discount.query.all()
+
+    for curr_discount in curr_discounts:
+        curr_discount_count += 1
+        if curr_discount.is_expire is False:
+            closed_discount_count += 1
 
     # 回收比例
     if discount_count == 0:
@@ -209,7 +211,6 @@ def find():
     if query:
         discounts = Discount.query.join(Brand).filter(Brand.name.like('%{0}%'.format(query)))
         return render_template('mobile/search_result.html', discounts=discounts)
-
 
     # 拼装查询条件
     discounts = Discount.query
@@ -400,10 +401,10 @@ def favorite_brands():
     if type == 'hot':
         # TODO
         records = MyFavoriteBrand.query.filter(MyFavoriteBrand.user_id == user.id).order_by(
-            MyFavoriteBrand.create_at.desc())
+                MyFavoriteBrand.create_at.desc())
     else:
         records = MyFavoriteBrand.query.filter(MyFavoriteBrand.user_id == user.id).order_by(
-            MyFavoriteBrand.create_at.desc())
+                MyFavoriteBrand.create_at.desc())
 
     if records.first():
         brand = records.first().brand
@@ -834,8 +835,9 @@ def count_last_week_data():
     for i in range(0, 6):
         index_day = last_monday + timedelta(days=i)
         expire_data[i] += int(GetTicketRecord.query.filter(
-            GetTicketRecord.get_expire_date == index_day + timedelta(days=1)).count())
-        get_ticket_data[i] += int(GetTicketRecord.query.filter(func.date(GetTicketRecord.create_at) == index_day).count())
+                GetTicketRecord.get_expire_date == index_day + timedelta(days=1)).count())
+        get_ticket_data[i] += int(
+                GetTicketRecord.query.filter(func.date(GetTicketRecord.create_at) == index_day).count())
         callback_data[i] += int(GetTicketRecord.query.filter(func.date(GetTicketRecord.create_at) == index_day,
-                                                         GetTicketRecord.status == 'usedit').count())
-    return  expire_data,get_ticket_data,callback_data
+                                                             GetTicketRecord.status == 'usedit').count())
+    return expire_data, get_ticket_data, callback_data
