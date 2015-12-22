@@ -66,10 +66,11 @@
             <div class="type_wrap">
                 优惠券记录
             </div>
+            {% set record_status={"normal":"未使用","verify":"待验证","usedit":"已回收","expire":"已过期"} %}
             {% for record in records %}
                 <div class="load_wrap modelList {% if record.status == 'expire' %} closed {% else %} nobody {% endif %}"
                      data-aid="{{ record.code }}"
-                     title="{% if record.status == 'expire' %} 已过期 {% else %} {{ record.status }} {% endif %}">
+                     title="{% if record.status == 'expire' %} 已过期 {% else %} {{ record_status.get(record.status) }} {% endif %}">
                     <div class="coupon-image gender1" data-fid="{{  record.user.id}}"
                          data-avatar="{{ record.user.profile.first().headimgurl }}">
                     </div>

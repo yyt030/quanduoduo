@@ -22,7 +22,9 @@
             <div class="class normal">
                 <ul>
                     <li class="normal"><a href="">选择品牌</a></li>
+                    {% if g.user.role=='admin' %}
                     <li class=""><a href="/brand/manage">管理品牌</a></li>
+                    {% endif %}
                 </ul>
             </div>
         </div>
