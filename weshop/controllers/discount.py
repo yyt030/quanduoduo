@@ -125,8 +125,21 @@ def detail():
             # still 表示本周还能领多少张 TODO 静态数据需要替换
             # allow 表示本周允许领取多少张
             still = discount.number * discount.usable - 1
+            # 获取永久二维码 scene_id前缀12表示是优惠券类型的二维码
+            wechat = WechatBasic(appid=current_app.config.get('WECHAT_APPID'),
+                                 appsecret=current_app.config.get('WECHAT_APPSECRET'))
+            data = {"action_name": "QR_LIMIT_SCENE",
+                    "action_info": {"scene": {"scene_id": int(str("12") + str(record.id))}}}
+            get_ticket_data = wechat.create_qrcode(data)
+            ticket = get_ticket_data.get("ticket")
+            session['ticket'] = ticket
+            # 写入数据库
+            record.ticket = ticket
+            db.session.add(record)
+            db.session.commit()
+
             return json.dumps(
-                {"message": {"still": still, "allow": 1, "rid": record.id, "ctime": "156151515"}, "redirect": "",
+                {"message": {"still": still, "allow": 1, "tid": record.id, "ctime": "156151515"}, "redirect": "",
                  "type": "success"})
 
     # other discount in the discount
