@@ -50,7 +50,6 @@ def signin():
 
 
 @bp.route('/signout', methods=['GET', 'POST'])
-@require_visitor
 def signout():
     signout_user()
     return redirect(url_for('site.login'))
