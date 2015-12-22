@@ -10,7 +10,7 @@
                     <tbody>
                     <tr>
                         <td width="230" rowspan="9">
-                             <img src="{{ user.profile.headimgurl }}" width="160"><br>
+                             <img src="{{ user.profile.first().headimgurl }}" width="160"><br>
                         </td>
                         <td width="300">
                             编号：{{ user.id }}
@@ -21,7 +21,7 @@
                     </tr>
                     <tr>
                         <td title="，">
-                            昵称：{{ user.profile.nickname }}
+                            昵称：{{ user.profile.first().nickname }}
                         </td>
 {#                        <td>#}
 {#                            积分：98#}
@@ -36,7 +36,7 @@
 {#                        </td>#}
 {#                    </tr>#}
                     <tr>
-                        <td>创建：{{ user.profile.subscribe_time }}</td>
+                        <td>创建：{{ user.profile.first().subscribe_time }}</td>
 {#                        <td title="0%">#}
 {#                            用量：0 / 2#}
 {#                        </td>#}
