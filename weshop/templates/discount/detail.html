@@ -206,6 +206,10 @@
                                 data.message = '本周' + data.message.allow + '张已领完';
                             }
                         }
+                        else{
+                            $('#mycoupon').addClass('mycoupon');
+                            data.message = '本周已领用';
+                        }
                         if (data.type != 'tips') {
                             setTimeout(function () {
                                 $('.coupon-tip').fadeOut();
