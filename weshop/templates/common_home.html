@@ -57,7 +57,7 @@
             </div>
         </div>
         <div class="menu" style="display:none;">
-            <div class="menu-title backtomenu">回到首页</div>
+{#            <div class="menu-title backtomenu"><a href="/home">回到首页</a></div>#}
 
             <ul class="customer">
                 <li><a href="/user_data" target="main"><span class="menu-arrow">&gt;</span>平台总览</a></li>
@@ -83,16 +83,21 @@
                 <li><a href="/help?act=howtopub" target="main"><span class="menu-arrow">&gt;</span>怎样发布优惠券</a></li>
                 <li><a href="/help?act=howtouse" target="main"><span class="menu-arrow">&gt;</span>如何使用汝州百事优惠圈</a></li>
             </ul>
+            {% if g.user.name =='admin' %}
             <ul class="config">
-                <li><a href="/wechat?weid=10014&amp;act=modify" target="main"><span
+             <li><a href="/discount/recommend" target="main"><span
+                        class="menu-arrow">&gt;</span>优惠券管理</a></li>
+                <li><a href="/setting/site" target="main"><span
                         class="menu-arrow">&gt;</span>站点配置</a></li>
-                <li><a href="/setting?act=menu" target="main"><span class="menu-arrow">&gt;</span>自定义菜单</a></li>
+                <li><a href="/setting/menu" target="main"><span class="menu-arrow">&gt;</span>自定义菜单</a></li>
+                <li><a href="/setting/resetpwd" target="main"><span class="menu-arrow">&gt;</span>修改密码</a></li>
             </ul>
-            <ul class="manage">
-                <li><a href="/site?act=fans&amp;do=display" target="main"><span
-                        class="menu-arrow">&gt;</span>用户管理</a>
-                </li>
-            </ul>
+            {% endif %}
+{#            <ul class="manage">#}
+{#                <li><a href="/site?act=fans&amp;do=display" target="main"><span#}
+{#                        class="menu-arrow">&gt;</span>用户管理</a>#}
+{#                </li>#}
+{#            </ul>#}
 
         </div>
     </div>

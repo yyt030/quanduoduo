@@ -14,9 +14,10 @@ from sqlalchemy import func
 from wechat_sdk import WechatBasic
 from weshop import csrf
 from weshop.utils.account import signin_user, signout_user
-from ..models import db, User, Discount, Brand, MyFavoriteBrand, Shop, Profile, GetTicketRecord, Saler, WechatMessage
-from ..forms import SigninForm, SalerInfoForm
-from ..utils.permissions import require_user, require_visitor
+from ..models import db, User, Discount, Brand, MyFavoriteBrand, Shop, Profile, GetTicketRecord, Saler, WechatMessage, \
+    Site
+from ..forms import SigninForm, SalerInfoForm, SiteInfo, NewPwdForm
+from ..utils.permissions import require_user, require_visitor, require_admin
 from ..utils.uploadsets import images, process_question
 from weshop.utils.helper import get_url_data
 from weshop.wechat import WeixinHelper
@@ -34,13 +35,17 @@ def index():
 @require_visitor
 def login():
     form = SigninForm()
+    error=""
     name = form.username.data
-    if form.validate_on_submit():
-        user = User.query.filter(User.name == name).first()
-        if user:
-            signin_user(user)
-            return redirect(url_for('site.home'))
-    return render_template('account/login.html', form=form)
+    if request.method=='POST':
+        if form.validate_on_submit():
+            user = User.query.filter(User.name == name).first()
+            if user:
+                signin_user(user)
+                return redirect(url_for('site.home'))
+        else:
+            error="用户名或密码不正确"
+    return render_template('account/login.html', form=form,error=error)
 
 
 @bp.route('/signin', methods=['GET', 'POST'])
@@ -61,17 +66,63 @@ def home():
     return render_template('account/home.html')
 
 
+@bp.route("/setting/site", methods=('GET', 'POST'))
+@require_admin
+def site_info():
+    form = SiteInfo()
+    info = Site.query.first()
+    if request.method == 'POST':
+        if not info:
+            info = Site(url=form.url.data, phone=form.phone.data,  email=form.phone.data,
+                        address=form.address.data)
+            db.session.add(info)
+        else:
+            info.url = form.url.data
+            info.phone = form.phone.data
+            info.email = form.email.data
+            info.address = form.address.data
+            info.icp = form.icp.data
+        db.session.commit()
+    else:
+        if info:
+            form.url.data = info.url
+            form.phone.data = info.phone
+            form.email.data = info.email
+            form.address.data = info.address
+            form.icp.data = info.icp
+    return render_template("site/site_info.html", form=form, admin_nav=1, info=info)
+
+
+@bp.route("/setting/resetpwd", methods=('GET', 'POST'))
+@require_admin
+def reset_pwd():
+    form =NewPwdForm()
+    if form.validate_on_submit():
+        # 将新密码写入数据库
+        g.user.password = form.newpwd.data
+        g.user.hash_password()
+        g.user.gene_token()
+        db.session.add(g.user)
+        db.session.commit()
+        signout_user()
+        return redirect(url_for('site.login'))
+    return render_template("site/reset_pwd.html", form=form, admin_nav=1)
+
 @bp.route('/user_data', methods=['GET', 'POST'])
 @require_user
 def user_data():
     """过期，领券，回收"""
     init_data = [0, 0, 0, 0, 0, 0, 0]
 
-    expire_data, get_ticket_data, callback_data = count_last_week_data()
-
     user = g.user
-    brands = Brand.query.all()
-
+    if g.user.role == 'admin':
+        brands = Brand.query
+    else:
+        brands = Brand.query.filter(Brand.brandaccounts.any(User.id == g.user.id))
+    brand_arr = []
+    for i in range(0, brands.count()):
+        brand_arr.append(brands[i].id)
+    expire_data, get_ticket_data, callback_data = count_last_week_data(brand_arr)
     # 优惠券
     discount_count = 0  # 发放总数
     discount_back = 0  # 回收总数
@@ -84,18 +135,21 @@ def user_data():
     start_month_day = (datetime.now() - timedelta(days=datetime.now().day - 1)).date()
 
     from sqlalchemy import func
-    discount_count = db.session.query(func.sum(Discount.count)).scalar()
-    discount_back = db.session.query(func.sum(Discount.back)).scalar()
+    discount_count = db.session.query(func.sum(Discount.count)).filter(Discount.brand_id.in_(brand_arr)).scalar()
+    discount_back = db.session.query(func.sum(Discount.back)).filter(Discount.brand_id.in_(brand_arr)).scalar()
 
-    user_count = db.session.query(func.count(func.distinct(GetTicketRecord.user_id))).scalar()
+    user_count = db.session.query(func.count(func.distinct(GetTicketRecord.user_id))).filter(
+        GetTicketRecord.discount.has(Discount.brand_id.in_(brand_arr))).scalar()
     usedit_count = db.session.query(func.count(func.distinct(GetTicketRecord.user_id))).filter(
-            GetTicketRecord.status == 'usedit').scalar()
+        GetTicketRecord.discount.has(Discount.brand_id.in_(brand_arr))).filter(
+        GetTicketRecord.status == 'usedit').scalar()
 
     active_users_count = db.session.query(func.count(func.distinct(GetTicketRecord.user_id))).filter(
-            GetTicketRecord.create_at >= start_month_day
+        GetTicketRecord.discount.has(Discount.brand_id.in_(brand_arr))).filter(
+        GetTicketRecord.create_at >= start_month_day
     ).scalar()
 
-    curr_discounts = Discount.query.all()
+    curr_discounts = Discount.query.filter(Discount.brand_id.in_(brand_arr))
 
     for curr_discount in curr_discounts:
         curr_discount_count += 1
@@ -213,7 +267,7 @@ def find():
         return render_template('mobile/search_result.html', discounts=discounts)
 
     # 拼装查询条件
-    discounts = Discount.query
+    discounts = Discount.query.filter(Discount.is_re == 1)
     if industry1 != u'全部分类':
         if industry1:  # 品牌大类1
             discounts = discounts.filter(Discount.brand.has(Brand.industry_1 == industry1))
@@ -401,10 +455,10 @@ def favorite_brands():
     if type == 'hot':
         # TODO
         records = MyFavoriteBrand.query.filter(MyFavoriteBrand.user_id == user.id).order_by(
-                MyFavoriteBrand.create_at.desc())
+            MyFavoriteBrand.create_at.desc())
     else:
         records = MyFavoriteBrand.query.filter(MyFavoriteBrand.user_id == user.id).order_by(
-                MyFavoriteBrand.create_at.desc())
+            MyFavoriteBrand.create_at.desc())
 
     if records.first():
         brand = records.first().brand
@@ -618,8 +672,8 @@ def interface():
                         discount = Discount.query.get(discount_id)
                         scan_user = User.query.filter(User.profile.any(Profile.openid == openid)).first()
                         salers = Saler.query.filter(Saler.user_id == scan_user.id)
-                        if salers.count()>0:
-                            saler=salers.filter(Saler.brand_id==discount.brand_id).first()
+                        if salers.count() > 0:
+                            saler = salers.filter(Saler.brand_id == discount.brand_id).first()
                             if not saler:
                                 brand = Brand.query.get(discount.brand_id)
                                 tip = "您不是该店铺{0}的店员".format(brand.name)
@@ -816,7 +870,7 @@ def wechat_login_fun(code):
             add_wechat_user_to_db(openid)
 
 
-def count_last_week_data():
+def count_last_week_data(brand_arr):
     """统计上周七天内的数据
     [0, 0, 0, 0, 0, 0, 0]
     周一-周日：0-6
@@ -835,9 +889,11 @@ def count_last_week_data():
     for i in range(0, 6):
         index_day = last_monday + timedelta(days=i)
         expire_data[i] += int(GetTicketRecord.query.filter(
-                GetTicketRecord.get_expire_date == index_day + timedelta(days=1)).count())
+            GetTicketRecord.get_expire_date == index_day + timedelta(days=1)).count())
         get_ticket_data[i] += int(
-                GetTicketRecord.query.filter(func.date(GetTicketRecord.create_at) == index_day).count())
+            GetTicketRecord.query.filter(func.date(GetTicketRecord.create_at) == index_day).filter(
+                GetTicketRecord.discount.has(Discount.brand_id.in_(brand_arr))).count())
         callback_data[i] += int(GetTicketRecord.query.filter(func.date(GetTicketRecord.create_at) == index_day,
-                                                             GetTicketRecord.status == 'usedit').count())
+                                                             GetTicketRecord.status == 'usedit').filter(
+            GetTicketRecord.discount.has(Discount.brand_id.in_(brand_arr))).count())
     return expire_data, get_ticket_data, callback_data

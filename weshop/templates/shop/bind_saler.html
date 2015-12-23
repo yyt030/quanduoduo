@@ -74,7 +74,7 @@
                     </div>
                     <div class="class-inf">
                         <i class="icon-bar-chart"></i>
-                        <a href="#" title="验证数量" class="">
+                        <a href="/discount/getlist?bid={{ brand.id}}" title="验证数量" class="">
                             <span class="type">{{ s.count }}</span>
                         </a>
                         <i class="icon-calendar"></i>
@@ -92,10 +92,10 @@
     </div>
     <script type="text/javascript">
         $(function () {
-            var getQRCodeUrl = "/shop/bind_saler?bid={{ brand_id }}&do=download_qrcode";
+            var getQRCodeUrl = "/shop/bind_saler?bid={{ brand.id }}&do=download_qrcode";
             //下载二维码
             $('a.qrcode', this).live('click', function () {
-                location.href = getQRCodeUrl + '&isajax=1';
+                location.href = getQRCodeUrl;
             });
 
         });

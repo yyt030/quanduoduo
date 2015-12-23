@@ -69,7 +69,7 @@ def detail():
             expire_datetime_format = str(expire_datetime.date())
             record = GetTicketRecord.query.filter(GetTicketRecord.user_id == g.user.id,
                                                   GetTicketRecord.discount_id == discount_id).first()
-            if  record:
+            if record:
                 if record.status != 'expire':
                     return json.dumps(
                         {"message": {}, "redirect": "", "type": "error"})
@@ -168,6 +168,32 @@ def manage():
     discounts = pagination.items
 
     return render_template('discount/manage.html', bid=bid, brand=brand,
+                           discounts=discounts, pagination=pagination)
+
+
+@bp.route('/recommend', methods=['GET', 'POST'])
+def recommend():
+    """优惠券首页推荐"""
+    is_re = int(request.args.get("is_re", 0))
+    keyword = request.args.get("keyword", "")
+    brand = Brand.query.all()
+    id = request.args.get("id", type=int)
+    do = request.args.get("do", type=int)
+    if id:
+        discount = Discount.query.get(id)
+        discount.is_re = do
+        db.session.add(discount)
+        db.session.commit()
+    discounts_query = Discount.query
+    if keyword:
+        discounts_query = discounts_query.filter(Discount.title.like('%{0}%'.format(keyword)))
+    page = request.args.get('page', 1, type=int)
+    pagination = discounts_query.filter(Discount.is_re == is_re).order_by(Discount.create_at.desc()).paginate(
+        page, per_page=current_app.config['FLASKY_PER_PAGE'],
+        error_out=False)
+    discounts = pagination.items
+
+    return render_template('discount/all.html', brand=brand,is_re=is_re,
                            discounts=discounts, pagination=pagination)
 
 

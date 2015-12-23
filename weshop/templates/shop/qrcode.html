@@ -2,8 +2,6 @@
 {% from 'macro/form.html' import form_field %}
 {% block content %}
     <body>
-
-
     <div class="show_body">
         <div class="head_wrap">
             <div class="class normal">
@@ -27,11 +25,11 @@
             </div>
             <div class="load_wrap">
                 <div class="coupon-image">
-                    <img src="{{website.url}}/resource/attachment/images/10014/2015/05/qT42522XH9A7t9XT9R2th49hf79TD2.jpg">
+                    <img src="{{website.url}}/resource/attachment/images/{{ shop.brand.thumb }}">
                 </div>
                 <div class="coupon-intro">
                     <h1>
-                        洛阳科技职业学院游泳馆 </h1>
+                        {{ shop.brand.name }} </h1>
 
                     <h2>
                         品牌二维码：

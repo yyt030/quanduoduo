@@ -54,7 +54,7 @@
             <li><a href="javascript:void(0)" class="cur">首页</a></li>
             <li><a href="javascript:void(0)" class="">六大优势</a></li>
             <li><a href="javascript:void(0)" class="">营销手段</a></li>
-            <li><a href="javascript:void(0)" class="">特色功能</a></li>
+{#            <li><a href="javascript:void(0)" class="">特色功能</a></li>#}
             <li><a href="javascript:void(0)" class="">技术特点</a></li>
             <li><a href="javascript:void(0)" class="">联系我们</a></li>
 {#            <li><a href="/register" class="apply">免费注册</a></li>#}
@@ -76,10 +76,6 @@
     <li class="">
         <em class="icon"></em>
         <span class="txt">六大优势</span>
-    </li>
-    <li class="">
-        <em class="icon"></em>
-        <span class="txt">特色功能</span>
     </li>
     <li class="">
         <em class="icon"></em>
@@ -136,7 +132,6 @@
 
             <div class="b2_03 zIndex40" style="top: 115px;"><img src="/static/images/b2_03.png" alt=""></div>
             <div class="b2_04 zIndex40" style="top: 225px;"><img src="/static/images/b2_04.png" alt=""></div>
-            <div class="b2_05 zIndex40"><img src="/static/images/b2_05.png" alt=""></div>
             <div class="b2_06 zIndex50" style="top: 250px;"><img src="/static/images/b2_06.png" alt=""></div>
         </div>
     </div>
@@ -240,35 +235,6 @@
             </div>
         </div>
     </div>
-    <div class="box b5_bg" style="height: 575px;">
-        <div class="load" style="display: none;">
-            <p><img src="/static/images/loading.gif" alt=""></p>
-
-            <div class="load_bg"></div>
-        </div>
-        <div class="box_bg box5_bg" style="top: 0px;"><img src="/static/images/b5_bg.jpg" alt=""></div>
-        <div class="box_fixed b5_fixed" style="top: 0px;">
-            <div class="b5_tl box_tl" style="opacity: 0;">
-                <h2><span class="clfea005">特色</span>营销活动</h2>
-            </div>
-            <p class="b5_txt" style="opacity: 0;"></p>
-
-            <div class="b5_01" style="opacity: 0;"><img src="/static/images/b5_01.png" alt=""></div>
-            <div class="b5_ico">
-                <p class="b5_ico01" style="left: 500px; opacity: 0;">开卡有礼</p>
-
-                <p class="b5_ico02" style="left: 625px; top: -34px; opacity: 0;">积分兑换</p>
-
-                <p class="b5_ico03" style="left: 625px; top: 304px; opacity: 0;">砸蛋抽奖</p>
-
-                <p class="b5_ico04" style="left: 780px; top: -145px; opacity: 0;">节日关怀</p>
-
-                <p class="b5_ico05" style="left: 780px; opacity: 0;">卡友日</p>
-
-                <p class="b5_ico06" style="left: 780px; top: 395px; opacity: 0;">生日关怀</p>
-            </div>
-        </div>
-    </div>
     <div class="box b6_bg" style="height: 575px;">
         <div class="load" style="display: none;">
             <p><img src="/static/images/loading.gif" alt=""></p>
@@ -310,19 +276,16 @@
             <div class="b7_contact"></div>
             <div class="b7_bottom">
 
-                <div class="b7_msg">
+               <div class="b7_msg">
                     <h4>联系我们<span> / Contact Us</span></h4>
 
                     <div class="row">
-                        <p class="txt">业务咨询：0379-63002296</p>
+                        <p class="txt">业务咨询：{{ website.tel }}</p>
                     </div>
                     <div class="row">
-                        <p class="txt">邮箱：weixin@32184.com</p>
+                        <p class="txt">邮箱：{{ website.email }}</p>
                     </div>
 
-                    <div class="row">
-                        <p class="txt">地址：洛阳市涧西区龙裕路1号<br>国家大学科技园3-1栋403室</p>
-                    </div>
                 </div>
             </div>
             <div class="b7_bottom footer_m" style="margin-top:80px;">
@@ -330,7 +293,7 @@
 					<p>© 2015 <b>汝州百事优惠券商务</b></p>
 				</span>
 				<span class="pull-right">
-					<p>洛阳悦动网络科技有限公司</p>
+					<p>{{ website.company }}</p>
 				</span>
             </div>
         </div>

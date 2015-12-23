@@ -1,7 +1,9 @@
 # !/usr/bin/env python
 # -*- coding: UTF-8 -*-
 from datetime import datetime, timedelta, time
+from io import BytesIO
 import json
+import logging
 import os
 import string
 import re, urllib2
@@ -9,7 +11,7 @@ import random
 from PIL import Image
 from coverage.html import STATIC_PATH
 from flask import render_template, Blueprint, redirect, url_for, g, session, request, \
-    make_response, current_app, send_from_directory
+    make_response, current_app, send_from_directory, send_file
 from sqlalchemy import or_
 from wechat_sdk import WechatBasic
 from weshop import csrf
@@ -60,7 +62,9 @@ def select():
 def qrcode():
     """管理二维码"""
     # TODO user_id
-    return render_template('shop/qrcode.html')
+    id = request.args.get("id", type=int)
+    shop = Shop.query.get(id)
+    return render_template('shop/qrcode.html', shop=shop)
 
 
 @bp.route('/upload', methods=['GET', 'POST'])
@@ -108,7 +112,6 @@ def photo_detail(photo_id):
 
 
 @bp.route('/photo_list', methods=['GET', 'POST'])
-
 def photo_list():
     """相册列表"""
     bid = request.args.get("bid", type=int)
@@ -271,20 +274,33 @@ def checkout():
                            discount=discount)
 
 
-@bp.route('/bind_saler', methods=['GET'])
+@bp.route('/bind_saler', methods=['GET', 'POST'])
 def bind_saler():
     """绑定收银台"""
     bid = int(request.args.get("bid", 0))
+    do = request.args.get("do", 0)
     brand = Brand.query.get(bid)
     salers = brand.brand_salers.count()
     users = brand.brandaccounts
     shop_id = 0
-    # 获取永久二维码
+    # 获取二维码
     wechat = WechatBasic(appid=current_app.config.get('WECHAT_APPID'),
                          appsecret=current_app.config.get('WECHAT_APPSECRET'))
-    data = {"action_name": "QR_LIMIT_SCENE", "action_info": {"scene": {"scene_id": int(str("11") + str(brand.id))}}}
-    get_ticket_data = wechat.create_qrcode(data)
+    temp_data = {"expire_seconds": 604800, "action_name": "QR_SCENE",
+                 "action_info": {"scene": {"scene_id": int(str("11") + str(brand.id))}}}
+    # data = {"action_name": "QR_LIMIT_SCENE", "action_info": {"scene": {"scene_id": int(str("11") + str(brand.id))}}}
+    get_ticket_data = wechat.create_qrcode(temp_data)
     ticket = get_ticket_data.get("ticket")
+    if do == 'download_qrcode':
+        logging.info("download_qrcode")
+        response=wechat.show_qrcode(ticket)
+        response = make_response(response.content)
+        response.headers['Content-Type'] = 'image/jpg'
+        attachment_name="attachment; filename=汝州百事优惠圈绑定收银台专用二维码.jpg"
+        response.headers['Content-Disposition'] = attachment_name
+        return response
+
+
     return render_template('shop/bind_saler.html', brand=brand, ticket=ticket, users=users)
 
 
@@ -296,7 +312,7 @@ def delete_saler():
     """删除店员"""
     user_id = int(request.args.get("id", 0))
     if id:
-        saler = Saler.query.filter(Saler.user_id==user_id).first()
+        saler = Saler.query.filter(Saler.user_id == user_id).first()
         db.session.delete(saler)
         db.session.commit()
-    return redirect(url_for('shop.bind_saler'))
+    return redirect('/shop/bind_saler')

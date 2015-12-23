@@ -86,6 +86,7 @@ class Discount(db.Model):
     create_at = db.Column(db.DateTime, default=datetime.datetime.now)
     latest_update = db.Column(db.DateTime, default=datetime.datetime.now)
     code = db.Column(db.Integer, default=random.randint(10000000, 20000000))
+    is_re = db.Column(db.Float, default=0)
 
     @property
     def get_expire_datetime(self):
@@ -206,7 +207,7 @@ class Shop(db.Model):
     lng = db.Column(db.String(20))
     lat = db.Column(db.String(20))
 
-    #@staticmethod
+    # @staticmethod
     # @classmethod
     def get_distinct(self, curr_user_point):
         return great_circle((self.lng, self.lat), curr_user_point).kilometers
@@ -229,6 +230,7 @@ class ShopPhoto(db.Model):
     def __repr__(self):
         return '<Shop %s>' % self.id
 
+
 class Saler(db.Model):
     """店员"""
     id = db.Column(db.Integer, primary_key=True)
@@ -237,7 +239,7 @@ class Saler(db.Model):
     brand = db.relationship('Brand', backref=db.backref('brand_salers', lazy='dynamic'))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     user = db.relationship('User')
-    count = db.Column(db.Integer,default=0)
+    count = db.Column(db.Integer, default=0)
     time = db.Column(db.DateTime, default=datetime.datetime.now)
 
     def __repr__(self):

@@ -14,11 +14,13 @@
                 <a href="javascript:void(0);">
                     <i class="icon-large icon-windows"></i>汝州百事优惠圈</a>
             </li>
-{#            <li class="hnav-parent">#}
-{#                <a href="javascript:void(0);" class="menu" data-type="config">#}
-{#                    <i class="icon-large icon-cog"></i>设置#}
-{#                </a>#}
-{#            </li>#}
+            {% if g.user.name=='admin' %}
+            <li class="hnav-parent">
+                <a href="/discount/recommend" target="main" class="menu" data-type="config">
+                    <i class="icon-large icon-cog"></i>站点管理
+                </a>
+            </li>
+            {% endif %}
 {#            <li class="hnav-parent">#}
 {#                <a href="javascript:void(0);" class="menu" data-type="manage">#}
 {#                    <i class="icon-large icon-user"></i>管理#}

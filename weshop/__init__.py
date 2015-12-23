@@ -5,6 +5,7 @@ import sys
 
 # 将project目录加入sys.path
 from flask.ext.cache import Cache
+from weshop.models import Site
 
 project_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 if project_path not in sys.path:
@@ -106,24 +107,24 @@ def register_jinja(app):
     @app.context_processor
     def inject_vars():
 
-        # site info
-        g_site_info = {
-            "url": "http://www.ruzhoubaishi.com",
-            "logo": "../static/images/logo.png",
-            "title": "",
-            "company": "汝州百事广告有限公司",
-            "year": "2015",
-            "icp": "沪ICP备11038770号",
-            "qq": "8888888",
-            "qqgroup": "1234567",
-            "tel": "8888888",
-            "email": "admin@admin.com",
-        }
+        site_info=Site.query.first()
+        if not site_info:
+            site_info = {
+                "url": "http://www.ruzhoubaishi.com",
+                "logo": "../static/images/logo.png",
+                "title": "",
+                "company": "汝州市百事通网络科技有限公司",
+                "year": "2015",
+                "icp": "沪ICP备11038770号",
+                "qq": "2523459928",
+                "tel": "15690809875",
+                "email": "admin@admin.com",
+            }
 
         # uid = None if not g.user else g.user.id
         # g.user = User.query.filter(User.id == 1).first()
         return dict(
-            website=g_site_info,
+            website=site_info,
 
         )
 

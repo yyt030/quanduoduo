@@ -1,0 +1,46 @@
+{% extends 'account_layout.html' %}
+{% from 'macro/form.html' import form_field %}
+{% block content %}
+    <body>
+    <div class="main">
+        <form action=""
+              class="form-horizontal form" method="post" id="reset_pwd" enctype="multipart/form-data">
+            {{ form.csrf_token }}
+            <h4>修改密码</h4>
+            <table class="tb">
+                <tbody>
+                <tr>
+                    <th><label for="">新密码</label></th>
+                    <td>
+                        {{ form_field(form.newpwd) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th><label for="">确认新密码</label></th>
+                    <td>
+                       {{ form_field(form.pwdagain) }}
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <th></th>
+                    <td>
+                        <button type="submit" class="btn btn-primary span3" name="submit" value="提交">提交</button>
+                        <input type="hidden" name="token" value="f50075d3">
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+        </form>
+    </div>
+
+    <div class="show_foot">
+        <div class="foot_wrap">
+            <p>
+                ©2015 <b> 汝州百事优惠圈商务 </b></p>
+        </div>
+    </div>
+    </body>
+{% endblock %}
